@@ -16,3 +16,41 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+/* Custom Auth Form Styles */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.auth-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.auth-error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: .25rem;
+    text-align: center;
+}
+
+.btn-block {
+    width: 100%;
+}
+

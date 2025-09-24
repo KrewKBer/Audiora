@@ -1,46 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthForm } from './AuthForm';
 
 export function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const handleLogin = async (credentials) => {
         const response = await fetch('auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify(credentials),
         });
 
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('userId', data.userId);
-            window.dispatchEvent(new Event('storage')); 
+            window.dispatchEvent(new Event('storage'));
             navigate('/');
         } else {
-            const error = await response.text();
-            alert('Login failed: ' + error);
+            const errorText = await response.text();
+            throw new Error(errorText || 'Login failed');
         }
     };
 
-    return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label>Username</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    );
+    return <AuthForm formType="Login" onSubmit={handleLogin} />;
 }

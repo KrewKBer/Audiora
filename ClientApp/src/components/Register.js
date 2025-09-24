@@ -1,43 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthForm } from './AuthForm';
 
 export function Register() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
+    const handleRegister = async (credentials) => {
         const response = await fetch('auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify(credentials),
         });
 
         if (response.ok) {
-            navigate('/login');
+            // Automatically log in the user after registration
+            const loginResponse = await fetch('auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credentials),
+            });
+
+            if (loginResponse.ok) {
+                const data = await loginResponse.json();
+                localStorage.setItem('userId', data.userId);
+                window.dispatchEvent(new Event('storage'));
+                navigate('/');
+            } else {
+                navigate('/login'); // Fallback to login page
+            }
         } else {
-            const error = await response.text();
-            alert('Registration failed: ' + error);
+            const errorText = await response.text();
+            throw new Error(errorText || 'Registration failed');
         }
     };
 
-    return (
-        <div>
-            <h1>Register</h1>
-            <form onSubmit={handleRegister}>
-                <div>
-                    <label>Username</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <button type="submit">Register</button>
-            </form>
-        </div>
-    );
+    return <AuthForm formType="Register" onSubmit={handleRegister} />;
 }
