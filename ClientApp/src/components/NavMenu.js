@@ -29,7 +29,7 @@ export function NavMenu() {
     const handleLogout = () => {
         localStorage.removeItem('userId');
         setIsLoggedIn(false);
-        navigate('/');
+        navigate('/login');
     };
 
     return (

@@ -4,14 +4,19 @@ import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
 import './custom.css';
 
+const renderRoutes = (routes) => {
+    return routes.map((route, index) => (
+        <Route key={index} path={route.path} index={route.index} element={route.element}>
+            {route.children && renderRoutes(route.children)}
+        </Route>
+    ));
+};
+
 export default function App() {
     return (
         <Layout>
             <Routes>
-                {AppRoutes.map((route, index) => {
-                    const { element, ...rest } = route;
-                    return <Route key={index} {...rest} element={element} />;
-                })}
+                {renderRoutes(AppRoutes)}
             </Routes>
         </Layout>
     );
