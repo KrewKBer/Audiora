@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace Audiora.Controllers
 {
@@ -43,6 +44,7 @@ namespace Audiora.Controllers
             }
 
             user.Id = Guid.NewGuid();
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             users.Add(user);
             await WriteUsersToFile(users);
 
@@ -53,9 +55,9 @@ namespace Audiora.Controllers
         public async Task<IActionResult> Login(User user)
         {
             var users = await ReadUsersFromFile();
-            var foundUser = users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+            var foundUser = users.FirstOrDefault(u => u.Username == user.Username);
 
-            if (foundUser == null)
+            if (foundUser == null || !BCrypt.Net.BCrypt.Verify(user.Password, foundUser.Password))
             {
                 return Unauthorized("Invalid credentials.");
             }

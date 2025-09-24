@@ -19,7 +19,7 @@ export function Login() {
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('userId', data.userId);
-            window.dispatchEvent(new Event('storage')); // Manually trigger storage event
+            window.dispatchEvent(new Event('storage')); 
             navigate('/');
         } else {
             const error = await response.text();

@@ -3,5 +3,10 @@
     "Id": "6975b482-2024-44a6-bcc8-dd1d39875c43",
     "Username": "aaa",
     "Password": "aaa"
+  },
+  {
+    "Id": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+    "Username": "admin",
+    "Password": "$2a$11$bkFckjPGn.uwKdgs3LfpDe6nWPZSAmTmwiCHli2hnUYwfd2J.yLGC"
   }
 ]
