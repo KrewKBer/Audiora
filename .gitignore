@@ -1,0 +1,96 @@
+# === .NET / Visual Studio ===
+## Build outputs
+**/bin/
+**/obj/
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.map
+
+## User and VS files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+
+## Publish output
+**/publish/
+publish/
+
+## Rider/IDE
+.idea/
+
+# Runtime
+*.runtimeconfig.dev.json
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+.nuget/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+TestResults/
+
+# === Node / React ===
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build outputs
+build/
+dist/
+out/
+.public/
+.cache/
+.next/
+.vite
+.vite/
+.vitepress/
+.esbuild/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# env
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# misc
+.cache
+*.tgz
+*.log
+.DS_Store
+Thumbs.db
+
+# package manager locks usually should be committed — do NOT ignore package-lock.json or yarn.lock unless intentional
+
+# === Misc / tooling ===
+coverage/
+coverage-final.json
+.nyc_output/
+.idea/
+*.iml
+*.class
+
+# Ignore build artifacts of razor/scoped css
+**/scopedcss/
+**/*.rz.scp.css
+
+# Ignore static web assets build files
+**/staticwebassets.*.json
