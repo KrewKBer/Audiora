@@ -94,3 +94,6 @@ coverage-final.json
 
 # Ignore static web assets build files
 **/staticwebassets.*.json
+
+# Ignore hashed user secrets files
+Data/users.json
