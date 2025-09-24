@@ -1,47 +1,71 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './NavMenu.css';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+export function NavMenu() {
+    const [collapsed, setCollapsed] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
-  constructor (props) {
-    super(props);
+    useEffect(() => {
+        const checkLoginStatus = () => {
+            const userId = localStorage.getItem('userId');
+            setIsLoggedIn(!!userId);
+        };
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
+        checkLoginStatus();
+        window.addEventListener('storage', checkLoginStatus);
+
+        return () => {
+            window.removeEventListener('storage', checkLoginStatus);
+        };
+    }, []);
+
+    const toggleNavbar = () => {
+        setCollapsed(!collapsed);
     };
-  }
 
-  toggleNavbar () {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
+    const handleLogout = () => {
+        localStorage.removeItem('userId');
+        setIsLoggedIn(false);
+        navigate('/login');
+    };
 
-  render() {
     return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-          <NavbarBrand tag={Link} to="/">Audiora</NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-              </NavItem>
-            </ul>
-          </Collapse>
-        </Navbar>
-      </header>
+        <header>
+            <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
+                <NavbarBrand tag={Link} to="/">Audiora</NavbarBrand>
+                <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+                <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
+                    <ul className="navbar-nav flex-grow">
+                        <NavItem>
+                            <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
+                        </NavItem>
+                        {isLoggedIn ? (
+                            <NavItem>
+                                <button className="btn btn-link text-dark" onClick={handleLogout}>Logout</button>
+                            </NavItem>
+                        ) : (
+                            <>
+                                <NavItem>
+                                    <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink tag={Link} className="text-dark" to="/register">Register</NavLink>
+                                </NavItem>
+                            </>
+                        )}
+                    </ul>
+                </Collapse>
+            </Navbar>
+        </header>
     );
-  }
 }
+
