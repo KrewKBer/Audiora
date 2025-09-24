@@ -18,6 +18,7 @@
       <!-- The SPA Proxy is only used at development time -->
       <Publish>false</Publish>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
