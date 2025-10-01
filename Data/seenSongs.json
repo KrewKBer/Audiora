@@ -1,0 +1,46 @@
+{
+  "57209df8-dd67-4a46-bd13-c11a35ebda18": [
+    {
+      "Id": 1,
+      "Liked": true
+    },
+    {
+      "Id": 2,
+      "Liked": true
+    },
+    {
+      "Id": 3,
+      "Liked": false
+    },
+    {
+      "Id": 4,
+      "Liked": false
+    }
+  ],
+  "4dfa4b13-7095-497f-bf25-2c6bcd0d4666": [
+    {
+      "Id": 1,
+      "Liked": true
+    },
+    {
+      "Id": 2,
+      "Liked": true
+    },
+    {
+      "Id": 3,
+      "Liked": true
+    },
+    {
+      "Id": 4,
+      "Liked": false
+    },
+    {
+      "Id": 5,
+      "Liked": false
+    },
+    {
+      "Id": 6,
+      "Liked": true
+    }
+  ]
+}
