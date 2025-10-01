@@ -49,9 +49,14 @@ export function NavMenu() {
                             <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
                         </NavItem>
                         {isLoggedIn ? (
-                            <NavItem>
-                                <button className="btn btn-link text-dark" onClick={handleLogout}>Logout</button>
-                            </NavItem>
+                            <>
+                                <NavItem>
+                                    <NavLink tag={Link} className="text-dark" to="/liked-songs">Liked Songs</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <button className="btn btn-link text-dark" onClick={handleLogout}>Logout</button>
+                                </NavItem>
+                            </>
                         ) : (
                             <>
                                 <NavItem>

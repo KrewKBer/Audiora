@@ -4,6 +4,7 @@ import { Home } from "./components/Home";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 import PrivateRoute from "./components/PrivateRoute";
+import { LikedSongs } from "./components/LikedSongs";
 
 const AppRoutes = [
     {
@@ -29,6 +30,10 @@ const AppRoutes = [
             {
                 path: 'fetch-data',
                 element: <FetchData />
+            },
+            {
+                path: 'liked-songs',
+                element: <LikedSongs />
             }
         ]
     }
