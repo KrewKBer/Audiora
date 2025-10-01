@@ -99,7 +99,7 @@ export class Home extends Component {
       <div>
         <h2>{song.title}</h2>
         <p>Artist: {song.artist}</p>
-                <p>Genre: {song.genre}</p>
+                <p>Genre: {song.primaryGenre || 'Unknown'}</p>
         <button onClick={this.handleLike}>Like</button>
         <button onClick={this.handleDislike}>Dislike</button>
       </div>
