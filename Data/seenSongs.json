@@ -28,7 +28,7 @@
     },
     {
       "Id": 3,
-      "Liked": false
+      "Liked": true
     },
     {
       "Id": 4,
@@ -36,23 +36,11 @@
     },
     {
       "Id": 5,
-      "Liked": true
+      "Liked": false
     },
     {
       "Id": 6,
       "Liked": true
-    },
-    {
-      "Id": 7,
-      "Liked": true
-    },
-    {
-      "Id": 8,
-      "Liked": false
-    },
-    {
-      "Id": 9,
-      "Liked": false
     }
   ]
 }
