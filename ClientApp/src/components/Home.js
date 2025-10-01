@@ -22,16 +22,31 @@ export class Home extends Component {
     const { userId } = this.state;
     if (!userId) return;
 
-    const songsResponse = await fetch('songs');
-    const songsData = await songsResponse.json();
+    try {
+        const songsResponse = await fetch('songs');
+        if (!songsResponse.ok) {
+            const errorText = await songsResponse.text();
+            console.error('Failed to fetch songs:', songsResponse.status, errorText);
+            throw new Error(`Failed to fetch songs: ${songsResponse.status}`);
+        }
+        const songsData = await songsResponse.json();
 
-    const seenSongsResponse = await fetch(`seensongs?userId=${userId}`);
-    const seenSongs = await seenSongsResponse.json();
-    const seenSongIds = seenSongs.map(s => s.id);
+        const seenSongsResponse = await fetch(`api/user-songs/seen?userId=${userId}`);
+        if (!seenSongsResponse.ok) {
+            const errorText = await seenSongsResponse.text();
+            console.error('Failed to fetch seen songs:', seenSongsResponse.status, errorText);
+            throw new Error(`Failed to fetch seen songs: ${seenSongsResponse.status}`);
+        }
+        const seenSongs = await seenSongsResponse.json();
+        const seenSongIds = seenSongs.map(s => s.id);
 
-    const unseenSongs = songsData.songs.filter(song => !seenSongIds.includes(song.id));
+        const unseenSongs = songsData.filter(song => !seenSongIds.includes(song.id));
 
-    this.setState({ songs: unseenSongs, loading: false, currentSongIndex: 0 });
+        this.setState({ songs: unseenSongs, loading: false, currentSongIndex: 0 });
+    } catch (error) {
+        console.error("Error populating songs data:", error);
+        this.setState({ loading: false, error: 'Failed to load song data. See console for details.' });
+    }
   }
 
   async handleInteraction(liked) {
@@ -41,7 +56,7 @@ export class Home extends Component {
     const song = songs[currentSongIndex];
     const seenSong = { id: song.id, liked: liked };
 
-    await fetch('seensongs', {
+    await fetch('api/user-songs/seen', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -66,7 +81,7 @@ export class Home extends Component {
     const { userId } = this.state;
     if (!userId) return;
 
-    await fetch(`seensongs?userId=${userId}`, { method: 'DELETE' });
+    await fetch(`api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
     this.setState({ loading: true });
     this.populateSongsData();
   }
@@ -82,15 +97,11 @@ export class Home extends Component {
 
     return (
       <div>
-        <div className="card">
-          <img className="card-img-top" src={song.imageUrl} alt={song.title} style={{width: "200px", height: "200px"}} />
-          <div className="card-body">
-            <h5 className="card-title">{song.title}</h5>
-            <p className="card-text">{song.artist}</p>
-            <button className="btn btn-success" onClick={this.handleLike}>Like</button>
-            <button className="btn btn-danger" onClick={this.handleDislike}>Dislike</button>
-          </div>
-        </div>
+        <h2>{song.title}</h2>
+        <p>Artist: {song.artist}</p>
+                <p>Genre: {song.genre}</p>
+        <button onClick={this.handleLike}>Like</button>
+        <button onClick={this.handleDislike}>Dislike</button>
       </div>
     );
   }
