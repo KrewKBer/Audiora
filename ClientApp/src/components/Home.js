@@ -5,22 +5,51 @@ export class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { songs: [], loading: true };
+    this.state = { songs: [], loading: true, currentSongIndex: 0 };
+    this.handleLike = this.handleLike.bind(this);
+    this.handleDislike = this.handleDislike.bind(this);
   }
 
   componentDidMount() {
     this.populateSongsData();
   }
 
-  static renderSongs(songs) {
+  handleLike() {
+
+    this.nextSong();
+  }
+
+  handleDislike() {
+    
+    this.nextSong();
+  }
+
+  nextSong() {
+    this.setState(prevState => ({
+      currentSongIndex: prevState.currentSongIndex + 1
+    }));
+  }
+
+  renderCurrentSong() {
+    const { songs, currentSongIndex } = this.state;
+
+    if (currentSongIndex >= songs.length) {
+      return <p>No more songs to display.</p>;
+    }
+
+    const song = songs[currentSongIndex];
+
     return (
       <div>
-        {songs.map(song => (
-          <div key={song.id}>
-            <h2>{song.title}</h2>
-            <p>{song.artist}</p>
+        <div className="card">
+          <img className="card-img-top" src={song.imageUrl} alt={song.title} style={{width: "200px", height: "200px"}} />
+          <div className="card-body">
+            <h5 className="card-title">{song.title}</h5>
+            <p className="card-text">{song.artist}</p>
+            <button className="btn btn-success" onClick={this.handleLike}>Like</button>
+            <button className="btn btn-danger" onClick={this.handleDislike}>Dislike</button>
           </div>
-        ))}
+        </div>
       </div>
     );
   }
@@ -28,11 +57,11 @@ export class Home extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : Home.renderSongs(this.state.songs);
+      : this.renderCurrentSong();
 
     return (
       <div>
-        <h1>Songs</h1>
+        <h1>Discover New Music</h1>
         {contents}
       </div>
     );
