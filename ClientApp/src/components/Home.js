@@ -1,14 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 export class Home extends Component {
   static displayName = Home.name;
 
   constructor(props) {
     super(props);
-    this.state = { songs: [], loading: true, currentSongIndex: 0, userId: null };
+    this.state = { songs: [], loading: true, currentSongIndex: 0, userId: null, mouse: { x: 0, y: 0 } };
     this.handleLike = this.handleLike.bind(this);
     this.handleDislike = this.handleDislike.bind(this);
     this.resetData = this.resetData.bind(this);
+    this.contentRef = createRef();
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+  }
+
+  handleMouseMove(e) {
+    if (this.contentRef.current) {
+      const rect = this.contentRef.current.getBoundingClientRect();
+      this.setState({
+        mouse: {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        }
+      });
+    }
   }
 
   componentDidMount() {
@@ -94,7 +108,6 @@ export class Home extends Component {
     }
 
     const song = songs[currentSongIndex];
-
     return (
       <div className="song-card">
         <h2 className="song-title">{song.title}</h2>
@@ -109,13 +122,24 @@ export class Home extends Component {
   }
 
   render() {
+    const { mouse } = this.state;
     let contents = this.state.loading
       ? <div className="loading"><em>Loading...</em></div>
       : this.renderCurrentSong();
 
+    const spotlightStyle = {
+      background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
+      transition: 'background 0.2s',
+    };
+
     return (
       <div className="homepage-container">
-        <div className="homepage-content">
+        <div
+          className="homepage-content spotlight-card"
+          ref={this.contentRef}
+          onMouseMove={this.handleMouseMove}
+          style={spotlightStyle}
+        >
           <h1 className="homepage-title">Discover New Music</h1>
           <button className="btn-reset" onClick={this.resetData}>Reset</button>
           {contents}
