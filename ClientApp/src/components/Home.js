@@ -90,32 +90,36 @@ export class Home extends Component {
     const { songs, currentSongIndex } = this.state;
 
     if (currentSongIndex >= songs.length) {
-      return <p>No more songs to display.</p>;
+      return <p className="no-songs">No more songs to display.</p>;
     }
 
     const song = songs[currentSongIndex];
 
     return (
-      <div>
-        <h2>{song.title}</h2>
-        <p>Artist: {song.artist}</p>
-                <p>Genre: {song.primaryGenre || 'Unknown'}</p>
-        <button onClick={this.handleLike}>Like</button>
-        <button onClick={this.handleDislike}>Dislike</button>
+      <div className="song-card">
+        <h2 className="song-title">{song.title}</h2>
+        <p className="song-artist">Artist: <span>{song.artist}</span></p>
+        <p className="song-genre">Genre: <span>{song.primaryGenre || 'Unknown'}</span></p>
+        <div className="song-actions">
+          <button className="btn-like" onClick={this.handleLike}>Like</button>
+          <button className="btn-dislike" onClick={this.handleDislike}>Dislike</button>
+        </div>
       </div>
     );
   }
 
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
+      ? <div className="loading"><em>Loading...</em></div>
       : this.renderCurrentSong();
 
     return (
-      <div>
-        <h1>Discover New Music</h1>
-        <button className="btn btn-secondary mb-3" onClick={this.resetData}>Reset</button>
-        {contents}
+      <div className="homepage-container">
+        <div className="homepage-content">
+          <h1 className="homepage-title">Discover New Music</h1>
+          <button className="btn-reset" onClick={this.resetData}>Reset</button>
+          {contents}
+        </div>
       </div>
     );
   }

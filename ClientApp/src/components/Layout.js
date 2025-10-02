@@ -7,9 +7,9 @@ export class Layout extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ position: 'relative', minHeight: '100vh' }}>
         <NavMenu />
-        <Container tag="main">
+        <Container tag="main" style={{ position: 'relative', zIndex: 1 }}>
           {this.props.children}
         </Container>
       </div>
