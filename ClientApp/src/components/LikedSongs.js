@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../custom.css'; 
+import './LikedSongs.css'; 
 
 export class LikedSongs extends Component {
   static displayName = LikedSongs.name;

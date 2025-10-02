@@ -1,0 +1,30 @@
+.liked-songs-content {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 15px;
+}
+
+.liked-songs-content h1, 
+.liked-songs-content p {
+  color: #f8f8f8;
+}
+
+.liked-songs-content table {
+  border-collapse: collapse;
+}
+
+.liked-songs-content th {
+  border: none !important;
+}
+
+.liked-songs-content thead {
+  border: none !important;
+}
+
+.liked-songs-content thead tr {
+  border: none !important;
+}
+
+.liked-songs-content table tbody tr:last-child td {
+  border-bottom: none !important; 
+}
