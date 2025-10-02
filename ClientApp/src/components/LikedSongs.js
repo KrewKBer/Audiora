@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './LikedSongs.css'; 
 
 export class LikedSongs extends Component {
   static displayName = LikedSongs.name;
@@ -15,7 +16,7 @@ export class LikedSongs extends Component {
 
   static renderLikedSongsTable(songs) {
     return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+      <table className='table text-light' aria-labelledby="tableLabel">
         <thead>
           <tr className='liked-songs-content'>
             <th>Title</th>
@@ -28,7 +29,7 @@ export class LikedSongs extends Component {
             <tr key={song.id}>
               <td>{song.title}</td>
               <td>{song.artist}</td>
-              <td>{song.genre}</td>
+              <td>{song.primaryGenre}</td>
             </tr>
           )}
         </tbody>
@@ -43,7 +44,7 @@ export class LikedSongs extends Component {
 
     return (
       <div className='liked-songs-content'>
-        <h1 id="tabelLabel">Your Liked Songs</h1>
+        <h1 id="tableLabel">Your Liked Songs</h1>
         <p>Here are the songs you've liked.</p>
         {contents}
       </div>
