@@ -97,3 +97,5 @@ coverage-final.json
 
 # Ignore hashed user secrets files
 Data/users.json
+#Ignore seenSongs.json
+Data/seenSongs.json
