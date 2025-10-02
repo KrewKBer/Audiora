@@ -8,5 +8,15 @@
     "Id": "57209df8-dd67-4a46-bd13-c11a35ebda18",
     "Username": "admin",
     "Password": "$2a$11$bkFckjPGn.uwKdgs3LfpDe6nWPZSAmTmwiCHli2hnUYwfd2J.yLGC"
+  },
+  {
+    "Id": "3cfba7e1-52be-4267-ba4b-16812298155e",
+    "Username": "Krabas",
+    "Password": "$2a$11$UZDBlu9/1aNMB.P/Utbk1uQt3YDrLp6YfoBfgrw9DkgV88/KaY9je"
+  },
+  {
+    "Id": "4dfa4b13-7095-497f-bf25-2c6bcd0d4666",
+    "Username": "admin2",
+    "Password": "$2a$11$nFTB8r8MHScEvguGszOJsOVhgyZurUDyLv3HDCyboHayGCsWMEqmS"
   }
 ]
