@@ -72,14 +72,23 @@ code {
   text-align: center;
 }
 
+.homepage-content.spotlight-card {
+  position: relative;
+  background: #18181b;
+  color: #fff;
+  overflow: hidden;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
 .homepage-title {
+  color: #ffffffcf;
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #1b1b3a;
   letter-spacing: 1px;
 }
-
 .btn-reset {
   background: #e0e7ff;
   color: #1b1b3a;
@@ -96,12 +105,11 @@ code {
 }
 
 .song-card {
-  background: #f4f6fb;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(60,60,120,0.08);
-  padding: 1.5rem 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  margin: 0 auto;
 }
 .song-title {
   font-size: 1.4rem;
@@ -112,7 +120,7 @@ code {
 .song-artist, .song-genre {
   font-size: 1rem;
   margin-bottom: 0.3rem;
-  color: #000000;
+  color: #ffffffee;
 }
 .song-artist span, .song-genre span {
   color: #000000;
@@ -237,4 +245,58 @@ code {
 .gradient-3 { animation: float3 20s ease-in-out infinite; }
 .gradient-4 { animation: float4 22s ease-in-out infinite; }
 .gradient-5 { animation: float5 24s ease-in-out infinite; }
+
+.spotlight-card {
+  position: relative;
+  background: #18181b;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  color: #fff;
+  padding: 2.5rem 2rem;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.spotlight-card .song-title {
+  color: #ffffffdb;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.spotlight-card .song-artist span,
+.spotlight-card .song-genre span {
+  color: #f1f5f9;
+}
+.spotlight-card .song-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.spotlight-card .btn-like,
+.spotlight-card .btn-dislike {
+  font-size: 1.1rem;
+  padding: 0.7rem 2rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.spotlight-card .btn-like {
+  background: #0fb641a4;
+  color: #18181b;
+}
+.spotlight-card .btn-like:hover {
+  background: #0ee97c67;
+  color: #fff;
+}
+.spotlight-card .btn-dislike {
+  background: #f8717187;
+  color: #18181b;
+}
+.spotlight-card .btn-dislike:hover {
+  background: #ef4444;
+  color: #fff;
+}
 
