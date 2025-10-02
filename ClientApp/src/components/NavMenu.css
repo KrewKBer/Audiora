@@ -14,5 +14,8 @@ html {
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  box-shadow: 0 .25rem .75rem rgba(212, 0, 0, 0);
+}
+.nav-item{
+  color: rgb(255, 0, 0);
 }

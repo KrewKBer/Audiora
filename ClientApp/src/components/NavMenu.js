@@ -34,30 +34,30 @@ export function NavMenu() {
 
     return (
         <header>
-            <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-                <NavbarBrand tag={Link} to="/">Audiora</NavbarBrand>
+            <Navbar className="navbar-expand-sm navbar-toggleable-sm box-shadow mb-3" container light>
+                <NavbarBrand tag={Link} className='text-light' to="/">Audiora</NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="mr-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
                     <ul className="navbar-nav flex-grow">
                         <NavItem>
-                            <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                            <NavLink tag={Link} className="text-light" to="/">Home</NavLink>
                         </NavItem>
                         {isLoggedIn ? (
                             <>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/liked-songs">Liked Songs</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/liked-songs">Liked Songs</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <button className="btn btn-link text-dark" onClick={handleLogout}>Logout</button>
+                                    <button className="btn btn-link text-light" onClick={handleLogout}>Logout</button>
                                 </NavItem>
                             </>
                         ) : (
                             <>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/login">Login</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/register">Register</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/register">Register</NavLink>
                                 </NavItem>
                             </>
                         )}

@@ -17,7 +17,7 @@ export class LikedSongs extends Component {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
-          <tr>
+          <tr className='liked-songs-content'>
             <th>Title</th>
             <th>Artist</th>
             <th>Genre</th>
@@ -42,8 +42,8 @@ export class LikedSongs extends Component {
       : LikedSongs.renderLikedSongsTable(this.state.songs);
 
     return (
-      <div>
-        <h1 id="tabelLabel" >Your Liked Songs</h1>
+      <div className='liked-songs-content'>
+        <h1 id="tabelLabel">Your Liked Songs</h1>
         <p>Here are the songs you've liked.</p>
         {contents}
       </div>
