@@ -119,6 +119,11 @@ export class Home extends Component {
   }
 
     swipeWithAnimation(direction) {
+        const { songs, currentSongIndex } = this.state;
+        
+        if (currentSongIndex >= songs.length) {
+            return; 
+        }
         if (!this.cardRef.current || !this.contentRef.current) return;
 
         const isLeft = direction === 'left';
@@ -145,11 +150,13 @@ export class Home extends Component {
 
 
 render() {
-    const { mouse, hoverDir } = this.state;
+    const { songs, currentSongIndex, mouse, hoverDir } = this.state;
+    const noMoreSongs = currentSongIndex >= songs.length;
     let contents = this.state.loading
         ? <div className="loading"><em>Loading...</em></div>
         : this.renderCurrentSong();
-
+        
+    /* temporarily removed effects  
     const spotlightStyle = {
         background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
         transition: 'background 0.2s',
@@ -157,14 +164,22 @@ render() {
 
     const cardTransform =
         hoverDir === 'left' ? 'translateX(-20px)' :
-            hoverDir === 'right' ? 'translateX(20px)' : 'none';
+            hoverDir === 'right' ? 'translateX(20px)' : 'none';*/
 
     return (
         <div className="homepage-container">
+            {noMoreSongs ? (
+                    <div className="homepage-content spotlight-card no-more-songs-card">
+                        <h1 className="homepage-title">Discover New Music</h1>
+                        <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                        {contents}
+                    </div>
+                ) : (
             <TinderCard
                 ref={this.cardRef}
-                key={this.state.currentSongIndex}
+                key={this.state.currentSongIndex < this.state.songs.length ? this.state.currentSongIndex : 'no-more-songs'}
                 onSwipe={dir => {
+                    if (this.state.currentSongIndex >= this.state.songs.length) return;
                     if (dir === 'right') this.handleLike();
                     if (dir === 'left') this.handleDislike();
                 }}
@@ -182,6 +197,7 @@ render() {
                     {contents}
                 </div>
             </TinderCard>
+            )}
             <div className="homepage-actions">
                 <button
                     className="btn-dislike"
