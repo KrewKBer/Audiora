@@ -1,11 +1,12 @@
 import React, { Component, createRef } from 'react';
+import TinderCard from 'react-tinder-card';
 
 export class Home extends Component {
   static displayName = Home.name;
 
   constructor(props) {
     super(props);
-    this.state = { songs: [], loading: true, currentSongIndex: 0, userId: null, mouse: { x: 0, y: 0 } };
+    this.state = { songs: [], loading: true, currentSongIndex: 0, userId: null, mouse: { x: 0, y: 0 }, hoverDir: null };
     this.handleLike = this.handleLike.bind(this);
     this.handleDislike = this.handleDislike.bind(this);
     this.resetData = this.resetData.bind(this);
@@ -100,6 +101,14 @@ export class Home extends Component {
     this.populateSongsData();
   }
 
+  setHoverDir(dir) {
+      this.setState({ hoverDir: dir });
+  }
+    
+  clearHoverDir() {
+      this.setState({ hoverDir: null });
+  }
+  
   renderCurrentSong() {
     const { songs, currentSongIndex } = this.state;
 
@@ -113,38 +122,65 @@ export class Home extends Component {
         <h2 className="song-title">{song.title}</h2>
         <p className="song-artist">Artist: <span>{song.artist}</span></p>
         <p className="song-genre">Genre: <span>{song.primaryGenre || 'Unknown'}</span></p>
-        <div className="song-actions">
-          <button className="btn-like" onClick={this.handleLike}>Like</button>
-          <button className="btn-dislike" onClick={this.handleDislike}>Dislike</button>
-        </div>
       </div>
     );
   }
 
-  render() {
-    const { mouse } = this.state;
+render() {
+    const { mouse, hoverDir } = this.state;
     let contents = this.state.loading
-      ? <div className="loading"><em>Loading...</em></div>
-      : this.renderCurrentSong();
+        ? <div className="loading"><em>Loading...</em></div>
+        : this.renderCurrentSong();
 
     const spotlightStyle = {
-      background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
-      transition: 'background 0.2s',
+        background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
+        transition: 'background 0.2s',
     };
 
+    const cardTransform =
+        hoverDir === 'left' ? 'translateX(-20px)' :
+            hoverDir === 'right' ? 'translateX(20px)' : 'none';
+
     return (
-      <div className="homepage-container">
-        <div
-          className="homepage-content spotlight-card"
-          ref={this.contentRef}
-          onMouseMove={this.handleMouseMove}
-          style={spotlightStyle}
-        >
-          <h1 className="homepage-title">Discover New Music</h1>
-          <button className="btn-reset" onClick={this.resetData}>Reset</button>
-          {contents}
+        <div className="homepage-container">
+            <TinderCard
+                key={this.state.currentSongIndex}
+                onSwipe={dir => {
+                    if (dir === 'right') this.handleLike();
+                    if (dir === 'left') this.handleDislike();
+                }}
+                preventSwipe={['up', 'down']}
+            >
+                <div
+                    className="homepage-content spotlight-card"
+                    ref={this.contentRef}
+                    onMouseMove={this.handleMouseMove}
+                    style={{
+                        ...spotlightStyle,
+                        transform: cardTransform,
+                        transition: 'transform 0.2s'
+                    }}
+                >
+                    <h1 className="homepage-title">Discover New Music</h1>
+                    <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                    {contents}
+                </div>
+            </TinderCard>
+            <div className="homepage-actions">
+                <button
+                    className="btn-dislike"
+                    onMouseEnter={() => this.setHoverDir('left')}
+                    onMouseLeave={() => this.clearHoverDir()}
+                    onClick={this.handleDislike}
+                >Dislike</button>
+                <button
+                    className="btn-like"
+                    onMouseEnter={() => this.setHoverDir('right')}
+                    onMouseLeave={() => this.clearHoverDir()}
+                    onClick={this.handleLike}
+                >Like</button>
+            </div>
         </div>
-      </div>
     );
-  }
+    }
 }
