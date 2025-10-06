@@ -83,5 +83,34 @@ namespace Audiora.Services
                 throw new InvalidOperationException("Network error calling Spotify API.", ex);
             }
         }
+
+        public async Task<RecommendationsResponse> GetRecommendations(string genre)
+        {
+            try
+            {
+                var client = await GetSpotifyClient();
+                var request = new RecommendationsRequest
+                {
+                    SeedGenres = { genre },
+                    Limit = 50
+                };
+                return await client.Browse.GetRecommendations(request);
+            }
+            catch (APIUnauthorizedException ex)
+            {
+                _logger.LogError(ex, "Spotify API unauthorized. Check client credentials.");
+                throw new InvalidOperationException("Spotify authorization failed.", ex);
+            }
+            catch (APIException ex)
+            {
+                _logger.LogError(ex, "Spotify API error occurred while getting recommendations.");
+                throw new InvalidOperationException($"Spotify API error: {ex.Message}", ex);
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                _logger.LogError(ex, "Network error calling Spotify API.");
+                throw new InvalidOperationException("Network error calling Spotify API.", ex);
+            }
+        }
     }
 }

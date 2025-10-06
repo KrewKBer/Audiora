@@ -1,14 +1,22 @@
 import React, { Component, createRef } from 'react';
+import { useSongQueue } from './SongQueueContext';
 
-export class Home extends Component {
-  static displayName = Home.name;
+const HomeComponent = (props) => {
+    const { songQueue, addSongsToQueue, getNextSong } = useSongQueue();
+    return <HomeInternal {...props} songQueue={songQueue} addSongsToQueue={addSongsToQueue} getNextSong={getNextSong} />;
+}
+
+class HomeInternal extends Component {
+  static displayName = HomeInternal.name;
 
   constructor(props) {
     super(props);
-    this.state = { songs: [], loading: true, currentSongIndex: 0, userId: null, mouse: { x: 0, y: 0 } };
+    this.state = { currentSong: null, loading: false, userId: null, mouse: { x: 0, y: 0 }, fetchingRandom: false };
     this.handleLike = this.handleLike.bind(this);
     this.handleDislike = this.handleDislike.bind(this);
     this.resetData = this.resetData.bind(this);
+    this.loadNextSong = this.loadNextSong.bind(this);
+    this.handleGetRandomSongs = this.handleGetRandomSongs.bind(this);
     this.contentRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
   }
@@ -26,49 +34,80 @@ export class Home extends Component {
   }
 
   componentDidMount() {
-    // hardcoded userId for simplicity
     const userId = localStorage.getItem('userId') || "test-user";
     localStorage.setItem('userId', userId);
-    this.setState({ userId }, this.populateSongsData);
+    this.setState({ userId }, this.loadNextSong);
   }
 
-  async populateSongsData() {
-    const { userId } = this.state;
-    if (!userId) return;
+  componentDidUpdate(prevProps) {
+    if (prevProps.songQueue.length !== this.props.songQueue.length && !this.state.currentSong) {
+      this.loadNextSong();
+    }
+  }
 
+  loadNextSong() {
+    const nextSong = this.props.getNextSong();
+    this.setState({ currentSong: nextSong });
+  }
+
+  async handleGetRandomSongs() {
+    this.setState({ fetchingRandom: true });
     try {
-        const songsResponse = await fetch('songs');
-        if (!songsResponse.ok) {
-            const errorText = await songsResponse.text();
-            console.error('Failed to fetch songs:', songsResponse.status, errorText);
-            throw new Error(`Failed to fetch songs: ${songsResponse.status}`);
-        }
-        const songsData = await songsResponse.json();
+      // Check if credentials are stored in localStorage
+      const clientId = localStorage.getItem('spotifyClientId');
+      const clientSecret = localStorage.getItem('spotifyClientSecret');
+      
+      if (!clientId || !clientSecret) {
+        alert('Please configure Spotify credentials in the Search page first.');
+        this.setState({ fetchingRandom: false });
+        return;
+      }
 
-        const seenSongsResponse = await fetch(`api/user-songs/seen?userId=${userId}`);
-        if (!seenSongsResponse.ok) {
-            const errorText = await seenSongsResponse.text();
-            console.error('Failed to fetch seen songs:', seenSongsResponse.status, errorText);
-            throw new Error(`Failed to fetch seen songs: ${seenSongsResponse.status}`);
-        }
-        const seenSongs = await seenSongsResponse.json();
-        const seenSongIds = seenSongs.map(s => s.id);
+      // Configure credentials on backend
+      await fetch('/spotify/configure', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId, clientSecret })
+      });
 
-        const unseenSongs = songsData.filter(song => !seenSongIds.includes(song.id));
-
-        this.setState({ songs: unseenSongs, loading: false, currentSongIndex: 0 });
+      // Now fetch recommendations
+      const response = await fetch('/spotify/recommendations?genre=pop');
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`Failed to fetch random songs: ${response.status}`);
+      }
+      const songs = await response.json();
+      console.log('Fetched songs:', songs);
+      
+      if (!songs || songs.length === 0) {
+        alert('No songs returned. Please try again or check your Spotify credentials.');
+        return;
+      }
+      
+      this.props.addSongsToQueue(songs);
+      if (!this.state.currentSong) {
+        this.loadNextSong();
+      }
     } catch (error) {
-        console.error("Error populating songs data:", error);
-        this.setState({ loading: false, error: 'Failed to load song data. See console for details.' });
+      console.error("Error fetching random songs:", error);
+      alert('Failed to fetch random songs. Please configure Spotify credentials in the Search page first.');
+    } finally {
+      this.setState({ fetchingRandom: false });
     }
   }
 
   async handleInteraction(liked) {
-    const { songs, currentSongIndex, userId } = this.state;
-    if (currentSongIndex >= songs.length || !userId) return;
+    const { currentSong, userId } = this.state;
+    if (!currentSong || !userId) return;
 
-    const song = songs[currentSongIndex];
-    const seenSong = { id: song.id, liked: liked };
+    const seenSong = { 
+      id: currentSong.id, 
+      liked: liked,
+      name: currentSong.name,
+      artist: currentSong.artists?.map(a => a.name).join(', ') || 'Unknown',
+      albumImageUrl: currentSong.album?.images?.[0]?.url || ''
+    };
 
     await fetch('api/user-songs/seen', {
         method: 'POST',
@@ -78,9 +117,7 @@ export class Home extends Component {
         body: JSON.stringify({ userId: userId, song: seenSong }),
     });
 
-    this.setState(prevState => ({
-      currentSongIndex: prevState.currentSongIndex + 1
-    }));
+    this.loadNextSong();
   }
 
   handleLike() {
@@ -96,34 +133,63 @@ export class Home extends Component {
     if (!userId) return;
 
     await fetch(`api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
-    this.setState({ loading: true });
-    this.populateSongsData();
+    this.setState({ currentSong: null });
+    this.loadNextSong();
   }
 
   renderCurrentSong() {
-    const { songs, currentSongIndex } = this.state;
+    const { currentSong, fetchingRandom } = this.state;
+    const { songQueue } = this.props;
 
-    if (currentSongIndex >= songs.length) {
-      return <p className="no-songs">No more songs to display.</p>;
+    if (!currentSong && songQueue.length === 0) {
+      return (
+        <div>
+          <p className="no-songs">No songs in queue. Add songs from the Search page or get random recommendations!</p>
+          <button 
+            className="btn-random" 
+            onClick={this.handleGetRandomSongs}
+            disabled={fetchingRandom}
+          >
+            {fetchingRandom ? 'Loading...' : 'Get 25 Random Songs'}
+          </button>
+        </div>
+      );
     }
 
-    const song = songs[currentSongIndex];
+    if (!currentSong) {
+      return <p className="no-songs">Loading next song...</p>;
+    }
+
     return (
       <div className="song-card">
-        <h2 className="song-title">{song.title}</h2>
-        <p className="song-artist">Artist: <span>{song.artist}</span></p>
-        <p className="song-genre">Genre: <span>{song.primaryGenre || 'Unknown'}</span></p>
+        {currentSong.album?.images?.[0]?.url && (
+          <img src={currentSong.album.images[0].url} alt={currentSong.name} width="200" />
+        )}
+        <h2 className="song-title">{currentSong.name}</h2>
+        <p className="song-artist">Artist: <span>{currentSong.artists?.map(artist => artist.name).join(', ')}</span></p>
+        {currentSong.preview_url ? (
+          <audio controls src={currentSong.preview_url} style={{ width: '100%', marginTop: '10px' }}>
+            Your browser does not support the audio element.
+          </audio>
+        ) : (
+          <p style={{ fontSize: '12px', color: '#888', marginTop: '10px' }}>
+            ℹ️ No preview available for this song
+          </p>
+        )}
         <div className="song-actions">
-          <button className="btn-like" onClick={this.handleLike}>Like</button>
-          <button className="btn-dislike" onClick={this.handleDislike}>Dislike</button>
+          <button className="btn-like" onClick={this.handleLike}>👍 Like</button>
+          <button className="btn-dislike" onClick={this.handleDislike}>👎 Dislike</button>
         </div>
+        <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
+          {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
+        </p>
       </div>
     );
   }
 
   render() {
-    const { mouse } = this.state;
-    let contents = this.state.loading
+    const { mouse, loading } = this.state;
+    let contents = loading
       ? <div className="loading"><em>Loading...</em></div>
       : this.renderCurrentSong();
 
@@ -148,3 +214,5 @@ export class Home extends Component {
     );
   }
 }
+
+export const Home = HomeComponent;

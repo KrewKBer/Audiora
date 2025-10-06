@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { useSongQueue } from './SongQueueContext';
 import './Search.css';
 
-export class Search extends Component {
-  static displayName = Search.name;
+class SearchInternal extends Component {
+  static displayName = SearchInternal.name;
 
   constructor(props) {
     super(props);
@@ -56,7 +57,6 @@ export class Search extends Component {
         } catch (_) {}
         throw new Error(message);
       }
-      // Persist locally for convenience
       localStorage.setItem('spotifyClientId', clientId);
       localStorage.setItem('spotifyClientSecret', clientSecret);
       this.setState({ configured: true });
@@ -87,7 +87,7 @@ export class Search extends Component {
         try {
           const err = await response.json();
           message = err?.message || message;
-        } catch (_) { /* ignore */ }
+        } catch (_) {}
         throw new Error(message);
       }
       const data = await response.json();
@@ -122,6 +122,7 @@ export class Search extends Component {
               <strong>{track.name}</strong>
               <span>{(track.artists || []).map(artist => artist.name).join(', ')}</span>
             </div>
+            <button onClick={() => this.props.addSongsToQueue([track])}>Add to Queue</button>
             {track.preview_url && <audio controls src={track.preview_url}></audio>}
           </div>
         ))}
@@ -173,3 +174,8 @@ export class Search extends Component {
     );
   }
 }
+
+export const Search = (props) => {
+    const { addSongsToQueue } = useSongQueue();
+    return <SearchInternal {...props} addSongsToQueue={addSongsToQueue} />;
+};

@@ -9,8 +9,11 @@ namespace Audiora.Controllers
 {
     public class SongInteraction
     {
-        public int Id { get; set; }
+        public string? Id { get; set; }
         public bool Liked { get; set; }
+        public string? Name { get; set; }
+        public string? Artist { get; set; }
+        public string? AlbumImageUrl { get; set; }
     }
 
     public class UserSongInteraction
@@ -102,29 +105,11 @@ namespace Audiora.Controllers
             var allInteractions = ReadUserInteractions();
             if (!allInteractions.TryGetValue(userId, out var userInteractions))
             {
-                return Ok(new List<Song>());
+                return Ok(new List<SongInteraction>());
             }
 
-            var likedSongIds = userInteractions
+            var likedSongs = userInteractions
                 .Where(s => s.Liked)
-                .Select(s => s.Id)
-                .ToHashSet();
-
-            if (!likedSongIds.Any())
-            {
-                return Ok(new List<Song>());
-            }
-
-            var songsJson = System.IO.File.ReadAllText(SongsPath);
-            var songsDocument = JsonDocument.Parse(songsJson);
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            var allSongs = JsonSerializer.Deserialize<List<Song>>(songsDocument.RootElement.GetProperty("songs").GetRawText(), options);
-
-            var likedSongs = allSongs
-                .Where(song => likedSongIds.Contains(song.Id))
                 .ToList();
 
             return Ok(likedSongs);

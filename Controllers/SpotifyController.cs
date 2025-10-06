@@ -65,5 +65,23 @@ namespace Audiora.Controllers
                 return StatusCode(500, new { message = "Failed to configure Spotify credentials." });
             }
         }
+
+        [HttpGet("recommendations")]
+        public async Task<IActionResult> GetRecommendations(string genre)
+        {
+            if (string.IsNullOrEmpty(genre))
+            {
+                return BadRequest("Genre cannot be empty.");
+            }
+            try
+            {
+                var result = await _spotifyService.GetRecommendations(genre);
+                return Ok(result.Tracks);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "An error occurred while getting recommendations from Spotify." });
+            }
+        }
     }
 }

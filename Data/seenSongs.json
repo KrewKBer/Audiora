@@ -1,80 +1,81 @@
 {
-  "4dfa4b13-7095-497f-bf25-2c6bcd0d4666": [
-    {
-      "Id": 1,
-      "Liked": true
-    },
-    {
-      "Id": 2,
-      "Liked": true
-    },
-    {
-      "Id": 3,
-      "Liked": true
-    },
-    {
-      "Id": 4,
-      "Liked": false
-    },
-    {
-      "Id": 5,
-      "Liked": false
-    },
-    {
-      "Id": 6,
-      "Liked": true
-    }
-  ],
-  "c178d899-ca59-4639-ae11-675fc13c778d": [
-    {
-      "Id": 1,
-      "Liked": true
-    },
-    {
-      "Id": 2,
-      "Liked": false
-    },
-    {
-      "Id": 3,
-      "Liked": true
-    },
-    {
-      "Id": 4,
-      "Liked": false
-    },
-    {
-      "Id": 5,
-      "Liked": false
-    }
-  ],
   "57209df8-dd67-4a46-bd13-c11a35ebda18": [
     {
-      "Id": 1,
-      "Liked": true
+      "Id": "2qGvxAKXbajPFRb9ybIMOD",
+      "Liked": true,
+      "Name": "AAAHH MEN!",
+      "Artist": "Doja Cat",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f99c9248388dd77f24276a7c"
     },
     {
-      "Id": 2,
-      "Liked": true
+      "Id": "1jcLDZnkcrutKDJo0npxtN",
+      "Liked": false,
+      "Name": "A-a, A-a, Pupa",
+      "Artist": "Ilona Balsyt\u0117",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273e0efb61a065ffb47b4daf80d"
     },
     {
-      "Id": 3,
-      "Liked": true
+      "Id": "6VivcOxtV2pqf3IA37nOFH",
+      "Liked": true,
+      "Name": "Aa pupa",
+      "Artist": "Taja",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b27396438f586b702ce49d0e6e8b"
     },
     {
-      "Id": 4,
-      "Liked": true
+      "Id": "7lOvJBqH38ZY59eLU7bioq",
+      "Liked": true,
+      "Name": "all I want is you",
+      "Artist": "Rebzyyx, hoshie star",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b2732959e0d1c28414c8e003e43d"
     },
     {
-      "Id": 5,
-      "Liked": true
+      "Id": "2saqU6ZIEQ3aDstPeLDNPL",
+      "Liked": true,
+      "Name": "A A Apapa",
+      "Artist": "D\u017Eimba",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273c71973db83c54bf110612d12"
     },
     {
-      "Id": 6,
-      "Liked": true
+      "Id": "6jMbYChkL89v2SlsrjyURG",
+      "Liked": true,
+      "Name": "zzz",
+      "Artist": "60 juno",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273701463c326557f1d04ef77d5"
     },
     {
-      "Id": 7,
-      "Liked": true
+      "Id": "0FZ4Dmg8jJJAPJnvBIzD9z",
+      "Liked": false,
+      "Name": "ZEZE (feat. Travis Scott \u0026 Offset)",
+      "Artist": "Kodak Black, Offset, Travis Scott",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f9508eb3070b95ceeb82788b"
+    },
+    {
+      "Id": "1LZfWl6kUv9P9zECqMGwdI",
+      "Liked": true,
+      "Name": "Zzyzx Rd Rain",
+      "Artist": "Visceral Rain",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b2731184869296ee029971ca654a"
+    },
+    {
+      "Id": "0bRNszTbTFLNlunAeh7eom",
+      "Liked": true,
+      "Name": "Sharp Dressed Man (2008 Remaster)",
+      "Artist": "ZZ Top",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273a2b4f98f60e3cacf3866b2e3"
+    },
+    {
+      "Id": "0u6JFVn0KHHlidZxNL9gVE",
+      "Liked": false,
+      "Name": "La Grange (2005 Remaster)",
+      "Artist": "ZZ Top",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273db9c5945ce3a3f873695d18a"
+    },
+    {
+      "Id": "6twEEIkgsC2Iv6RczUjLGv",
+      "Liked": true,
+      "Name": "Rough Boy",
+      "Artist": "ZZ Top",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b2736436f97973957ef8f054e650"
     }
   ]
 }
