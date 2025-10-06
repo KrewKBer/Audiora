@@ -241,8 +241,8 @@ class HomeInternal extends Component {
           </p>
         )}
         <div className="song-actions">
-          <button className="btn-like" onClick={this.handleLike}>👍 Like</button>
-          <button className="btn-dislike" onClick={this.handleDislike}>👎 Dislike</button>
+          <button className="btn-like" onClick={this.handleLike}>Like</button>
+          <button className="btn-dislike" onClick={this.handleDislike}>Dislike</button>
         </div>
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
