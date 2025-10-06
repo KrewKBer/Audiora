@@ -42,6 +42,9 @@ export function NavMenu() {
                         <NavItem>
                             <NavLink tag={Link} className="text-light" to="/">Home</NavLink>
                         </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} className="text-light" to="/search">Search</NavLink>
+                        </NavItem>
                         {isLoggedIn ? (
                             <>
                                 <NavItem>

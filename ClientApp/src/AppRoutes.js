@@ -3,6 +3,7 @@ import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 import PrivateRoute from "./components/PrivateRoute";
 import { LikedSongs } from "./components/LikedSongs";
+import { Search } from "./components/Search";
 
 const AppRoutes = [
     {
@@ -12,6 +13,10 @@ const AppRoutes = [
     {
         path: '/register',
         element: <Register />
+    },
+    {
+        path: '/search',
+        element: <Search />
     },
     {
         path: '/',
