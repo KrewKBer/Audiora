@@ -117,11 +117,26 @@ namespace Audiora.Services
                     var searchResult = await client.Search.Item(new SearchRequest(SearchRequest.Types.Track, query));
                     if (searchResult.Tracks.Items != null && searchResult.Tracks.Items.Count > 0)
                     {
-                        var tracks = searchResult.Tracks.Items.Take(10).ToList();
-                        allTracks.AddRange(tracks);
-                        var withPreviews = tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
+                        // Get full track details for each track to ensure we have preview URLs
+                        var trackIds = searchResult.Tracks.Items.Take(10).Select(t => t.Id).ToList();
+                        
+                        _logger.LogInformation($"Fetching full details for {trackIds.Count} tracks from query '{query}'");
+                        
+                        // Fetch full track objects which should include preview URLs
+                        var tracksRequest = new TracksRequest(trackIds);
+                        var fullTracks = await client.Tracks.GetSeveral(tracksRequest);
+                        
+                        allTracks.AddRange(fullTracks.Tracks);
+                        var withPreviews = fullTracks.Tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
                         tracksWithPreviewsCount += withPreviews;
-                        _logger.LogInformation($"Query '{query}': Found {tracks.Count} tracks, {withPreviews} with previews");
+                        _logger.LogInformation($"Query '{query}': Got {fullTracks.Tracks.Count} full tracks, {withPreviews} with previews");
+                        
+                        // Log first track details for debugging
+                        if (fullTracks.Tracks.Count > 0)
+                        {
+                            var firstTrack = fullTracks.Tracks[0];
+                            _logger.LogInformation($"  Example: '{firstTrack.Name}' - PreviewUrl: {(string.IsNullOrEmpty(firstTrack.PreviewUrl) ? "NULL" : "EXISTS")}");
+                        }
                     }
                 }
                 
@@ -144,11 +159,16 @@ namespace Audiora.Services
                         try
                         {
                             var topTracks = await client.Artists.GetTopTracks(artistId, new ArtistsTopTracksRequest("US"));
-                            var tracks = topTracks.Tracks.Take(5).ToList();
-                            allTracks.AddRange(tracks);
-                            var withPreviews = tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
+                            
+                            // Fetch full details for these tracks too
+                            var trackIds = topTracks.Tracks.Take(5).Select(t => t.Id).ToList();
+                            var tracksRequest = new TracksRequest(trackIds);
+                            var fullTracks = await client.Tracks.GetSeveral(tracksRequest);
+                            
+                            allTracks.AddRange(fullTracks.Tracks);
+                            var withPreviews = fullTracks.Tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
                             tracksWithPreviewsCount += withPreviews;
-                            _logger.LogInformation($"Artist {artistId}: Got {tracks.Count} tracks ({withPreviews} with previews)");
+                            _logger.LogInformation($"Artist {artistId}: Got {fullTracks.Tracks.Count} tracks ({withPreviews} with previews)");
                             
                             if (allTracks.Count >= 50) break;
                         }

@@ -5,6 +5,7 @@ using System;
 using Audiora.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using SpotifyAPI.Web;
 
 namespace Audiora.Controllers
 {
@@ -83,7 +84,16 @@ namespace Audiora.Controllers
                 {
                     var firstTrack = result.Tracks[0];
                     Console.WriteLine($"First track: {firstTrack.Name}");
+                    Console.WriteLine($"First track ID: {firstTrack.Id}");
                     Console.WriteLine($"Preview URL: {firstTrack.PreviewUrl ?? "NULL"}");
+                    Console.WriteLine($"Track Object Type: {firstTrack.GetType().Name}");
+                    
+                    // Check if it's a SimpleTrack vs FullTrack
+                    if (firstTrack is FullTrack fullTrack)
+                    {
+                        Console.WriteLine("It's a FullTrack");
+                        Console.WriteLine($"External URLs: {fullTrack.ExternalUrls?.Count ?? 0}");
+                    }
                 }
                 
                 return Ok(result.Tracks);
