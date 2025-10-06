@@ -6,7 +6,7 @@ export class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { songs: [], loading: true, currentSongIndex: 0, userId: null, mouse: { x: 0, y: 0 }, hoverDir: null };
+    this.state = { songs: [], loading: true, currentSongIndex: 0, userId: null, mouse: { x: 0, y: 0 }, hoverDir: null, dragX: 0, dragging: false, };
     this.handleLike = this.handleLike.bind(this);
     this.handleDislike = this.handleDislike.bind(this);
     this.resetData = this.resetData.bind(this);
@@ -109,6 +109,21 @@ export class Home extends Component {
       this.setState({ hoverDir: null });
   }
   
+  handleDragStart = (e) => {
+      this.setState({ dragging: true, dragStartX: e.clientX });
+  };
+    
+  handleDrag = (e) => {
+      if (this.state.dragging) {
+          this.setState({ dragX: e.clientX - this.state.dragStartX });
+      }
+  };
+    
+  handleDragEnd = () => {
+      this.setState({ dragging: false, dragX: 0 });
+  };
+  
+  
   renderCurrentSong() {
     const { songs, currentSongIndex } = this.state;
 
@@ -150,16 +165,12 @@ render() {
                     if (dir === 'left') this.handleDislike();
                 }}
                 preventSwipe={['up', 'down']}
+                swipeRequirementType="distance"
+                swipeThreshold={120}
             >
                 <div
                     className="homepage-content spotlight-card"
                     ref={this.contentRef}
-                    onMouseMove={this.handleMouseMove}
-                    style={{
-                        ...spotlightStyle,
-                        transform: cardTransform,
-                        transition: 'transform 0.2s'
-                    }}
                 >
                     <h1 className="homepage-title">Discover New Music</h1>
                     <button className="btn-reset" onClick={this.resetData}>Reset</button>

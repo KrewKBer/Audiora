@@ -81,7 +81,16 @@ code {
     gap: 1rem;
     margin-top: 1rem;
 }
+.swipe-container {
+    width: 480px;
+    height: 600px;
+    position: relative;
+}
 
+.card-container {
+    position: absolute;
+    width: 100%;
+}
 .homepage-content.spotlight-card {
   position: relative;
   background: #18181b;
@@ -265,7 +274,8 @@ code {
   color: #fff;
   padding: 2.5rem 2rem;
   overflow: hidden;
-  transition: box-shadow 0.2s;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
 }
 .spotlight-card .song-title {
   color: #ffffffdb;
