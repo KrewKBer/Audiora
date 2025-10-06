@@ -11,6 +11,7 @@ export class Home extends Component {
     this.handleDislike = this.handleDislike.bind(this);
     this.resetData = this.resetData.bind(this);
     this.contentRef = createRef();
+    this.cardRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
   }
 
@@ -100,30 +101,6 @@ export class Home extends Component {
     this.setState({ loading: true });
     this.populateSongsData();
   }
-
-  setHoverDir(dir) {
-      this.setState({ hoverDir: dir });
-  }
-    
-  clearHoverDir() {
-      this.setState({ hoverDir: null });
-  }
-  
-  handleDragStart = (e) => {
-      this.setState({ dragging: true, dragStartX: e.clientX });
-  };
-    
-  handleDrag = (e) => {
-      if (this.state.dragging) {
-          this.setState({ dragX: e.clientX - this.state.dragStartX });
-      }
-  };
-    
-  handleDragEnd = () => {
-      this.setState({ dragging: false, dragX: 0 });
-  };
-  
-  
   renderCurrentSong() {
     const { songs, currentSongIndex } = this.state;
 
@@ -140,6 +117,32 @@ export class Home extends Component {
       </div>
     );
   }
+
+    swipeWithAnimation(direction) {
+        if (!this.cardRef.current || !this.contentRef.current) return;
+
+        const isLeft = direction === 'left';
+        const distance = isLeft ? -1000 : 1000;
+        const rotation = isLeft ? -15 : 15;
+        const element = this.contentRef.current;
+        
+        element.style.transition = 'none';
+        
+        requestAnimationFrame(() => {
+            element.style.transform = `translateX(${distance * 0.05}px) rotate(${rotation * 0.2}deg)`;
+
+            requestAnimationFrame(() => {
+                element.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                
+                element.style.transform = `translateX(${distance * 0.3}px) rotate(${rotation * 0.7}deg)`;
+                
+                setTimeout(() => {
+                    this.cardRef.current.swipe(direction);
+                }, 150);
+            });
+        });
+    }
+
 
 render() {
     const { mouse, hoverDir } = this.state;
@@ -159,14 +162,16 @@ render() {
     return (
         <div className="homepage-container">
             <TinderCard
+                ref={this.cardRef}
                 key={this.state.currentSongIndex}
                 onSwipe={dir => {
                     if (dir === 'right') this.handleLike();
                     if (dir === 'left') this.handleDislike();
                 }}
                 preventSwipe={['up', 'down']}
-                swipeRequirementType="distance"
-                swipeThreshold={120}
+                swipeRequirementType='position'
+                swipeThreshold={400}
+                flickOnSwipe={true}
             >
                 <div
                     className="homepage-content spotlight-card"
@@ -180,15 +185,11 @@ render() {
             <div className="homepage-actions">
                 <button
                     className="btn-dislike"
-                    onMouseEnter={() => this.setHoverDir('left')}
-                    onMouseLeave={() => this.clearHoverDir()}
-                    onClick={this.handleDislike}
+                    onClick={() => this.swipeWithAnimation('left')}
                 >Dislike</button>
                 <button
                     className="btn-like"
-                    onMouseEnter={() => this.setHoverDir('right')}
-                    onMouseLeave={() => this.clearHoverDir()}
-                    onClick={this.handleLike}
+                    onClick={() => this.swipeWithAnimation('right')}
                 >Like</button>
             </div>
         </div>
