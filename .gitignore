@@ -1,3 +1,44 @@
+# Build outputs
+bin/
+obj/
+
+# VS/IDE files
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ASP.NET dev certs (do not commit)
+*.pfx
+
+# Environment files (store secrets outside repo)
+.env
+.env.local
+.env.*.local
+
+# SPA/Node
+ClientApp/node_modules/
+ClientApp/build/
+ClientApp/.pnp
+ClientApp/.pnp.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+logs/
+*.log
+
+# Optional: uncomment to avoid committing generated wwwroot assets
+# wwwroot/
+
+# Optional: if Data contains real user data, consider ignoring it
+# Data/
 # === .NET / Visual Studio ===
 ## Build outputs
 **/bin/

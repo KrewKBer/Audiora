@@ -1,8 +1,14 @@
 using System.Text.Json;
+using Audiora.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
+
+builder.Services.AddSingleton<SpotifyService>();
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
@@ -22,6 +28,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseRouting();
 
 app.MapControllerRoute(
     name: "default",
