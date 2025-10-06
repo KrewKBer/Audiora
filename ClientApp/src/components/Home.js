@@ -11,13 +11,15 @@ class HomeInternal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { currentSong: null, loading: false, userId: null, mouse: { x: 0, y: 0 }, fetchingRandom: false };
+    this.state = { currentSong: null, loading: false, userId: null, mouse: { x: 0, y: 0 }, fetchingRandom: false, isPlaying: false };
     this.handleLike = this.handleLike.bind(this);
     this.handleDislike = this.handleDislike.bind(this);
     this.resetData = this.resetData.bind(this);
     this.loadNextSong = this.loadNextSong.bind(this);
     this.handleGetRandomSongs = this.handleGetRandomSongs.bind(this);
+    this.togglePlayPause = this.togglePlayPause.bind(this);
     this.contentRef = createRef();
+    this.audioRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
   }
 
@@ -47,7 +49,26 @@ class HomeInternal extends Component {
 
   loadNextSong() {
     const nextSong = this.props.getNextSong();
-    this.setState({ currentSong: nextSong });
+    console.log('Loading next song:', nextSong);
+    console.log('Preview URL:', nextSong?.preview_url);
+    this.setState({ currentSong: nextSong, isPlaying: false });
+    // Stop any playing audio
+    if (this.audioRef.current) {
+      this.audioRef.current.pause();
+      this.audioRef.current.currentTime = 0;
+    }
+  }
+
+  togglePlayPause() {
+    if (!this.audioRef.current) return;
+    
+    if (this.state.isPlaying) {
+      this.audioRef.current.pause();
+      this.setState({ isPlaying: false });
+    } else {
+      this.audioRef.current.play();
+      this.setState({ isPlaying: true });
+    }
   }
 
   async handleGetRandomSongs() {
@@ -73,12 +94,24 @@ class HomeInternal extends Component {
       // Now fetch recommendations
       const response = await fetch('/spotify/recommendations?genre=pop');
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response:', errorText);
-        throw new Error(`Failed to fetch random songs: ${response.status}`);
+        let errorMessage = `Failed to fetch random songs: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          const errorText = await response.text();
+          errorMessage = errorText || errorMessage;
+        }
+        console.error('Error response:', errorMessage);
+        throw new Error(errorMessage);
       }
-      const songs = await response.json();
-      console.log('Fetched songs:', songs);
+      const data = await response.json();
+      console.log('Raw API response:', data);
+      
+      // Extract tracks from the response
+      const songs = data.items || data;
+      console.log('Extracted songs:', songs);
+      console.log('First song preview_url:', songs[0]?.preview_url);
       
       if (!songs || songs.length === 0) {
         alert('No songs returned. Please try again or check your Spotify credentials.');
@@ -91,7 +124,7 @@ class HomeInternal extends Component {
       }
     } catch (error) {
       console.error("Error fetching random songs:", error);
-      alert('Failed to fetch random songs. Please configure Spotify credentials in the Search page first.');
+      alert(`Failed to fetch random songs: ${error.message}\n\nPlease make sure you have configured valid Spotify credentials in the Search page.`);
     } finally {
       this.setState({ fetchingRandom: false });
     }
@@ -168,12 +201,43 @@ class HomeInternal extends Component {
         <h2 className="song-title">{currentSong.name}</h2>
         <p className="song-artist">Artist: <span>{currentSong.artists?.map(artist => artist.name).join(', ')}</span></p>
         {currentSong.preview_url ? (
-          <audio controls src={currentSong.preview_url} style={{ width: '100%', marginTop: '10px' }}>
-            Your browser does not support the audio element.
-          </audio>
+          <div style={{ marginTop: '15px', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+              <button 
+                onClick={this.togglePlayPause}
+                style={{
+                  fontSize: '24px',
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '50%',
+                  border: '2px solid #1DB954',
+                  background: '#1DB954',
+                  color: 'white',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                {this.state.isPlaying ? '⏸️' : '▶️'}
+              </button>
+              <span style={{ fontSize: '14px', color: '#888' }}>
+                {this.state.isPlaying ? 'Playing 30s preview...' : 'Click to play preview'}
+              </span>
+            </div>
+            <audio 
+              ref={this.audioRef}
+              src={currentSong.preview_url}
+              onEnded={() => this.setState({ isPlaying: false })}
+              onPlay={() => this.setState({ isPlaying: true })}
+              onPause={() => this.setState({ isPlaying: false })}
+            >
+              Your browser does not support the audio element.
+            </audio>
+          </div>
         ) : (
-          <p style={{ fontSize: '12px', color: '#888', marginTop: '10px' }}>
-            ℹ️ No preview available for this song
+          <p style={{ fontSize: '12px', color: '#888', marginTop: '10px', padding: '10px', background: '#f5f5f5', borderRadius: '5px' }}>
+            ℹ️ Audio preview not available for this song (regional restriction)
           </p>
         )}
         <div className="song-actions">

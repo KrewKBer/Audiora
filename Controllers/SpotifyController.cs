@@ -67,20 +67,34 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("recommendations")]
-        public async Task<IActionResult> GetRecommendations(string genre)
+        public async Task<IActionResult> GetRecommendations(string genre = "pop")
         {
             if (string.IsNullOrEmpty(genre))
             {
-                return BadRequest("Genre cannot be empty.");
+                genre = "pop"; // Default to pop if not provided
             }
             try
             {
                 var result = await _spotifyService.GetRecommendations(genre);
+                
+                // Log what we got
+                Console.WriteLine($"Got {result.Tracks.Count} tracks from Spotify");
+                if (result.Tracks.Count > 0)
+                {
+                    var firstTrack = result.Tracks[0];
+                    Console.WriteLine($"First track: {firstTrack.Name}");
+                    Console.WriteLine($"Preview URL: {firstTrack.PreviewUrl ?? "NULL"}");
+                }
+                
                 return Ok(result.Tracks);
             }
-            catch (Exception)
+            catch (InvalidOperationException ex)
             {
-                return StatusCode(500, new { message = "An error occurred while getting recommendations from Spotify." });
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred while getting recommendations from Spotify: {ex.Message}" });
             }
         }
     }
