@@ -6,6 +6,7 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import GradientBackground from './components/GradientBackground';
+import { SongQueueProvider } from './components/SongQueueContext';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
@@ -15,7 +16,9 @@ root.render(
   <>
     <GradientBackground />
     <BrowserRouter basename={baseUrl}>
-      <App />
+      <SongQueueProvider>
+        <App />
+      </SongQueueProvider>
     </BrowserRouter>
   </>
 );
