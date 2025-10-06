@@ -18,8 +18,12 @@ export const SongQueueProvider = ({ children }) => {
     return nextSong;
   };
 
+  const clearQueue = () => {
+    setSongQueue([]);
+  };
+
   return (
-    <SongQueueContext.Provider value={{ songQueue, addSongsToQueue, getNextSong }}>
+    <SongQueueContext.Provider value={{ songQueue, addSongsToQueue, getNextSong, clearQueue }}>
       {children}
     </SongQueueContext.Provider>
   );

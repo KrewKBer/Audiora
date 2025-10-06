@@ -2,8 +2,8 @@ import React, { Component, createRef } from 'react';
 import { useSongQueue } from './SongQueueContext';
 
 const HomeComponent = (props) => {
-    const { songQueue, addSongsToQueue, getNextSong } = useSongQueue();
-    return <HomeInternal {...props} songQueue={songQueue} addSongsToQueue={addSongsToQueue} getNextSong={getNextSong} />;
+    const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
+    return <HomeInternal {...props} songQueue={songQueue} addSongsToQueue={addSongsToQueue} getNextSong={getNextSong} clearQueue={clearQueue} />;
 }
 
 class HomeInternal extends Component {
@@ -165,9 +165,25 @@ class HomeInternal extends Component {
     const { userId } = this.state;
     if (!userId) return;
 
-    await fetch(`api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
-    this.setState({ currentSong: null });
-    this.loadNextSong();
+    if (!window.confirm('Are you sure you want to reset everything? This will clear the queue and delete all liked/disliked songs.')) {
+      return;
+    }
+
+    try {
+      // Delete seen songs (includes liked/disliked)
+      await fetch(`api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
+      
+      // Clear the song queue
+      this.props.clearQueue();
+      
+      // Reset current song
+      this.setState({ currentSong: null });
+      
+      alert('Successfully reset! Queue cleared and all song data deleted.');
+    } catch (error) {
+      console.error('Error resetting data:', error);
+      alert('Failed to reset data. Please try again.');
+    }
   }
 
   renderCurrentSong() {
