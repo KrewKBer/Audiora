@@ -1,1 +1,32 @@
-{}
+{
+  "57209df8-dd67-4a46-bd13-c11a35ebda18": [
+    {
+      "Id": "2BAF4oAFCe3BPnrdkA8tgo",
+      "Liked": false,
+      "Name": "Viva La Vida",
+      "Artist": "Coldplay",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f5ec3a9d78531f2f926201d1"
+    },
+    {
+      "Id": "0iwykAdGnbtIO4ozMvDVsL",
+      "Liked": true,
+      "Name": "Lose Control",
+      "Artist": "Teddy Swims",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f5ec3a9d78531f2f926201d1"
+    },
+    {
+      "Id": "2BAF4oAFCe3BPnrdkA8tgo",
+      "Liked": true,
+      "Name": "Viva La Vida",
+      "Artist": "Coldplay",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f5ec3a9d78531f2f926201d1"
+    },
+    {
+      "Id": "0iwykAdGnbtIO4ozMvDVsL",
+      "Liked": false,
+      "Name": "Lose Control",
+      "Artist": "Teddy Swims",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f5ec3a9d78531f2f926201d1"
+    }
+  ]
+}

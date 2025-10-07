@@ -3,8 +3,8 @@ import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
 
 const HomeComponent = (props) => {
-    const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
-    return <HomeInternal {...props} songQueue={songQueue} addSongsToQueue={addSongsToQueue} getNextSong={getNextSong} clearQueue={clearQueue} />;
+    const { songQueue, currentSong, addSongsToQueue, getNextSong, consumeCurrentSong, clearQueue } = useSongQueue();
+    return <HomeInternal {...props} songQueue={songQueue} currentSong={currentSong} addSongsToQueue={addSongsToQueue} getNextSong={getNextSong} consumeCurrentSong={consumeCurrentSong} clearQueue={clearQueue} />;
 }
 
 class HomeInternal extends Component {
@@ -41,11 +41,23 @@ class HomeInternal extends Component {
     // hardcoded userId for simplicity
     const userId = localStorage.getItem('userId') || "test-user";
     localStorage.setItem('userId', userId);
-    this.setState({ userId }, this.loadNextSong);
+    this.setState({ userId });
+    
+    // Load the song from context if it exists, otherwise get next
+    const song = this.props.currentSong || this.props.getNextSong();
+    if (song) {
+      this.setState({ currentSong: song });
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.songQueue.length !== this.props.songQueue.length && !this.state.currentSong) {
+    // Sync current song from context if it changed
+    if (prevProps.currentSong !== this.props.currentSong && this.props.currentSong !== this.state.currentSong) {
+      this.setState({ currentSong: this.props.currentSong });
+    }
+    
+    // If queue length changed and we don't have a current song, load next
+    if (prevProps.songQueue.length !== this.props.songQueue.length && !this.state.currentSong && !this.props.currentSong) {
       this.loadNextSong();
     }
   }
@@ -153,6 +165,8 @@ class HomeInternal extends Component {
         body: JSON.stringify({ userId: userId, song: seenSong }),
     });
 
+    // Mark current song as consumed in context
+    this.props.consumeCurrentSong();
     this.loadNextSong();
   }
 
