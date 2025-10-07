@@ -51,6 +51,9 @@ export function NavMenu() {
                                     <NavLink tag={Link} className="text-light" to="/liked-songs">Liked Songs</NavLink>
                                 </NavItem>
                                 <NavItem>
+                                    <NavLink tag={Link} className="text-light" to="/profile">Profile</NavLink>
+                                </NavItem>
+                                <NavItem>
                                     <button className="btn btn-link text-light" onClick={handleLogout}>Logout</button>
                                 </NavItem>
                             </>

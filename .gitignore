@@ -140,3 +140,5 @@ coverage-final.json
 Data/users.json
 #Ignore seenSongs.json
 Data/seenSongs.json
+#Ignore appsettings.json because of secrets
+appsettings.json

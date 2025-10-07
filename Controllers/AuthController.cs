@@ -45,6 +45,8 @@ namespace Audiora.Controllers
 
             user.Id = Guid.NewGuid();
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            if (user.Genres == null)
+                user.Genres = new List<string>(); // Ensure not null
             users.Add(user);
             await WriteUsersToFile(users);
 
@@ -63,6 +65,55 @@ namespace Audiora.Controllers
             }
 
             return Ok(new { message = "Login successful", userId = foundUser.Id });
+        }
+
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUser([FromQuery] string userId)
+        {
+            var users = await ReadUsersFromFile();
+            var user = users.FirstOrDefault(u => u.Id.ToString() == userId);
+            if (user == null)
+                return NotFound();
+            return Ok(new {
+                genres = user.Genres ?? new List<string>(),
+                topSongs = user.TopSongs ?? new List<Audiora.Models.SongInfo>()
+            });
+        }
+
+        [HttpPost("update-genres")]
+        public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
+        {
+            var users = await ReadUsersFromFile();
+            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
+            if (user == null)
+                return NotFound();
+            user.Genres = req.Genres ?? new List<string>();
+            await WriteUsersToFile(users);
+            return Ok();
+        }
+
+        [HttpPost("update-top-songs")]
+        public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
+        {
+            var users = await ReadUsersFromFile();
+            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
+            if (user == null)
+                return NotFound();
+            user.TopSongs = req.TopSongs ?? new List<Audiora.Models.SongInfo>();
+            await WriteUsersToFile(users);
+            return Ok();
+        }
+
+        public class UpdateGenresRequest
+        {
+            public string UserId { get; set; }
+            public List<string> Genres { get; set; }
+        }
+
+        public class UpdateTopSongsRequest
+        {
+            public string UserId { get; set; }
+            public List<Audiora.Models.SongInfo> TopSongs { get; set; }
         }
     }
 }

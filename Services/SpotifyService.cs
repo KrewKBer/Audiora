@@ -89,49 +89,41 @@ namespace Audiora.Services
             }
         }
 
-        public async Task<RecommendationsResponse> GetRecommendations(string genre)
+        public async Task<RecommendationsResponse> GetRecommendations(List<string> genres)
         {
             try
             {
-                _logger.LogInformation($"GetRecommendations called with genre: {genre}");
+                var genreList = genres != null && genres.Count > 0 ? genres : new List<string> { "pop" };
+                _logger.LogInformation($"GetRecommendations called with genres: {string.Join(", ", genreList)}");
                 var client = await GetSpotifyClient();
                 _logger.LogInformation("SpotifyClient obtained successfully");
-                
-                // Since Client Credentials doesn't support recommendations endpoint,
-                // let's just return search results from various queries
-                _logger.LogInformation("Searching for popular tracks as alternative to recommendations...");
-                
-                var queries = new[] { 
-                    "top hits 2024", 
-                    "popular music", 
-                    "trending songs",
-                    "viral hits",
-                    "new releases"
-                };
-                
+
+                // Build queries based on genres
+                var queries = genreList.Select(g => $"top {g} hits").ToList();
+                if (queries.Count < 5)
+                {
+                    // Fill up to 5 queries with generic ones if not enough genres
+                    queries.AddRange(new[] { "popular music", "trending songs", "viral hits", "new releases" }
+                        .Where(q => !queries.Contains(q)));
+                }
+                queries = queries.Take(5).ToList();
+
                 var allTracks = new List<FullTrack>();
                 int tracksWithPreviewsCount = 0;
-                
-                foreach (var query in queries.Take(5))
+
+                foreach (var query in queries)
                 {
                     var searchResult = await client.Search.Item(new SearchRequest(SearchRequest.Types.Track, query));
                     if (searchResult.Tracks.Items != null && searchResult.Tracks.Items.Count > 0)
                     {
-                        // Get full track details for each track to ensure we have preview URLs
                         var trackIds = searchResult.Tracks.Items.Take(10).Select(t => t.Id).ToList();
-                        
                         _logger.LogInformation($"Fetching full details for {trackIds.Count} tracks from query '{query}'");
-                        
-                        // Fetch full track objects which should include preview URLs
                         var tracksRequest = new TracksRequest(trackIds);
                         var fullTracks = await client.Tracks.GetSeveral(tracksRequest);
-                        
                         allTracks.AddRange(fullTracks.Tracks);
                         var withPreviews = fullTracks.Tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
                         tracksWithPreviewsCount += withPreviews;
                         _logger.LogInformation($"Query '{query}': Got {fullTracks.Tracks.Count} full tracks, {withPreviews} with previews");
-                        
-                        // Log first track details for debugging
                         if (fullTracks.Tracks.Count > 0)
                         {
                             var firstTrack = fullTracks.Tracks[0];
@@ -139,37 +131,32 @@ namespace Audiora.Services
                         }
                     }
                 }
-                
+
                 _logger.LogInformation($"Collected {allTracks.Count} tracks ({tracksWithPreviewsCount} with previews) from search results");
-                
-                // If we don't have enough tracks, try getting some popular artists' top tracks
+
                 if (allTracks.Count < 30)
                 {
                     _logger.LogInformation("Getting more tracks from popular artists...");
-                    var popularArtistIds = new[] { 
+                    var popularArtistIds = new[] {
                         "06HL4z0CvFAxyc27GXpf02", // Taylor Swift
                         "3TVXtAsR1Inumwj472S9r4", // Drake
                         "1Xyo4u8uXC1ZmMpatF05PJ", // The Weeknd
                         "66CXWjxzNUsdJxJ2JdwvnR", // Ariana Grande
                         "4q3ewBCX7sLwd24euuV69X"  // Bad Bunny
                     };
-                    
+
                     foreach (var artistId in popularArtistIds.Take(3))
                     {
                         try
                         {
                             var topTracks = await client.Artists.GetTopTracks(artistId, new ArtistsTopTracksRequest("US"));
-                            
-                            // Fetch full details for these tracks too
                             var trackIds = topTracks.Tracks.Take(5).Select(t => t.Id).ToList();
                             var tracksRequest = new TracksRequest(trackIds);
                             var fullTracks = await client.Tracks.GetSeveral(tracksRequest);
-                            
                             allTracks.AddRange(fullTracks.Tracks);
                             var withPreviews = fullTracks.Tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
                             tracksWithPreviewsCount += withPreviews;
                             _logger.LogInformation($"Artist {artistId}: Got {fullTracks.Tracks.Count} tracks ({withPreviews} with previews)");
-                            
                             if (allTracks.Count >= 50) break;
                         }
                         catch (Exception ex)
@@ -178,25 +165,24 @@ namespace Audiora.Services
                         }
                     }
                 }
-                
+
                 _logger.LogInformation($"Total collected: {allTracks.Count} tracks ({tracksWithPreviewsCount} with previews)");
-                
+
                 if (allTracks.Count == 0)
                 {
                     throw new InvalidOperationException("Could not find any tracks.");
                 }
-                
+
                 if (tracksWithPreviewsCount == 0)
                 {
                     _logger.LogWarning("No preview URLs available for any tracks. This is likely due to regional restrictions. Songs will still be shown without audio previews.");
                 }
-                
-                // Create a mock RecommendationsResponse
+
                 var response = new RecommendationsResponse
                 {
                     Tracks = allTracks.Take(50).ToList()
                 };
-                
+
                 _logger.LogInformation($"Returning {response.Tracks.Count} tracks");
                 return response;
             }

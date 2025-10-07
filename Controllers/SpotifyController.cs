@@ -32,7 +32,7 @@ namespace Audiora.Controllers
             try
             {
                 var result = await _spotifyService.SearchTracks(query);
-                return Ok(result.Tracks);
+                return Ok(new { items = result.Tracks.Items });
             }
             catch (InvalidOperationException ex)
             {
@@ -68,17 +68,29 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("recommendations")]
-        public async Task<IActionResult> GetRecommendations(string genre = "pop")
+        public async Task<IActionResult> GetRecommendations([FromQuery] string userId)
         {
-            if (string.IsNullOrEmpty(genre))
+            if (string.IsNullOrEmpty(userId))
             {
-                genre = "pop"; // Default to pop if not provided
+                return BadRequest("UserId is required.");
             }
+            // Load user from file
+            var usersFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Data", "users.json");
+            if (!System.IO.File.Exists(usersFilePath))
+            {
+                return StatusCode(500, new { message = "User data not found." });
+            }
+            var json = await System.IO.File.ReadAllTextAsync(usersFilePath);
+            var users = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<Audiora.Models.User>>(json) ?? new System.Collections.Generic.List<Audiora.Models.User>();
+            var user = users.Find(u => u.Id.ToString() == userId);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found." });
+            }
+            var genres = user.Genres ?? new System.Collections.Generic.List<string> { "pop" };
             try
             {
-                var result = await _spotifyService.GetRecommendations(genre);
-                
-                // Log what we got
+                var result = await _spotifyService.GetRecommendations(genres);
                 Console.WriteLine($"Got {result.Tracks.Count} tracks from Spotify");
                 if (result.Tracks.Count > 0)
                 {
@@ -87,15 +99,12 @@ namespace Audiora.Controllers
                     Console.WriteLine($"First track ID: {firstTrack.Id}");
                     Console.WriteLine($"Preview URL: {firstTrack.PreviewUrl ?? "NULL"}");
                     Console.WriteLine($"Track Object Type: {firstTrack.GetType().Name}");
-                    
-                    // Check if it's a SimpleTrack vs FullTrack
                     if (firstTrack is FullTrack fullTrack)
                     {
                         Console.WriteLine("It's a FullTrack");
                         Console.WriteLine($"External URLs: {fullTrack.ExternalUrls?.Count ?? 0}");
                     }
                 }
-                
                 return Ok(result.Tracks);
             }
             catch (InvalidOperationException ex)
