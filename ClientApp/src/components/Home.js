@@ -259,10 +259,6 @@ class HomeInternal extends Component {
             ℹ️ Audio preview not available for this song (regional restriction)
           </p>
         )}
-        <div className="song-actions">
-          <button className="btn-like" onClick={this.handleLike}>Like</button>
-          <button className="btn-dislike" onClick={this.handleDislike}>Dislike</button>
-        </div>
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
         </p>
@@ -273,8 +269,7 @@ class HomeInternal extends Component {
     swipeWithAnimation(direction) {
         const { songQueue } = this.props;
         const { currentSong } = this.state;
-
-        // Check if there are songs available and a current song
+        
         if (!songQueue || songQueue.length === 0 || !currentSong) {
             return;
         }
@@ -306,20 +301,14 @@ class HomeInternal extends Component {
 
 
 render() {
-    const { loading } = this.state;
+    const { currentSong } = this.state;
     const { songQueue } = this.props;
-    const noMoreSongs = !songQueue || songQueue.length === 0;
+    const noMoreSongs = (!currentSong && (!songQueue || songQueue.length === 0));
     let contents = this.state.loading
         ? <div className="loading"><em>Loading...</em></div>
         : this.renderCurrentSong();
         
     /* temporarily removed effects  
-  render() {
-    const { mouse, loading } = this.state;
-    let contents = loading
-      ? <div className="loading"><em>Loading...</em></div>
-      : this.renderCurrentSong();
-
     const spotlightStyle = {
         background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
         transition: 'background 0.2s',
@@ -342,7 +331,6 @@ render() {
                 ref={this.cardRef}
                 key={this.state.currentSong?.id || 'empty'}
                 onSwipe={dir => {
-                   // if (this.state.currentSongIndex >= this.state.songs.length) return;
                     if (dir === 'right') this.handleLike();
                     if (dir === 'left') this.handleDislike();
                 }}
