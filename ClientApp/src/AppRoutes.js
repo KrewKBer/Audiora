@@ -4,6 +4,7 @@ import { Register } from "./components/Register";
 import PrivateRoute from "./components/PrivateRoute";
 import { LikedSongs } from "./components/LikedSongs";
 import { Search } from "./components/Search";
+import { Profile } from "./components/Profile";
 
 const AppRoutes = [
     {
@@ -29,6 +30,10 @@ const AppRoutes = [
             {
                 path: 'liked-songs',
                 element: <LikedSongs />
+            },
+            {
+                path: 'profile',
+                element: <Profile />
             }
         ]
     }

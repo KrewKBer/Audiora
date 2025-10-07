@@ -11,7 +11,7 @@ export function Register() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(credentials),
+            body: JSON.stringify(credentials), // credentials now includes genres
         });
 
         if (response.ok) {

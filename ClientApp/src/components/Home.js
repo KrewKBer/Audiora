@@ -129,22 +129,20 @@ class HomeInternal extends Component {
       // Check if credentials are stored in localStorage
       const clientId = localStorage.getItem('spotifyClientId');
       const clientSecret = localStorage.getItem('spotifyClientSecret');
-      
       if (!clientId || !clientSecret) {
         alert('Please configure Spotify credentials in the Search page first.');
         this.setState({ fetchingRandom: false });
         return;
       }
-
       // Configure credentials on backend
       await fetch('/spotify/configure', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ clientId, clientSecret })
       });
-
-      // Now fetch recommendations
-      const response = await fetch('/spotify/recommendations?genre=pop');
+      // Now fetch recommendations for this user
+      const { userId } = this.state;
+      const response = await fetch(`/spotify/recommendations?userId=${userId}`);
       if (!response.ok) {
         let errorMessage = `Failed to fetch random songs: ${response.status}`;
         try {
@@ -159,17 +157,14 @@ class HomeInternal extends Component {
       }
       const data = await response.json();
       console.log('Raw API response:', data);
-      
       // Extract tracks from the response
       const songs = data.items || data;
       console.log('Extracted songs:', songs);
       console.log('First song preview_url:', songs[0]?.preview_url);
-      
       if (!songs || songs.length === 0) {
         alert('No songs returned. Please try again or check your Spotify credentials.');
         return;
       }
-      
       this.props.addSongsToQueue(songs);
       if (!this.state.currentSong) {
         this.loadNextSong();
