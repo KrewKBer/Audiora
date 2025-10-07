@@ -1,0 +1,72 @@
+.search-content {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 15px;
+}
+
+.search-content h1,
+.search-content h3,
+.search-content p,
+.search-content label {
+  color: #f8f8f8;
+}
+
+.search-bar {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 20px;
+}
+
+.search-credentials {
+  margin-bottom: 16px;
+}
+
+.search-credentials input[type="text"],
+.search-credentials input[type="password"],
+.search-bar input[type="text"] {
+  padding: 6px 10px;
+  background: #222;
+  color: #eee;
+  border: 1px solid #555;
+  border-radius: 6px;
+}
+
+.search-credentials button,
+.search-bar button {
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.search-results {
+  margin-top: 10px;
+}
+
+.search-results .track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #333;
+}
+
+.search-results .track:last-child {
+  border-bottom: none;
+}
+
+.search-results .track-info {
+  display: flex;
+  flex-direction: column;
+  color: #eaeaea;
+}
+
+.search-results .track strong {
+  color: #ffffff;
+}
+
+.search-results .track span {
+  color: #cfcfcf;
+}
+
+.search-error {
+  color: #ff8080;
+}

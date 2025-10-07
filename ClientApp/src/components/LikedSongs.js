@@ -19,17 +19,19 @@ export class LikedSongs extends Component {
       <table className='table text-light' aria-labelledby="tableLabel">
         <thead>
           <tr className='liked-songs-content'>
+            <th>Album Art</th>
             <th>Title</th>
             <th>Artist</th>
-            <th>Genre</th>
           </tr>
         </thead>
         <tbody>
           {songs.map(song =>
             <tr key={song.id}>
-              <td>{song.title}</td>
+              <td>
+                {song.albumImageUrl && <img src={song.albumImageUrl} alt={song.name} width="50" />}
+              </td>
+              <td>{song.name}</td>
               <td>{song.artist}</td>
-              <td>{song.primaryGenre}</td>
             </tr>
           )}
         </tbody>
