@@ -45,11 +45,32 @@ class HomeInternal extends Component {
     
     // Check if there's a saved current song in localStorage
     const savedSongJson = localStorage.getItem('currentSong');
+    const { songQueue } = this.props;
+    
+    // Check if this is a fresh session (browser was reopened)
+    const hasActiveSession = sessionStorage.getItem('audioraSession');
+    if (!hasActiveSession) {
+      // Fresh session - clear any old saved songs
+      console.log('New session detected, clearing old saved song');
+      localStorage.removeItem('currentSong');
+      sessionStorage.setItem('audioraSession', 'active');
+      this.loadNextSong();
+      return;
+    }
+    
+    // Only restore saved song if there's an active queue OR if queue hasn't loaded yet
     if (savedSongJson) {
       try {
         const savedSong = JSON.parse(savedSongJson);
-        console.log('Restored song from localStorage:', savedSong);
-        this.setState({ currentSong: savedSong });
+        // Check if we have a queue - if empty and no saved song needed, clear it
+        if (songQueue.length === 0 && !savedSong) {
+          console.log('Queue is empty, clearing stale saved song');
+          localStorage.removeItem('currentSong');
+          this.setState({ currentSong: null });
+        } else {
+          console.log('Restored song from localStorage:', savedSong);
+          this.setState({ currentSong: savedSong });
+        }
       } catch (e) {
         console.error('Failed to parse saved song:', e);
         localStorage.removeItem('currentSong');
