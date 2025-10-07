@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react';
+import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
 
 const HomeComponent = (props) => {
@@ -20,6 +21,7 @@ class HomeInternal extends Component {
     this.togglePlayPause = this.togglePlayPause.bind(this);
     this.contentRef = createRef();
     this.audioRef = createRef();
+    this.cardRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
   }
 
@@ -36,6 +38,7 @@ class HomeInternal extends Component {
   }
 
   componentDidMount() {
+    // hardcoded userId for simplicity
     const userId = localStorage.getItem('userId') || "test-user";
     localStorage.setItem('userId', userId);
     this.setState({ userId }, this.loadNextSong);
@@ -256,10 +259,6 @@ class HomeInternal extends Component {
             ℹ️ Audio preview not available for this song (regional restriction)
           </p>
         )}
-        <div className="song-actions">
-          <button className="btn-like" onClick={this.handleLike}>Like</button>
-          <button className="btn-dislike" onClick={this.handleDislike}>Dislike</button>
-        </div>
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
         </p>
@@ -267,30 +266,100 @@ class HomeInternal extends Component {
     );
   }
 
-  render() {
-    const { mouse, loading } = this.state;
-    let contents = loading
-      ? <div className="loading"><em>Loading...</em></div>
-      : this.renderCurrentSong();
+    swipeWithAnimation(direction) {
+        const { songQueue } = this.props;
+        const { currentSong } = this.state;
+        
+        if (!songQueue || songQueue.length === 0 || !currentSong) {
+            return;
+        }
 
+        if (!this.cardRef.current || !this.contentRef.current) return;
+
+        const isLeft = direction === 'left';
+        const distance = isLeft ? -1000 : 1000;
+        const rotation = isLeft ? -15 : 15;
+        const element = this.contentRef.current;
+
+        element.style.transition = 'none';
+
+        requestAnimationFrame(() => {
+            element.style.transform = `translateX(${distance * 0.05}px) rotate(${rotation * 0.2}deg)`;
+
+            requestAnimationFrame(() => {
+                element.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+
+                element.style.transform = `translateX(${distance * 0.3}px) rotate(${rotation * 0.7}deg)`;
+
+                setTimeout(() => {
+                    this.cardRef.current.swipe(direction);
+                }, 150);
+            });
+        });
+    }
+
+
+
+render() {
+    const { currentSong } = this.state;
+    const { songQueue } = this.props;
+    const noMoreSongs = (!currentSong && (!songQueue || songQueue.length === 0));
+    let contents = this.state.loading
+        ? <div className="loading"><em>Loading...</em></div>
+        : this.renderCurrentSong();
+        
+    /* temporarily removed effects  
     const spotlightStyle = {
-      background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
-      transition: 'background 0.2s',
+        background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
+        transition: 'background 0.2s',
     };
 
+    const cardTransform =
+        hoverDir === 'left' ? 'translateX(-20px)' :
+            hoverDir === 'right' ? 'translateX(20px)' : 'none';*/
+
     return (
-      <div className="homepage-container">
-        <div
-          className="homepage-content spotlight-card"
-          ref={this.contentRef}
-          onMouseMove={this.handleMouseMove}
-          style={spotlightStyle}
-        >
-          <h1 className="homepage-title">Discover New Music</h1>
-          <button className="btn-reset" onClick={this.resetData}>Reset</button>
-          {contents}
+        <div className="homepage-container">
+            {noMoreSongs ? (
+                    <div className="homepage-content spotlight-card no-more-songs-card">
+                        <h1 className="homepage-title">Discover New Music</h1>
+                        <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                        {contents}
+                    </div>
+                ) : (
+            <TinderCard
+                ref={this.cardRef}
+                key={this.state.currentSong?.id || 'empty'}
+                onSwipe={dir => {
+                    if (dir === 'right') this.handleLike();
+                    if (dir === 'left') this.handleDislike();
+                }}
+                preventSwipe={['up', 'down']}
+                swipeRequirementType='position'
+                swipeThreshold={400}
+                flickOnSwipe={true}
+            >
+                <div
+                    className="homepage-content spotlight-card"
+                    ref={this.contentRef}
+                >
+                    <h1 className="homepage-title">Discover New Music</h1>
+                    <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                    {contents}
+                </div>
+            </TinderCard>
+            )}
+            <div className="homepage-actions">
+                <button
+                    className="btn-dislike"
+                    onClick={() => this.swipeWithAnimation('left')}
+                >Dislike</button>
+                <button
+                    className="btn-like"
+                    onClick={() => this.swipeWithAnimation('right')}
+                >Like</button>
+            </div>
         </div>
-      </div>
     );
   }
 }

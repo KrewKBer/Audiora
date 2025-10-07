@@ -55,11 +55,12 @@ code {
 }
 
 .homepage-container {
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #5d666f00 0%, #e0e7ff00 100%);
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5d666f00 0%, #e0e7ff00 100%);
 }
 
 .homepage-content {
@@ -72,6 +73,24 @@ code {
   text-align: center;
 }
 
+.homepage-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.swipe-container {
+    width: 480px;
+    height: 600px;
+    position: relative;
+}
+
+.card-container {
+    position: absolute;
+    width: 100%;
+}
 .homepage-content.spotlight-card {
   position: relative;
   background: #18181b;
@@ -110,6 +129,7 @@ code {
   border: none;
   padding: 0;
   margin: 0 auto;
+  transition: all 0.3s ease;  
 }
 .song-title {
   font-size: 1.4rem;
@@ -255,7 +275,9 @@ code {
   color: #fff;
   padding: 2.5rem 2rem;
   overflow: hidden;
-  transition: box-shadow 0.2s;
+  will-change: transform;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .spotlight-card .song-title {
   color: #ffffffdb;
