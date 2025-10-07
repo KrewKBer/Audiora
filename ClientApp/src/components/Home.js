@@ -3,8 +3,8 @@ import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
 
 const HomeComponent = (props) => {
-    const { songQueue, currentSong, addSongsToQueue, getNextSong, consumeCurrentSong, clearQueue } = useSongQueue();
-    return <HomeInternal {...props} songQueue={songQueue} currentSong={currentSong} addSongsToQueue={addSongsToQueue} getNextSong={getNextSong} consumeCurrentSong={consumeCurrentSong} clearQueue={clearQueue} />;
+    const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
+    return <HomeInternal {...props} songQueue={songQueue} addSongsToQueue={addSongsToQueue} getNextSong={getNextSong} clearQueue={clearQueue} />;
 }
 
 class HomeInternal extends Component {
@@ -43,21 +43,27 @@ class HomeInternal extends Component {
     localStorage.setItem('userId', userId);
     this.setState({ userId });
     
-    // Load the song from context if it exists, otherwise get next
-    const song = this.props.currentSong || this.props.getNextSong();
-    if (song) {
-      this.setState({ currentSong: song });
+    // Check if there's a saved current song in localStorage
+    const savedSongJson = localStorage.getItem('currentSong');
+    if (savedSongJson) {
+      try {
+        const savedSong = JSON.parse(savedSongJson);
+        console.log('Restored song from localStorage:', savedSong);
+        this.setState({ currentSong: savedSong });
+      } catch (e) {
+        console.error('Failed to parse saved song:', e);
+        localStorage.removeItem('currentSong');
+        this.loadNextSong();
+      }
+    } else {
+      // No saved song, load next from queue
+      this.loadNextSong();
     }
   }
 
   componentDidUpdate(prevProps) {
-    // Sync current song from context if it changed
-    if (prevProps.currentSong !== this.props.currentSong && this.props.currentSong !== this.state.currentSong) {
-      this.setState({ currentSong: this.props.currentSong });
-    }
-    
     // If queue length changed and we don't have a current song, load next
-    if (prevProps.songQueue.length !== this.props.songQueue.length && !this.state.currentSong && !this.props.currentSong) {
+    if (prevProps.songQueue.length !== this.props.songQueue.length && !this.state.currentSong) {
       this.loadNextSong();
     }
   }
@@ -66,7 +72,17 @@ class HomeInternal extends Component {
     const nextSong = this.props.getNextSong();
     console.log('Loading next song:', nextSong);
     console.log('Preview URL:', nextSong?.preview_url);
-    this.setState({ currentSong: nextSong, isPlaying: false });
+    
+    if (nextSong) {
+      // Save to localStorage so it persists across tab switches
+      localStorage.setItem('currentSong', JSON.stringify(nextSong));
+      this.setState({ currentSong: nextSong, isPlaying: false });
+    } else {
+      // No more songs
+      localStorage.removeItem('currentSong');
+      this.setState({ currentSong: null, isPlaying: false });
+    }
+    
     // Stop any playing audio
     if (this.audioRef.current) {
       this.audioRef.current.pause();
@@ -165,8 +181,8 @@ class HomeInternal extends Component {
         body: JSON.stringify({ userId: userId, song: seenSong }),
     });
 
-    // Mark current song as consumed in context
-    this.props.consumeCurrentSong();
+    // Remove saved song from localStorage since we're moving to the next one
+    localStorage.removeItem('currentSong');
     this.loadNextSong();
   }
 
@@ -193,7 +209,8 @@ class HomeInternal extends Component {
       // Clear the song queue
       this.props.clearQueue();
       
-      // Reset current song
+      // Reset current song and clear from localStorage
+      localStorage.removeItem('currentSong');
       this.setState({ currentSong: null });
       
       alert('Successfully reset! Queue cleared and all song data deleted.');

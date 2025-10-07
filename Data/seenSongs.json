@@ -15,6 +15,13 @@
       "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f5ec3a9d78531f2f926201d1"
     },
     {
+      "Id": "4UQijskfH7GRycjz77buzW",
+      "Liked": true,
+      "Name": "Yummy - Righteous Remix",
+      "Artist": "Ayesha Erotica, Mo Beats",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273cadebdfaa90b4d762ff93823"
+    },
+    {
       "Id": "2BAF4oAFCe3BPnrdkA8tgo",
       "Liked": true,
       "Name": "Viva La Vida",
@@ -26,6 +33,34 @@
       "Liked": false,
       "Name": "Lose Control",
       "Artist": "Teddy Swims",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f5ec3a9d78531f2f926201d1"
+    },
+    {
+      "Id": "4UQijskfH7GRycjz77buzW",
+      "Liked": true,
+      "Name": "Yummy - Righteous Remix",
+      "Artist": "Ayesha Erotica, Mo Beats",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273cadebdfaa90b4d762ff93823"
+    },
+    {
+      "Id": "0KHeHgtMCHLFPf9bpNEIrJ",
+      "Liked": false,
+      "Name": "Falling Down - Bonus Track",
+      "Artist": "Lil Peep, XXXTENTACION",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b2734d902bfbdfa274d167af7d10"
+    },
+    {
+      "Id": "1dNRJAZBll7KW3zLYvHf0W",
+      "Liked": true,
+      "Name": "Slow Blues",
+      "Artist": "Ed Alstrom",
+      "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b2737dc3b442281f13cedd521642"
+    },
+    {
+      "Id": "6DoqCOh76BzLdQGofUmiTh",
+      "Liked": false,
+      "Name": "Vois sur ton chemin - Techno Mix",
+      "Artist": "BENNETT",
       "AlbumImageUrl": "https://i.scdn.co/image/ab67616d0000b273f5ec3a9d78531f2f926201d1"
     }
   ]
