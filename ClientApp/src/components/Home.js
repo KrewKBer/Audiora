@@ -271,28 +271,31 @@ class HomeInternal extends Component {
   }
 
     swipeWithAnimation(direction) {
-        const { songs, currentSongIndex } = this.state;
-        
-        if (currentSongIndex >= songs.length) {
-            return; 
+        const { songQueue } = this.props;
+        const { currentSong } = this.state;
+
+        // Check if there are songs available and a current song
+        if (!songQueue || songQueue.length === 0 || !currentSong) {
+            return;
         }
+
         if (!this.cardRef.current || !this.contentRef.current) return;
 
         const isLeft = direction === 'left';
         const distance = isLeft ? -1000 : 1000;
         const rotation = isLeft ? -15 : 15;
         const element = this.contentRef.current;
-        
+
         element.style.transition = 'none';
-        
+
         requestAnimationFrame(() => {
             element.style.transform = `translateX(${distance * 0.05}px) rotate(${rotation * 0.2}deg)`;
 
             requestAnimationFrame(() => {
                 element.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                
+
                 element.style.transform = `translateX(${distance * 0.3}px) rotate(${rotation * 0.7}deg)`;
-                
+
                 setTimeout(() => {
                     this.cardRef.current.swipe(direction);
                 }, 150);
@@ -301,9 +304,11 @@ class HomeInternal extends Component {
     }
 
 
+
 render() {
-    const { songs, currentSongIndex, mouse, hoverDir } = this.state;
-    const noMoreSongs = currentSongIndex >= songs.length;
+    const { loading } = this.state;
+    const { songQueue } = this.props;
+    const noMoreSongs = !songQueue || songQueue.length === 0;
     let contents = this.state.loading
         ? <div className="loading"><em>Loading...</em></div>
         : this.renderCurrentSong();
@@ -335,9 +340,9 @@ render() {
                 ) : (
             <TinderCard
                 ref={this.cardRef}
-                key={this.state.currentSongIndex < this.state.songs.length ? this.state.currentSongIndex : 'no-more-songs'}
+                key={this.state.currentSong?.id || 'empty'}
                 onSwipe={dir => {
-                    if (this.state.currentSongIndex >= this.state.songs.length) return;
+                   // if (this.state.currentSongIndex >= this.state.songs.length) return;
                     if (dir === 'right') this.handleLike();
                     if (dir === 'left') this.handleDislike();
                 }}
