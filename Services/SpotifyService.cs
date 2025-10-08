@@ -93,98 +93,156 @@ namespace Audiora.Services
         {
             try
             {
-                var genreList = genres != null && genres.Count > 0 ? genres : new List<string> { "pop" };
-                _logger.LogInformation($"GetRecommendations called with genres: {string.Join(", ", genreList)}");
                 var client = await GetSpotifyClient();
-                _logger.LogInformation("SpotifyClient obtained successfully");
+                var userGenres = (genres ?? new List<string>()).Where(g => !string.IsNullOrWhiteSpace(g)).ToList();
+                if (userGenres.Count == 0) userGenres = new List<string> { "pop" };
+                _logger.LogInformation($"GetRecommendations called with user genres: {string.Join(", ", userGenres)}");
 
-                // Build queries based on genres
-                var queries = genreList.Select(g => $"top {g} hits").ToList();
+                // Map user-friendly genres to Spotify seed genres
+                var mapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { "hip-hop", "hip-hop" },
+                    { "hip hop", "hip-hop" },
+                    { "r&b", "r-n-b" },
+                    { "rnb", "r-n-b" },
+                    { "k-pop", "k-pop" },
+                    { "kpop", "k-pop" },
+                    { "edm", "edm" },
+                    { "electronic", "electronic" },
+                    { "classical", "classical" },
+                    { "jazz", "jazz" },
+                    { "rock", "rock" },
+                    { "pop", "pop" },
+                    { "metal", "metal" },
+                    { "blues", "blues" },
+                    { "folk", "folk" },
+                    { "latin", "latin" },
+                    { "soul", "soul" },
+                    { "punk", "punk" },
+                    { "indie", "indie-pop" },
+                    { "reggae", "reggae" },
+                    { "funk", "funk" },
+                    { "disco", "disco" },
+                    { "country", "country" },
+                    { "rb", "r-n-b" },
+                    { "rap", "rap" },
+                    { "alternative", "alt-rock" },
+                    { "lithuanian", "lithuanian" }
+                };
+
+                // Normalize user genres and map
+                var normalized = userGenres
+                    .Select(g => g.Trim())
+                    .Select(g => mapping.ContainsKey(g) ? mapping[g] : g.ToLowerInvariant())
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                // Intersect with Spotify available seed genres (local list to avoid API errors)
+                var availableSeeds = new[]
+                {
+                    "pop","rock","hip-hop","rap","r-n-b","edm","electronic","classical","jazz","metal","blues","folk","latin","soul","punk","indie-pop","reggae","funk","disco","country","k-pop","alt-rock"
+                };
+                var seedSet = new HashSet<string>(availableSeeds, StringComparer.OrdinalIgnoreCase);
+                var seedGenres = normalized.Where(g => seedSet.Contains(g)).Take(5).ToList();
+
+                if (seedGenres.Count > 0)
+                {
+                    _logger.LogInformation($"Using seed genres for recommendations: {string.Join(", ", seedGenres)}");
+                    try
+                    {
+                        var recReq = new RecommendationsRequest
+                        {
+                            Limit = 50
+                        };
+                        foreach (var g in seedGenres)
+                        {
+                            recReq.SeedGenres.Add(g);
+                        }
+                        var recs = await client.Browse.GetRecommendations(recReq);
+                        if (recs.Tracks != null && recs.Tracks.Count > 0)
+                        {
+                            return recs;
+                        }
+                        _logger.LogWarning("Seed-genre recommendations returned no tracks; falling back to search-based strategy.");
+                    }
+                    catch (APIException ex)
+                    {
+                        _logger.LogWarning(ex, $"Seed-genre recommendations failed (Status: {ex.Response?.StatusCode}). Falling back to search-based strategy.");
+                        // Continue to fallback
+                    }
+                }
+
+                // Fallback: search-based strategy using genres in query text
+                var queries = new List<string>();
+                var genreQueryTemplates = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { "pop", new[] { "popular pop 2025", "best pop songs 2025", "top pop hits", "global pop hits" } },
+                    { "rock", new[] { "popular rock 2025", "best rock songs 2025", "classic rock hits", "modern rock hits" } },
+                    { "hip-hop", new[] { "popular hip hop 2025", "best hip hop songs 2025", "hip hop bangers", "trap hits" } },
+                    { "rap", new[] { "popular rap 2025", "best rap songs 2025", "rap bangers", "underground rap hits" } },
+                    { "r-n-b", new[] { "popular rnb 2025", "best r&b songs 2025", "r&b slow jams", "contemporary r&b" } },
+                    { "edm", new[] { "popular edm 2025", "festival edm 2025", "edm bangers", "progressive house hits" } },
+                    { "electronic", new[] { "popular electronic 2025", "electronic hits", "downtempo electronic", "electro pop 2025" } },
+                    { "classical", new[] { "classical favorites", "famous classical pieces", "orchestral masterpieces", "piano classics" } },
+                    { "jazz", new[] { "popular jazz 2025", "best jazz standards", "modern jazz", "smooth jazz hits" } },
+                    { "metal", new[] { "popular metal 2025", "best metal songs 2025", "heavy metal hits", "metalcore hits" } },
+                    { "blues", new[] { "popular blues", "best blues songs", "electric blues", "delta blues classics" } },
+                    { "folk", new[] { "popular folk 2025", "best folk songs", "indie folk", "acoustic folk" } },
+                    { "latin", new[] { "popular latin 2025", "best reggaeton 2025", "latin pop hits", "bachata hits" } },
+                    { "soul", new[] { "popular soul", "neo soul 2025", "classic soul hits", "motown hits" } },
+                    { "punk", new[] { "popular punk 2025", "punk rock hits", "pop punk hits", "hardcore punk" } },
+                    { "indie-pop", new[] { "popular indie 2025", "indie pop hits", "bedroom pop", "indie anthems" } },
+                    { "reggae", new[] { "popular reggae", "roots reggae classics", "modern reggae", "dancehall hits" } },
+                    { "funk", new[] { "popular funk", "funk classics", "nu funk", "funk grooves" } },
+                    { "disco", new[] { "popular disco", "disco classics", "nu disco", "70s disco hits" } },
+                    { "country", new[] { "popular country 2025", "best country songs 2025", "modern country hits", "classic country" } },
+                    { "k-pop", new[] { "popular k-pop 2025", "kpop hits 2025", "k-pop boy groups", "k-pop girl groups" } },
+                    { "alt-rock", new[] { "popular alternative 2025", "alt rock hits", "indie rock 2025", "90s alternative classics" } },
+                    { "alternative", new[] { "popular alternative 2025", "alt rock hits", "indie rock 2025", "alternative anthems" } },
+                    { "indie", new[] { "popular indie 2025", "indie hits 2025", "indie rock 2025", "indie pop 2025" } },
+                    { "lithuanian", new[] { "Top Hits Lithuania", "Lithuanian pop", "Lithuanian music", "Lietuviška muzika", "Lietuva top dainos" } }
+                };
+
+                foreach (var g in userGenres)
+                {
+                    var key = mapping.ContainsKey(g) ? mapping[g] : g.ToLowerInvariant();
+                    if (genreQueryTemplates.TryGetValue(key, out var templates))
+                    {
+                        queries.AddRange(templates);
+                    }
+                    else
+                    {
+                        queries.AddRange(new[] { $"popular {g} 2025", $"best {g} songs 2025", $"top {g} hits", $"{g} classics" });
+                    }
+                }
                 if (queries.Count < 5)
                 {
-                    // Fill up to 5 queries with generic ones if not enough genres
                     queries.AddRange(new[] { "popular music", "trending songs", "viral hits", "new releases" }
                         .Where(q => !queries.Contains(q)));
                 }
-                queries = queries.Take(5).ToList();
+                queries = queries.Distinct(StringComparer.OrdinalIgnoreCase).Take(8).ToList();
 
                 var allTracks = new List<FullTrack>();
                 int tracksWithPreviewsCount = 0;
-
                 foreach (var query in queries)
                 {
                     var searchResult = await client.Search.Item(new SearchRequest(SearchRequest.Types.Track, query));
                     if (searchResult.Tracks.Items != null && searchResult.Tracks.Items.Count > 0)
                     {
                         var trackIds = searchResult.Tracks.Items.Take(10).Select(t => t.Id).ToList();
-                        _logger.LogInformation($"Fetching full details for {trackIds.Count} tracks from query '{query}'");
                         var tracksRequest = new TracksRequest(trackIds);
                         var fullTracks = await client.Tracks.GetSeveral(tracksRequest);
                         allTracks.AddRange(fullTracks.Tracks);
-                        var withPreviews = fullTracks.Tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
-                        tracksWithPreviewsCount += withPreviews;
-                        _logger.LogInformation($"Query '{query}': Got {fullTracks.Tracks.Count} full tracks, {withPreviews} with previews");
-                        if (fullTracks.Tracks.Count > 0)
-                        {
-                            var firstTrack = fullTracks.Tracks[0];
-                            _logger.LogInformation($"  Example: '{firstTrack.Name}' - PreviewUrl: {(string.IsNullOrEmpty(firstTrack.PreviewUrl) ? "NULL" : "EXISTS")}");
-                        }
+                        tracksWithPreviewsCount += fullTracks.Tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
                     }
                 }
-
-                _logger.LogInformation($"Collected {allTracks.Count} tracks ({tracksWithPreviewsCount} with previews) from search results");
-
-                if (allTracks.Count < 30)
-                {
-                    _logger.LogInformation("Getting more tracks from popular artists...");
-                    var popularArtistIds = new[] {
-                        "06HL4z0CvFAxyc27GXpf02", // Taylor Swift
-                        "3TVXtAsR1Inumwj472S9r4", // Drake
-                        "1Xyo4u8uXC1ZmMpatF05PJ", // The Weeknd
-                        "66CXWjxzNUsdJxJ2JdwvnR", // Ariana Grande
-                        "4q3ewBCX7sLwd24euuV69X"  // Bad Bunny
-                    };
-
-                    foreach (var artistId in popularArtistIds.Take(3))
-                    {
-                        try
-                        {
-                            var topTracks = await client.Artists.GetTopTracks(artistId, new ArtistsTopTracksRequest("US"));
-                            var trackIds = topTracks.Tracks.Take(5).Select(t => t.Id).ToList();
-                            var tracksRequest = new TracksRequest(trackIds);
-                            var fullTracks = await client.Tracks.GetSeveral(tracksRequest);
-                            allTracks.AddRange(fullTracks.Tracks);
-                            var withPreviews = fullTracks.Tracks.Count(t => !string.IsNullOrEmpty(t.PreviewUrl));
-                            tracksWithPreviewsCount += withPreviews;
-                            _logger.LogInformation($"Artist {artistId}: Got {fullTracks.Tracks.Count} tracks ({withPreviews} with previews)");
-                            if (allTracks.Count >= 50) break;
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogWarning(ex, $"Failed to get top tracks for artist {artistId}");
-                        }
-                    }
-                }
-
-                _logger.LogInformation($"Total collected: {allTracks.Count} tracks ({tracksWithPreviewsCount} with previews)");
 
                 if (allTracks.Count == 0)
                 {
                     throw new InvalidOperationException("Could not find any tracks.");
                 }
 
-                if (tracksWithPreviewsCount == 0)
-                {
-                    _logger.LogWarning("No preview URLs available for any tracks. This is likely due to regional restrictions. Songs will still be shown without audio previews.");
-                }
-
-                var response = new RecommendationsResponse
-                {
-                    Tracks = allTracks.Take(50).ToList()
-                };
-
-                _logger.LogInformation($"Returning {response.Tracks.Count} tracks");
-                return response;
+                return new RecommendationsResponse { Tracks = allTracks.Take(50).ToList() };
             }
             catch (APIUnauthorizedException ex)
             {

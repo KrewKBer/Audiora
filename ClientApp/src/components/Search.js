@@ -52,7 +52,7 @@ class SearchInternal extends Component {
     const { searchResults, isSearching, error } = this.state;
 
     if (isSearching) {
-      return <p><em>Searching...</em></p>;
+      return <p><span className="spinner spinner-dark"></span>Searching...</p>;
     }
 
     if (error) {
@@ -83,6 +83,9 @@ class SearchInternal extends Component {
   render() {
     return (
       <div className="search-content">
+        {this.state.isSearching && (
+          <div className="page-loader-overlay"><div className="page-loader"></div></div>
+        )}
         <h1>Song Search</h1>
         <form onSubmit={this.handleSearch} className="search-bar">
           <input
