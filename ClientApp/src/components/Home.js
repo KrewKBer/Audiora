@@ -243,7 +243,7 @@ class HomeInternal extends Component {
     if (!currentSong && songQueue.length === 0) {
       return (
         <div>
-          <p className="no-songs">No songs in queue. Add songs from the Search page or get random recommendations!</p>
+          <p className="no-songs" color="white">No songs in queue. Add songs from the Search page or get random recommendations!</p>
           <button 
             className="btn-random" 
             onClick={this.handleGetRandomSongs}
