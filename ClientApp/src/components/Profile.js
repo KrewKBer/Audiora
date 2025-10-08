@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import './Profile.css';
 
 const GENRES = [
-    'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'K-Pop', 'EDM', 'Funk', 'Disco'
+    'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
 ];
 
 export function Profile() {
