@@ -249,14 +249,14 @@ class HomeInternal extends Component {
             onClick={this.handleGetRandomSongs}
             disabled={fetchingRandom}
           >
-            {fetchingRandom ? 'Loading...' : 'Get 25 Random Songs'}
+            {fetchingRandom ? (<><span className="spinner spinner-sm"></span>Loading...</>) : 'Get 25 Random Songs'}
           </button>
         </div>
       );
     }
 
     if (!currentSong) {
-      return <p className="no-songs">Loading next song...</p>;
+      return <div className="loading"><span className="spinner"></span>Loading next song...</div>;
     }
 
     return (
@@ -367,6 +367,9 @@ render() {
 
     return (
         <div className="homepage-container">
+            {this.state.fetchingRandom && (
+                <div className="page-loader-overlay"><div className="page-loader"></div></div>
+            )}
             {noMoreSongs ? (
                     <div className="homepage-content spotlight-card no-more-songs-card">
                         <h1 className="homepage-title">Discover New Music</h1>
