@@ -283,6 +283,10 @@ code {
   will-change: transform, box-shadow;
   transform-origin: center;
   transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 /* Subtle gradient edge glow */
@@ -359,6 +363,12 @@ code {
 .spotlight-card .btn-dislike:hover {
   background: #ef4444;
   color: #fff;
+}
+
+.spotlight-card img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 /* Title glow for better integration */
