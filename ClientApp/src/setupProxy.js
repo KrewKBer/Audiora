@@ -1,30 +1,21 @@
+
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const { env } = require('process');
 
-const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-  env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:44428';
-
-const context = [
-  "/auth",
-  "/songs",
-  "/api/user-songs",
-  "/spotify"
-];
-
-const onError = (err, req, resp, target) => {
-    console.error(`${err.message}`);
-}
+const target = process.env.REACT_APP_BACKEND_URL || 'https://localhost:7265';
+console.log('[proxy] target:', target);
 
 module.exports = function (app) {
-  const appProxy = createProxyMiddleware(context, {
-    proxyTimeout: 10000,
-    target: target,
-    onError: onError,
-    secure: false,
-    headers: {
-      Connection: 'Keep-Alive'
-    }
-  });
+    const appProxy = createProxyMiddleware(
+        ['/auth', '/songs', '/api', '/roomHub', '/spotify'],
+        {
+            target,
+            changeOrigin: true,
+            secure: false,     
+            ws: true,
+            logLevel: 'debug'
+        }
+    );
 
-  app.use(appProxy);
+    app.use(appProxy);
+    app.on('upgrade', appProxy.upgrade);
 };

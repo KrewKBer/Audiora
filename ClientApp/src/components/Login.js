@@ -6,19 +6,18 @@ export function Login() {
     const navigate = useNavigate();
 
     const handleLogin = async (credentials) => {
-        const response = await fetch('auth/login', {
+        const response = await fetch('/auth/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
         });
 
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('userId', data.userId);
+            localStorage.setItem('username', data.username || credentials.username);
             window.dispatchEvent(new Event('storage'));
-            navigate('/');
+            navigate('/rooms');
         } else {
             const errorText = await response.text();
             throw new Error(errorText || 'Login failed');

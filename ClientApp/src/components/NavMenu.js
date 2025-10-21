@@ -28,6 +28,7 @@ export function NavMenu() {
 
     const handleLogout = () => {
         localStorage.removeItem('userId');
+        localStorage.removeItem('username');
         setIsLoggedIn(false);
         navigate('/login');
     };
@@ -41,6 +42,9 @@ export function NavMenu() {
                     <ul className="navbar-nav flex-grow">
                         <NavItem>
                             <NavLink tag={Link} className="text-light" to="/">Home</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} className="text-light" to="/rooms">Rooms</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink tag={Link} className="text-light" to="/search">Search</NavLink>
