@@ -9,12 +9,12 @@ namespace Audiora.Controllers;
 public class RoomController : ControllerBase
 {
     private readonly RoomStore _roomStore;
-    
-    private static readonly List<ChatMessage> _messages = new();
+    private readonly ChatMessageStore _chatMessageStore;
 
-    public RoomController(RoomStore roomStore)
+    public RoomController(RoomStore roomStore, ChatMessageStore chatMessageStore)
     {
         _roomStore = roomStore;
+        _chatMessageStore = chatMessageStore;
     }
 
     [HttpPost]
@@ -82,28 +82,29 @@ public class RoomController : ControllerBase
     }
 
     [HttpGet("{roomId}/messages")]
-    public IActionResult GetMessages(string roomId)
+    public async Task<IActionResult> GetMessages(string roomId)
     {
-        return Ok(_messages.Where(m => m.RoomId == roomId).OrderBy(m => m.Timestamp));
+        var messages = await _chatMessageStore.GetMessagesAsync(roomId);
+        return Ok(messages);
     }
 }
 
 public class CreateRoomRequest
 {
-    public string Name { get; set; }
-    public string UserId { get; set; }
+    public required string Name { get; set; }
+    public required string UserId { get; set; }
     public bool IsPrivate { get; set; }
     public string? Password { get; set; }
 }
 
 public class JoinRoomRequest
 {
-    public string UserId { get; set; }
+    public required string UserId { get; set; }
     public string? Password { get; set; }
 }
 
 public class VoteRequest
 {
-    public string UserId { get; set; }
+    public required string UserId { get; set; }
     public bool IsLike { get; set; }
 }

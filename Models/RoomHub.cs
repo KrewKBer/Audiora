@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
+using Audiora.Services;
 
 namespace Audiora.Models;
 
@@ -7,6 +8,12 @@ public class RoomHub : Hub
 {
     private static readonly ConcurrentDictionary<string, HashSet<string>> _roomConnections = new();
     private static readonly ConcurrentDictionary<string, string> _connectionToRoom = new();
+    private readonly ChatMessageStore _chatMessageStore;
+
+    public RoomHub(ChatMessageStore chatMessageStore)
+    {
+        _chatMessageStore = chatMessageStore;
+    }
 
     public async Task JoinRoom(string roomId, string userId, string username)
     {
@@ -40,8 +47,20 @@ public class RoomHub : Hub
         {
             throw new HubException("Connection not in valid state for this room");
         }
+
+        var chatMessage = new ChatMessage
+        {
+            RoomId = roomId,
+            UserId = userId,
+            Username = username,
+            Message = message,
+            Timestamp = DateTime.UtcNow
+        };
+
+        // Save message to persistent storage
+        await _chatMessageStore.AddMessageAsync(chatMessage);
         
-        await Clients.Group(roomId).SendAsync("ReceiveMessage", userId, username, message, DateTime.UtcNow);
+        await Clients.Group(roomId).SendAsync("ReceiveMessage", userId, username, message, chatMessage.Timestamp);
     }
 
     public async Task AddSong(string roomId, object song)
