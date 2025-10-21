@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "bb5baa0c-3216-4006-8ac4-03fa9701a61a",
+    "RoomId": "e568f0b9-5677-444e-b4b6-fa0ef3ea191f",
+    "UserId": "3cfba7e1-52be-4267-ba4b-16812298155e",
+    "Username": "Krabas",
+    "Message": "saved message!",
+    "Timestamp": "2025-10-21T18:11:15.2076634Z"
+  },
+  {
+    "Id": "ad12b366-4bf2-46fa-9e48-363b19022a6f",
+    "RoomId": "e568f0b9-5677-444e-b4b6-fa0ef3ea191f",
+    "UserId": "3cfba7e1-52be-4267-ba4b-16812298155e",
+    "Username": "Krabas",
+    "Message": "Testing saved message from Krabas",
+    "Timestamp": "2025-10-21T18:13:02.0227909Z"
+  },
+  {
+    "Id": "378817f6-4ab5-40ff-b8ba-5bba7891a477",
+    "RoomId": "e568f0b9-5677-444e-b4b6-fa0ef3ea191f",
+    "UserId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+    "Username": "admin",
+    "Message": "Testing saved message from admin",
+    "Timestamp": "2025-10-21T18:13:37.844233Z"
+  }
+]

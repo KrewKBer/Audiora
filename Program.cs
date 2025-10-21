@@ -11,6 +11,7 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.AddSingleton<SpotifyService>();
 builder.Services.AddSingleton<RoomStore>();
+builder.Services.AddSingleton<ChatMessageStore>();
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
