@@ -39,9 +39,12 @@ class HomeInternal extends Component {
 
   componentDidMount() {
     // hardcoded userId for simplicity
-    const userId = localStorage.getItem('userId') || "test-user";
-    localStorage.setItem('userId', userId);
-    this.setState({ userId });
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+          window.location.href = '/login';
+          return;
+      }
+      this.setState({ userId });
     
     // Check if there's a saved current song in localStorage
     const savedSongJson = localStorage.getItem('currentSong');

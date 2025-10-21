@@ -46,11 +46,11 @@ namespace Audiora.Controllers
             user.Id = Guid.NewGuid();
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             if (user.Genres == null)
-                user.Genres = new List<string>(); // Ensure not null
+                user.Genres = new List<string>();
             users.Add(user);
             await WriteUsersToFile(users);
 
-            return Ok(new { message = "User registered successfully", userId = user.Id });
+            return Ok(new { message = "User registered successfully", userId = user.Id, username = user.Username });
         }
 
         [HttpPost("login")]
@@ -64,7 +64,7 @@ namespace Audiora.Controllers
                 return Unauthorized("Invalid credentials.");
             }
 
-            return Ok(new { message = "Login successful", userId = foundUser.Id });
+            return Ok(new { message = "Login successful", userId = foundUser.Id, username = foundUser.Username });
         }
 
         [HttpGet("user")]
@@ -74,34 +74,13 @@ namespace Audiora.Controllers
             var user = users.FirstOrDefault(u => u.Id.ToString() == userId);
             if (user == null)
                 return NotFound();
-            return Ok(new {
+            return Ok(new
+            {
+                id = user.Id,
+                username = user.Username,
                 genres = user.Genres ?? new List<string>(),
                 topSongs = user.TopSongs ?? new List<Audiora.Models.SongInfo>()
             });
-        }
-
-        [HttpPost("update-genres")]
-        public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
-        {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
-            if (user == null)
-                return NotFound();
-            user.Genres = req.Genres ?? new List<string>();
-            await WriteUsersToFile(users);
-            return Ok();
-        }
-
-        [HttpPost("update-top-songs")]
-        public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
-        {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
-            if (user == null)
-                return NotFound();
-            user.TopSongs = req.TopSongs ?? new List<Audiora.Models.SongInfo>();
-            await WriteUsersToFile(users);
-            return Ok();
         }
 
         public class UpdateGenresRequest

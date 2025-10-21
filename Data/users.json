@@ -10,7 +10,9 @@
     "Id": "57209df8-dd67-4a46-bd13-c11a35ebda18",
     "Username": "admin",
     "Password": "$2a$11$bkFckjPGn.uwKdgs3LfpDe6nWPZSAmTmwiCHli2hnUYwfd2J.yLGC",
-    "Genres": [],
+    "Genres": [
+      "Metal"
+    ],
     "TopSongs": [
       {
         "Id": "5hM5arv9KDbCHS0k9uqwjr",
@@ -51,6 +53,13 @@
     "Username": "mazvydas",
     "Password": "$2a$11$hlvcLSEgqhy40EW19zFluuYfga5NppvEOq6TH9QMFgJEfgqO5AJqi",
     "Genres": null,
+    "TopSongs": null
+  },
+  {
+    "Id": "9ac4d2f4-4b25-4e02-9dd4-9bc13e3121f9",
+    "Username": "bomba",
+    "Password": "$2a$11$ENBiZeprNtWv7TJNvQSbxe6ew8HX7VyZsceENjmYHQUH.c2Yrem0q",
+    "Genres": [],
     "TopSongs": null
   }
 ]

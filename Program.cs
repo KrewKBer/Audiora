@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Audiora.Models;
 using Audiora.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddSingleton<SpotifyService>();
+builder.Services.AddSingleton<RoomStore>();
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
@@ -17,23 +19,23 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
 
+builder.Services.AddSignalR(o => { o.EnableDetailedErrors = true; });
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
+app.MapControllers();
+app.MapHub<RoomHub>("/roomHub");
 app.MapFallbackToFile("index.html");
 
 app.Run();

@@ -1,0 +1,27 @@
+[
+  {
+    "Id": "e568f0b9-5677-444e-b4b6-fa0ef3ea191f",
+    "Name": "test1",
+    "HostUserId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+    "MemberUserIds": [
+      "57209df8-dd67-4a46-bd13-c11a35ebda18",
+      "9ac4d2f4-4b25-4e02-9dd4-9bc13e3121f9"
+    ],
+    "Songs": [],
+    "CreatedAt": "2025-10-21T17:08:59.2245427Z",
+    "IsPrivate": false,
+    "PasswordHash": null
+  },
+  {
+    "Id": "394ab55b-36a2-4d09-97f4-a817ddf741c1",
+    "Name": "pass:123",
+    "HostUserId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+    "MemberUserIds": [
+      "57209df8-dd67-4a46-bd13-c11a35ebda18"
+    ],
+    "Songs": [],
+    "CreatedAt": "2025-10-21T17:13:55.2889417Z",
+    "IsPrivate": true,
+    "PasswordHash": "$2a$11$dIlim5kpL39oZJMcojVgtOF9A0FftvCqrf3M3iHFkTvV9n1Y8HrIe"
+  }
+]
