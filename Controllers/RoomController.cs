@@ -102,9 +102,3 @@ public class JoinRoomRequest
     public required string UserId { get; set; }
     public string? Password { get; set; }
 }
-
-public class VoteRequest
-{
-    public required string UserId { get; set; }
-    public bool IsLike { get; set; }
-}
