@@ -48,7 +48,7 @@ public class RoomController : ControllerBase
     public async Task<IActionResult> ListRooms()
     {
         var rooms = await _roomStore.GetRoomsAsync();
-        // PasswordHash is ignored in API output due to [JsonIgnore]
+        rooms.Sort();
         return Ok(rooms);
     }
 
@@ -87,6 +87,7 @@ public class RoomController : ControllerBase
         var messages = await _chatMessageStore.GetMessagesAsync(roomId);
         return Ok(messages);
     }
+    
 }
 
 public class CreateRoomRequest
