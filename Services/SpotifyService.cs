@@ -13,9 +13,7 @@ namespace Audiora.Services
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<SpotifyService> _logger;
-    private SpotifyClient? _spotifyClient;
-    private string? _clientId;
-    private string? _clientSecret;
+        private SpotifyClient? _spotifyClient;
 
         public SpotifyService(IConfiguration configuration, ILogger<SpotifyService> logger)
         {
@@ -27,11 +25,10 @@ namespace Audiora.Services
         {
             if (_spotifyClient == null)
             {
-        var clientId = _clientId ?? _configuration["Spotify:ClientId"];
-        var clientSecret = _clientSecret ?? _configuration["Spotify:ClientSecret"];
+        var clientId = _configuration["Spotify:ClientId"];
+        var clientSecret = _configuration["Spotify:ClientSecret"];
 
-                _logger.LogInformation($"GetSpotifyClient: _clientId is {(_clientId != null ? "set" : "null")}, _clientSecret is {(_clientSecret != null ? "set" : "null")}");
-                _logger.LogInformation($"GetSpotifyClient: Using clientId={clientId?.Substring(0, Math.Min(5, clientId?.Length ?? 0))}..., clientSecret={(clientSecret != null ? "***set***" : "null")}");
+                _logger.LogInformation($"GetSpotifyClient: Using credentials from configuration.");
 
                 if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
                 {
@@ -46,22 +43,6 @@ namespace Audiora.Services
                 _spotifyClient = new SpotifyClient(config);
             }
             return Task.FromResult(_spotifyClient);
-        }
-
-        public void ConfigureCredentials(SpotifyCredentials creds)
-        {
-            // Basic validation
-            if (string.IsNullOrWhiteSpace(creds.ClientId) || string.IsNullOrWhiteSpace(creds.ClientSecret))
-            {
-                throw new InvalidOperationException("Both ClientId and ClientSecret are required.");
-            }
-
-            _clientId = creds.ClientId;
-            _clientSecret = creds.ClientSecret;
-
-            // Reset client so the next call creates with new credentials
-            _spotifyClient = null;
-            _logger.LogInformation("Spotify credentials configured at runtime.");
         }
 
         public async Task<SearchResponse> SearchTracks(string query)
@@ -242,7 +223,7 @@ namespace Audiora.Services
                     throw new InvalidOperationException("Could not find any tracks.");
                 }
 
-                return new RecommendationsResponse { Tracks = allTracks.Take(50).ToList() };
+                return new RecommendationsResponse { Tracks = allTracks.Take(25).ToList() };
             }
             catch (APIUnauthorizedException ex)
             {

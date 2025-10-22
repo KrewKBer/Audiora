@@ -129,20 +129,6 @@ class HomeInternal extends Component {
   async handleGetRandomSongs() {
     this.setState({ fetchingRandom: true });
     try {
-      // Check if credentials are stored in localStorage
-      const clientId = localStorage.getItem('spotifyClientId');
-      const clientSecret = localStorage.getItem('spotifyClientSecret');
-      if (!clientId || !clientSecret) {
-        alert('Please configure Spotify credentials in the Search page first.');
-        this.setState({ fetchingRandom: false });
-        return;
-      }
-      // Configure credentials on backend
-      await fetch('/spotify/configure', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clientId, clientSecret })
-      });
       // Now fetch recommendations for this user
       const { userId } = this.state;
       const response = await fetch(`/spotify/recommendations?userId=${userId}`);
@@ -165,7 +151,7 @@ class HomeInternal extends Component {
       console.log('Extracted songs:', songs);
       console.log('First song preview_url:', songs[0]?.preview_url);
       if (!songs || songs.length === 0) {
-        alert('No songs returned. Please try again or check your Spotify credentials.');
+        alert('No songs returned. Please try again or check your Spotify credentials in appsettings.json.');
         return;
       }
       this.props.addSongsToQueue(songs);
@@ -174,7 +160,7 @@ class HomeInternal extends Component {
       }
     } catch (error) {
       console.error("Error fetching random songs:", error);
-      alert(`Failed to fetch random songs: ${error.message}\n\nPlease make sure you have configured valid Spotify credentials in the Search page.`);
+      alert(`Failed to fetch random songs: ${error.message}\n\nPlease make sure you have configured valid Spotify credentials in appsettings.json.`);
     } finally {
       this.setState({ fetchingRandom: false });
     }

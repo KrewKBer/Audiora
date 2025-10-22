@@ -45,28 +45,6 @@ namespace Audiora.Controllers
             }
         }
 
-        [HttpPost("configure")]
-        public IActionResult Configure([FromBody] SpotifyCredentials credentials)
-        {
-            if (!_env.IsDevelopment())
-            {
-                return StatusCode(403, new { message = "Configuring Spotify credentials is only allowed in Development." });
-            }
-            try
-            {
-                _spotifyService.ConfigureCredentials(credentials);
-                return Ok(new { message = "Spotify credentials updated." });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new { message = "Failed to configure Spotify credentials." });
-            }
-        }
-
         [HttpGet("recommendations")]
         public async Task<IActionResult> GetRecommendations([FromQuery] string userId)
         {
