@@ -18,12 +18,10 @@ public class Room : IComparable<Room>
     public int CompareTo(Room? other)
     {
         if (other is null) return 1;
-
-        // Primary sort: most active rooms first (by member count)
+        
         int memberComparison = other.MemberUserIds.Count.CompareTo(MemberUserIds.Count);
         if (memberComparison != 0) return memberComparison;
-
-        // Secondary sort: newest rooms first
+        
         return other.CreatedAt.CompareTo(CreatedAt);
     }
 

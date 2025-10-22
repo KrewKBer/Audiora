@@ -90,16 +90,10 @@ public class RoomController : ControllerBase
     
 }
 
-public class CreateRoomRequest
-{
-    public required string Name { get; set; }
-    public required string UserId { get; set; }
-    public bool IsPrivate { get; set; }
-    public string? Password { get; set; }
-}
-
-public class JoinRoomRequest
-{
-    public required string UserId { get; set; }
-    public string? Password { get; set; }
-}
+public record CreateRoomRequest(
+    string Name,
+    string UserId,
+    bool IsPrivate = false,
+    string? Password = null
+);
+public record JoinRoomRequest(string UserId, string? Password = null);
