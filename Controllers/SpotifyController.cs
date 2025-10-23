@@ -68,11 +68,11 @@ namespace Audiora.Controllers
             var genres = user.Genres ?? new System.Collections.Generic.List<string> { "pop" };
             try
             {
-                var result = await _spotifyService.GetRecommendations(genres);
-                Console.WriteLine($"Got {result.Tracks.Count} tracks from Spotify");
-                if (result.Tracks.Count > 0)
+                var tracks = await _spotifyService.GetRecommendations(genres);
+                Console.WriteLine($"Got {tracks.Count} tracks from Spotify");
+                if (tracks.Count > 0)
                 {
-                    var firstTrack = result.Tracks[0];
+                    var firstTrack = tracks[0];
                     Console.WriteLine($"First track: {firstTrack.Name}");
                     Console.WriteLine($"First track ID: {firstTrack.Id}");
                     Console.WriteLine($"Preview URL: {firstTrack.PreviewUrl ?? "NULL"}");
@@ -83,7 +83,7 @@ namespace Audiora.Controllers
                         Console.WriteLine($"External URLs: {fullTrack.ExternalUrls?.Count ?? 0}");
                     }
                 }
-                return Ok(result.Tracks);
+                return Ok(tracks);
             }
             catch (InvalidOperationException ex)
             {
