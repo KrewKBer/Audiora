@@ -20,10 +20,18 @@ namespace Audiora.Models
         public List<string>? Genres { get; set; } // Added for genre preferences
         public List<SongInfo>? TopSongs { get; set; } // Top 3 favorite songs
     }
-    public record SongInfo(
-        [property: JsonProperty("Id")] string Id,
-        [property: JsonProperty("Name")] string Name,
-        [property: JsonProperty("Artist")] string Artist,
-        [property: JsonProperty("AlbumImageUrl")] string AlbumImageUrl
-    );
+    public record SongInfo
+    {
+        [JsonProperty(nameof(Id))]
+        public required string Id { get; init; }
+    
+        [JsonProperty(nameof(Name))]
+        public required string Name { get; init; }
+    
+        [JsonProperty(nameof(Artist))]
+        public required string Artist { get; init; }
+    
+        [JsonProperty(nameof(AlbumImageUrl))]
+        public string? AlbumImageUrl { get; init; }
+    }
 }
