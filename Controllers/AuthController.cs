@@ -64,7 +64,7 @@ namespace Audiora.Controllers
                 return Unauthorized("Invalid credentials.");
             }
 
-            return Ok(new { message = "Login successful", userId = foundUser.Id, username = foundUser.Username });
+            return Ok(new { message = "Login successful", userId = foundUser.Id, username = foundUser.Username, role = JsonConvert.SerializeObject(foundUser.Role).Trim('"') });
         }
 
         [HttpGet("user")]
@@ -78,6 +78,7 @@ namespace Audiora.Controllers
             {
                 id = user.Id,
                 username = user.Username,
+                role = JsonConvert.SerializeObject(user.Role).Trim('"'),
                 genres = user.Genres ?? new List<string>(),
                 topSongs = user.TopSongs ?? new List<Audiora.Models.SongInfo>()
             });

@@ -22,5 +22,21 @@
     "Username": "admin",
     "Message": "Testing saved message from admin",
     "Timestamp": "2025-10-21T18:13:37.844233Z"
+  },
+  {
+    "Id": "2b2b25e8-812c-45fd-ac2e-857f367c42f5",
+    "RoomId": "e568f0b9-5677-444e-b4b6-fa0ef3ea191f",
+    "UserId": "f1a22420-ea86-4767-84aa-7696119181cf",
+    "Username": "mazvydas",
+    "Message": "langas",
+    "Timestamp": "2025-10-22T14:33:44.711821Z"
+  },
+  {
+    "Id": "50bd1605-64ed-441e-bb18-634cf3b67dbe",
+    "RoomId": "394ab55b-36a2-4d09-97f4-a817ddf741c1",
+    "UserId": "f1a22420-ea86-4767-84aa-7696119181cf",
+    "Username": "mazvydas",
+    "Message": "saugu",
+    "Timestamp": "2025-10-22T14:34:01.202117Z"
   }
 ]

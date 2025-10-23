@@ -1,10 +1,20 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Audiora.Models
-{
+{   
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum UserRole
+    {
+        Noob,
+        Pro,
+        Hacker,
+        Admin
+    }
     public class User
     {
         public Guid Id { get; set; }
+        public UserRole Role { get; set; } = UserRole.Noob;
         public string? Username { get; set; }
         public string? Password { get; set; }
         public List<string>? Genres { get; set; } // Added for genre preferences
