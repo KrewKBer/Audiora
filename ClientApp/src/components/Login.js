@@ -16,6 +16,7 @@ export function Login() {
             const data = await response.json();
             localStorage.setItem('userId', data.userId);
             localStorage.setItem('username', data.username || credentials.username);
+            localStorage.setItem('role', data.role);
             window.dispatchEvent(new Event('storage'));
             navigate('/rooms');
         } else {
