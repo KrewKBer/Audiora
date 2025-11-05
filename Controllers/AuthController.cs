@@ -171,16 +171,25 @@ namespace Audiora.Controllers
             return Ok("Data migration completed.");
         }
 
+        public class SongInteraction
+        {
+            public string? Id { get; set; }
+            public bool Liked { get; set; }
+            public string? Name { get; set; }
+            public string? Artist { get; set; }
+            public string? AlbumImageUrl { get; set; }
+        }
+
         public class UpdateGenresRequest
         {
-            public string UserId { get; set; }
-            public List<string> Genres { get; set; }
+            public string UserId { get; set; } = string.Empty;
+            public List<string> Genres { get; set; } = new List<string>();
         }
 
         public class UpdateTopSongsRequest
         {
-            public string UserId { get; set; }
-            public List<Audiora.Models.SongInfo> TopSongs { get; set; }
+            public string UserId { get; set; } = string.Empty;
+            public List<Audiora.Models.SongInfo> TopSongs { get; set; } = new List<SongInfo>();
         }
         
         
