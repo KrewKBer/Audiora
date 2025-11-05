@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
+import YouTubePlayer from './YouTubePlayer';
 
 const HomeComponent = (props) => {
     const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
@@ -291,9 +292,15 @@ class HomeInternal extends Component {
             </audio>
           </div>
         ) : (
-          <p style={{ fontSize: '12px', color: '#888', marginTop: '10px', padding: '10px', background: '#f5f5f5', borderRadius: '5px' }}>
-            ℹ️ Audio preview not available for this song (regional restriction)
-          </p>
+          <div style={{ marginTop: '15px', width: '100%' }}>
+            <div style={{ marginBottom: '8px', fontSize: '12px', color: '#888' }}>
+              Audio preview not available — playing from YouTube instead
+            </div>
+            <YouTubePlayer
+              query={`${currentSong.name} ${currentSong.artists?.map(a => a.name).join(', ') || ''}`}
+              height={300}
+            />
+          </div>
         )}
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
