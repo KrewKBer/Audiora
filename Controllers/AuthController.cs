@@ -115,62 +115,6 @@ namespace Audiora.Controllers
             return Ok();
         }
 
-        [HttpPost("migrate-data")]
-        public async Task<IActionResult> MigrateData()
-        {
-            // --- Migrate Users ---
-            var usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "users.json");
-            if (System.IO.File.Exists(usersFilePath))
-            {
-                var userJson = await System.IO.File.ReadAllTextAsync(usersFilePath);
-                var oldUsers = JsonConvert.DeserializeObject<List<User>>(userJson) ?? new List<User>();
-
-                foreach (var oldUser in oldUsers)
-                {
-                    // Check if user already exists by username
-                    if (!await _context.Users.AnyAsync(u => u.Username == oldUser.Username))
-                    {
-                        // The user from JSON already has a hashed password and a Guid, so we can add it directly.
-                        _context.Users.Add(oldUser);
-                    }
-                }
-            }
-
-            // --- Migrate Seen Songs ---
-            var seenSongsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "seenSongs.json");
-            if (System.IO.File.Exists(seenSongsFilePath))
-            {
-                var seenSongsJson = await System.IO.File.ReadAllTextAsync(seenSongsFilePath);
-                var oldSeenSongs = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<SongInteraction>>>(seenSongsJson);
-
-                if (oldSeenSongs != null)
-                {
-                    foreach (var userEntry in oldSeenSongs)
-                    {
-                        if (Guid.TryParse(userEntry.Key, out var userId))
-                        {
-                            foreach (var song in userEntry.Value)
-                            {
-                                // Check if this specific song interaction already exists
-                                if (!await _context.SeenSongs.AnyAsync(s => s.UserId == userId && s.SongId == song.Id))
-                                {
-                                    _context.SeenSongs.Add(new SeenSong
-                                    {
-                                        UserId = userId,
-                                        SongId = song.Id,
-                                        Liked = song.Liked
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            await _context.SaveChangesAsync();
-            return Ok("Data migration completed.");
-        }
-
         public class SongInteraction
         {
             public string? Id { get; set; }
