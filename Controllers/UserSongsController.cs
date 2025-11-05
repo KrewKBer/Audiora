@@ -1,116 +1,89 @@
+using Audiora.Data;
 using Audiora.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Audiora.Controllers
 {
-    public class SongInteraction
-    {
-        public string? Id { get; set; }
-        public bool Liked { get; set; }
-        public string? Name { get; set; }
-        public string? Artist { get; set; }
-        public string? AlbumImageUrl { get; set; }
-    }
-
-    public class UserSongInteraction
-    {
-        public string? UserId { get; set; }
-        public SongInteraction? Song { get; set; }
-    }
-
     [ApiController]
     [Route("api/user-songs")]
     public class UserSongsController : ControllerBase
     {
-        private const string SeenSongsPath = "Data/seenSongs.json";
-        private const string SongsPath = "Data/songs.json";
+        private readonly AudioraDbContext _context;
 
-        private Dictionary<string, List<SongInteraction>> ReadUserInteractions()
+        public UserSongsController(AudioraDbContext context)
         {
-            if (!System.IO.File.Exists(SeenSongsPath) || new FileInfo(SeenSongsPath).Length == 0)
-            {
-                return new Dictionary<string, List<SongInteraction>>();
-            }
-            var json = System.IO.File.ReadAllText(SeenSongsPath);
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return new Dictionary<string, List<SongInteraction>>();
-            }
-            try
-            {
-                return JsonSerializer.Deserialize<Dictionary<string, List<SongInteraction>>>(json) ?? new Dictionary<string, List<SongInteraction>>();
-            }
-            catch (JsonException)
-            {
-                // If the file is malformed, treat it as empty
-                return new Dictionary<string, List<SongInteraction>>();
-            }
-        }
-
-        private void WriteUserInteractions(Dictionary<string, List<SongInteraction>> interactions)
-        {
-            var json = JsonSerializer.Serialize(interactions, new JsonSerializerOptions { WriteIndented = true });
-            System.IO.File.WriteAllText(SeenSongsPath, json);
+            _context = context;
         }
 
         [HttpGet("seen")]
-        public IActionResult GetSeenSongs([FromQuery] string userId)
+        public async Task<IActionResult> GetSeenSongs([FromQuery] string userId)
         {
-            var allInteractions = ReadUserInteractions();
-            if (allInteractions.TryGetValue(userId, out var userInteractions))
+            if (!Guid.TryParse(userId, out var userGuid))
             {
-                return Ok(userInteractions);
+                return BadRequest("Invalid user ID format.");
             }
-            return Ok(Enumerable.Empty<SongInteraction>());
+
+            var seenSongs = await _context.SeenSongs
+                .Where(s => s.UserId == userGuid)
+                .ToListAsync();
+
+            return Ok(seenSongs);
         }
 
         [HttpPost("seen")]
-        public IActionResult PostSeenSong([FromBody] UserSongInteraction newSeenSong)
+        public async Task<IActionResult> PostSeenSong([FromBody] SeenSong newSeenSong)
         {
-            if (newSeenSong?.UserId == null || newSeenSong.Song == null)
+            if (newSeenSong == null || newSeenSong.UserId == Guid.Empty || string.IsNullOrEmpty(newSeenSong.SongId))
             {
                 return BadRequest("Invalid data");
             }
 
-            var allInteractions = ReadUserInteractions();
-            if (!allInteractions.TryGetValue(newSeenSong.UserId, out var userInteractions))
+            // Optional: Check if the song has already been seen by the user to avoid duplicates
+            var existing = await _context.SeenSongs.FirstOrDefaultAsync(s => s.UserId == newSeenSong.UserId && s.SongId == newSeenSong.SongId);
+            if (existing != null)
             {
-                userInteractions = new List<SongInteraction>();
-                allInteractions[newSeenSong.UserId] = userInteractions;
+                // If it exists, maybe update the 'Liked' status
+                existing.Liked = newSeenSong.Liked;
+            }
+            else
+            {
+                _context.SeenSongs.Add(newSeenSong);
             }
             
-            userInteractions.Add(newSeenSong.Song);
-            WriteUserInteractions(allInteractions);
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpDelete("seen")]
-        public IActionResult DeleteSeenSongs([FromQuery] string userId)
+        public async Task<IActionResult> DeleteSeenSongs([FromQuery] string userId)
         {
-            var allInteractions = ReadUserInteractions();
-            if (allInteractions.Remove(userId))
+            if (!Guid.TryParse(userId, out var userGuid))
             {
-                WriteUserInteractions(allInteractions);
+                return BadRequest("Invalid user ID format.");
             }
+
+            var userSongs = _context.SeenSongs.Where(s => s.UserId == userGuid);
+            _context.SeenSongs.RemoveRange(userSongs);
+            await _context.SaveChangesAsync();
+            
             return Ok();
         }
 
         [HttpGet("liked")]
-        public IActionResult GetLikedSongs([FromQuery] string userId)
+        public async Task<IActionResult> GetLikedSongs([FromQuery] string userId)
         {
-            var allInteractions = ReadUserInteractions();
-            if (!allInteractions.TryGetValue(userId, out var userInteractions))
+            if (!Guid.TryParse(userId, out var userGuid))
             {
-                return Ok(new List<SongInteraction>());
+                return BadRequest("Invalid user ID format.");
             }
 
-            var likedSongs = userInteractions
-                .Where(s => s.Liked)
-                .ToList();
+            var likedSongs = await _context.SeenSongs
+                .Where(s => s.UserId == userGuid && s.Liked)
+                .ToListAsync();
 
             return Ok(likedSongs);
         }

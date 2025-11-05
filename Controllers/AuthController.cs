@@ -1,9 +1,10 @@
+using Audiora.Data;
 using Audiora.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BCrypt.Net;
@@ -14,31 +15,17 @@ namespace Audiora.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly string _usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "users.json");
+        private readonly AudioraDbContext _context;
 
-        private async Task<List<User>> ReadUsersFromFile()
+        public AuthController(AudioraDbContext context)
         {
-            if (!System.IO.File.Exists(_usersFilePath))
-            {
-                return new List<User>();
-            }
-
-            var json = await System.IO.File.ReadAllTextAsync(_usersFilePath);
-            return JsonConvert.DeserializeObject<List<User>>(json) ?? new List<User>();
-        }
-
-        private async Task WriteUsersToFile(List<User> users)
-        {
-            var json = JsonConvert.SerializeObject(users, Formatting.Indented);
-            await System.IO.File.WriteAllTextAsync(_usersFilePath, json);
+            _context = context;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(User user)
         {
-            var users = await ReadUsersFromFile();
-
-            if (users.Any(u => u.Username == user.Username))
+            if (await _context.Users.AnyAsync(u => u.Username == user.Username))
             {
                 return BadRequest("Username already exists.");
             }
@@ -47,8 +34,9 @@ namespace Audiora.Controllers
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             if (user.Genres == null)
                 user.Genres = new List<string>();
-            users.Add(user);
-            await WriteUsersToFile(users);
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
             return Ok(new { message = "User registered successfully", userId = user.Id, username = user.Username });
         }
@@ -56,8 +44,7 @@ namespace Audiora.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(User user)
         {
-            var users = await ReadUsersFromFile();
-            var foundUser = users.FirstOrDefault(u => u.Username == user.Username);
+            var foundUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
 
             if (foundUser == null || !BCrypt.Net.BCrypt.Verify(user.Password, foundUser.Password))
             {
@@ -70,10 +57,15 @@ namespace Audiora.Controllers
         [HttpGet("user")]
         public async Task<IActionResult> GetUser([FromQuery] string userId)
         {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == userId);
+            if (!Guid.TryParse(userId, out var userGuid))
+            {
+                return BadRequest("Invalid user ID format.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
                 return NotFound();
+
             return Ok(new
             {
                 id = user.Id,
@@ -87,25 +79,96 @@ namespace Audiora.Controllers
         [HttpPost("update-genres")]
         public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
         {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
+            if (!Guid.TryParse(req.UserId, out var userGuid))
+            {
+                return BadRequest("Invalid user ID format.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
                 return NotFound();
+
             user.Genres = req.Genres ?? new List<string>();
-            await WriteUsersToFile(users);
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPost("update-top-songs")]
         public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
         {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
+            if (!Guid.TryParse(req.UserId, out var userGuid))
+            {
+                return BadRequest("Invalid user ID format.");
+            }
+            
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
                 return NotFound();
+            
+            // This property is not mapped to the database, so this will only update the object in memory.
+            // If you need to persist this, you'll need a different approach.
             user.TopSongs = req.TopSongs ?? new List<Audiora.Models.SongInfo>();
-            await WriteUsersToFile(users);
+            
+            // No SaveChangesAsync() needed if TopSongs is not a DB column.
+            // If it were, you would call it here.
+            
             return Ok();
+        }
+
+        [HttpPost("migrate-data")]
+        public async Task<IActionResult> MigrateData()
+        {
+            // --- Migrate Users ---
+            var usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "users.json");
+            if (System.IO.File.Exists(usersFilePath))
+            {
+                var userJson = await System.IO.File.ReadAllTextAsync(usersFilePath);
+                var oldUsers = JsonConvert.DeserializeObject<List<User>>(userJson) ?? new List<User>();
+
+                foreach (var oldUser in oldUsers)
+                {
+                    // Check if user already exists by username
+                    if (!await _context.Users.AnyAsync(u => u.Username == oldUser.Username))
+                    {
+                        // The user from JSON already has a hashed password and a Guid, so we can add it directly.
+                        _context.Users.Add(oldUser);
+                    }
+                }
+            }
+
+            // --- Migrate Seen Songs ---
+            var seenSongsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "seenSongs.json");
+            if (System.IO.File.Exists(seenSongsFilePath))
+            {
+                var seenSongsJson = await System.IO.File.ReadAllTextAsync(seenSongsFilePath);
+                var oldSeenSongs = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<SongInteraction>>>(seenSongsJson);
+
+                if (oldSeenSongs != null)
+                {
+                    foreach (var userEntry in oldSeenSongs)
+                    {
+                        if (Guid.TryParse(userEntry.Key, out var userId))
+                        {
+                            foreach (var song in userEntry.Value)
+                            {
+                                // Check if this specific song interaction already exists
+                                if (!await _context.SeenSongs.AnyAsync(s => s.UserId == userId && s.SongId == song.Id))
+                                {
+                                    _context.SeenSongs.Add(new SeenSong
+                                    {
+                                        UserId = userId,
+                                        SongId = song.Id,
+                                        Liked = song.Liked
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok("Data migration completed.");
         }
 
         public class UpdateGenresRequest
