@@ -29,6 +29,7 @@ builder.Services.AddControllersWithViews()
     {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
     });
 
 builder.Services.AddSignalR(o => { o.EnableDetailedErrors = true; });

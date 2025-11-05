@@ -28,5 +28,8 @@ namespace Audiora.Data
         public Guid UserId { get; set; }
         public string SongId { get; set; }
         public bool Liked { get; set; }
+        public string? Name { get; set; }
+        public string? Artist { get; set; }
+        public string? AlbumImageUrl { get; set; }
     }
 }

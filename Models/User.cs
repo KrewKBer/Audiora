@@ -19,8 +19,31 @@ namespace Audiora.Models
         public string? Username { get; set; }
         public string? Password { get; set; }
         public List<string>? Genres { get; set; }
+        public string? TopSongsJson { get; set; }
+        
         [NotMapped]
-        public List<SongInfo>? TopSongs { get; set; }
+        public List<SongInfo>? TopSongs 
+        { 
+            get 
+            {
+                if (string.IsNullOrEmpty(TopSongsJson))
+                    return new List<SongInfo>();
+                try
+                {
+                    return JsonConvert.DeserializeObject<List<SongInfo>>(TopSongsJson) ?? new List<SongInfo>();
+                }
+                catch
+                {
+                    return new List<SongInfo>();
+                }
+            }
+            set
+            {
+                TopSongsJson = value == null || value.Count == 0 
+                    ? null 
+                    : JsonConvert.SerializeObject(value);
+            }
+        }
     }
     public record SongInfo(
         [property: JsonProperty("Id")] string Id,

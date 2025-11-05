@@ -14,6 +14,10 @@ export class LikedSongs extends Component {
   }
 
   static renderLikedSongsTable(songs) {
+    if (songs.length === 0) {
+      return <p>No liked songs yet. Start swiping!</p>;
+    }
+    
     return (
       <table className='table text-light' aria-labelledby="tableLabel">
         <thead>
@@ -24,15 +28,30 @@ export class LikedSongs extends Component {
           </tr>
         </thead>
         <tbody>
-          {songs.map(song =>
-            <tr key={song.id}>
-              <td>
-                {song.albumImageUrl && <img src={song.albumImageUrl} alt={song.name} width="50" />}
-              </td>
-              <td>{song.name}</td>
-              <td>{song.artist}</td>
-            </tr>
-          )}
+          {songs.map(song => {
+            const songId = song.songId || song.SongId || song.id || song.Id;
+            const name = song.name || song.Name;
+            const artist = song.artist || song.Artist;
+            const albumImageUrl = song.albumImageUrl || song.AlbumImageUrl;
+            
+            // Skip songs without basic info (old data before migration)
+            if (!name && !artist) {
+              return null;
+            }
+            
+            return (
+              <tr key={songId}>
+                <td>
+                  {albumImageUrl && 
+                    <img src={albumImageUrl} 
+                         alt={name || 'Song'} 
+                         width="50" />}
+                </td>
+                <td>{name || 'Unknown'}</td>
+                <td>{artist || 'Unknown'}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     );
@@ -59,8 +78,10 @@ export class LikedSongs extends Component {
         window.location.href = '/login';
         return;
       }
+      console.log('Fetching liked songs for userId:', userId);
       const response = await fetch(`/api/user-songs/liked?userId=${userId}`);
       const data = await response.json();
+      console.log('Liked songs data:', data);
       this.setState({ songs: data, loading: false });
     } catch (error) {
       console.error('Error fetching liked songs:', error);

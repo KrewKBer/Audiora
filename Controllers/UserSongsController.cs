@@ -52,8 +52,11 @@ namespace Audiora.Controllers
             var existing = await _context.SeenSongs.FirstOrDefaultAsync(s => s.UserId == userGuid && s.SongId == request.SongId);
             if (existing != null)
             {
-                // Update the 'Liked' status
+                // Update the 'Liked' status and song details
                 existing.Liked = request.Liked;
+                existing.Name = request.Name;
+                existing.Artist = request.Artist;
+                existing.AlbumImageUrl = request.AlbumImageUrl;
             }
             else
             {
@@ -61,7 +64,10 @@ namespace Audiora.Controllers
                 {
                     UserId = userGuid,
                     SongId = request.SongId,
-                    Liked = request.Liked
+                    Liked = request.Liked,
+                    Name = request.Name,
+                    Artist = request.Artist,
+                    AlbumImageUrl = request.AlbumImageUrl
                 });
             }
             
@@ -104,6 +110,9 @@ namespace Audiora.Controllers
             public string? UserId { get; set; }
             public string SongId { get; set; } = string.Empty;
             public bool Liked { get; set; }
+            public string? Name { get; set; }
+            public string? Artist { get; set; }
+            public string? AlbumImageUrl { get; set; }
         }
     }
 }

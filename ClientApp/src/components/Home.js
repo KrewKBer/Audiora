@@ -163,7 +163,10 @@ class HomeInternal extends Component {
         body: JSON.stringify({
             userId: userId,
             songId: currentSong.id,
-            liked: liked
+            liked: liked,
+            name: currentSong.name,
+            artist: currentSong.artist,
+            albumImageUrl: currentSong.albumImageUrl
         }),
     });
 

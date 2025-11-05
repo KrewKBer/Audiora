@@ -30,8 +30,17 @@ namespace Audiora.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AlbumImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Artist")
+                        .HasColumnType("text");
+
                     b.Property<bool>("Liked")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<string>("SongId")
                         .IsRequired()
@@ -59,6 +68,9 @@ namespace Audiora.Migrations
 
                     b.Property<int>("Role")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TopSongsJson")
+                        .HasColumnType("text");
 
                     b.Property<string>("Username")
                         .HasColumnType("text");
