@@ -16,14 +16,15 @@ export function Login() {
         if (response.ok) {
             const data = await response.json();
             
-            // Store the JWT token
+            // Store the JWT token - this is the ONLY thing we need to store!
+            // The token contains all user info (userId, username, role) and is secure
             localStorage.setItem('token', data.token);
             
-            // Decode the token to get user info
+            // Decode the token to get user info for display purposes
             const user = getCurrentUser();
             if (user) {
-                // Store user info for easy access (optional, as we can always decode the token)
-                localStorage.setItem('userId', user.sub);
+                // Store username and role for UI display (these are not security-sensitive)
+                // We NEVER store userId separately - always get it from the token!
                 localStorage.setItem('username', user.name || credentials.username);
                 localStorage.setItem('role', user.role);
             }

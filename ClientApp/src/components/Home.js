@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
 import YouTubePlayer from './YouTubePlayer';
-import { authenticatedFetch } from '../utils/api';
+import { authenticatedFetch, getUserId } from '../utils/api';
 
 const HomeComponent = (props) => {
     const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
@@ -40,8 +40,8 @@ class HomeInternal extends Component {
   }
 
   componentDidMount() {
-    // hardcoded userId for simplicity
-      const userId = localStorage.getItem('userId');
+      // Get userId from JWT token - this is the ONLY secure way
+      const userId = getUserId();
       if (!userId) {
           window.location.href = '/login';
           return;

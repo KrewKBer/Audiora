@@ -2,6 +2,7 @@
 import * as signalR from '@microsoft/signalr';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Room.css';
+import { getUserId, authenticatedFetch } from '../utils/api';
 
 export function Room() {
     const [room, setRoom] = useState(null);
@@ -14,7 +15,8 @@ export function Room() {
     const { id: roomId } = useParams();
     const navigate = useNavigate();
 
-    const [userId, setUserId] = useState(localStorage.getItem('userId') || '');
+    // Get userId from JWT token (secure way)
+    const [userId, setUserId] = useState(getUserId() || '');
     const [username, setUsername] = useState(localStorage.getItem('username') || '');
     
     useEffect(() => {
@@ -22,9 +24,8 @@ export function Room() {
         if (!username) {
             (async () => {
                 try {
-                    const res = await fetch(`/auth/user?userId=${encodeURIComponent(userId)}`);
-                    if (!res.ok) return;
-                    const u = await res.json();
+                    // Use authenticated fetch to get user info
+                    const u = await authenticatedFetch('/auth/user');
                     if (u?.username) {
                         localStorage.setItem('username', u.username);
                         setUsername(u.username);

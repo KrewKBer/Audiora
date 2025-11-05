@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { isAuthenticated } from '../utils/api';
 
 const useAuth = () => {
-    const userId = localStorage.getItem('userId');
-    return !!userId;
+    return isAuthenticated();
 };
 
 const PrivateRoute = () => {

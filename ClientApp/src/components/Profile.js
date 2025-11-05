@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Profile.css';
-import { authenticatedFetch } from '../utils/api';
+import { authenticatedFetch, getUserId } from '../utils/api';
 
 const GENRES = [
     'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
@@ -17,11 +17,17 @@ export function Profile() {
     const [searchQueries, setSearchQueries] = useState(['', '', '']);
     const [searching, setSearching] = useState([false, false, false]);
     const [dropdownOpen, setDropdownOpen] = useState([false, false, false]);
-    const userId = localStorage.getItem('userId');
     const inputRefs = [useRef(), useRef(), useRef()];
 
     useEffect(() => {
         async function fetchProfile() {
+            // Verify user is authenticated
+            const userId = getUserId();
+            if (!userId) {
+                window.location.href = '/login';
+                return;
+            }
+            
             setLoading(true);
             setError('');
             try {
@@ -44,7 +50,7 @@ export function Profile() {
             }
         }
         fetchProfile();
-    }, [userId]);
+    }, []); // No longer need userId dependency - it comes from token
 
     const handleGenreChange = (e) => {
         const { value, checked } = e.target;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './NavMenu.css';
+import { isAuthenticated, logout } from '../utils/api';
 
 export function NavMenu() {
     const [collapsed, setCollapsed] = useState(true);
@@ -11,9 +12,10 @@ export function NavMenu() {
 
     useEffect(() => {
         const checkLoginStatus = () => {
-            const userId = localStorage.getItem('userId');
+            // Check if user has valid JWT token (secure way)
+            const loggedIn = isAuthenticated();
             const role = localStorage.getItem('role');
-            setIsLoggedIn(!!userId);
+            setIsLoggedIn(loggedIn);
             setUserRole(role || '');
         };
 
@@ -30,12 +32,10 @@ export function NavMenu() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('username');
-        localStorage.removeItem('role');
+        logout(); // Use the secure logout function from api.js
         setIsLoggedIn(false);
         setUserRole('');
-        navigate('/login');
+        // Navigation is handled by logout() function
     };
 
     return (

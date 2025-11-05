@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthForm } from './AuthForm';
+import { getCurrentUser } from '../utils/api';
 
 export function Register() {
     const navigate = useNavigate();
@@ -24,7 +25,17 @@ export function Register() {
 
             if (loginResponse.ok) {
                 const data = await loginResponse.json();
-                localStorage.setItem('userId', data.userId);
+                
+                // Store the JWT token - this is the ONLY thing we need!
+                localStorage.setItem('token', data.token);
+                
+                // Store username and role for UI display (from decoded token)
+                const user = getCurrentUser();
+                if (user) {
+                    localStorage.setItem('username', user.name || credentials.username);
+                    localStorage.setItem('role', user.role);
+                }
+                
                 window.dispatchEvent(new Event('storage'));
                 navigate('/');
             } else {
