@@ -36,8 +36,8 @@ export default function YouTubePlayer({ query, width = '100%', height = 200, aut
       });
       return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
     }
-    // Fallback: search playlist embed if server key not configured
-    if (!hasApiKey) {
+    // Fallback: search playlist embed when server has no key or no video found
+    if (!hasApiKey || !videoId) {
       const params = new URLSearchParams({
         listType: 'search',
         list: query,

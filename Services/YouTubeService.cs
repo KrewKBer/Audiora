@@ -27,17 +27,34 @@ public class YouTubeService
         if (_cache.TryGetValue<string>($"yt:{query}", out var cached))
             return cached;
 
+        // Try several query variants to avoid blocked official uploads
+        var variants = new[] { query, query + " lyrics", query + " audio", query + " topic", query + " visualizer" };
+        foreach (var v in variants.Distinct(StringComparer.OrdinalIgnoreCase))
+        {
+            var id = await SearchEmbeddableAsync(v, ct);
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                _cache.Set($"yt:{query}", id, TimeSpan.FromHours(6));
+                return id;
+            }
+        }
+        return null;
+    }
+
+    private async Task<string?> SearchEmbeddableAsync(string searchQuery, CancellationToken ct)
+    {
         var client = _httpClientFactory.CreateClient();
         var qp = new Dictionary<string, string?>
         {
             ["key"] = _apiKey,
-            ["q"] = query,
+            ["q"] = searchQuery,
             ["part"] = "snippet",
-            ["maxResults"] = "5",
+            ["maxResults"] = "10",
             ["type"] = "video",
             ["videoEmbeddable"] = "true",
             ["videoSyndicated"] = "true",
-            ["safeSearch"] = "none"
+            ["safeSearch"] = "none",
+            ["order"] = "relevance"
         };
 
         var requestUri = "https://www.googleapis.com/youtube/v3/search?" +
@@ -49,10 +66,6 @@ public class YouTubeService
 
         var payload = await resp.Content.ReadFromJsonAsync<YouTubeSearchResponse>(cancellationToken: ct);
         var id = payload?.Items?.Select(i => i.Id?.VideoId).FirstOrDefault(v => !string.IsNullOrWhiteSpace(v));
-        if (!string.IsNullOrWhiteSpace(id))
-        {
-            _cache.Set($"yt:{query}", id, TimeSpan.FromHours(6));
-        }
         return id;
     }
 
