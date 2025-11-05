@@ -12,7 +12,7 @@ export function NavMenu() {
 
     useEffect(() => {
         const checkLoginStatus = () => {
-            // Check if user has valid JWT token (secure way)
+            // Check if user is authenticated
             const loggedIn = isAuthenticated();
             const role = localStorage.getItem('role');
             setIsLoggedIn(loggedIn);
@@ -32,10 +32,9 @@ export function NavMenu() {
     };
 
     const handleLogout = () => {
-        logout(); // Use the secure logout function from api.js
+        logout();
         setIsLoggedIn(false);
         setUserRole('');
-        // Navigation is handled by logout() function
     };
 
     return (
