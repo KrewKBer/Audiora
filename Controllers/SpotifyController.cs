@@ -1,7 +1,11 @@
+using Audiora.Data;
 using Audiora.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System;
+using System.Security.Claims;
 using Audiora.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -15,11 +19,13 @@ namespace Audiora.Controllers
     {
         private readonly SpotifyService _spotifyService;
         private readonly IWebHostEnvironment _env;
+        private readonly AudioraDbContext _context;
 
-        public SpotifyController(SpotifyService spotifyService, IWebHostEnvironment env)
+        public SpotifyController(SpotifyService spotifyService, IWebHostEnvironment env, AudioraDbContext context)
         {
             _spotifyService = spotifyService;
             _env = env;
+            _context = context;
         }
 
         [HttpGet("search")]
@@ -46,25 +52,22 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("recommendations")]
-        public async Task<IActionResult> GetRecommendations([FromQuery] string userId)
+        [Authorize]
+        public async Task<IActionResult> GetRecommendations()
         {
-            if (string.IsNullOrEmpty(userId))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return BadRequest("UserId is required.");
+                return Unauthorized();
             }
-            // Load user from file
-            var usersFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Data", "users.json");
-            if (!System.IO.File.Exists(usersFilePath))
-            {
-                return StatusCode(500, new { message = "User data not found." });
-            }
-            var json = await System.IO.File.ReadAllTextAsync(usersFilePath);
-            var users = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<Audiora.Models.User>>(json) ?? new System.Collections.Generic.List<Audiora.Models.User>();
-            var user = users.Find(u => u.Id.ToString() == userId);
+
+            // Load user from database
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
             {
                 return NotFound(new { message = "User not found." });
             }
+
             var genres = user.Genres ?? new System.Collections.Generic.List<string> { "pop" };
             try
             {

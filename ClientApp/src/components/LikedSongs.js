@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import './LikedSongs.css'; 
+import './LikedSongs.css';
+import { authenticatedFetch } from '../utils/api';
 
 export class LikedSongs extends Component {
   static displayName = LikedSongs.name;
 
   constructor(props) {
     super(props);
-    this.state = { songs: [], loading: true, userId: null };
+    this.state = { songs: [], loading: true };
   }
 
   componentDidMount() {
-    const userId = localStorage.getItem('userId');
-    this.setState({ userId }, this.populateLikedSongsData);
+    this.populateLikedSongsData();
   }
 
   static renderLikedSongsTable(songs) {
@@ -54,8 +54,12 @@ export class LikedSongs extends Component {
   }
 
   async populateLikedSongsData() {
-    const response = await fetch(`api/user-songs/liked?userId=${this.state.userId}`);
-    const data = await response.json();
-    this.setState({ songs: data, loading: false });
+    try {
+      const data = await authenticatedFetch('/api/user-songs/liked');
+      this.setState({ songs: data, loading: false });
+    } catch (error) {
+      console.error('Error fetching liked songs:', error);
+      this.setState({ loading: false });
+    }
   }
 }

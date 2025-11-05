@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
 import YouTubePlayer from './YouTubePlayer';
+import { authenticatedFetch } from '../utils/api';
 
 const HomeComponent = (props) => {
     const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
@@ -130,22 +131,8 @@ class HomeInternal extends Component {
   async handleGetRandomSongs() {
     this.setState({ fetchingRandom: true });
     try {
-      // Now fetch recommendations for this user
-      const { userId } = this.state;
-      const response = await fetch(`/spotify/recommendations?userId=${userId}`);
-      if (!response.ok) {
-        let errorMessage = `Failed to fetch random songs: ${response.status}`;
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.message || errorMessage;
-        } catch (e) {
-          const errorText = await response.text();
-          errorMessage = errorText || errorMessage;
-        }
-        console.error('Error response:', errorMessage);
-        throw new Error(errorMessage);
-      }
-      const data = await response.json();
+      // Now fetch recommendations for this user using authenticated API
+      const data = await authenticatedFetch('/spotify/recommendations');
       console.log('Raw API response:', data);
       // Extract tracks from the response
       const songs = data.items || data;
@@ -168,23 +155,15 @@ class HomeInternal extends Component {
   }
 
   async handleInteraction(liked) {
-    const { currentSong, userId } = this.state;
-    if (!currentSong || !userId) return;
+    const { currentSong } = this.state;
+    if (!currentSong) return;
 
-    const seenSong = { 
-      id: currentSong.id, 
-      liked: liked,
-      name: currentSong.name,
-      artist: currentSong.artists?.map(a => a.name).join(', ') || 'Unknown',
-      albumImageUrl: currentSong.album?.images?.[0]?.url || ''
-    };
-
-    await fetch('api/user-songs/seen', {
+    await authenticatedFetch('/api/user-songs/seen', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+        body: {
+            songId: currentSong.id,
+            liked: liked
         },
-        body: JSON.stringify({ userId: userId, song: seenSong }),
     });
 
     // Remove saved song from localStorage since we're moving to the next one
@@ -201,16 +180,13 @@ class HomeInternal extends Component {
   }
 
   async resetData() {
-    const { userId } = this.state;
-    if (!userId) return;
-
     if (!window.confirm('Are you sure you want to reset everything? This will clear the queue and delete all liked/disliked songs.')) {
       return;
     }
 
     try {
       // Delete seen songs (includes liked/disliked)
-      await fetch(`api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
+      await authenticatedFetch('/api/user-songs/seen', { method: 'DELETE' });
       
       // Clear the song queue
       this.props.clearQueue();

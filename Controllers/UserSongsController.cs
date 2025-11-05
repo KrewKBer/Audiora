@@ -1,9 +1,12 @@
 using Audiora.Data;
 using Audiora.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Audiora.Controllers
@@ -20,11 +23,13 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("seen")]
-        public async Task<IActionResult> GetSeenSongs([FromQuery] string userId)
+        [Authorize]
+        public async Task<IActionResult> GetSeenSongs()
         {
-            if (!Guid.TryParse(userId, out var userGuid))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return BadRequest("Invalid user ID format.");
+                return Unauthorized();
             }
 
             var seenSongs = await _context.SeenSongs
@@ -35,23 +40,35 @@ namespace Audiora.Controllers
         }
 
         [HttpPost("seen")]
-        public async Task<IActionResult> PostSeenSong([FromBody] SeenSong newSeenSong)
+        [Authorize]
+        public async Task<IActionResult> PostSeenSong([FromBody] SeenSongRequest request)
         {
-            if (newSeenSong == null || newSeenSong.UserId == Guid.Empty || string.IsNullOrEmpty(newSeenSong.SongId))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
+            {
+                return Unauthorized();
+            }
+
+            if (request == null || string.IsNullOrEmpty(request.SongId))
             {
                 return BadRequest("Invalid data");
             }
 
-            // Optional: Check if the song has already been seen by the user to avoid duplicates
-            var existing = await _context.SeenSongs.FirstOrDefaultAsync(s => s.UserId == newSeenSong.UserId && s.SongId == newSeenSong.SongId);
+            // Check if the song has already been seen by the user
+            var existing = await _context.SeenSongs.FirstOrDefaultAsync(s => s.UserId == userGuid && s.SongId == request.SongId);
             if (existing != null)
             {
-                // If it exists, maybe update the 'Liked' status
-                existing.Liked = newSeenSong.Liked;
+                // Update the 'Liked' status
+                existing.Liked = request.Liked;
             }
             else
             {
-                _context.SeenSongs.Add(newSeenSong);
+                _context.SeenSongs.Add(new SeenSong
+                {
+                    UserId = userGuid,
+                    SongId = request.SongId,
+                    Liked = request.Liked
+                });
             }
             
             await _context.SaveChangesAsync();
@@ -59,11 +76,13 @@ namespace Audiora.Controllers
         }
 
         [HttpDelete("seen")]
-        public async Task<IActionResult> DeleteSeenSongs([FromQuery] string userId)
+        [Authorize]
+        public async Task<IActionResult> DeleteSeenSongs()
         {
-            if (!Guid.TryParse(userId, out var userGuid))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return BadRequest("Invalid user ID format.");
+                return Unauthorized();
             }
 
             var userSongs = _context.SeenSongs.Where(s => s.UserId == userGuid);
@@ -74,11 +93,13 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("liked")]
-        public async Task<IActionResult> GetLikedSongs([FromQuery] string userId)
+        [Authorize]
+        public async Task<IActionResult> GetLikedSongs()
         {
-            if (!Guid.TryParse(userId, out var userGuid))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return BadRequest("Invalid user ID format.");
+                return Unauthorized();
             }
 
             var likedSongs = await _context.SeenSongs
@@ -86,6 +107,12 @@ namespace Audiora.Controllers
                 .ToListAsync();
 
             return Ok(likedSongs);
+        }
+
+        public class SeenSongRequest
+        {
+            public string SongId { get; set; } = string.Empty;
+            public bool Liked { get; set; }
         }
     }
 }
