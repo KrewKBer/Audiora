@@ -10,16 +10,9 @@ export function Rooms() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (!userId) { navigate('/login'); return; }
-
-        // backfill username if missing
-        const username = localStorage.getItem('username');
-        if (!username) {
-            fetch(`/auth/user?userId=${encodeURIComponent(userId)}`)
-                .then(r => r.ok ? r.json() : null)
-                .then(u => { if (u?.username) localStorage.setItem('username', u.username); })
-                .catch(() => {});
+        if (localStorage.getItem('userId') === null) {
+            navigate('/login');
+            return;
         }
 
         fetch('/api/room/list').then(r => r.json()).then(setRooms);

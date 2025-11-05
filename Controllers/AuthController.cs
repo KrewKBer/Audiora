@@ -1,9 +1,9 @@
+using Audiora.Data;
 using Audiora.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BCrypt.Net;
@@ -14,31 +14,17 @@ namespace Audiora.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly string _usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "users.json");
+        private readonly AudioraDbContext _context;
 
-        private async Task<List<User>> ReadUsersFromFile()
+        public AuthController(AudioraDbContext context)
         {
-            if (!System.IO.File.Exists(_usersFilePath))
-            {
-                return new List<User>();
-            }
-
-            var json = await System.IO.File.ReadAllTextAsync(_usersFilePath);
-            return JsonConvert.DeserializeObject<List<User>>(json) ?? new List<User>();
-        }
-
-        private async Task WriteUsersToFile(List<User> users)
-        {
-            var json = JsonConvert.SerializeObject(users, Formatting.Indented);
-            await System.IO.File.WriteAllTextAsync(_usersFilePath, json);
+            _context = context;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(User user)
         {
-            var users = await ReadUsersFromFile();
-
-            if (users.Any(u => u.Username == user.Username))
+            if (await _context.Users.AnyAsync(u => u.Username == user.Username))
             {
                 return BadRequest("Username already exists.");
             }
@@ -47,79 +33,97 @@ namespace Audiora.Controllers
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             if (user.Genres == null)
                 user.Genres = new List<string>();
-            users.Add(user);
-            await WriteUsersToFile(users);
 
-            return Ok(new { message = "User registered successfully", userId = user.Id, username = user.Username });
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { userId = user.Id.ToString(), username = user.Username, role = user.Role });
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login([FromBody] User loginUser)
         {
-            var users = await ReadUsersFromFile();
-            var foundUser = users.FirstOrDefault(u => u.Username == user.Username);
+            var foundUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginUser.Username);
 
-            if (foundUser == null || !BCrypt.Net.BCrypt.Verify(user.Password, foundUser.Password))
+            if (foundUser == null || !BCrypt.Net.BCrypt.Verify(loginUser.Password, foundUser.Password))
             {
                 return Unauthorized("Invalid credentials.");
             }
 
-            return Ok(new { message = "Login successful", userId = foundUser.Id, username = foundUser.Username, role = JsonConvert.SerializeObject(foundUser.Role).Trim('"') });
+            return Ok(new { userId = foundUser.Id.ToString(), username = foundUser.Username, role = foundUser.Role });
         }
 
         [HttpGet("user")]
         public async Task<IActionResult> GetUser([FromQuery] string userId)
         {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == userId);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
+            {
+                return BadRequest("Invalid userId");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
                 return NotFound();
+
             return Ok(new
             {
                 id = user.Id,
                 username = user.Username,
-                role = JsonConvert.SerializeObject(user.Role).Trim('"'),
+                role = user.Role,
                 genres = user.Genres ?? new List<string>(),
-                topSongs = user.TopSongs ?? new List<Audiora.Models.SongInfo>()
+                topSongs = user.TopSongs ?? new List<SongInfo>()
             });
         }
         
         [HttpPost("update-genres")]
         public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
         {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
+            if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
+            {
+                return BadRequest("Invalid userId");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
                 return NotFound();
+
             user.Genres = req.Genres ?? new List<string>();
-            await WriteUsersToFile(users);
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPost("update-top-songs")]
         public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
         {
-            var users = await ReadUsersFromFile();
-            var user = users.FirstOrDefault(u => u.Id.ToString() == req.UserId);
+            if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
+            {
+                return BadRequest("Invalid userId");
+            }
+            
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
                 return NotFound();
-            user.TopSongs = req.TopSongs ?? new List<Audiora.Models.SongInfo>();
-            await WriteUsersToFile(users);
+            
+            user.TopSongs = req.TopSongs ?? new List<SongInfo>();
+            
+            // Explicitly mark the property as modified to ensure EF Core saves it
+            _context.Entry(user).Property(u => u.TopSongsJson).IsModified = true;
+            
+            await _context.SaveChangesAsync();
+            
             return Ok();
         }
 
         public class UpdateGenresRequest
         {
-            public string UserId { get; set; }
-            public List<string> Genres { get; set; }
+            public string? UserId { get; set; }
+            public List<string> Genres { get; set; } = new List<string>();
         }
 
         public class UpdateTopSongsRequest
         {
-            public string UserId { get; set; }
-            public List<Audiora.Models.SongInfo> TopSongs { get; set; }
+            public string? UserId { get; set; }
+            public List<SongInfo> TopSongs { get; set; } = new List<SongInfo>();
         }
-        
-        
     }
 }

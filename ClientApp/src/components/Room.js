@@ -19,20 +19,7 @@ export function Room() {
     
     useEffect(() => {
         if (!userId) { navigate('/login'); return; }
-        if (!username) {
-            (async () => {
-                try {
-                    const res = await fetch(`/auth/user?userId=${encodeURIComponent(userId)}`);
-                    if (!res.ok) return;
-                    const u = await res.json();
-                    if (u?.username) {
-                        localStorage.setItem('username', u.username);
-                        setUsername(u.username);
-                    }
-                } catch { /* ignore */ }
-            })();
-        }
-    }, [userId, username, navigate]);
+    }, [userId, navigate]);
 
     // Load room and messages
     useEffect(() => {

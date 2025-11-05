@@ -39,7 +39,6 @@ class HomeInternal extends Component {
   }
 
   componentDidMount() {
-    // hardcoded userId for simplicity
       const userId = localStorage.getItem('userId');
       if (!userId) {
           window.location.href = '/login';
@@ -130,21 +129,8 @@ class HomeInternal extends Component {
   async handleGetRandomSongs() {
     this.setState({ fetchingRandom: true });
     try {
-      // Now fetch recommendations for this user
       const { userId } = this.state;
       const response = await fetch(`/spotify/recommendations?userId=${userId}`);
-      if (!response.ok) {
-        let errorMessage = `Failed to fetch random songs: ${response.status}`;
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.message || errorMessage;
-        } catch (e) {
-          const errorText = await response.text();
-          errorMessage = errorText || errorMessage;
-        }
-        console.error('Error response:', errorMessage);
-        throw new Error(errorMessage);
-      }
       const data = await response.json();
       console.log('Raw API response:', data);
       // Extract tracks from the response
@@ -169,23 +155,45 @@ class HomeInternal extends Component {
 
   async handleInteraction(liked) {
     const { currentSong, userId } = this.state;
-    if (!currentSong || !userId) return;
+    console.log('[handleInteraction] Called with liked:', liked);
+    console.log('[handleInteraction] currentSong:', currentSong);
+    console.log('[handleInteraction] userId:', userId);
+    
+    if (!currentSong || !userId) {
+      console.log('[handleInteraction] Missing currentSong or userId, returning');
+      return;
+    }
 
-    const seenSong = { 
-      id: currentSong.id, 
+    // Extract artist names from Spotify track object
+    const artistName = currentSong.artists?.map(a => a.name).join(', ') || 'Unknown Artist';
+    
+    // Extract album image URL from Spotify track object
+    const albumImageUrl = currentSong.album?.images?.[0]?.url || '';
+
+    const payload = {
+      userId: userId,
+      songId: currentSong.id,
       liked: liked,
-      name: currentSong.name,
-      artist: currentSong.artists?.map(a => a.name).join(', ') || 'Unknown',
-      albumImageUrl: currentSong.album?.images?.[0]?.url || ''
+      name: currentSong.name || 'Unknown Song',
+      artist: artistName,
+      albumImageUrl: albumImageUrl
     };
+    
+    console.log('[handleInteraction] Sending POST to /api/user-songs/seen with payload:', payload);
 
-    await fetch('api/user-songs/seen', {
+    try {
+      const response = await fetch('/api/user-songs/seen', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId: userId, song: seenSong }),
-    });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      
+      console.log('[handleInteraction] Response status:', response.status);
+      const responseText = await response.text();
+      console.log('[handleInteraction] Response body:', responseText);
+    } catch (error) {
+      console.error('[handleInteraction] Fetch error:', error);
+    }
 
     // Remove saved song from localStorage since we're moving to the next one
     localStorage.removeItem('currentSong');
@@ -201,16 +209,14 @@ class HomeInternal extends Component {
   }
 
   async resetData() {
-    const { userId } = this.state;
-    if (!userId) return;
-
     if (!window.confirm('Are you sure you want to reset everything? This will clear the queue and delete all liked/disliked songs.')) {
       return;
     }
 
     try {
+      const { userId } = this.state;
       // Delete seen songs (includes liked/disliked)
-      await fetch(`api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
+      await fetch(`/api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
       
       // Clear the song queue
       this.props.clearQueue();
