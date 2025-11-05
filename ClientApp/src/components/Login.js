@@ -15,7 +15,6 @@ export function Login() {
         if (response.ok) {
             const data = await response.json();
             
-            // Store user info in localStorage
             localStorage.setItem('userId', data.userId);
             localStorage.setItem('username', data.username);
             localStorage.setItem('role', data.role);
