@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useSongQueue } from './SongQueueContext';
 import './Search.css';
+import YouTubePlayer from './YouTubePlayer';
 
 class SearchInternal extends Component {
   static displayName = SearchInternal.name;
@@ -73,7 +74,16 @@ class SearchInternal extends Component {
               <span>{(track.artists || []).map(artist => artist.name).join(', ')}</span>
             </div>
             <button onClick={() => this.props.addSongsToQueue([track])}>Add to Queue</button>
-            {track.preview_url && <audio controls src={track.preview_url}></audio>}
+            {track.preview_url ? (
+              <audio controls src={track.preview_url} />
+            ) : (
+              <div style={{ marginTop: 8, width: '100%' }}>
+                <YouTubePlayer
+                  query={`${track.name} ${(track.artists || []).map(a => a.name).join(', ')}`}
+                  height={220}
+                />
+              </div>
+            )}
           </div>
         ))}
       </div>

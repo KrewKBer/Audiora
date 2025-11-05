@@ -6,7 +6,7 @@ console.log('[proxy] target:', target);
 
 module.exports = function (app) {
     const appProxy = createProxyMiddleware(
-        ['/auth', '/songs', '/api', '/roomHub', '/spotify'],
+        ['/auth', '/songs', '/api', '/roomHub', '/spotify', '/youtube'],
         {
             target,
             changeOrigin: true,

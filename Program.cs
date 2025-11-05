@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Audiora.Models;
 using Audiora.Services;
+using Microsoft.AspNetCore.WebUtilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddSingleton<SpotifyService>();
 builder.Services.AddSingleton<RoomStore>();
 builder.Services.AddSingleton<ChatMessageStore>();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<YouTubeService>();
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
