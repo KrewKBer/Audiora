@@ -105,6 +105,10 @@ namespace Audiora.Controllers
                 return NotFound();
             
             user.TopSongs = req.TopSongs ?? new List<SongInfo>();
+            
+            // Explicitly mark the property as modified to ensure EF Core saves it
+            _context.Entry(user).Property(u => u.TopSongsJson).IsModified = true;
+            
             await _context.SaveChangesAsync();
             
             return Ok();

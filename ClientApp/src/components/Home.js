@@ -157,6 +157,12 @@ class HomeInternal extends Component {
     const { currentSong, userId } = this.state;
     if (!currentSong || !userId) return;
 
+    // Extract artist names from Spotify track object
+    const artistName = currentSong.artists?.map(a => a.name).join(', ') || 'Unknown Artist';
+    
+    // Extract album image URL from Spotify track object
+    const albumImageUrl = currentSong.album?.images?.[0]?.url || '';
+
     await fetch('/api/user-songs/seen', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -164,9 +170,9 @@ class HomeInternal extends Component {
             userId: userId,
             songId: currentSong.id,
             liked: liked,
-            name: currentSong.name,
-            artist: currentSong.artist,
-            albumImageUrl: currentSong.albumImageUrl
+            name: currentSong.name || 'Unknown Song',
+            artist: artistName,
+            albumImageUrl: albumImageUrl
         }),
     });
 
