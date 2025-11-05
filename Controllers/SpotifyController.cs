@@ -1,11 +1,9 @@
 using Audiora.Data;
 using Audiora.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System;
-using System.Security.Claims;
 using Audiora.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -52,13 +50,11 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("recommendations")]
-        [Authorize]
-        public async Task<IActionResult> GetRecommendations()
+        public async Task<IActionResult> GetRecommendations([FromQuery] string userId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
 
             // Load user from database

@@ -1,12 +1,10 @@
 using Audiora.Data;
 using Audiora.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Audiora.Controllers
@@ -23,13 +21,11 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("seen")]
-        [Authorize]
-        public async Task<IActionResult> GetSeenSongs()
+        public async Task<IActionResult> GetSeenSongs([FromQuery] string userId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
 
             var seenSongs = await _context.SeenSongs
@@ -40,16 +36,14 @@ namespace Audiora.Controllers
         }
 
         [HttpPost("seen")]
-        [Authorize]
         public async Task<IActionResult> PostSeenSong([FromBody] SeenSongRequest request)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
+            if (string.IsNullOrEmpty(request.UserId) || !Guid.TryParse(request.UserId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
 
-            if (request == null || string.IsNullOrEmpty(request.SongId))
+            if (string.IsNullOrEmpty(request.SongId))
             {
                 return BadRequest("Invalid data");
             }
@@ -76,13 +70,11 @@ namespace Audiora.Controllers
         }
 
         [HttpDelete("seen")]
-        [Authorize]
-        public async Task<IActionResult> DeleteSeenSongs()
+        public async Task<IActionResult> DeleteSeenSongs([FromQuery] string userId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
 
             var userSongs = _context.SeenSongs.Where(s => s.UserId == userGuid);
@@ -93,13 +85,11 @@ namespace Audiora.Controllers
         }
 
         [HttpGet("liked")]
-        [Authorize]
-        public async Task<IActionResult> GetLikedSongs()
+        public async Task<IActionResult> GetLikedSongs([FromQuery] string userId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
 
             var likedSongs = await _context.SeenSongs
@@ -111,6 +101,7 @@ namespace Audiora.Controllers
 
         public class SeenSongRequest
         {
+            public string? UserId { get; set; }
             public string SongId { get; set; } = string.Empty;
             public bool Liked { get; set; }
         }

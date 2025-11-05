@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './LikedSongs.css';
-import { authenticatedFetch } from '../utils/api';
 
 export class LikedSongs extends Component {
   static displayName = LikedSongs.name;
@@ -55,7 +54,13 @@ export class LikedSongs extends Component {
 
   async populateLikedSongsData() {
     try {
-      const data = await authenticatedFetch('/api/user-songs/liked');
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        window.location.href = '/login';
+        return;
+      }
+      const response = await fetch(`/api/user-songs/liked?userId=${userId}`);
+      const data = await response.json();
       this.setState({ songs: data, loading: false });
     } catch (error) {
       console.error('Error fetching liked songs:', error);

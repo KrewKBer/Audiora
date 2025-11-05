@@ -2,7 +2,6 @@ import React, { Component, createRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
 import YouTubePlayer from './YouTubePlayer';
-import { authenticatedFetch, getUserId } from '../utils/api';
 
 const HomeComponent = (props) => {
     const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
@@ -40,8 +39,7 @@ class HomeInternal extends Component {
   }
 
   componentDidMount() {
-      // Get userId from JWT token - this is the ONLY secure way
-      const userId = getUserId();
+      const userId = localStorage.getItem('userId');
       if (!userId) {
           window.location.href = '/login';
           return;
@@ -131,8 +129,9 @@ class HomeInternal extends Component {
   async handleGetRandomSongs() {
     this.setState({ fetchingRandom: true });
     try {
-      // Now fetch recommendations for this user using authenticated API
-      const data = await authenticatedFetch('/spotify/recommendations');
+      const { userId } = this.state;
+      const response = await fetch(`/spotify/recommendations?userId=${userId}`);
+      const data = await response.json();
       console.log('Raw API response:', data);
       // Extract tracks from the response
       const songs = data.items || data;
@@ -155,15 +154,17 @@ class HomeInternal extends Component {
   }
 
   async handleInteraction(liked) {
-    const { currentSong } = this.state;
-    if (!currentSong) return;
+    const { currentSong, userId } = this.state;
+    if (!currentSong || !userId) return;
 
-    await authenticatedFetch('/api/user-songs/seen', {
+    await fetch('/api/user-songs/seen', {
         method: 'POST',
-        body: {
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            userId: userId,
             songId: currentSong.id,
             liked: liked
-        },
+        }),
     });
 
     // Remove saved song from localStorage since we're moving to the next one
@@ -185,8 +186,9 @@ class HomeInternal extends Component {
     }
 
     try {
+      const { userId } = this.state;
       // Delete seen songs (includes liked/disliked)
-      await authenticatedFetch('/api/user-songs/seen', { method: 'DELETE' });
+      await fetch(`/api/user-songs/seen?userId=${userId}`, { method: 'DELETE' });
       
       // Clear the song queue
       this.props.clearQueue();

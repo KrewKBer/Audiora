@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Profile.css';
-import { authenticatedFetch, getUserId } from '../utils/api';
 
 const GENRES = [
     'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
@@ -21,8 +20,7 @@ export function Profile() {
 
     useEffect(() => {
         async function fetchProfile() {
-            // Verify user is authenticated
-            const userId = getUserId();
+            const userId = localStorage.getItem('userId');
             if (!userId) {
                 window.location.href = '/login';
                 return;
@@ -31,8 +29,9 @@ export function Profile() {
             setLoading(true);
             setError('');
             try {
-                // No longer need to pass userId - it comes from the JWT token
-                const user = await authenticatedFetch('/auth/user');
+                const response = await fetch(`/auth/user?userId=${userId}`);
+                if (!response.ok) throw new Error('Failed to fetch profile');
+                const user = await response.json();
                 setGenres(user.genres || []);
                 const rawTop = (user.topSongs && user.topSongs.length > 0) ? user.topSongs : [];
                 // Normalize properties regardless of server casing policy
@@ -50,7 +49,7 @@ export function Profile() {
             }
         }
         fetchProfile();
-    }, []); // No longer need userId dependency - it comes from token
+    }, []);
 
     const handleGenreChange = (e) => {
         const { value, checked } = e.target;
@@ -114,15 +113,18 @@ export function Profile() {
         setError('');
         setSuccess('');
         try {
-            // Save genres - no longer need to send userId, it's in the token
-            await authenticatedFetch('/auth/update-genres', {
+            const userId = localStorage.getItem('userId');
+            // Save genres
+            await fetch('/auth/update-genres', {
                 method: 'POST',
-                body: { genres },
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, genres }),
             });
             // Save top songs
-            await authenticatedFetch('/auth/update-top-songs', {
+            await fetch('/auth/update-top-songs', {
                 method: 'POST',
-                body: { topSongs: topSongs.filter(Boolean) },
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, topSongs: topSongs.filter(Boolean) }),
             });
             setSuccess('Profile updated successfully!');
         } catch (err) {

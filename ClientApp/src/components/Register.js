@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthForm } from './AuthForm';
-import { getCurrentUser } from '../utils/api';
 
 export function Register() {
     const navigate = useNavigate();
@@ -12,35 +11,19 @@ export function Register() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(credentials), // credentials now includes genres
+            body: JSON.stringify(credentials),
         });
 
         if (response.ok) {
-            // Automatically log in the user after registration
-            const loginResponse = await fetch('auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(credentials),
-            });
-
-            if (loginResponse.ok) {
-                const data = await loginResponse.json();
-                
-                // Store the JWT token - this is the ONLY thing we need!
-                localStorage.setItem('token', data.token);
-                
-                // Store username and role for UI display (from decoded token)
-                const user = getCurrentUser();
-                if (user) {
-                    localStorage.setItem('username', user.name || credentials.username);
-                    localStorage.setItem('role', user.role);
-                }
-                
-                window.dispatchEvent(new Event('storage'));
-                navigate('/');
-            } else {
-                navigate('/login'); // Fallback to login page
-            }
+            const data = await response.json();
+            
+            // Store user info in localStorage
+            localStorage.setItem('userId', data.userId);
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('role', data.role);
+            
+            window.dispatchEvent(new Event('storage'));
+            navigate('/');
         } else {
             const errorText = await response.text();
             throw new Error(errorText || 'Registration failed');

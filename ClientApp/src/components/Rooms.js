@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Rooms.css';
-import { getUserId, isAuthenticated, authenticatedFetch } from '../utils/api';
+import { isAuthenticated } from '../utils/api';
 
 export function Rooms() {
     const [rooms, setRooms] = useState([]);
@@ -11,26 +11,16 @@ export function Rooms() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Check if user is authenticated using JWT
         if (!isAuthenticated()) {
             navigate('/login');
             return;
-        }
-
-        // Backfill username if missing (for UI display only)
-        const username = localStorage.getItem('username');
-        if (!username) {
-            authenticatedFetch('/auth/user')
-                .then(u => { if (u?.username) localStorage.setItem('username', u.username); })
-                .catch(() => {});
         }
 
         fetch('/api/room/list').then(r => r.json()).then(setRooms);
     }, [navigate]);
 
     const createRoom = async () => {
-        // Get userId from JWT token (secure way)
-        const userId = getUserId();
+        const userId = localStorage.getItem('userId');
         if (!userId) { navigate('/login'); return; }
         if (!name.trim()) return;
 
@@ -51,8 +41,7 @@ export function Rooms() {
     };
 
     const joinRoom = async (room) => {
-        // Get userId from JWT token (secure way)
-        const userId = getUserId();
+        const userId = localStorage.getItem('userId');
         if (!userId) { navigate('/login'); return; }
 
         let pwd = null;

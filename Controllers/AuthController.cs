@@ -1,16 +1,10 @@
 using Audiora.Data;
 using Audiora.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using BCrypt.Net;
 
@@ -21,12 +15,10 @@ namespace Audiora.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AudioraDbContext _context;
-        private readonly IConfiguration _configuration;
 
-        public AuthController(AudioraDbContext context, IConfiguration configuration)
+        public AuthController(AudioraDbContext context)
         {
             _context = context;
-            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -45,7 +37,7 @@ namespace Audiora.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "User registered successfully" });
+            return Ok(new { userId = user.Id.ToString(), username = user.Username, role = user.Role });
         }
 
         [HttpPost("login")]
@@ -58,19 +50,15 @@ namespace Audiora.Controllers
                 return Unauthorized("Invalid credentials.");
             }
 
-            var token = GenerateJwtToken(foundUser);
-
-            return Ok(new { token });
+            return Ok(new { userId = foundUser.Id.ToString(), username = foundUser.Username, role = foundUser.Role });
         }
 
         [HttpGet("user")]
-        [Authorize]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetUser([FromQuery] string userId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
@@ -81,20 +69,18 @@ namespace Audiora.Controllers
             {
                 id = user.Id,
                 username = user.Username,
-                role = user.Role, // No need to serialize, the converter handles it
+                role = user.Role,
                 genres = user.Genres ?? new List<string>(),
                 topSongs = user.TopSongs ?? new List<SongInfo>()
             });
         }
         
         [HttpPost("update-genres")]
-        [Authorize]
         public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
+            if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
@@ -107,13 +93,11 @@ namespace Audiora.Controllers
         }
 
         [HttpPost("update-top-songs")]
-        [Authorize]
         public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
+            if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
             {
-                return Unauthorized();
+                return BadRequest("Invalid userId");
             }
             
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
@@ -121,40 +105,20 @@ namespace Audiora.Controllers
                 return NotFound();
             
             user.TopSongs = req.TopSongs ?? new List<SongInfo>();
+            await _context.SaveChangesAsync();
             
             return Ok();
         }
 
-        private string GenerateJwtToken(User user)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddHours(24),
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
         public class UpdateGenresRequest
         {
+            public string? UserId { get; set; }
             public List<string> Genres { get; set; } = new List<string>();
         }
 
         public class UpdateTopSongsRequest
         {
+            public string? UserId { get; set; }
             public List<SongInfo> TopSongs { get; set; } = new List<SongInfo>();
         }
     }
