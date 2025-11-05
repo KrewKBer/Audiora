@@ -299,6 +299,8 @@ class HomeInternal extends Component {
             <YouTubePlayer
               query={`${currentSong.name} ${currentSong.artists?.map(a => a.name).join(', ') || ''}`}
               height={300}
+              autoplay={true}
+              muted={false}
             />
           </div>
         )}

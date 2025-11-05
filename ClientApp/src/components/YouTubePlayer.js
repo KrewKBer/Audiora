@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 // YouTube player with backend-assisted search for embeddable videos.
 // If no API key is configured on the server, it falls back to a search playlist embed.
-export default function YouTubePlayer({ query, width = '100%', height = 200, autoplay = false }) {
+export default function YouTubePlayer({ query, width = '100%', height = 200, autoplay = false, muted = false }) {
   const [videoId, setVideoId] = useState(null);
   const [hasApiKey, setHasApiKey] = useState(true);
 
@@ -31,6 +31,8 @@ export default function YouTubePlayer({ query, width = '100%', height = 200, aut
     if (videoId) {
       const params = new URLSearchParams({
         autoplay: autoplay ? '1' : '0',
+        mute: muted ? '1' : '0',
+        playsinline: '1',
         modestbranding: '1',
         rel: '0'
       });
@@ -42,13 +44,15 @@ export default function YouTubePlayer({ query, width = '100%', height = 200, aut
         listType: 'search',
         list: query,
         autoplay: autoplay ? '1' : '0',
+        mute: muted ? '1' : '0',
+        playsinline: '1',
         modestbranding: '1',
         rel: '0'
       });
       return `https://www.youtube.com/embed?${params.toString()}`;
     }
     return null;
-  }, [query, videoId, hasApiKey, autoplay]);
+  }, [query, videoId, hasApiKey, autoplay, muted]);
 
   if (!src) return null;
 
