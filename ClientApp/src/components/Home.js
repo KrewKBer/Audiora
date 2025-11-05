@@ -155,7 +155,14 @@ class HomeInternal extends Component {
 
   async handleInteraction(liked) {
     const { currentSong, userId } = this.state;
-    if (!currentSong || !userId) return;
+    console.log('[handleInteraction] Called with liked:', liked);
+    console.log('[handleInteraction] currentSong:', currentSong);
+    console.log('[handleInteraction] userId:', userId);
+    
+    if (!currentSong || !userId) {
+      console.log('[handleInteraction] Missing currentSong or userId, returning');
+      return;
+    }
 
     // Extract artist names from Spotify track object
     const artistName = currentSong.artists?.map(a => a.name).join(', ') || 'Unknown Artist';
@@ -163,18 +170,30 @@ class HomeInternal extends Component {
     // Extract album image URL from Spotify track object
     const albumImageUrl = currentSong.album?.images?.[0]?.url || '';
 
-    await fetch('/api/user-songs/seen', {
+    const payload = {
+      userId: userId,
+      songId: currentSong.id,
+      liked: liked,
+      name: currentSong.name || 'Unknown Song',
+      artist: artistName,
+      albumImageUrl: albumImageUrl
+    };
+    
+    console.log('[handleInteraction] Sending POST to /api/user-songs/seen with payload:', payload);
+
+    try {
+      const response = await fetch('/api/user-songs/seen', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            userId: userId,
-            songId: currentSong.id,
-            liked: liked,
-            name: currentSong.name || 'Unknown Song',
-            artist: artistName,
-            albumImageUrl: albumImageUrl
-        }),
-    });
+        body: JSON.stringify(payload),
+      });
+      
+      console.log('[handleInteraction] Response status:', response.status);
+      const responseText = await response.text();
+      console.log('[handleInteraction] Response body:', responseText);
+    } catch (error) {
+      console.error('[handleInteraction] Fetch error:', error);
+    }
 
     // Remove saved song from localStorage since we're moving to the next one
     localStorage.removeItem('currentSong');

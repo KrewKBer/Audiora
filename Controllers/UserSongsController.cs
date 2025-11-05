@@ -38,13 +38,17 @@ namespace Audiora.Controllers
         [HttpPost("seen")]
         public async Task<IActionResult> PostSeenSong([FromBody] SeenSongRequest request)
         {
+            Console.WriteLine($"[PostSeenSong] Received request - UserId: {request.UserId}, SongId: {request.SongId}, Liked: {request.Liked}");
+            
             if (string.IsNullOrEmpty(request.UserId) || !Guid.TryParse(request.UserId, out var userGuid))
             {
+                Console.WriteLine("[PostSeenSong] ERROR: Invalid userId");
                 return BadRequest("Invalid userId");
             }
 
             if (string.IsNullOrEmpty(request.SongId))
             {
+                Console.WriteLine("[PostSeenSong] ERROR: Invalid data");
                 return BadRequest("Invalid data");
             }
 
@@ -52,6 +56,7 @@ namespace Audiora.Controllers
             var existing = await _context.SeenSongs.FirstOrDefaultAsync(s => s.UserId == userGuid && s.SongId == request.SongId);
             if (existing != null)
             {
+                Console.WriteLine($"[PostSeenSong] Updating existing song - Id: {existing.Id}");
                 // Update the 'Liked' status and song details
                 existing.Liked = request.Liked;
                 existing.Name = request.Name;
@@ -60,6 +65,7 @@ namespace Audiora.Controllers
             }
             else
             {
+                Console.WriteLine($"[PostSeenSong] Adding new song - SongId: {request.SongId}");
                 _context.SeenSongs.Add(new SeenSong
                 {
                     UserId = userGuid,
@@ -71,7 +77,10 @@ namespace Audiora.Controllers
                 });
             }
             
-            await _context.SaveChangesAsync();
+            Console.WriteLine("[PostSeenSong] Calling SaveChangesAsync...");
+            var savedCount = await _context.SaveChangesAsync();
+            Console.WriteLine($"[PostSeenSong] SaveChangesAsync completed - {savedCount} entities saved");
+            
             return Ok();
         }
 
