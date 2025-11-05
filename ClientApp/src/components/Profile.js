@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Profile.css';
+import { authenticatedFetch } from '../utils/api';
 
 const GENRES = [
     'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
@@ -24,9 +25,8 @@ export function Profile() {
             setLoading(true);
             setError('');
             try {
-                const response = await fetch(`/auth/user?userId=${userId}`);
-                if (!response.ok) throw new Error('Failed to fetch user profile');
-                const user = await response.json();
+                // No longer need to pass userId - it comes from the JWT token
+                const user = await authenticatedFetch('/auth/user');
                 setGenres(user.genres || []);
                 const rawTop = (user.topSongs && user.topSongs.length > 0) ? user.topSongs : [];
                 // Normalize properties regardless of server casing policy
@@ -108,17 +108,15 @@ export function Profile() {
         setError('');
         setSuccess('');
         try {
-            // Save genres
-            await fetch('/auth/update-genres', {
+            // Save genres - no longer need to send userId, it's in the token
+            await authenticatedFetch('/auth/update-genres', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, genres }),
+                body: { genres },
             });
             // Save top songs
-            await fetch('/auth/update-top-songs', {
+            await authenticatedFetch('/auth/update-top-songs', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, topSongs: topSongs.filter(Boolean) }),
+                body: { topSongs: topSongs.filter(Boolean) },
             });
             setSuccess('Profile updated successfully!');
         } catch (err) {
@@ -165,7 +163,7 @@ export function Profile() {
                                     <>
                                         {topSongs[idx].AlbumImageUrl && <img src={topSongs[idx].AlbumImageUrl} alt={topSongs[idx].Name} width="160" height="160" style={{ objectFit: 'cover', borderRadius: 8, marginBottom: 10 }} />}
                                         <div style={{ fontWeight: 600, fontSize: 18, color:"white", textAlign: 'center', marginBottom: 4 }}>{topSongs[idx].Name}</div>
-                                        <div style={{ fontSize: 16, color: '#666', color:"white", textAlign: 'center', marginBottom: 10 }}>{topSongs[idx].Artist}</div>
+                                        <div style={{ fontSize: 16, color:"white", textAlign: 'center', marginBottom: 10 }}>{topSongs[idx].Artist}</div>
                                         <button type="button" className="icon-btn" title="Remove" style={{ marginTop: 'auto' }} onClick={() => handleRemoveSong(idx)}>
                                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                 <path d="M9 3h6m-8 4h10m-1 0-.7 12.25a2 2 0 0 1-2 1.75H9.7a2 2 0 0 1-2-1.75L7 7m4 3v7m2-7v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
