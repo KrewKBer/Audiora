@@ -1,7 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Rooms.css';
-import { isAuthenticated } from '../utils/api';
 
 export function Rooms() {
     const [rooms, setRooms] = useState([]);
@@ -11,7 +10,7 @@ export function Rooms() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isAuthenticated()) {
+        if (localStorage.getItem('userId') === null) {
             navigate('/login');
             return;
         }
