@@ -24,7 +24,12 @@ export function AuthForm({ formType, onSubmit }) {
             if (formType === 'Register') {
                 await onSubmit({ username, password, genres });
             } else {
-                await onSubmit({ username, password });
+                const response = await onSubmit({ username, password });
+                if (response && response.token) {
+                    localStorage.setItem('token', response.token);
+                    // You might want to redirect the user or update the app state here
+                    window.location.href = '/'; // Example: redirect to homepage
+                }
             }
         } catch (err) {
             setError(err.message);

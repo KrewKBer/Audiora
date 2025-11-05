@@ -1,11 +1,16 @@
 using Audiora.Data;
 using Audiora.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using BCrypt.Net;
 
@@ -16,10 +21,12 @@ namespace Audiora.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AudioraDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(AudioraDbContext context)
+        public AuthController(AudioraDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -38,28 +45,32 @@ namespace Audiora.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "User registered successfully", userId = user.Id, username = user.Username });
+            return Ok(new { message = "User registered successfully" });
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login([FromBody] User loginUser)
         {
-            var foundUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
+            var foundUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginUser.Username);
 
-            if (foundUser == null || !BCrypt.Net.BCrypt.Verify(user.Password, foundUser.Password))
+            if (foundUser == null || !BCrypt.Net.BCrypt.Verify(loginUser.Password, foundUser.Password))
             {
                 return Unauthorized("Invalid credentials.");
             }
 
-            return Ok(new { message = "Login successful", userId = foundUser.Id, username = foundUser.Username, role = JsonConvert.SerializeObject(foundUser.Role).Trim('"') });
+            var token = GenerateJwtToken(foundUser);
+
+            return Ok(new { token });
         }
 
         [HttpGet("user")]
-        public async Task<IActionResult> GetUser([FromQuery] string userId)
+        [Authorize]
+        public async Task<IActionResult> GetUser()
         {
-            if (!Guid.TryParse(userId, out var userGuid))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return BadRequest("Invalid user ID format.");
+                return Unauthorized();
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
@@ -70,18 +81,20 @@ namespace Audiora.Controllers
             {
                 id = user.Id,
                 username = user.Username,
-                role = JsonConvert.SerializeObject(user.Role).Trim('"'),
+                role = user.Role, // No need to serialize, the converter handles it
                 genres = user.Genres ?? new List<string>(),
-                topSongs = user.TopSongs ?? new List<Audiora.Models.SongInfo>()
+                topSongs = user.TopSongs ?? new List<SongInfo>()
             });
         }
         
         [HttpPost("update-genres")]
+        [Authorize]
         public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
         {
-            if (!Guid.TryParse(req.UserId, out var userGuid))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return BadRequest("Invalid user ID format.");
+                return Unauthorized();
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
@@ -94,48 +107,55 @@ namespace Audiora.Controllers
         }
 
         [HttpPost("update-top-songs")]
+        [Authorize]
         public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
         {
-            if (!Guid.TryParse(req.UserId, out var userGuid))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
-                return BadRequest("Invalid user ID format.");
+                return Unauthorized();
             }
             
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
             if (user == null)
                 return NotFound();
             
-            // This property is not mapped to the database, so this will only update the object in memory.
-            // If you need to persist this, you'll need a different approach.
-            user.TopSongs = req.TopSongs ?? new List<Audiora.Models.SongInfo>();
-            
-            // No SaveChangesAsync() needed if TopSongs is not a DB column.
-            // If it were, you would call it here.
+            user.TopSongs = req.TopSongs ?? new List<SongInfo>();
             
             return Ok();
         }
 
-        public class SongInteraction
+        private string GenerateJwtToken(User user)
         {
-            public string? Id { get; set; }
-            public bool Liked { get; set; }
-            public string? Name { get; set; }
-            public string? Artist { get; set; }
-            public string? AlbumImageUrl { get; set; }
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(24),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         public class UpdateGenresRequest
         {
-            public string UserId { get; set; } = string.Empty;
             public List<string> Genres { get; set; } = new List<string>();
         }
 
         public class UpdateTopSongsRequest
         {
-            public string UserId { get; set; } = string.Empty;
-            public List<Audiora.Models.SongInfo> TopSongs { get; set; } = new List<SongInfo>();
+            public List<SongInfo> TopSongs { get; set; } = new List<SongInfo>();
         }
-        
-        
     }
 }
