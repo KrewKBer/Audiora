@@ -21,11 +21,7 @@ export function AuthForm({ formType, onSubmit }) {
         e.preventDefault();
         setError(''); // Clear previous errors
         try {
-            if (formType === 'Register') {
-                await onSubmit({ username, password, genres });
-            } else {
-                await onSubmit({ username, password });
-            }
+            await onSubmit({ username, password, genres });
         } catch (err) {
             setError(err.message);
         }

@@ -16,16 +16,21 @@ export function Profile() {
     const [searchQueries, setSearchQueries] = useState(['', '', '']);
     const [searching, setSearching] = useState([false, false, false]);
     const [dropdownOpen, setDropdownOpen] = useState([false, false, false]);
-    const userId = localStorage.getItem('userId');
     const inputRefs = [useRef(), useRef(), useRef()];
 
     useEffect(() => {
         async function fetchProfile() {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                window.location.href = '/login';
+                return;
+            }
+            
             setLoading(true);
             setError('');
             try {
                 const response = await fetch(`/auth/user?userId=${userId}`);
-                if (!response.ok) throw new Error('Failed to fetch user profile');
+                if (!response.ok) throw new Error('Failed to fetch profile');
                 const user = await response.json();
                 setGenres(user.genres || []);
                 const rawTop = (user.topSongs && user.topSongs.length > 0) ? user.topSongs : [];
@@ -44,7 +49,7 @@ export function Profile() {
             }
         }
         fetchProfile();
-    }, [userId]);
+    }, []);
 
     const handleGenreChange = (e) => {
         const { value, checked } = e.target;
@@ -108,6 +113,7 @@ export function Profile() {
         setError('');
         setSuccess('');
         try {
+            const userId = localStorage.getItem('userId');
             // Save genres
             await fetch('/auth/update-genres', {
                 method: 'POST',
@@ -165,7 +171,7 @@ export function Profile() {
                                     <>
                                         {topSongs[idx].AlbumImageUrl && <img src={topSongs[idx].AlbumImageUrl} alt={topSongs[idx].Name} width="160" height="160" style={{ objectFit: 'cover', borderRadius: 8, marginBottom: 10 }} />}
                                         <div style={{ fontWeight: 600, fontSize: 18, color:"white", textAlign: 'center', marginBottom: 4 }}>{topSongs[idx].Name}</div>
-                                        <div style={{ fontSize: 16, color: '#666', color:"white", textAlign: 'center', marginBottom: 10 }}>{topSongs[idx].Artist}</div>
+                                        <div style={{ fontSize: 16, color:"white", textAlign: 'center', marginBottom: 10 }}>{topSongs[idx].Artist}</div>
                                         <button type="button" className="icon-btn" title="Remove" style={{ marginTop: 'auto' }} onClick={() => handleRemoveSong(idx)}>
                                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                 <path d="M9 3h6m-8 4h10m-1 0-.7 12.25a2 2 0 0 1-2 1.75H9.7a2 2 0 0 1-2-1.75L7 7m4 3v7m2-7v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>

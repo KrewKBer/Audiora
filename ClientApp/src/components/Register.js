@@ -11,25 +11,19 @@ export function Register() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(credentials), // credentials now includes genres
+            body: JSON.stringify(credentials),
         });
 
         if (response.ok) {
-            // Automatically log in the user after registration
-            const loginResponse = await fetch('auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(credentials),
-            });
-
-            if (loginResponse.ok) {
-                const data = await loginResponse.json();
-                localStorage.setItem('userId', data.userId);
-                window.dispatchEvent(new Event('storage'));
-                navigate('/');
-            } else {
-                navigate('/login'); // Fallback to login page
-            }
+            const data = await response.json();
+            
+            // Store user info in localStorage
+            localStorage.setItem('userId', data.userId);
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('role', data.role);
+            
+            window.dispatchEvent(new Event('storage'));
+            navigate('/');
         } else {
             const errorText = await response.text();
             throw new Error(errorText || 'Registration failed');

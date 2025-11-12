@@ -11,9 +11,9 @@ export function NavMenu() {
 
     useEffect(() => {
         const checkLoginStatus = () => {
-            const userId = localStorage.getItem('userId');
+            const loggedIn = localStorage.getItem('userId') !== null;
             const role = localStorage.getItem('role');
-            setIsLoggedIn(!!userId);
+            setIsLoggedIn(loggedIn);
             setUserRole(role || '');
         };
 
@@ -33,9 +33,9 @@ export function NavMenu() {
         localStorage.removeItem('userId');
         localStorage.removeItem('username');
         localStorage.removeItem('role');
+        window.location.href = '/login';
         setIsLoggedIn(false);
         setUserRole('');
-        navigate('/login');
     };
 
     return (
