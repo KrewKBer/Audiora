@@ -70,7 +70,11 @@ public class RoomController : ControllerBase
         {
             if (string.IsNullOrWhiteSpace(request.Password))
                 return Unauthorized("Password required.");
-            if (string.IsNullOrWhiteSpace(room.PasswordHash) || !BCrypt.Net.BCrypt.Verify(request.Password, room.PasswordHash))
+            
+            if (string.IsNullOrWhiteSpace(room.PasswordHash))
+                return StatusCode(500, "Room password configuration error.");
+            
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, room.PasswordHash))
                 return Unauthorized("Invalid password.");
         }
 
@@ -78,8 +82,11 @@ public class RoomController : ControllerBase
             room.MemberUserIds.Add(request.UserId);
 
         await _roomStore.UpdateRoomAsync(room);
+        
+        room.PasswordHash = null;
         return Ok(room);
     }
+
 
     [HttpGet("{roomId}/messages")]
     public async Task<IActionResult> GetMessages(string roomId)

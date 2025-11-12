@@ -18,8 +18,8 @@ builder.Services.AddDbContext<AudioraDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSingleton<SpotifyService>();
-builder.Services.AddSingleton<RoomStore>();
-builder.Services.AddSingleton<ChatMessageStore>();
+builder.Services.AddScoped<RoomStore>();
+builder.Services.AddScoped<ChatMessageStore>();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<YouTubeService>();

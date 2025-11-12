@@ -1,84 +1,57 @@
 using Audiora.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Text;
 
 namespace Audiora.Services;
 
 public class ChatMessageStore
 {
-    private readonly string _filePath;
-    private readonly SemaphoreSlim _lock = new(1, 1);
-    private List<ChatMessage> _messages = new();
-    private bool _loaded = false;
+    private readonly HttpClient _httpClient;
+    private readonly string _supabaseUrl;
+    private readonly JsonSerializerSettings _snakeCaseSettings;
 
-    public ChatMessageStore(IWebHostEnvironment env)
+    public ChatMessageStore(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
-        var dataDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");
-        Directory.CreateDirectory(dataDir);
-        _filePath = Path.Combine(dataDir, "chatMessages.json");
-    }
+        _httpClient = httpClientFactory.CreateClient();
+        _supabaseUrl = configuration["Supabase:Url"];
+        var apiKey = configuration["Supabase:ApiKey"];
 
-    private async Task EnsureLoadedAsync()
-    {
-        if (_loaded) return;
+        _httpClient.DefaultRequestHeaders.Add("apikey", apiKey);
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
 
-        await _lock.WaitAsync();
-        try
+        _snakeCaseSettings = new JsonSerializerSettings
         {
-            if (_loaded) return;
-
-            if (File.Exists(_filePath))
+            ContractResolver = new DefaultContractResolver
             {
-                var json = await File.ReadAllTextAsync(_filePath);
-                _messages = JsonConvert.DeserializeObject<List<ChatMessage>>(json) ?? new List<ChatMessage>();
+                NamingStrategy = new SnakeCaseNamingStrategy()
             }
-            else
-            {
-                _messages = new List<ChatMessage>();
-            }
-
-            _loaded = true;
-        }
-        finally
-        {
-            _lock.Release();
-        }
-    }
-
-    private async Task SaveAsync()
-    {
-        var json = JsonConvert.SerializeObject(_messages, Formatting.Indented);
-        await File.WriteAllTextAsync(_filePath, json);
+        };
     }
 
     public async Task<List<ChatMessage>> GetMessagesAsync(string roomId)
     {
-        await EnsureLoadedAsync();
-        return _messages
-            .Where(m => m.RoomId == roomId)
-            .OrderBy(m => m.Timestamp)
-            .ToList();
+        var response = await _httpClient.GetAsync(
+            $"{_supabaseUrl}/rest/v1/chat_messages?room_id=eq.{roomId}&order=timestamp.asc");
+        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<List<ChatMessage>>(json, _snakeCaseSettings) ?? new List<ChatMessage>();
     }
 
     public async Task<ChatMessage> AddMessageAsync(ChatMessage message)
     {
-        await EnsureLoadedAsync();
-
-        await _lock.WaitAsync();
-        try
-        {
-            _messages.Add(message);
-            await SaveAsync();
-            return message;
-        }
-        finally
-        {
-            _lock.Release();
-        }
+        var json = JsonConvert.SerializeObject(message, _snakeCaseSettings);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync($"{_supabaseUrl}/rest/v1/chat_messages", content);
+        response.EnsureSuccessStatusCode();
+        return message;
     }
 
     public async Task<List<ChatMessage>> GetAllMessagesAsync()
     {
-        await EnsureLoadedAsync();
-        return _messages.OrderBy(m => m.Timestamp).ToList();
+        var response = await _httpClient.GetAsync($"{_supabaseUrl}/rest/v1/chat_messages?order=timestamp.asc");
+        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<List<ChatMessage>>(json, _snakeCaseSettings) ?? new List<ChatMessage>();
     }
 }

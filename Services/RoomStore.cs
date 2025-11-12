@@ -1,102 +1,65 @@
 ﻿using Audiora.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Text;
 
 namespace Audiora.Services;
 
 public class RoomStore
 {
-    private readonly string _filePath;
-    private readonly SemaphoreSlim _lock = new(1, 1);
-    private List<Room> _rooms = new();
-    private bool _loaded = false;
+    private readonly HttpClient _httpClient;
+    private readonly string _supabaseUrl;
+    private readonly JsonSerializerSettings _snakeCaseSettings;
 
-    public RoomStore(IWebHostEnvironment env)
+    public RoomStore(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
-        var dataDir = Path.Combine(Directory.GetCurrentDirectory(), "Data");
-        Directory.CreateDirectory(dataDir);
-        _filePath = Path.Combine(dataDir, "rooms.json");
-    }
+        _httpClient = httpClientFactory.CreateClient();
+        _supabaseUrl = configuration["Supabase:Url"];
+        var apiKey = configuration["Supabase:ApiKey"];
 
-    private async Task EnsureLoadedAsync()
-    {
-        if (_loaded) return;
+        _httpClient.DefaultRequestHeaders.Add("apikey", apiKey);
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
 
-        await _lock.WaitAsync();
-        try
+        _snakeCaseSettings = new JsonSerializerSettings
         {
-            if (_loaded) return;
-
-            if (File.Exists(_filePath))
+            ContractResolver = new DefaultContractResolver
             {
-                var json = await File.ReadAllTextAsync(_filePath);
-                _rooms = JsonConvert.DeserializeObject<List<Room>>(json) ?? new List<Room>();
+                NamingStrategy = new SnakeCaseNamingStrategy()
             }
-            else
-            {
-                _rooms = new List<Room>();
-            }
-
-            _loaded = true;
-        }
-        finally
-        {
-            _lock.Release();
-        }
-    }
-
-    private async Task SaveAsync()
-    {
-        var json = JsonConvert.SerializeObject(_rooms, Formatting.Indented);
-        await File.WriteAllTextAsync(_filePath, json);
+        };
     }
 
     public async Task<List<Room>> GetRoomsAsync()
     {
-        await EnsureLoadedAsync();
-        // Return a copy to avoid external mutation
-        return _rooms.Select(r => r).ToList();
+        var response = await _httpClient.GetAsync($"{_supabaseUrl}/rest/v1/rooms");
+        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<List<Room>>(json, _snakeCaseSettings) ?? new List<Room>();
     }
 
     public async Task<Room?> GetRoomAsync(string roomId)
     {
-        await EnsureLoadedAsync();
-        return _rooms.FirstOrDefault(r => r.Id == roomId);
+        var response = await _httpClient.GetAsync($"{_supabaseUrl}/rest/v1/rooms?id=eq.{roomId}");
+        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync();
+        var rooms = JsonConvert.DeserializeObject<List<Room>>(json, _snakeCaseSettings);
+        return rooms?.FirstOrDefault();
     }
 
     public async Task<Room> AddRoomAsync(Room room)
     {
-        await EnsureLoadedAsync();
-
-        await _lock.WaitAsync();
-        try
-        {
-            _rooms.Add(room);
-            await SaveAsync();
-            return room;
-        }
-        finally
-        {
-            _lock.Release();
-        }
+        var json = JsonConvert.SerializeObject(room, _snakeCaseSettings);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync($"{_supabaseUrl}/rest/v1/rooms", content);
+        response.EnsureSuccessStatusCode();
+        return room;
     }
 
     public async Task<bool> UpdateRoomAsync(Room room)
     {
-        await EnsureLoadedAsync();
-
-        await _lock.WaitAsync();
-        try
-        {
-            var idx = _rooms.FindIndex(r => r.Id == room.Id);
-            if (idx < 0) return false;
-
-            _rooms[idx] = room;
-            await SaveAsync();
-            return true;
-        }
-        finally
-        {
-            _lock.Release();
-        }
+        var json = JsonConvert.SerializeObject(room, _snakeCaseSettings);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PatchAsync($"{_supabaseUrl}/rest/v1/rooms?id=eq.{room.Id}", content);
+        return response.IsSuccessStatusCode;
     }
 }
