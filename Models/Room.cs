@@ -12,7 +12,6 @@ public class Room : IComparable<Room>
     public bool IsPrivate { get; set; } = false;
 
     [System.Text.Json.Serialization.JsonIgnore]
-    [Newtonsoft.Json.JsonIgnore]
     public string? PasswordHash { get; set; }
 
     public int CompareTo(Room? other)
