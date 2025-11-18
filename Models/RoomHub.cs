@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Audiora.Data;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
-using Audiora.Services;
 
 namespace Audiora.Models;
 
@@ -8,11 +8,11 @@ public class RoomHub : Hub
 {
     private static readonly ConcurrentDictionary<string, HashSet<string>> _roomConnections = new();
     private static readonly ConcurrentDictionary<string, string> _connectionToRoom = new();
-    private readonly ChatMessageStore _chatMessageStore;
+    private readonly AudioraDbContext _context;
 
-    public RoomHub(ChatMessageStore chatMessageStore)
+    public RoomHub(AudioraDbContext context)
     {
-        _chatMessageStore = chatMessageStore;
+        _context = context;
     }
 
     public async Task JoinRoom(string roomId, string userId, string username)
@@ -48,18 +48,23 @@ public class RoomHub : Hub
             throw new HubException("Connection not in valid state for this room");
         }
 
+        if (!Guid.TryParse(roomId, out var roomGuid) || !Guid.TryParse(userId, out var userGuid))
+        {
+            throw new HubException("Invalid room or user ID format");
+        }
+
         var chatMessage = new ChatMessage
         {
-            RoomId = roomId,
-            UserId = userId,
+            RoomId = roomGuid,
+            UserId = userGuid,
             Username = username,
             Message = message,
             Timestamp = DateTime.UtcNow
         };
 
-        // Save message to persistent storage
-        await _chatMessageStore.AddMessageAsync(chatMessage);
-        
+        _context.ChatMessages.Add(chatMessage);
+        await _context.SaveChangesAsync();
+
         await Clients.Group(roomId).SendAsync("ReceiveMessage", userId, username, message, chatMessage.Timestamp);
     }
 
