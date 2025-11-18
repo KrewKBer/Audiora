@@ -19,8 +19,6 @@ builder.Services.AddDbContext<AudioraDbContext>(options =>
 
 builder.Services.AddSingleton(typeof(DataService<>));
 builder.Services.AddSingleton<SpotifyService>();
-builder.Services.AddScoped<RoomStore>();
-builder.Services.AddScoped<ChatMessageStore>();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<YouTubeService>();

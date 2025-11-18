@@ -4,14 +4,14 @@ namespace Audiora.Models;
 
 public class Room : IComparable<Room>
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; }
-    public string HostUserId { get; set; }
+    public Guid HostUserId { get; set; }
     public List<string> MemberUserIds { get; set; } = new();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public bool IsPrivate { get; set; } = false;
 
-    [System.Text.Json.Serialization.JsonIgnore]
+    [JsonIgnore]
     public string? PasswordHash { get; set; }
 
     public int CompareTo(Room? other)
@@ -30,9 +30,9 @@ public class Room : IComparable<Room>
 
 public class ChatMessage
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string RoomId { get; set; }
-    public string UserId { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid RoomId { get; set; }
+    public Guid UserId { get; set; }
     public string Username { get; set; }
     public string Message { get; set; }
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
