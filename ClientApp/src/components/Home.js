@@ -299,9 +299,6 @@ class HomeInternal extends Component {
           </div>
         ) : (
           <div style={{ marginTop: '15px', width: '100%' }}>
-            <div style={{ marginBottom: '8px', fontSize: '12px', color: '#888' }}>
-              Audio preview not available — playing from YouTube instead
-            </div>
             <YouTubePlayer
               query={`${currentSong.name} ${currentSong.artists?.map(a => a.name).join(', ') || ''}`}
               height={300}
