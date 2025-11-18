@@ -21,6 +21,7 @@ builder.Services.AddSingleton<SpotifyService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<YouTubeService>();
+builder.Services.AddSingleton<MatchStore>();
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>

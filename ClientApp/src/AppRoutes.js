@@ -5,6 +5,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import { LikedSongs } from "./components/LikedSongs";
 import { Search } from "./components/Search";
 import { Profile } from "./components/Profile";
+import { Matchmaking } from "./components/Matchmaking";
+import { DirectChat } from "./components/DirectChat";
+import { Chats } from "./components/Chats";
 
 const AppRoutes = [
     {
@@ -34,6 +37,18 @@ const AppRoutes = [
             {
                 path: 'profile',
                 element: <Profile />
+            },
+            {
+                path: 'chats',
+                element: <Chats />
+            },
+            {
+                path: 'matchmaking',
+                element: <Matchmaking />
+            },
+            {
+                path: 'directchat/:chatId',
+                element: <DirectChat />
             }
         ]
     }

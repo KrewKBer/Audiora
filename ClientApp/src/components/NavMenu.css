@@ -19,3 +19,25 @@ html {
 .nav-item{
   color: rgb(255, 0, 0);
 }
+
+/* Translucent Menu button */
+.menu-btn-translucent {
+  background: rgba(255,255,255,0.003);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.menu-btn-translucent:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.38);
+}
+.menu-btn-translucent:active {
+  transform: translateY(0);
+}

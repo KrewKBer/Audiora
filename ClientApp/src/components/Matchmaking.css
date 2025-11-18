@@ -1,0 +1,28 @@
+.mm-wrap{max-width:720px;margin:0 auto;padding:24px 16px}
+.mm-title{margin:0 0 8px;color:#f8f8f8}
+.mm-sub{margin:0 0 16px;color:#9ca3af;font-size:14px}
+
+.mm-stack{position:relative;height:480px}
+.mm-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,.35);border-radius:16px;color:#cbd5e1}
+.mm-empty .mm-btn{margin-top:10px}
+
+.mm-card{position:absolute;width:100%;height:440px;border:1px solid rgba(255,255,255,.28);border-radius:16px;background:rgba(255,255,255,.03);backdrop-filter:blur(6px);color:#f3f4f6;padding:24px;display:flex;flex-direction:column;gap:16px}
+.mm-head{display:flex;align-items:center;gap:16px}
+.mm-user{flex:1}
+.mm-user h3{margin:0;color:#fff}
+.mm-user small{color:#9ca3af}
+
+.mm-body{flex:1;overflow:auto}
+.mm-body h4{margin:0 0 8px;color:#e5e7eb}
+.mm-song{padding:8px 10px;border-radius:10px;margin-bottom:8px;border:1px solid rgba(255,255,255,.18);display:flex;flex-direction:column}
+.mm-song strong{font-size:14px;color:#fff}
+.mm-song span{font-size:12px;color:#cbd5e1}
+.mm-note{color:#9ca3af;font-size:13px}
+
+.mm-actions{display:flex;gap:10px}
+.mm-btn{flex:1;padding:10px 0;border-radius:12px;border:1px solid rgba(255,255,255,.28);background:transparent;color:#e5e7eb;transition:transform .12s,background .12s,border-color .12s}
+.mm-btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.05)}
+.mm-btn:disabled{opacity:.6}
+.mm-btn.primary{border-color:rgba(16,185,129,.6);color:#d1fae5}
+.mm-btn.primary:hover{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.8)}
+.mm-btn.ghost{border-color:rgba(255,255,255,.22)}

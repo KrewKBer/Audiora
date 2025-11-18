@@ -1,0 +1,28 @@
+.sidebar-overlay{position:fixed;inset:0;z-index:1040;pointer-events:none}
+.sidebar-overlay.open{pointer-events:auto}
+.sidebar-overlay::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .2s}
+.sidebar-overlay.open::before{opacity:1}
+
+.sidebar-panel{position:absolute;top:0;left:0;height:100%;width:320px;background:linear-gradient(180deg,rgba(11,18,32,.85) 0%,rgba(11,18,32,.7) 60%,rgba(11,18,32,.85) 100%);color:#fff;border-right:1px solid #263044;transform:translateX(-100%);transition:transform .25s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;backdrop-filter:blur(10px)}
+.sidebar-panel.open{transform:translateX(0)}
+
+.sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #263044}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{height:34px;width:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 6px 16px rgba(99,102,241,.35)}
+.brand-text small{display:block;color:#9ca3af;margin-top:-2px}
+
+.btn-close-x{background:#1f2937;border:1px solid #374151;color:#fff;border-radius:10px;padding:6px 10px}
+.btn-close-x:hover{background:#111827}
+
+.sidebar-content{padding:12px 12px;overflow:auto}
+.sidebar-section{margin-bottom:18px}
+.sidebar-title{font-size:15px;font-weight:700;margin:8px 6px;color:#cbd5e1}
+.sidebar-actions{display:grid;gap:10px}
+.sidebar-btn{background:#0f172a;border:1px solid #263044;color:#e5e7eb;border-radius:12px;padding:12px 14px;text-align:left;transition:transform .12s ease,background .12s,border-color .12s}
+.sidebar-btn:hover{transform:translateY(-1px);background:#121b34;border-color:#3b4864}
+.sidebar-btn.primary{background:linear-gradient(135deg,#3b82f6,#8b5cf6);border:none}
+.sidebar-btn.primary:hover{filter:brightness(1.02)}
+
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid #263044;display:flex;gap:8px}
+.footer-btn{background:transparent;border:1px solid #3b4864;color:#cbd5e1;border-radius:10px;padding:8px 12px}
+.footer-btn:hover{background:#0f172a}
