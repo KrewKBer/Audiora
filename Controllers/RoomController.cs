@@ -1,6 +1,7 @@
-﻿using Audiora.Models;
-using Audiora.Services;
+﻿using Audiora.Data;
+using Audiora.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Audiora.Controllers;
 
@@ -8,13 +9,11 @@ namespace Audiora.Controllers;
 [Route("api/room")]
 public class RoomController : ControllerBase
 {
-    private readonly RoomStore _roomStore;
-    private readonly ChatMessageStore _chatMessageStore;
+    private readonly AudioraDbContext _context;
 
-    public RoomController(RoomStore roomStore, ChatMessageStore chatMessageStore)
+    public RoomController(AudioraDbContext context)
     {
-        _roomStore = roomStore;
-        _chatMessageStore = chatMessageStore;
+        _context = context;
     }
 
     [HttpPost]
@@ -22,13 +21,13 @@ public class RoomController : ControllerBase
     {
         if (string.IsNullOrWhiteSpace(request.Name))
             return BadRequest("Room name is required.");
-        if (string.IsNullOrWhiteSpace(request.UserId))
-            return BadRequest("UserId is required.");
+        if (!Guid.TryParse(request.UserId, out var hostUserId))
+            return BadRequest("Invalid UserId.");
 
         var room = new Room
         {
             Name = request.Name,
-            HostUserId = request.UserId,
+            HostUserId = hostUserId,
             MemberUserIds = new List<string> { request.UserId },
             IsPrivate = request.IsPrivate
         };
@@ -40,61 +39,65 @@ public class RoomController : ControllerBase
             room.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
         }
 
-        await _roomStore.AddRoomAsync(room);
+        _context.Rooms.Add(room);
+        await _context.SaveChangesAsync();
         return Ok(room);
     }
 
     [HttpGet("list")]
     public async Task<IActionResult> ListRooms()
     {
-        var rooms = await _roomStore.GetRoomsAsync();
+        var rooms = await _context.Rooms.ToListAsync();
         rooms.Sort();
         return Ok(rooms);
     }
 
-    [HttpGet("{roomId}")]
-    public async Task<IActionResult> GetRoom(string roomId)
+    [HttpGet("{roomId:guid}")]
+    public async Task<IActionResult> GetRoom(Guid roomId)
     {
-        var room = await _roomStore.GetRoomAsync(roomId);
+        var room = await _context.Rooms.FindAsync(roomId);
         if (room == null) return NotFound();
         return Ok(room);
     }
 
-    [HttpPost("{roomId}/join")]
-    public async Task<IActionResult> JoinRoom(string roomId, [FromBody] JoinRoomRequest request)
+    [HttpPost("{roomId:guid}/join")]
+    public async Task<IActionResult> JoinRoom(Guid roomId, [FromBody] JoinRoomRequest request)
     {
-        var room = await _roomStore.GetRoomAsync(roomId);
+        var room = await _context.Rooms.FindAsync(roomId);
         if (room == null) return NotFound();
 
         if (room.IsPrivate)
         {
             if (string.IsNullOrWhiteSpace(request.Password))
                 return Unauthorized("Password required.");
-            
+
             if (string.IsNullOrWhiteSpace(room.PasswordHash))
                 return StatusCode(500, "Room password configuration error.");
-            
+
             if (!BCrypt.Net.BCrypt.Verify(request.Password, room.PasswordHash))
                 return Unauthorized("Invalid password.");
         }
 
         if (!room.MemberUserIds.Contains(request.UserId))
+        {
             room.MemberUserIds.Add(request.UserId);
+            await _context.SaveChangesAsync();
+        }
 
-        await _roomStore.UpdateRoomAsync(room);
-        
         room.PasswordHash = null;
         return Ok(room);
     }
 
 
-    [HttpGet("{roomId}/messages")]
-    public async Task<IActionResult> GetMessages(string roomId)
+    [HttpGet("{roomId:guid}/messages")]
+    public async Task<IActionResult> GetMessages(Guid roomId)
     {
-        var messages = await _chatMessageStore.GetMessagesAsync(roomId);
+        var messages = await _context.ChatMessages
+            .Where(m => m.RoomId == roomId)
+            .OrderBy(m => m.Timestamp)
+            .ToListAsync();
         return Ok(messages);
     }
-    
 }
 
 public record CreateRoomRequest
@@ -104,6 +107,7 @@ public record CreateRoomRequest
     public bool IsPrivate { get; init; } = false;
     public string? Password { get; init; }
 }
+
 public record JoinRoomRequest
 {
     public required string UserId { get; init; }
