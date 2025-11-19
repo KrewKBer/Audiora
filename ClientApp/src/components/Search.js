@@ -80,7 +80,6 @@ class SearchInternal extends Component {
               <div style={{ marginTop: 8, width: '100%' }}>
                 <YouTubePlayer
                   query={`${track.name} ${(track.artists || []).map(a => a.name).join(', ')}`}
-                  height={220}
                 />
               </div>
             )}
