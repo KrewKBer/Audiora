@@ -1,52 +1,186 @@
-.search-content {
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  padding: 15px;
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #fff;
 }
 
-.search-content h1,
-.search-content h3,
-.search-content p,
-.search-content label {
-  color: #f8f8f8;
+.search-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(to right, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .search-bar {
   display: flex;
-  gap: 8px;
-  margin: 10px 0 20px;
+  gap: 12px;
+  margin-bottom: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-.search-credentials {
-  margin-bottom: 16px;
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 12px 24px;
+  color: #fff;
+  font-size: 1.1rem;
+  outline: none;
 }
 
-.search-credentials input[type="text"],
-.search-credentials input[type="password"],
-.search-bar input[type="text"] {
-  padding: 6px 10px;
-  background: #222;
-  color: #eee;
-  border: 1px solid #555;
-  border-radius: 6px;
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.search-credentials button,
-.search-bar button {
-  padding: 6px 12px;
-  border-radius: 6px;
+.search-btn {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.search-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .search-results {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.search-results .track {
+.track {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid #333;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 20px;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.track:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.track-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.track-info {
+  flex: 1;
+  min-width: 0; /* For text truncation */
+}
+
+.track-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-artist {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 16px;
+}
+
+.preview-player-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-mini-player {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.btn-mini-player:hover {
+  border-color: #1db954;
+  color: #1db954;
+  background: rgba(29, 185, 84, 0.1);
+}
+
+.btn-mini-player.playing {
+  border-color: #1db954;
+  background: #1db954;
+  color: #fff;
+}
+
+.btn-add-queue {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-add-queue:hover {
+  background: #fff;
+  color: #000;
+}
+
+.search-status {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 2rem;
+  font-size: 1.1rem;
+}
+
+.search-status.error {
+  color: #fca5a5;
 }
 
 .search-results .track:last-child {
