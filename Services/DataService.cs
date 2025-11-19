@@ -1,25 +1,33 @@
+using Audiora.Data;
 using Audiora.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Audiora.Services;
 
 public class DataService<T> where T : class, IBaseEntity
 {
-    private readonly List<T> _items = new List<T>();
+    private readonly AudioraDbContext _context;
+    private readonly DbSet<T> _dbSet;
 
-    public Task<T> GetByIdAsync(int id)
+    public DataService(AudioraDbContext context)
     {
-        var item = _items.FirstOrDefault(i => i.Id == id);
-        return Task.FromResult(item);
+        _context = context;
+        _dbSet = _context.Set<T>();
     }
 
-    public Task<List<T>> GetAllAsync()
+    public async Task<T?> GetByIdAsync(Guid id)
     {
-        return Task.FromResult(_items);
+        return await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
     }
 
-    public Task AddAsync(T item)
+    public async Task<List<T>> GetAllAsync()
     {
-        _items.Add(item);
-        return Task.CompletedTask;
+        return await _dbSet.ToListAsync();
+    }
+
+    public async Task AddAsync(T item)
+    {
+        await _dbSet.AddAsync(item);
+        await _context.SaveChangesAsync();
     }
 }
