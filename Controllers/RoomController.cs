@@ -28,7 +28,7 @@ public class RoomController : ControllerBase
         {
             Name = request.Name,
             HostUserId = hostUserId,
-            MemberUserIds = new List<string> { request.UserId },
+            MemberUserIds = new List<Guid> { hostUserId }, 
             IsPrivate = request.IsPrivate
         };
 
@@ -63,28 +63,27 @@ public class RoomController : ControllerBase
     [HttpPost("{roomId:guid}/join")]
     public async Task<IActionResult> JoinRoom(Guid roomId, [FromBody] JoinRoomRequest request)
     {
+        if (!Guid.TryParse(request.UserId, out var userId))
+            return BadRequest("Invalid UserId.");
+
         var room = await _context.Rooms.FindAsync(roomId);
-        if (room == null) return NotFound();
+        if (room == null)
+            return NotFound("Room not found.");
 
         if (room.IsPrivate)
         {
             if (string.IsNullOrWhiteSpace(request.Password))
-                return Unauthorized("Password required.");
-
-            if (string.IsNullOrWhiteSpace(room.PasswordHash))
-                return StatusCode(500, "Room password configuration error.");
-
+                return BadRequest("Password is required.");
             if (!BCrypt.Net.BCrypt.Verify(request.Password, room.PasswordHash))
                 return Unauthorized("Invalid password.");
         }
 
-        if (!room.MemberUserIds.Contains(request.UserId))
+        if (!room.MemberUserIds.Contains(userId)) // Now comparing Guid to Guid
         {
-            room.MemberUserIds.Add(request.UserId);
+            room.MemberUserIds.Add(userId); // Now adding Guid
             await _context.SaveChangesAsync();
         }
 
-        room.PasswordHash = null;
         return Ok(room);
     }
 

@@ -7,7 +7,7 @@ public class Room : IComparable<Room>
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; }
     public Guid HostUserId { get; set; }
-    public List<string> MemberUserIds { get; set; } = new();
+    public List<Guid> MemberUserIds { get; set; } = new();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public bool IsPrivate { get; set; } = false;
 
