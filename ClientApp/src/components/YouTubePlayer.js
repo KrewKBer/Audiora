@@ -1,72 +1,143 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
-// YouTube player with backend-assisted search for embeddable videos.
-// If no API key is configured on the server, it falls back to a search playlist embed.
-export default function YouTubePlayer({ query, width = '100%', height = 200, autoplay = false, muted = false }) {
+export function YouTubePlayer({ query, autoplay = false, muted = false }) {
   const [videoId, setVideoId] = useState(null);
-  const [hasApiKey, setHasApiKey] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(autoplay);
+  const [isReady, setIsReady] = useState(false);
+  const playerRef = useRef(null);
+  const containerRef = useRef(null);
 
+  // 1. Load YouTube IFrame API if not already loaded
+  useEffect(() => {
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+  }, []);
+
+  // 2. Fetch Video ID from our backend
   useEffect(() => {
     let aborted = false;
-    async function run() {
+    async function fetchVideoId() {
       setVideoId(null);
+      setIsReady(false);
       try {
         const res = await fetch(`/youtube/search?query=${encodeURIComponent(query)}`);
         if (!res.ok) throw new Error('search failed');
         const data = await res.json();
-        if (!aborted) {
-          setHasApiKey(Boolean(data?.hasApiKey !== false));
-          if (data?.videoId) setVideoId(data.videoId);
+        if (!aborted && data?.videoId) {
+          setVideoId(data.videoId);
         }
-      } catch {
-        if (!aborted) setHasApiKey(false);
+      } catch (e) {
+        console.error("Error fetching video ID:", e);
       }
     }
-    if (query) run();
+    if (query) fetchVideoId();
     return () => { aborted = true; };
   }, [query]);
 
-  const src = useMemo(() => {
-    if (!query || typeof query !== 'string') return null;
-    if (videoId) {
-      const params = new URLSearchParams({
-        autoplay: autoplay ? '1' : '0',
-        mute: muted ? '1' : '0',
-        playsinline: '1',
-        modestbranding: '1',
-        rel: '0'
-      });
-      return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
-    }
-    // Fallback: search playlist embed when server has no key or no video found
-    if (!hasApiKey || !videoId) {
-      const params = new URLSearchParams({
-        listType: 'search',
-        list: query,
-        autoplay: autoplay ? '1' : '0',
-        mute: muted ? '1' : '0',
-        playsinline: '1',
-        modestbranding: '1',
-        rel: '0'
-      });
-      return `https://www.youtube.com/embed?${params.toString()}`;
-    }
-    return null;
-  }, [query, videoId, hasApiKey, autoplay, muted]);
+  // 3. Initialize Player when videoId is available and API is ready
+  useEffect(() => {
+    if (!videoId || !containerRef.current) return;
 
-  if (!src) return null;
+    const onPlayerReady = (event) => {
+      setIsReady(true);
+      if (autoplay) {
+        event.target.playVideo();
+      }
+    };
+
+    const onPlayerStateChange = (event) => {
+      if (event.data === window.YT.PlayerState.PLAYING) {
+        setIsPlaying(true);
+      } else if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.ENDED) {
+        setIsPlaying(false);
+      }
+    };
+
+    const initPlayer = () => {
+      // If player already exists, destroy it to create a new one or load new video
+      if (playerRef.current) {
+        playerRef.current.destroy();
+      }
+
+      playerRef.current = new window.YT.Player(containerRef.current, {
+        height: '0',
+        width: '0',
+        videoId: videoId,
+        playerVars: {
+          'playsinline': 1,
+          'controls': 0,
+          'autoplay': autoplay ? 1 : 0,
+          'mute': muted ? 1 : 0
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    };
+
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    } else {
+      // Wait for API to be ready
+      window.onYouTubeIframeAPIReady = () => {
+        initPlayer();
+      };
+    }
+
+    return () => {
+      if (playerRef.current) {
+        try {
+            playerRef.current.destroy();
+        } catch(e) {}
+      }
+    };
+  }, [videoId, autoplay, muted]);
+
+  const togglePlay = () => {
+    if (playerRef.current && isReady) {
+      if (isPlaying) {
+        playerRef.current.pauseVideo();
+      } else {
+        playerRef.current.playVideo();
+      }
+    }
+  };
+
+  if (!videoId) {
+    return <div style={{color: '#888', fontSize: '14px'}}>Searching...</div>;
+  }
 
   return (
-    <div className="yt-embed" style={{ width: '100%', maxWidth: 560 }}>
-      <iframe
-        width={typeof width === 'number' ? String(width) : width}
-        height={typeof height === 'number' ? String(height) : height}
-        src={src}
-        title={`YouTube player for ${query}`}
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      />
+    <div className="yt-player-container" style={{ width: '100%', textAlign: 'center', padding: '10px' }}>
+      {/* The div where the iframe will be mounted */}
+      <div ref={containerRef} style={{ display: 'none' }}></div>
+      
+      <button onClick={togglePlay} disabled={!isReady} style={{
+        fontSize: '24px',
+        width: '60px',
+        height: '60px',
+        borderRadius: '50%',
+        border: 'none',
+        background: isReady ? '#1DB954' : '#333',
+        color: 'white',
+        cursor: isReady ? 'pointer' : 'not-allowed',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+        transition: 'all 0.2s ease'
+      }}>
+        {isPlaying ? '❚❚' : '▶'}
+      </button>
+      <div style={{marginTop: '8px', fontSize: '12px', color: '#aaa'}}>
+        {isReady ? (isPlaying ? 'Playing' : 'Paused') : 'Loading Audio...'}
+      </div>
     </div>
   );
 }
+
