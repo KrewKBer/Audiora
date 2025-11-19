@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { useSongQueue } from './SongQueueContext';
 import './Search.css';
-import YouTubePlayer from './YouTubePlayer';
+import { YouTubePlayer } from './YouTubePlayer';
 
 class SearchInternal extends Component {
   static displayName = SearchInternal.name;

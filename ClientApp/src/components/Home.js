@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
-import YouTubePlayer from './YouTubePlayer';
+import { YouTubePlayer } from './YouTubePlayer';
 
 const HomeComponent = (props) => {
     const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
