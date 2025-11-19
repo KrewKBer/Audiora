@@ -262,50 +262,42 @@ class HomeInternal extends Component {
         )}
         <h2 className="song-title">{currentSong.name}</h2>
         <p className="song-artist">Artist: <span>{currentSong.artists?.map(artist => artist.name).join(', ')}</span></p>
-        {currentSong.preview_url ? (
-          <div style={{ marginTop: '15px', width: '100%' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-              <button 
-                onClick={this.togglePlayPause}
-                style={{
-                  fontSize: '24px',
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '50%',
-                  border: '2px solid #1DB954',
-                  background: '#1DB954',
-                  color: 'white',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                {this.state.isPlaying ? '⏸️' : '▶️'}
-              </button>
-              <span style={{ fontSize: '14px', color: '#888' }}>
-                {this.state.isPlaying ? 'Playing 30s preview...' : 'Click to play preview'}
-              </span>
+        
+        <div className="player-controls">
+            <button className="btn-action dislike" onClick={() => this.swipeWithAnimation('left')}>✕</button>
+            
+            {currentSong.preview_url ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <button 
+                    className="btn-player"
+                    onClick={this.togglePlayPause}
+                >
+                    {this.state.isPlaying ? '❚❚' : '▶'}
+                </button>
+                <span style={{ fontSize: '12px', color: '#888', marginTop: '5px' }}>
+                    {this.state.isPlaying ? 'Playing Preview' : 'Preview'}
+                </span>
+                <audio 
+                ref={this.audioRef}
+                src={currentSong.preview_url}
+                onEnded={() => this.setState({ isPlaying: false })}
+                onPlay={() => this.setState({ isPlaying: true })}
+                onPause={() => this.setState({ isPlaying: false })}
+                >
+                Your browser does not support the audio element.
+                </audio>
             </div>
-            <audio 
-              ref={this.audioRef}
-              src={currentSong.preview_url}
-              onEnded={() => this.setState({ isPlaying: false })}
-              onPlay={() => this.setState({ isPlaying: true })}
-              onPause={() => this.setState({ isPlaying: false })}
-            >
-              Your browser does not support the audio element.
-            </audio>
-          </div>
-        ) : (
-          <div style={{ marginTop: '15px', width: '100%' }}>
-            <YouTubePlayer
-              query={`${currentSong.name} ${currentSong.artists?.map(a => a.name).join(', ') || ''}`}
-              autoplay={true}
-              muted={false}
-            />
-          </div>
-        )}
+            ) : (
+                <YouTubePlayer
+                query={`${currentSong.name} ${currentSong.artists?.map(a => a.name).join(', ') || ''}`}
+                autoplay={true}
+                muted={false}
+                />
+            )}
+
+            <button className="btn-action like" onClick={() => this.swipeWithAnimation('right')}>♥</button>
+        </div>
+
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
         </p>
@@ -399,16 +391,6 @@ render() {
                 </div>
             </TinderCard>
             )}
-            <div className="homepage-actions">
-                <button
-                    className="btn-dislike"
-                    onClick={() => this.swipeWithAnimation('left')}
-                >Dislike</button>
-                <button
-                    className="btn-like"
-                    onClick={() => this.swipeWithAnimation('right')}
-                >Like</button>
-            </div>
         </div>
     );
   }

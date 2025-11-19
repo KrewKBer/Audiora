@@ -435,3 +435,106 @@ code {
   animation: page-spin 1s infinite linear;
 }
 @keyframes page-spin { to { transform: rotate(1turn) } }
+/* Player Controls Layout */
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Stylish Player Button */
+.btn-player {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(145deg, #1db954, #1aa34a);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-player:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(29, 185, 84, 0.6);
+}
+
+.btn-player:active {
+  transform: scale(0.95);
+}
+
+/* Action Buttons (Like/Dislike) next to player */
+.btn-action {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.btn-action.dislike {
+  background: #333;
+  color: #fca5a5;
+  border: 1px solid #fca5a5;
+}
+
+.btn-action.dislike:hover {
+  background: #fca5a5;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.btn-action.like {
+  background: #333;
+  color: #4ade80;
+  border: 1px solid #4ade80;
+}
+
+.btn-action.like:hover {
+  background: #4ade80;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Stylish Random Button */
+.btn-random {
+  background: linear-gradient(45deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+}
+
+.btn-random:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+  background: linear-gradient(45deg, #5558e6, #7c4dff);
+}
+
+.btn-random:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
