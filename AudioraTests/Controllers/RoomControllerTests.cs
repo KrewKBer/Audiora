@@ -8,7 +8,7 @@ using Xunit;
 
 namespace AudioraTests.Controllers
 {
-    [Trait("Category", "Controllers")]
+    [Trait("Category", "Unit")]
     public class RoomControllerTests : IDisposable
     {
         private readonly AudioraDbContext _context;

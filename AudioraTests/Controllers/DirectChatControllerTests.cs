@@ -10,7 +10,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace AudioraTests.Controllers;
 
-[Trait("Category", "Controllers")]
+[Trait("Category", "Unit")]
 public class DirectChatControllerTests : IDisposable
 {
     private readonly AudioraDbContext _context;

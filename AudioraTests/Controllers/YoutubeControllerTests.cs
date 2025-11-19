@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace AudioraTests.Controllers;
 
-[Trait("Category", "Controllers")]
+[Trait("Category", "Unit")]
 public class YouTubeControllerTests
 {
     private readonly Mock<IHttpClientFactory> _mockHttpClientFactory;
