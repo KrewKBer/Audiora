@@ -1,7 +1,61 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useRef } from 'react';
 import { useSongQueue } from './SongQueueContext';
 import './Search.css';
 import { YouTubePlayer } from './YouTubePlayer';
+
+const TrackItem = ({ track, onAddToQueue }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const togglePlay = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      // Pause all other audios
+      document.querySelectorAll('audio').forEach(el => {
+          if(el !== audioRef.current) el.pause();
+      });
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  return (
+    <div className="track">
+      <img src={track.album?.images?.[0]?.url} alt={track.name} className="track-image" />
+      <div className="track-info">
+        <div className="track-name">{track.name}</div>
+        <div className="track-artist">{(track.artists || []).map(artist => artist.name).join(', ')}</div>
+      </div>
+      
+      <div className="track-actions">
+        {track.preview_url ? (
+          <div className="preview-player-wrapper">
+            <button className={`btn-mini-player ${isPlaying ? 'playing' : ''}`} onClick={togglePlay}>
+               {isPlaying ? '❚❚' : '▶'}
+            </button>
+            <audio 
+                ref={audioRef} 
+                src={track.preview_url} 
+                onEnded={() => setIsPlaying(false)}
+                onPause={() => setIsPlaying(false)}
+                onPlay={() => setIsPlaying(true)}
+            />
+          </div>
+        ) : (
+           <div className="preview-player-wrapper">
+             <YouTubePlayer query={`${track.name} ${(track.artists || []).map(a => a.name).join(', ')}`} />
+           </div>
+        )}
+        
+        <button className="btn-add-queue" onClick={() => onAddToQueue([track])}>
+          Add to Queue
+        </button>
+      </div>
+    </div>
+  );
+};
 
 class SearchInternal extends Component {
   static displayName = SearchInternal.name;
@@ -53,37 +107,21 @@ class SearchInternal extends Component {
     const { searchResults, isSearching, error } = this.state;
 
     if (isSearching) {
-      return <p><span className="spinner spinner-dark"></span>Searching...</p>;
+      return <div className="search-status"><span className="spinner spinner-dark"></span>Searching...</div>;
     }
 
     if (error) {
-      return <p className="search-error">{error}</p>;
+      return <div className="search-status error">{error}</div>;
     }
 
     if (searchResults.length === 0) {
-      return <p>No results found.</p>;
+      return null;
     }
 
     return (
       <div className="search-results">
         {searchResults.map(track => (
-          <div key={track.id} className="track">
-            <img src={track.album?.images?.[0]?.url} alt={track.name} width="50" />
-            <div className="track-info">
-              <strong>{track.name}</strong>
-              <span>{(track.artists || []).map(artist => artist.name).join(', ')}</span>
-            </div>
-            <button onClick={() => this.props.addSongsToQueue([track])}>Add to Queue</button>
-            {track.preview_url ? (
-              <audio controls src={track.preview_url} />
-            ) : (
-              <div style={{ marginTop: 8, width: '100%' }}>
-                <YouTubePlayer
-                  query={`${track.name} ${(track.artists || []).map(a => a.name).join(', ')}`}
-                />
-              </div>
-            )}
-          </div>
+          <TrackItem key={track.id} track={track} onAddToQueue={this.props.addSongsToQueue} />
         ))}
       </div>
     );
@@ -91,19 +129,22 @@ class SearchInternal extends Component {
 
   render() {
     return (
-      <div className="search-content">
+      <div className="search-container">
         {this.state.isSearching && (
           <div className="page-loader-overlay"><div className="page-loader"></div></div>
         )}
-        <h1>Song Search</h1>
+        <h1 className="search-title">Find Your Vibe</h1>
         <form onSubmit={this.handleSearch} className="search-bar">
           <input
             type="text"
             value={this.state.searchQuery}
             onChange={this.handleSearchChange}
-            placeholder="Search for a song..."
+            placeholder="Search for songs, artists..."
+            className="search-input"
           />
-          <button type="submit" disabled={this.state.isSearching}>Search</button>
+          <button type="submit" disabled={this.state.isSearching} className="search-btn">
+            Search
+          </button>
         </form>
         {this.renderSearchResults()}
       </div>

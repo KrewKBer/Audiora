@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Audiora.Models;
 using Audiora.Extensions;
+using Audiora.Exceptions;
 
 namespace Audiora.Services
 {
@@ -57,17 +58,17 @@ namespace Audiora.Services
             catch (APIUnauthorizedException ex)
             {
                 _logger.LogError(ex, "Spotify API unauthorized. Check client credentials.");
-                throw new InvalidOperationException("Spotify authorization failed.", ex);
+                throw new SpotifyApiException("Spotify authorization failed.", ex);
             }
             catch (APIException ex)
             {
                 _logger.LogError(ex, "Spotify API error occurred while searching tracks.");
-                throw new InvalidOperationException($"Spotify API error: {ex.Message}", ex);
+                throw new SpotifyApiException($"Spotify API error: {ex.Message}", ex);
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
                 _logger.LogError(ex, "Network error calling Spotify API.");
-                throw new InvalidOperationException("Network error calling Spotify API.", ex);
+                throw new SpotifyApiException("Network error calling Spotify API.", ex);
             }
         }
 

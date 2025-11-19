@@ -55,9 +55,9 @@ export function AuthForm({ formType, onSubmit }) {
                 {formType === 'Register' && (
                     <div className="form-group">
                         <label>Select your favorite genres:</label>
-                        <div className="genre-list" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '8px' }}>
+                        <div className="genre-list">
                             {GENRES.map((genre) => (
-                                <label key={genre} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <label key={genre} className={genres.includes(genre) ? 'selected' : ''}>
                                     <input
                                         type="checkbox"
                                         value={genre}

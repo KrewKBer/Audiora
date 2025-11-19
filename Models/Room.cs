@@ -2,7 +2,7 @@
 
 namespace Audiora.Models;
 
-public class Room : IComparable<Room>
+public class Room : IComparable<Room>, IBaseEntity
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; }

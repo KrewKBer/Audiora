@@ -25,7 +25,7 @@ else
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
 
-builder.Services.AddSingleton(typeof(DataService<>));
+builder.Services.AddScoped(typeof(DataService<>));
 builder.Services.AddSingleton<SpotifyService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();

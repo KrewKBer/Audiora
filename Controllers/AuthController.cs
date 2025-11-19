@@ -1,5 +1,6 @@
 using Audiora.Data;
 using Audiora.Models;
+using Audiora.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,10 +16,12 @@ namespace Audiora.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AudioraDbContext _context;
+        private readonly DataService<User> _userDataService;
 
-        public AuthController(AudioraDbContext context)
+        public AuthController(AudioraDbContext context, DataService<User> userDataService)
         {
             _context = context;
+            _userDataService = userDataService;
         }
 
         [HttpPost("register")]
@@ -34,8 +37,7 @@ namespace Audiora.Controllers
             if (user.Genres == null)
                 user.Genres = new List<string>();
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            await _userDataService.AddAsync(user);
 
             return Ok(new { userId = user.Id.ToString(), username = user.Username, role = user.Role });
         }

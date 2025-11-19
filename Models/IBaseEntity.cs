@@ -2,5 +2,5 @@ namespace Audiora.Models;
 
 public interface IBaseEntity
 {
-    int Id { get; set; }
+    Guid Id { get; set; }
 }

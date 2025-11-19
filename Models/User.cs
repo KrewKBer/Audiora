@@ -12,7 +12,7 @@ namespace Audiora.Models
         Hacker,
         Admin
     }
-    public class User
+    public class User : IBaseEntity
     {
         public Guid Id { get; set; }
         public UserRole Role { get; set; } = UserRole.Noob;

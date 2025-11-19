@@ -113,24 +113,14 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
   }
 
   return (
-    <div className="yt-player-container" style={{ width: '100%', textAlign: 'center', padding: '10px' }}>
+    <div className="yt-player-container">
       {/* The div where the iframe will be mounted */}
       <div ref={containerRef} style={{ display: 'none' }}></div>
       
-      <button onClick={togglePlay} disabled={!isReady} style={{
-        fontSize: '24px',
-        width: '60px',
-        height: '60px',
-        borderRadius: '50%',
-        border: 'none',
-        background: isReady ? '#1DB954' : '#333',
-        color: 'white',
+      <button onClick={togglePlay} disabled={!isReady} className="btn-player" style={{
+        background: isReady ? 'linear-gradient(145deg, #1db954, #1aa34a)' : '#333',
         cursor: isReady ? 'pointer' : 'not-allowed',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-        transition: 'all 0.2s ease'
+        boxShadow: isReady ? '0 4px 15px rgba(29, 185, 84, 0.4)' : 'none'
       }}>
         {isPlaying ? '❚❚' : '▶'}
       </button>
