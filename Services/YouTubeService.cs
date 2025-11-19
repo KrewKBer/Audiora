@@ -17,9 +17,9 @@ public class YouTubeService
         _apiKey = config["YouTube:ApiKey"]; // keep null if not set
     }
 
-    public bool HasApiKey => !string.IsNullOrWhiteSpace(_apiKey);
+    public virtual bool HasApiKey => !string.IsNullOrWhiteSpace(_apiKey);
 
-    public async Task<string?> GetEmbeddableVideoIdAsync(string query, CancellationToken ct = default)
+    public virtual async Task<string?> GetEmbeddableVideoIdAsync(string query, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(_apiKey))
             return null;

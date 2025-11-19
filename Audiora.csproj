@@ -46,6 +46,7 @@
         <Compile Remove="AudioraTests\**" />
         <EmbeddedResource Remove="AudioraTests\**" />
         <None Remove="AudioraTests\**" />
+        <InternalsVisibleTo Include="AudioraTests" />
     </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
