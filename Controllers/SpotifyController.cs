@@ -8,6 +8,7 @@ using Audiora.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using SpotifyAPI.Web;
+using Audiora.Exceptions;
 
 namespace Audiora.Controllers
 {
@@ -38,7 +39,7 @@ namespace Audiora.Controllers
                 var result = await _spotifyService.SearchTracks(query);
                 return Ok(new { items = result.Tracks.Items });
             }
-            catch (InvalidOperationException ex)
+            catch (SpotifyApiException ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
