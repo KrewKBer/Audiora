@@ -14,8 +14,16 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets<Program>();
 }
 
-builder.Services.AddDbContext<AudioraDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddDbContext<AudioraDbContext>(o =>
+        o.UseInMemoryDatabase("TestDb"));
+}
+else
+{
+    builder.Services.AddDbContext<AudioraDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 builder.Services.AddSingleton(typeof(DataService<>));
 builder.Services.AddSingleton<SpotifyService>();
@@ -52,3 +60,5 @@ app.MapHub<RoomHub>("/roomHub");
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
+public partial class Program { }
