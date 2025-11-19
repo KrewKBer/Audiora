@@ -460,7 +460,6 @@ code {
 .spotlight-card img {
     pointer-events: none;
     -webkit-user-drag: none;
-    user-drag: none;
 }
 
 /* Title glow for better integration */
