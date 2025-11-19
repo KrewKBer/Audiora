@@ -19,12 +19,12 @@ namespace Audiora.Data
             modelBuilder.Entity<User>()
                 .Property(e => e.Genres)
                 .HasConversion(
-                    v => string.Join(',', v),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList())
+                    v => v == null ? null : string.Join(',', v),
+                    v => string.IsNullOrEmpty(v) ? new List<string>() : v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList())
                 .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<string>>(
-                    (c1, c2) => c1.SequenceEqual(c2),
-                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c.ToList()));
+                    (c1, c2) => c1 == null && c2 == null || (c1 != null && c2 != null && c1.SequenceEqual(c2)),
+                    c => c == null ? 0 : c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c == null ? null : c.ToList()));
 
             modelBuilder.Entity<Room>(entity =>
             {
@@ -39,13 +39,11 @@ namespace Audiora.Data
 
                 entity.Property(r => r.MemberUserIds)
                     .HasColumnName("member_user_ids")
-                    .HasConversion(
-                        v => v.Select(Guid.Parse).ToArray(),
-                        v => v.Select(g => g.ToString()).ToList())
-                    .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<string>>(
-                        (c1, c2) => c1.SequenceEqual(c2),
-                        c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                        c => c.ToList()));
+                    .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<Guid>>(
+                        (c1, c2) => c1 == null && c2 == null || (c1 != null && c2 != null && c1.SequenceEqual(c2)),
+                        c => c == null ? 0 : c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                        c => c == null ? null : c.ToList()));
+
             });
 
             modelBuilder.Entity<ChatMessage>(entity =>
