@@ -66,11 +66,11 @@ export function Rooms() {
 
     return (
         <div className="rooms-container">
-            <h2>Rooms</h2>
+            <h2 className="rooms-title">Rooms</h2>
 
             <div className="create-room">
-                <input value={name} onChange={e => setName(e.target.value)} placeholder="Room name" />
-                <label style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <input value={name} onChange={e => setName(e.target.value)} placeholder="Room name" type="text" />
+                <label>
                     <input type="checkbox" checked={isPrivate} onChange={e => setIsPrivate(e.target.checked)} />
                     Private
                 </label>
@@ -83,10 +83,13 @@ export function Rooms() {
             <div className="rooms-list">
                 {rooms.map(r => (
                     <div key={r.id} className="room-item" onClick={() => joinRoom(r)}>
-                        <h4>
-                            {r.name} {r.isPrivate ? '🔒' : '🔓'}
-                        </h4>
-                        <p>Members: {r.memberUserIds?.length || 0}</p>
+                        <div className="room-info">
+                            <h4>{r.name}</h4>
+                            <p>{r.memberUserIds?.length || 0} Members</p>
+                        </div>
+                        <div className="room-status">
+                            {r.isPrivate ? '🔒' : '🔓'}
+                        </div>
                     </div>
                 ))}
             </div>

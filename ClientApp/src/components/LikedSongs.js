@@ -13,59 +13,50 @@ export class LikedSongs extends Component {
     this.populateLikedSongsData();
   }
 
-  static renderLikedSongsTable(songs) {
+  static renderLikedSongsList(songs) {
     if (songs.length === 0) {
-      return <p>No liked songs yet. Start swiping!</p>;
+      return <div className="empty-state">No liked songs yet. Start swiping!</div>;
     }
     
     return (
-      <table className='table text-light' aria-labelledby="tableLabel">
-        <thead>
-          <tr className='liked-songs-content'>
-            <th>Album Art</th>
-            <th>Title</th>
-            <th>Artist</th>
-          </tr>
-        </thead>
-        <tbody>
-          {songs.map(song => {
-            const songId = song.songId || song.SongId || song.id || song.Id;
-            const name = song.name || song.Name;
-            const artist = song.artist || song.Artist;
-            const albumImageUrl = song.albumImageUrl || song.AlbumImageUrl;
-            
-            // Skip songs without basic info (old data before migration)
-            if (!name && !artist) {
-              return null;
-            }
-            
-            return (
-              <tr key={songId}>
-                <td>
-                  {albumImageUrl && 
-                    <img src={albumImageUrl} 
-                         alt={name || 'Song'} 
-                         width="50" />}
-                </td>
-                <td>{name || 'Unknown'}</td>
-                <td>{artist || 'Unknown'}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="liked-songs-list">
+        {songs.map(song => {
+          const songId = song.songId || song.SongId || song.id || song.Id;
+          const name = song.name || song.Name;
+          const artist = song.artist || song.Artist;
+          const albumImageUrl = song.albumImageUrl || song.AlbumImageUrl;
+          
+          // Skip songs without basic info (old data before migration)
+          if (!name && !artist) {
+            return null;
+          }
+          
+          return (
+            <div key={songId} className="liked-song-item">
+              <img 
+                src={albumImageUrl || 'https://via.placeholder.com/60'} 
+                alt={name || 'Song'} 
+                className="liked-song-image"
+              />
+              <div className="liked-song-info">
+                <div className="liked-song-name">{name || 'Unknown'}</div>
+                <div className="liked-song-artist">{artist || 'Unknown'}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     );
   }
 
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : LikedSongs.renderLikedSongsTable(this.state.songs);
+      ? <div className="loading-state">Loading...</div>
+      : LikedSongs.renderLikedSongsList(this.state.songs);
 
     return (
-      <div className='liked-songs-content'>
-        <h1 id="tableLabel">Your Liked Songs</h1>
-        <p>Here are the songs you've liked.</p>
+      <div className="liked-songs-container">
+        <h1 className="liked-songs-title">Your Liked Songs</h1>
         {contents}
       </div>
     );
