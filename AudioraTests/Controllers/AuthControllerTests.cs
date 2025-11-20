@@ -1,6 +1,7 @@
 ﻿using Audiora.Controllers;
 using Audiora.Data;
 using Audiora.Models;
+using Audiora.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -19,9 +20,11 @@ namespace AudioraTests.Controllers
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
             _context = new AudioraDbContext(options);
-            _controller = new AuthController(_context);
+    
+            // Create a DataService instance for the controller
+            var dataService = new DataService<User>(_context);
+            _controller = new AuthController(_context, dataService);
         }
-
         [Fact]
         public async Task Register_WithValidUser_ReturnsOkWithUserData()
         {

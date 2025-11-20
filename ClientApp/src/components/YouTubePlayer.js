@@ -4,6 +4,7 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
   const [videoId, setVideoId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(autoplay);
   const [isReady, setIsReady] = useState(false);
+  const [error, setError] = useState(null);
   const playerRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -23,15 +24,21 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
     async function fetchVideoId() {
       setVideoId(null);
       setIsReady(false);
+      setError(null);
       try {
         const res = await fetch(`/youtube/search?query=${encodeURIComponent(query)}`);
         if (!res.ok) throw new Error('search failed');
         const data = await res.json();
-        if (!aborted && data?.videoId) {
-          setVideoId(data.videoId);
+        if (!aborted) {
+            if (data?.videoId) {
+                setVideoId(data.videoId);
+            } else {
+                setError("No video found");
+            }
         }
       } catch (e) {
         console.error("Error fetching video ID:", e);
+        if (!aborted) setError("Search error");
       }
     }
     if (query) fetchVideoId();
@@ -107,6 +114,10 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
       }
     }
   };
+
+  if (error) {
+    return <div style={{color: '#d32f2f', fontSize: '14px'}}>{error}</div>;
+  }
 
   if (!videoId) {
     return <div style={{color: '#888', fontSize: '14px'}}>Searching...</div>;
