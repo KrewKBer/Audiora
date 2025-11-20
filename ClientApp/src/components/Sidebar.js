@@ -26,15 +26,13 @@ export function Sidebar({ open, onClose }) {
             <div className="sidebar-actions">
               <button className="sidebar-btn primary" onClick={() => go('/')}>Listen Now</button>
               <button className="sidebar-btn" onClick={() => go('/search')}>Browse</button>
-              <button className="sidebar-btn" onClick={() => go('/rooms')}>Forums</button>
+              <button className="sidebar-btn" onClick={() => go('/rooms')}>Rooms</button>
             </div>
           </section>
 
           <section className="sidebar-section">
             <h2 className="sidebar-title">Library</h2>
             <div className="sidebar-actions">
-              <button className="sidebar-btn" onClick={() => go('/search')}>Songs</button>
-              <button className="sidebar-btn" onClick={() => go('/profile')}>Made for You</button>
               <button className="sidebar-btn" onClick={() => go('/matchmaking')}>Matchmaking</button>
               <button className="sidebar-btn" onClick={() => go('/chats')}>Chats</button>
               <button className="sidebar-btn" onClick={() => go('/liked-songs')}>Liked Songs</button>
