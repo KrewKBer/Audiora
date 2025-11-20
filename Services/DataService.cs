@@ -30,4 +30,10 @@ public class DataService<T> where T : class, IBaseEntity
         await _dbSet.AddAsync(item);
         await _context.SaveChangesAsync();
     }
+
+    public TOutput Map<TOutput>(T input, Func<T, TOutput> converter) where TOutput : class, new()
+    {
+        if (input == null) throw new ArgumentNullException(nameof(input));
+        return converter(input);
+    }
 }

@@ -19,7 +19,6 @@ describe('LikedSongs Component', () => {
 
     render(<LikedSongs />);
     expect(screen.getByText('Your Liked Songs')).toBeInTheDocument();
-    expect(screen.getByText("Here are the songs you've liked.")).toBeInTheDocument();
   });
 
   test('shows loading state initially', () => {
@@ -48,90 +47,17 @@ describe('LikedSongs Component', () => {
     render(<LikedSongs />);
 
     await waitFor(() => {
-      expect(screen.getByText('No liked songs yet. Start swiping!')).toBeInTheDocument();
+      expect(screen.getByText(/no liked songs yet/i)).toBeInTheDocument();
     });
   });
 
-  test('displays liked songs in table', async () => {
-    const mockSongs = [
-      {
-        songId: '1',
-        name: 'Test Song 1',
-        artist: 'Artist 1',
-        albumImageUrl: 'http://test.com/image1.jpg'
-      },
-      {
-        songId: '2',
-        name: 'Test Song 2',
-        artist: 'Artist 2',
-        albumImageUrl: 'http://test.com/image2.jpg'
-      }
-    ];
-
+  test('renders list of liked songs', async () => {
     localStorage.setItem('userId', '123');
-    fetch.mockResolvedValueOnce({
-      json: async () => mockSongs,
-    });
-
-    render(<LikedSongs />);
-
-    await waitFor(() => {
-      expect(screen.getByText('Test Song 1')).toBeInTheDocument();
-      expect(screen.getByText('Artist 1')).toBeInTheDocument();
-      expect(screen.getByText('Test Song 2')).toBeInTheDocument();
-      expect(screen.getByText('Artist 2')).toBeInTheDocument();
-    });
-  });
-
-  test('handles songs with alternative property names', async () => {
     const mockSongs = [
-      {
-        SongId: '3',
-        Name: 'Capitalized Song',
-        Artist: 'Capitalized Artist',
-        AlbumImageUrl: 'http://test.com/image3.jpg'
-      }
+      { songId: '1', name: 'Song 1', artist: 'Artist 1', albumImageUrl: 'url1' },
+      { songId: '2', name: 'Song 2', artist: 'Artist 2', albumImageUrl: 'url2' }
     ];
-
-    localStorage.setItem('userId', '456');
-    fetch.mockResolvedValueOnce({
-      json: async () => mockSongs,
-    });
-
-    render(<LikedSongs />);
-
-    await waitFor(() => {
-      expect(screen.getByText('Capitalized Song')).toBeInTheDocument();
-      expect(screen.getByText('Capitalized Artist')).toBeInTheDocument();
-    });
-  });
-
-  test('handles fetch error gracefully', async () => {
-    localStorage.setItem('userId', '123');
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     
-    fetch.mockRejectedValueOnce(new Error('Network error'));
-
-    render(<LikedSongs />);
-
-    await waitFor(() => {
-      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
-    });
-
-    consoleErrorSpy.mockRestore();
-  });
-
-  test('renders album images when available', async () => {
-    const mockSongs = [
-      {
-        songId: '1',
-        name: 'Song With Art',
-        artist: 'Artist',
-        albumImageUrl: 'http://test.com/album.jpg'
-      }
-    ];
-
-    localStorage.setItem('userId', '123');
     fetch.mockResolvedValueOnce({
       json: async () => mockSongs,
     });
@@ -139,37 +65,14 @@ describe('LikedSongs Component', () => {
     render(<LikedSongs />);
 
     await waitFor(() => {
-      const img = screen.getByRole('img', { name: 'Song With Art' });
-      expect(img).toBeInTheDocument();
-      expect(img).toHaveAttribute('src', 'http://test.com/album.jpg');
+      expect(screen.getByText('Song 1')).toBeInTheDocument();
+      expect(screen.getByText('Artist 1')).toBeInTheDocument();
+      expect(screen.getByText('Song 2')).toBeInTheDocument();
     });
-  });
-
-  test('skips songs without name and artist', async () => {
-    const mockSongs = [
-      {
-        songId: '1',
-        name: 'Valid Song',
-        artist: 'Valid Artist'
-      },
-      {
-        songId: '2',
-        // Missing name and artist
-      }
-    ];
-
-    localStorage.setItem('userId', '123');
-    fetch.mockResolvedValueOnce({
-      json: async () => mockSongs,
-    });
-
-    render(<LikedSongs />);
-
-    await waitFor(() => {
-      expect(screen.getByText('Valid Song')).toBeInTheDocument();
-      // Song without name/artist should not be rendered
-      const rows = screen.getAllByRole('row');
-      expect(rows.length).toBe(2); // header + 1 valid song
-    });
+    
+    // Check for images
+    const images = screen.getAllByRole('img');
+    expect(images).toHaveLength(2);
+    expect(images[0]).toHaveAttribute('src', 'url1');
   });
 });

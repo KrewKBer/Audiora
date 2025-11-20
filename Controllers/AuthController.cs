@@ -39,7 +39,14 @@ namespace Audiora.Controllers
 
             await _userDataService.AddAsync(user);
 
-            return Ok(new { userId = user.Id.ToString(), username = user.Username, role = user.Role });
+            var userDto = _userDataService.Map(user, u => new UserDto
+            {
+                UserId = u.Id.ToString(),
+                Username = u.Username ?? string.Empty,
+                Role = u.Role.ToString()
+            });
+
+            return Ok(userDto);
         }
 
         [HttpPost("login")]
