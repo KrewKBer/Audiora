@@ -99,12 +99,10 @@ describe('Home Component Integration', () => {
   });
 
   test('handles swipe interaction (like)', async () => {
-    // We need to mock the hook to provide data
     const mockAddSongs = jest.fn();
     const mockGetNext = jest.fn().mockReturnValue(mockSong);
     const mockClear = jest.fn();
     
-    // Re-mock the module to return our custom hook values
     jest.spyOn(require('./SongQueueContext'), 'useSongQueue').mockReturnValue({
       songQueue: [mockSong],
       addSongsToQueue: mockAddSongs,

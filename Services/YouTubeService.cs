@@ -59,13 +59,24 @@ public class YouTubeService
 
         var requestUri = "https://www.googleapis.com/youtube/v3/search?" +
             string.Join("&", qp.Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value ?? string.Empty)}"));
+        
+        Console.WriteLine($"[YouTubeService] Requesting: {requestUri.Replace(_apiKey, "HIDDEN_KEY")}");
+
         using var req = new HttpRequestMessage(HttpMethod.Get, requestUri);
         using var resp = await client.SendAsync(req, ct);
+        
         if (!resp.IsSuccessStatusCode)
+        {
+            var errorContent = await resp.Content.ReadAsStringAsync(ct);
+            Console.WriteLine($"[YouTubeService] Error {resp.StatusCode}: {errorContent}");
             return null;
+        }
 
         var payload = await resp.Content.ReadFromJsonAsync<YouTubeSearchResponse>(cancellationToken: ct);
         var id = payload?.Items?.Select(i => i.Id?.VideoId).FirstOrDefault(v => !string.IsNullOrWhiteSpace(v));
+        
+        Console.WriteLine($"[YouTubeService] Found ID: {id} for query: {searchQuery}");
+        
         return id;
     }
 

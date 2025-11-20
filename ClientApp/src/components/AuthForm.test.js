@@ -21,7 +21,7 @@ describe('AuthForm Component', () => {
     
     expect(screen.getByRole('heading', { name: /register/i })).toBeInTheDocument();
     expect(screen.getByText(/select your favorite genres/i)).toBeInTheDocument();
-    // Check for a few genres - use exact match for Pop to avoid matching K-Pop
+    
     expect(screen.getByLabelText(/^pop$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/rock/i)).toBeInTheDocument();
   });
