@@ -27,8 +27,6 @@ public class YouTubeService
         if (_cache.TryGetValue<string>($"yt:{query}", out var cached))
             return cached;
 
-        // OPTIMIZATION: Reduced to single search to save quota (100 units per search).
-        // Previously tried 5 variants (up to 500 units).
         var id = await SearchEmbeddableAsync(query, ct);
         
         if (!string.IsNullOrWhiteSpace(id))
