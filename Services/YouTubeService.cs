@@ -27,17 +27,16 @@ public class YouTubeService
         if (_cache.TryGetValue<string>($"yt:{query}", out var cached))
             return cached;
 
-        // Try several query variants to avoid blocked official uploads
-        var variants = new[] { query, query + " lyrics", query + " audio", query + " topic", query + " visualizer" };
-        foreach (var v in variants.Distinct(StringComparer.OrdinalIgnoreCase))
+        // OPTIMIZATION: Reduced to single search to save quota (100 units per search).
+        // Previously tried 5 variants (up to 500 units).
+        var id = await SearchEmbeddableAsync(query, ct);
+        
+        if (!string.IsNullOrWhiteSpace(id))
         {
-            var id = await SearchEmbeddableAsync(v, ct);
-            if (!string.IsNullOrWhiteSpace(id))
-            {
-                _cache.Set($"yt:{query}", id, TimeSpan.FromHours(6));
-                return id;
-            }
+            _cache.Set($"yt:{query}", id, TimeSpan.FromHours(24));
+            return id;
         }
+        
         return null;
     }
 
