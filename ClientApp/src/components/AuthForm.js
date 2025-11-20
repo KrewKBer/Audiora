@@ -33,8 +33,9 @@ export function AuthForm({ formType, onSubmit }) {
                 <h2>{formType}</h2>
                 {error && <p className="auth-error">{error}</p>}
                 <div className="form-group">
-                    <label>Username</label>
+                    <label htmlFor="username">Username</label>
                     <input
+                        id="username"
                         type="text"
                         className="form-control"
                         value={username}
@@ -43,8 +44,9 @@ export function AuthForm({ formType, onSubmit }) {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Password</label>
+                    <label htmlFor="password">Password</label>
                     <input
+                        id="password"
                         type="password"
                         className="form-control"
                         value={password}
