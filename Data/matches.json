@@ -49,6 +49,11 @@
       "FromUserId": "3cfba7e1-52be-4267-ba4b-16812298155e",
       "ToUserId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
       "Timestamp": "2025-11-18T19:40:05.4355093Z"
+    },
+    {
+      "FromUserId": "575e7940-b39c-45b0-8f32-e546933e9dcd",
+      "ToUserId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+      "Timestamp": "2025-11-20T10:42:03.6576353Z"
     }
   ],
   "Matches": [
@@ -57,6 +62,12 @@
       "UserBId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
       "CreatedAt": "2025-11-18T19:40:05.4365232Z",
       "ChatId": "3cfba7e1-52be-4267-ba4b-16812298155e_57209df8-dd67-4a46-bd13-c11a35ebda18"
+    },
+    {
+      "UserAId": "575e7940-b39c-45b0-8f32-e546933e9dcd",
+      "UserBId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+      "CreatedAt": "2025-11-20T10:42:03.659076Z",
+      "ChatId": "57209df8-dd67-4a46-bd13-c11a35ebda18_575e7940-b39c-45b0-8f32-e546933e9dcd"
     }
   ]
 }

@@ -209,10 +209,6 @@ class HomeInternal extends Component {
   }
 
   async resetData() {
-    if (!window.confirm('Are you sure you want to reset everything? This will clear the queue and delete all liked/disliked songs.')) {
-      return;
-    }
-
     try {
       const { userId } = this.state;
       // Delete seen songs (includes liked/disliked)
@@ -225,7 +221,6 @@ class HomeInternal extends Component {
       localStorage.removeItem('currentSong');
       this.setState({ currentSong: null });
       
-      alert('Successfully reset! Queue cleared and all song data deleted.');
     } catch (error) {
       console.error('Error resetting data:', error);
       alert('Failed to reset data. Please try again.');

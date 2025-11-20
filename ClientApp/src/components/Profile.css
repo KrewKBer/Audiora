@@ -1,110 +1,251 @@
-.profile-content {
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  padding: 15px;
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #fff;
 }
 
-.profile-content h1,
-.profile-content h2,
-.profile-content h3,
-.profile-content p,
-.profile-content label {
-  color: #f8f8f8;
+.profile-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(to right, #fff, #ccc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-content {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.profile-section {
+  margin-bottom: 2.5rem;
+}
+
+.profile-section h3 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .profile-content input[type="text"],
 .profile-content input[type="password"],
-.profile-content input[type="checkbox"],
 .profile-content select,
 .profile-content textarea {
-  background: #222;
-  color: #eee;
-  border: 1px solid #555;
-  border-radius: 6px;
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
-.profile-content .btn {
-  border-radius: 6px;
+.profile-content input:focus {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  outline: none;
 }
 
-.profile-content .search-results .track {
-  border-bottom: 1px solid #333;
+.btn-save {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 1rem;
 }
 
-.profile-content .search-results .track:last-child {
+.btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.btn-save:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Song Search Styling */
+.song-search-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.song-search-input {
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50px !important;
+  color: #fff;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1f1f23;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin-top: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.search-result-item:last-child {
   border-bottom: none;
 }
 
-/* Modern Genre Chips */
-.profile-content .genre-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 8px;
+.search-result-item:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.profile-content .genre-chip {
+.search-result-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 12px;
+}
+
+.search-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result-name {
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-artist {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+/* Selected Song Card */
+.selected-song-card {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 1rem;
+}
+
+.selected-song-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  margin-right: 12px;
+}
+
+.selected-song-info {
+  flex: 1;
+}
+
+.selected-song-name {
+  font-weight: 600;
+  color: #fff;
+}
+
+.selected-song-artist {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.btn-remove {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-remove:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+/* Modern Genre Chips */
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.genre-chip {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 14px 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.06);
-  color: #f1f5f9;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s ease;
   user-select: none;
+  font-size: 0.9rem;
 }
 
-.profile-content .genre-chip:hover {
+.genre-chip:hover {
   background: rgba(255,255,255,0.1);
   border-color: rgba(255,255,255,0.3);
 }
 
-.profile-content .genre-chip:active {
-  transform: translateY(0.5px);
+.genre-chip input[type="checkbox"] {
+  display: none;
 }
 
-.profile-content .genre-chip input[type="checkbox"] {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+.genre-chip:has(input:checked) {
+  background: #6366f1;
+  border-color: #6366f1;
+  color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
 
-.profile-content .genre-chip .check {
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  border: 2px solid rgba(255,255,255,0.55);
-  background: transparent;
-  display: inline-block;
-  box-shadow: inset 0 0 0 0 #1DB954;
-  transition: all 0.2s ease;
-}
-
-.profile-content .genre-chip .text {
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-
-.profile-content .genre-chip input[type="checkbox"]:focus-visible ~ .check {
-  outline: 2px solid #93c5fd;
-  outline-offset: 2px;
-}
-
-.profile-content .genre-chip input[type="checkbox"]:checked ~ .check {
-  border-color: #1DB954;
-  background: #1DB954;
-  box-shadow: 0 0 0 4px rgba(29,185,84,0.15);
-}
-
-.profile-content .genre-chip input[type="checkbox"]:checked ~ .text {
-  color: #ffffff;
+.genre-chip .check {
+  display: none;
 }
 
 /* Icon button (trash/X) */

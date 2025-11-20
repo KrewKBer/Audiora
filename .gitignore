@@ -34,6 +34,11 @@ pnpm-debug.log*
 logs/
 *.log
 
+# Test Coverage
+coverage.xml
+CoverageReport/
+coverage.fsx
+
 # Optional: uncomment to avoid committing generated wwwroot assets
 # wwwroot/
 
@@ -142,3 +147,5 @@ Data/users.json
 Data/seenSongs.json
 #Ignore appsettings.json because of secrets
 appsettings.json
+start-server.bat
+setup-desktop-shortcut.vbs
