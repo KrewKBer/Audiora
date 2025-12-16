@@ -21,6 +21,9 @@ namespace Audiora.Models
         public List<string>? Genres { get; set; }
         public string? TopSongsJson { get; set; }
         
+        public string? TwoFactorSecret { get; set; }
+        public bool IsTwoFactorEnabled { get; set; }
+
         [NotMapped]
         public List<SongInfo>? TopSongs 
         { 
@@ -60,3 +63,19 @@ namespace Audiora.Models
         public string? AlbumImageUrl { get; init; }
     }
 }
+
+
+/*
+public class Song
+{
+  [Key]
+  public Guid Id { get; set; }
+
+  [Required]
+  [MaxLength(200)]
+  [Column("song_title")]
+  public string Title { get; set; } = null!;
+
+  public string? PreviewUrl { get; set; }
+}
+*/

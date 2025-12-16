@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
 
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsDevelopment())
@@ -24,6 +26,15 @@ else
     builder.Services.AddDbContext<AudioraDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+        options.SlidingExpiration = true;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+    });
 
 builder.Services.AddScoped(typeof(DataService<>));
 builder.Services.AddSingleton<SpotifyService>();
@@ -54,6 +65,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<RoomHub>("/roomHub");

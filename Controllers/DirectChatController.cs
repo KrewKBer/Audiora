@@ -4,9 +4,13 @@ using Audiora.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Audiora.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/directchat")]
 public class DirectChatController: ControllerBase
@@ -25,10 +29,10 @@ public class DirectChatController: ControllerBase
     {
         if (string.IsNullOrWhiteSpace(chatId)) return BadRequest("chatId required");
         var chatGuid = ChatIdToGuid(chatId);
-        var msgs = _context.ChatMessages
+        var msgs = await _context.ChatMessages
             .Where(m => m.RoomId == chatGuid)
             .OrderBy(m => m.Timestamp)
-            .ToList();
+            .ToListAsync();
         return Ok(msgs);
     }
 
@@ -37,6 +41,12 @@ public class DirectChatController: ControllerBase
     [HttpPost("send")] // api/directchat/send
     public async Task<IActionResult> Send([FromBody] SendRequest req)
     {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId != req.UserId)
+        {
+            return Forbid();
+        }
+
         if (string.IsNullOrWhiteSpace(req.ChatId) || string.IsNullOrWhiteSpace(req.UserId) || string.IsNullOrWhiteSpace(req.Username))
             return BadRequest("Missing required fields");
         if (string.IsNullOrWhiteSpace(req.Message)) return BadRequest("Empty message");

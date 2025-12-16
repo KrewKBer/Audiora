@@ -13,8 +13,8 @@ namespace AudioraTests.Integration;
 [Trait("Category","Integration")]
 public class UserRoomChatIntegrationTests : IAsyncLifetime
 {
-    private WebApplicationFactory<Program> _factory;
-    private HttpClient _client;
+    private WebApplicationFactory<Program> _factory = null!;
+    private HttpClient _client = null!;
 
     public async Task InitializeAsync()
     {

@@ -21,7 +21,7 @@ namespace Audiora.Data
                 .HasConversion(
                     v => v == null ? null : string.Join(',', v),
                     v => string.IsNullOrEmpty(v) ? new List<string>() : v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList())
-                .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<string>>(
+                .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<string>?>(
                     (c1, c2) => c1 == null && c2 == null || (c1 != null && c2 != null && c1.SequenceEqual(c2)),
                     c => c == null ? 0 : c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c == null ? null : c.ToList()));
@@ -42,7 +42,7 @@ namespace Audiora.Data
                     .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<Guid>>(
                         (c1, c2) => c1 == null && c2 == null || (c1 != null && c2 != null && c1.SequenceEqual(c2)),
                         c => c == null ? 0 : c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                        c => c == null ? null : c.ToList()));
+                        c => c == null ? new List<Guid>() : c.ToList()));
 
             });
 
@@ -64,7 +64,7 @@ namespace Audiora.Data
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public string SongId { get; set; }
+        public string SongId { get; set; } = string.Empty;
         public bool Liked { get; set; }
         public string? Name { get; set; }
         public string? Artist { get; set; }

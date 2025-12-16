@@ -1,0 +1,4706 @@
+{
+  "Audiora.dll": {
+    "/Users/augustinaspletkus/Audiora/Program.cs": {
+      "Program": {
+        "System.Void Program::<Main>$(System.String[])": {
+          "Lines": {
+            "10": 2,
+            "12": 2,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "17": 2,
+            "18": 2,
+            "19": 2,
+            "20": 22,
+            "21": 2,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "28": 2,
+            "29": 2,
+            "30": 2,
+            "31": 2,
+            "32": 2,
+            "33": 2,
+            "35": 2,
+            "36": 2,
+            "37": 2,
+            "38": 2,
+            "39": 2,
+            "40": 2,
+            "41": 4,
+            "43": 8,
+            "46": 2,
+            "48": 2,
+            "49": 2,
+            "50": 2,
+            "51": 2,
+            "53": 2,
+            "54": 2,
+            "56": 2,
+            "58": 2,
+            "59": 2,
+            "60": 2,
+            "62": 2
+          },
+          "Branches": [
+            {
+              "Line": 12,
+              "Offset": 36,
+              "EndOffset": 38,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 12,
+              "Offset": 36,
+              "EndOffset": 57,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 17,
+              "Offset": 80,
+              "EndOffset": 82,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 2
+            },
+            {
+              "Line": 17,
+              "Offset": 80,
+              "EndOffset": 136,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 48,
+              "Offset": 412,
+              "EndOffset": 414,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 2
+            },
+            {
+              "Line": 48,
+              "Offset": 412,
+              "EndOffset": 423,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 2
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Services/DataService.cs": {
+      "Audiora.Services.DataService`1": {
+        "TOutput Audiora.Services.DataService`1::Map(T,System.Func`2<T,TOutput>)": {
+          "Lines": {
+            "35": 4,
+            "36": 4,
+            "37": 4,
+            "38": 4
+          },
+          "Branches": [
+            {
+              "Line": 36,
+              "Offset": 12,
+              "EndOffset": 14,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 36,
+              "Offset": 12,
+              "EndOffset": 25,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 4
+            }
+          ]
+        },
+        "System.Void Audiora.Services.DataService`1::.ctor(Audiora.Data.AudioraDbContext)": {
+          "Lines": {
+            "12": 11,
+            "13": 11,
+            "14": 11,
+            "15": 11,
+            "16": 11
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.DataService`1/<AddAsync>d__5": {
+        "System.Void Audiora.Services.DataService`1/<AddAsync>d__5::MoveNext()": {
+          "Lines": {
+            "29": 4,
+            "30": 4,
+            "31": 4,
+            "32": 4
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.DataService`1/<GetAllAsync>d__4": {
+        "System.Void Audiora.Services.DataService`1/<GetAllAsync>d__4::MoveNext()": {
+          "Lines": {
+            "24": 0,
+            "25": 0,
+            "26": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.DataService`1/<GetByIdAsync>d__3": {
+        "System.Void Audiora.Services.DataService`1/<GetByIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "19": 0,
+            "20": 0,
+            "21": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Services/MatchStore.cs": {
+      "Audiora.Services.MatchStore": {
+        "System.String Audiora.Services.MatchStore::GenerateChatId(System.String,System.String)": {
+          "Lines": {
+            "81": 2,
+            "82": 6,
+            "83": 2,
+            "84": 2
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Services.MatchStore::.ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)": {
+          "Lines": {
+            "8": 13,
+            "9": 13,
+            "10": 13,
+            "12": 13,
+            "13": 13,
+            "14": 13,
+            "15": 13,
+            "16": 13,
+            "17": 13
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.MatchStore/<>c": {
+        "System.String Audiora.Services.MatchStore/<>c::<GetLikedTargetsAsync>b__11_1(Audiora.Services.LikeRecord)": {
+          "Lines": {
+            "89": 76
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.MatchStore/<>c__DisplayClass7_0": {
+        "System.Boolean Audiora.Services.MatchStore/<>c__DisplayClass7_0::<GetMatchesForAsync>b__0(Audiora.Services.MatchRecord)": {
+          "Lines": {
+            "45": 46
+          },
+          "Branches": [
+            {
+              "Line": 45,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 42
+            },
+            {
+              "Line": 45,
+              "Offset": 17,
+              "EndOffset": 38,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Services.MatchStore/<>c__DisplayClass8_0": {
+        "System.Boolean Audiora.Services.MatchStore/<>c__DisplayClass8_0::<HasLikedAsync>b__0(Audiora.Services.LikeRecord)": {
+          "Lines": {
+            "51": 0
+          },
+          "Branches": [
+            {
+              "Line": 51,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 51,
+              "Offset": 17,
+              "EndOffset": 38,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Services.MatchStore/<>c__DisplayClass9_0": {
+        "System.Boolean Audiora.Services.MatchStore/<>c__DisplayClass9_0::<LikeAsync>b__0(Audiora.Services.LikeRecord)": {
+          "Lines": {
+            "61": 231
+          },
+          "Branches": [
+            {
+              "Line": 61,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 61,
+              "Offset": 17,
+              "EndOffset": 38,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 225
+            }
+          ]
+        },
+        "System.Boolean Audiora.Services.MatchStore/<>c__DisplayClass9_0::<LikeAsync>b__1(Audiora.Services.LikeRecord)": {
+          "Lines": {
+            "65": 235
+          },
+          "Branches": [
+            {
+              "Line": 65,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 65,
+              "Offset": 17,
+              "EndOffset": 38,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 227
+            }
+          ]
+        },
+        "System.Boolean Audiora.Services.MatchStore/<>c__DisplayClass9_0::<LikeAsync>b__2(Audiora.Services.MatchRecord)": {
+          "Lines": {
+            "66": 27
+          },
+          "Branches": [
+            {
+              "Line": 66,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 66,
+              "Offset": 17,
+              "EndOffset": 38,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 21
+            },
+            {
+              "Line": 66,
+              "Offset": 36,
+              "EndOffset": 38,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 21
+            },
+            {
+              "Line": 66,
+              "Offset": 55,
+              "EndOffset": 57,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 66,
+              "Offset": 55,
+              "EndOffset": 76,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 21
+            },
+            {
+              "Line": 66,
+              "Offset": 36,
+              "EndOffset": 79,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Services.MatchStore/<EnsureLoadedAsync>d__5": {
+        "System.Void Audiora.Services.MatchStore/<EnsureLoadedAsync>d__5::MoveNext()": {
+          "Lines": {
+            "20": 12,
+            "21": 18,
+            "22": 6,
+            "24": 6,
+            "25": 6,
+            "26": 6,
+            "27": 6,
+            "28": 6,
+            "29": 6,
+            "30": 6,
+            "31": 6,
+            "32": 6,
+            "33": 18,
+            "34": 12
+          },
+          "Branches": [
+            {
+              "Line": 21,
+              "Offset": 36,
+              "EndOffset": 38,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 6
+            },
+            {
+              "Line": 21,
+              "Offset": 36,
+              "EndOffset": 43,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 6
+            },
+            {
+              "Line": 25,
+              "Offset": 177,
+              "EndOffset": 179,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 177,
+              "EndOffset": 184,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 6
+            },
+            {
+              "Line": 26,
+              "Offset": 204,
+              "EndOffset": 209,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 6
+            },
+            {
+              "Line": 29,
+              "Offset": 371,
+              "EndOffset": 373,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 29,
+              "Offset": 371,
+              "EndOffset": 379,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 6
+            },
+            {
+              "Line": 26,
+              "Offset": 204,
+              "EndOffset": 392,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 6
+            }
+          ]
+        }
+      },
+      "Audiora.Services.MatchStore/<GetLikedTargetsAsync>d__11": {
+        "System.Void Audiora.Services.MatchStore/<GetLikedTargetsAsync>d__11::MoveNext()": {
+          "Lines": {
+            "87": 2,
+            "88": 2,
+            "90": 2
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.MatchStore/<GetMatchesForAsync>d__7": {
+        "System.Void Audiora.Services.MatchStore/<GetMatchesForAsync>d__7::MoveNext()": {
+          "Lines": {
+            "43": 4,
+            "44": 4,
+            "46": 4
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.MatchStore/<HasLikedAsync>d__8": {
+        "System.Void Audiora.Services.MatchStore/<HasLikedAsync>d__8::MoveNext()": {
+          "Lines": {
+            "49": 0,
+            "50": 0,
+            "52": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.MatchStore/<LikeAsync>d__9": {
+        "System.Void Audiora.Services.MatchStore/<LikeAsync>d__9::MoveNext()": {
+          "Lines": {
+            "55": 6,
+            "56": 6,
+            "57": 6,
+            "58": 6,
+            "60": 6,
+            "62": 0,
+            "63": 6,
+            "67": 2,
+            "68": 2,
+            "69": 2,
+            "70": 2,
+            "71": 2,
+            "72": 2,
+            "74": 4,
+            "75": 4,
+            "76": 18,
+            "77": 4,
+            "78": 6
+          },
+          "Branches": [
+            {
+              "Line": 56,
+              "Offset": 121,
+              "EndOffset": 123,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 56,
+              "Offset": 121,
+              "EndOffset": 136,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 6
+            },
+            {
+              "Line": 61,
+              "Offset": 414,
+              "EndOffset": 416,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 61,
+              "Offset": 414,
+              "EndOffset": 429,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 6
+            },
+            {
+              "Line": 65,
+              "Offset": 542,
+              "EndOffset": 544,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 2
+            },
+            {
+              "Line": 65,
+              "Offset": 542,
+              "EndOffset": 587,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            },
+            {
+              "Line": 65,
+              "Offset": 592,
+              "EndOffset": 597,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 2
+            },
+            {
+              "Line": 65,
+              "Offset": 592,
+              "EndOffset": 854,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Services.MatchStore/<SaveAsync>d__6": {
+        "System.Void Audiora.Services.MatchStore/<SaveAsync>d__6::MoveNext()": {
+          "Lines": {
+            "37": 6,
+            "38": 6,
+            "39": 6,
+            "40": 6
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.MatchData": {
+        "System.Collections.Generic.List`1<Audiora.Services.LikeRecord> Audiora.Services.MatchData::get_Likes()": {
+          "Lines": {
+            "95": 51
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<Audiora.Services.MatchRecord> Audiora.Services.MatchData::get_Matches()": {
+          "Lines": {
+            "96": 39
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.LikeRecord": {
+        "System.String Audiora.Services.LikeRecord::get_FromUserId()": {
+          "Lines": {
+            "101": 983
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Services.LikeRecord::get_ToUserId()": {
+          "Lines": {
+            "102": 459
+          },
+          "Branches": []
+        },
+        "System.DateTime Audiora.Services.LikeRecord::get_Timestamp()": {
+          "Lines": {
+            "103": 456
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.MatchRecord": {
+        "System.String Audiora.Services.MatchRecord::get_UserAId()": {
+          "Lines": {
+            "108": 219
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Services.MatchRecord::get_UserBId()": {
+          "Lines": {
+            "109": 175
+          },
+          "Branches": []
+        },
+        "System.DateTime Audiora.Services.MatchRecord::get_CreatedAt()": {
+          "Lines": {
+            "110": 132
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Services.MatchRecord::get_ChatId()": {
+          "Lines": {
+            "111": 135
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Services/SpotifyService.cs": {
+      "Audiora.Services.SpotifyService": {
+        "System.Threading.Tasks.Task`1<SpotifyAPI.Web.SpotifyClient> Audiora.Services.SpotifyService::GetSpotifyClient()": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "33": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0
+          },
+          "Branches": [
+            {
+              "Line": 28,
+              "Offset": 12,
+              "EndOffset": 17,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 35,
+              "Offset": 80,
+              "EndOffset": 82,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 35,
+              "Offset": 80,
+              "EndOffset": 90,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 35,
+              "Offset": 95,
+              "EndOffset": 97,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 35,
+              "Offset": 95,
+              "EndOffset": 131,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 28,
+              "Offset": 12,
+              "EndOffset": 162,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void Audiora.Services.SpotifyService::.ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Logging.ILogger`1<Audiora.Services.SpotifyService>)": {
+          "Lines": {
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.SpotifyService/<>c": {
+        "System.Boolean Audiora.Services.SpotifyService/<>c::<GetRecommendations>b__6_0(System.String)": {
+          "Lines": {
+            "80": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.SpotifyService/<GetRecommendations>d__6": {
+        "System.Void Audiora.Services.SpotifyService/<GetRecommendations>d__6::MoveNext()": {
+          "Lines": {
+            "76": 0,
+            "78": 0,
+            "79": 0,
+            "81": 0,
+            "82": 0,
+            "84": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "94": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "104": 0,
+            "105": 0,
+            "106": 0,
+            "107": 0,
+            "108": 0,
+            "110": 0,
+            "111": 0,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "124": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "140": 0,
+            "141": 0,
+            "142": 0,
+            "143": 0,
+            "144": 0,
+            "145": 0,
+            "146": 0,
+            "147": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "152": 0,
+            "154": 0
+          },
+          "Branches": [
+            {
+              "Line": 80,
+              "Offset": 183,
+              "EndOffset": 185,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 80,
+              "Offset": 183,
+              "EndOffset": 191,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 81,
+              "Offset": 255,
+              "EndOffset": 257,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 81,
+              "Offset": 255,
+              "EndOffset": 280,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 86,
+              "Offset": 374,
+              "EndOffset": 379,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 95,
+              "Offset": 546,
+              "EndOffset": 486,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 95,
+              "Offset": 546,
+              "EndOffset": 548,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 100,
+              "Offset": 745,
+              "EndOffset": 747,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 100,
+              "Offset": 745,
+              "EndOffset": 768,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 100,
+              "Offset": 773,
+              "EndOffset": 775,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 100,
+              "Offset": 773,
+              "EndOffset": 793,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 108,
+              "Offset": 905,
+              "EndOffset": 907,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 108,
+              "Offset": 905,
+              "EndOffset": 920,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 86,
+              "Offset": 374,
+              "EndOffset": 971,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 114,
+              "Offset": 984,
+              "EndOffset": 986,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 114,
+              "Offset": 984,
+              "EndOffset": 992,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 119,
+              "Offset": 1244,
+              "EndOffset": 1246,
+              "Path": 0,
+              "Ordinal": 16,
+              "Hits": 0
+            },
+            {
+              "Line": 119,
+              "Offset": 1244,
+              "EndOffset": 1258,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 0
+            },
+            {
+              "Line": 133,
+              "Offset": 1406,
+              "EndOffset": 1408,
+              "Path": 0,
+              "Ordinal": 18,
+              "Hits": 0
+            },
+            {
+              "Line": 133,
+              "Offset": 1406,
+              "EndOffset": 1421,
+              "Path": 1,
+              "Ordinal": 19,
+              "Hits": 0
+            },
+            {
+              "Line": 135,
+              "Offset": 1478,
+              "EndOffset": 1480,
+              "Path": 0,
+              "Ordinal": 20,
+              "Hits": 0
+            },
+            {
+              "Line": 135,
+              "Offset": 1478,
+              "EndOffset": 1484,
+              "Path": 1,
+              "Ordinal": 21,
+              "Hits": 0
+            },
+            {
+              "Line": 135,
+              "Offset": 1495,
+              "EndOffset": 1497,
+              "Path": 0,
+              "Ordinal": 22,
+              "Hits": 0
+            },
+            {
+              "Line": 135,
+              "Offset": 1495,
+              "EndOffset": 1583,
+              "Path": 1,
+              "Ordinal": 23,
+              "Hits": 0
+            },
+            {
+              "Line": 139,
+              "Offset": 1595,
+              "EndOffset": 1597,
+              "Path": 0,
+              "Ordinal": 24,
+              "Hits": 0
+            },
+            {
+              "Line": 139,
+              "Offset": 1595,
+              "EndOffset": 1601,
+              "Path": 1,
+              "Ordinal": 25,
+              "Hits": 0
+            },
+            {
+              "Line": 139,
+              "Offset": 1613,
+              "EndOffset": 1615,
+              "Path": 0,
+              "Ordinal": 26,
+              "Hits": 0
+            },
+            {
+              "Line": 139,
+              "Offset": 1613,
+              "EndOffset": 1662,
+              "Path": 1,
+              "Ordinal": 27,
+              "Hits": 0
+            },
+            {
+              "Line": 143,
+              "Offset": 1685,
+              "EndOffset": 1687,
+              "Path": 0,
+              "Ordinal": 28,
+              "Hits": 0
+            },
+            {
+              "Line": 143,
+              "Offset": 1685,
+              "EndOffset": 1722,
+              "Path": 1,
+              "Ordinal": 29,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Services.SpotifyService/<SearchTracks>d__5": {
+        "System.Void Audiora.Services.SpotifyService/<SearchTracks>d__5::MoveNext()": {
+          "Lines": {
+            "51": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "73": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Services/YouTubeService.cs": {
+      "Audiora.Services.YouTubeService": {
+        "System.Boolean Audiora.Services.YouTubeService::get_HasApiKey()": {
+          "Lines": {
+            "20": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Services.YouTubeService::.ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache,Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "13": 8,
+            "14": 8,
+            "15": 8,
+            "16": 8,
+            "17": 8,
+            "18": 8
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.YouTubeService/YouTubeSearchResponse": {
+        "System.Collections.Generic.List`1<Audiora.Services.YouTubeService/Item> Audiora.Services.YouTubeService/YouTubeSearchResponse::get_Items()": {
+          "Lines": {
+            "83": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.YouTubeService/Item": {
+        "Audiora.Services.YouTubeService/Id Audiora.Services.YouTubeService/Item::get_Id()": {
+          "Lines": {
+            "87": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.YouTubeService/Id": {
+        "System.String Audiora.Services.YouTubeService/Id::get_VideoId()": {
+          "Lines": {
+            "91": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.YouTubeService/<>c": {
+        "System.String Audiora.Services.YouTubeService/<>c::<SearchEmbeddableAsync>b__7_0(System.Collections.Generic.KeyValuePair`2<System.String,System.String>)": {
+          "Lines": {
+            "58": 0
+          },
+          "Branches": [
+            {
+              "Line": 58,
+              "Offset": 25,
+              "EndOffset": 27,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 58,
+              "Offset": 25,
+              "EndOffset": 33,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.String Audiora.Services.YouTubeService/<>c::<SearchEmbeddableAsync>b__7_1(Audiora.Services.YouTubeService/Item)": {
+          "Lines": {
+            "73": 0
+          },
+          "Branches": [
+            {
+              "Line": 73,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 7,
+              "EndOffset": 13,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Services.YouTubeService/<GetEmbeddableVideoIdAsync>d__6": {
+        "System.Void Audiora.Services.YouTubeService/<GetEmbeddableVideoIdAsync>d__6::MoveNext()": {
+          "Lines": {
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "38": 0,
+            "39": 0
+          },
+          "Branches": [
+            {
+              "Line": 24,
+              "Offset": 29,
+              "EndOffset": 31,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 29,
+              "EndOffset": 49,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 52,
+              "EndOffset": 54,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 24,
+              "Offset": 52,
+              "EndOffset": 61,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 101,
+              "EndOffset": 103,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 101,
+              "EndOffset": 115,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 274,
+              "EndOffset": 276,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 274,
+              "EndOffset": 339,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Services.YouTubeService/<SearchEmbeddableAsync>d__7": {
+        "System.Void Audiora.Services.YouTubeService/<SearchEmbeddableAsync>d__7::MoveNext()": {
+          "Lines": {
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "57": 0,
+            "60": 0,
+            "62": 0,
+            "63": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "72": 0,
+            "75": 0,
+            "77": 0,
+            "78": 0
+          },
+          "Branches": [
+            {
+              "Line": 62,
+              "Offset": 355,
+              "EndOffset": 366,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 62,
+              "Offset": 355,
+              "EndOffset": 503,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 65,
+              "Offset": 541,
+              "EndOffset": 546,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 65,
+              "Offset": 541,
+              "EndOffset": 775,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 922,
+              "EndOffset": 924,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 922,
+              "EndOffset": 928,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 934,
+              "EndOffset": 936,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 934,
+              "EndOffset": 940,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Models/Room.cs": {
+      "Audiora.Models.Room": {
+        "System.Guid Audiora.Models.Room::get_Id()": {
+          "Lines": {
+            "7": 29
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.Room::get_Name()": {
+          "Lines": {
+            "8": 23
+          },
+          "Branches": []
+        },
+        "System.Guid Audiora.Models.Room::get_HostUserId()": {
+          "Lines": {
+            "9": 19
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<System.Guid> Audiora.Models.Room::get_MemberUserIds()": {
+          "Lines": {
+            "10": 52
+          },
+          "Branches": []
+        },
+        "System.DateTime Audiora.Models.Room::get_CreatedAt()": {
+          "Lines": {
+            "11": 22
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Models.Room::get_IsPrivate()": {
+          "Lines": {
+            "12": 37
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.Room::get_PasswordHash()": {
+          "Lines": {
+            "15": 15
+          },
+          "Branches": []
+        },
+        "System.Int32 Audiora.Models.Room::CompareTo(Audiora.Models.Room)": {
+          "Lines": {
+            "18": 3,
+            "19": 3,
+            "20": 3,
+            "21": 6,
+            "22": 0,
+            "23": 3
+          },
+          "Branches": [
+            {
+              "Line": 19,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 19,
+              "Offset": 7,
+              "EndOffset": 13,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 3
+            },
+            {
+              "Line": 21,
+              "Offset": 52,
+              "EndOffset": 54,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 3
+            },
+            {
+              "Line": 21,
+              "Offset": 52,
+              "EndOffset": 58,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Boolean Audiora.Models.Room::op_LessThan(Audiora.Models.Room,Audiora.Models.Room)": {
+          "Lines": {
+            "25": 0
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Models.Room::op_GreaterThan(Audiora.Models.Room,Audiora.Models.Room)": {
+          "Lines": {
+            "26": 0
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Models.Room::op_LessThanOrEqual(Audiora.Models.Room,Audiora.Models.Room)": {
+          "Lines": {
+            "27": 0
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Models.Room::op_GreaterThanOrEqual(Audiora.Models.Room,Audiora.Models.Room)": {
+          "Lines": {
+            "28": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Models.ChatMessage": {
+        "System.Guid Audiora.Models.ChatMessage::get_Id()": {
+          "Lines": {
+            "33": 11
+          },
+          "Branches": []
+        },
+        "System.Guid Audiora.Models.ChatMessage::get_RoomId()": {
+          "Lines": {
+            "34": 12
+          },
+          "Branches": []
+        },
+        "System.Guid Audiora.Models.ChatMessage::get_UserId()": {
+          "Lines": {
+            "35": 12
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.ChatMessage::get_Username()": {
+          "Lines": {
+            "36": 14
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.ChatMessage::get_Message()": {
+          "Lines": {
+            "37": 19
+          },
+          "Branches": []
+        },
+        "System.DateTime Audiora.Models.ChatMessage::get_Timestamp()": {
+          "Lines": {
+            "38": 27
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Models/RoomHub.cs": {
+      "Audiora.Models.RoomHub": {
+        "System.Boolean Audiora.Models.RoomHub::IsConnectionValid(System.String)": {
+          "Lines": {
+            "158": 16,
+            "159": 16,
+            "160": 16,
+            "161": 16,
+            "162": 16,
+            "163": 16
+          },
+          "Branches": [
+            {
+              "Line": 159,
+              "Offset": 24,
+              "EndOffset": 26,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 13
+            },
+            {
+              "Line": 159,
+              "Offset": 33,
+              "EndOffset": 35,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 10
+            },
+            {
+              "Line": 159,
+              "Offset": 48,
+              "EndOffset": 50,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 10
+            },
+            {
+              "Line": 159,
+              "Offset": 24,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 6
+            },
+            {
+              "Line": 159,
+              "Offset": 33,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 6
+            },
+            {
+              "Line": 159,
+              "Offset": 48,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 6
+            }
+          ]
+        },
+        "System.Guid Audiora.Models.RoomHub::ChatIdToGuid(System.String)": {
+          "Lines": {
+            "166": 6,
+            "167": 6,
+            "168": 6,
+            "169": 6,
+            "170": 6,
+            "171": 6,
+            "172": 6
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.HashSet`1<System.String> Audiora.Models.RoomHub::<JoinRoom>b__6_0(System.String,System.Collections.Generic.HashSet`1<System.String>)": {
+          "Lines": {
+            "28": 18
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.HashSet`1<System.String> Audiora.Models.RoomHub::<RegisterUser>b__7_0(System.String,System.Collections.Generic.HashSet`1<System.String>)": {
+          "Lines": {
+            "41": 2
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Models.RoomHub::.ctor(Audiora.Data.AudioraDbContext)": {
+          "Lines": {
+            "17": 29,
+            "18": 29,
+            "19": 29,
+            "20": 29
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Models.RoomHub::.cctor()": {
+          "Lines": {
+            "11": 1,
+            "12": 1,
+            "13": 1,
+            "14": 1
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Models.RoomHub/<AddSong>d__12": {
+        "System.Void Audiora.Models.RoomHub/<AddSong>d__12::MoveNext()": {
+          "Lines": {
+            "119": 2,
+            "120": 2,
+            "121": 1,
+            "122": 1,
+            "125": 1,
+            "126": 1
+          },
+          "Branches": [
+            {
+              "Line": 120,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 120,
+              "Offset": 40,
+              "EndOffset": 54,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Models.RoomHub/<JoinDirectChat>d__8": {
+        "System.Void Audiora.Models.RoomHub/<JoinDirectChat>d__8::MoveNext()": {
+          "Lines": {
+            "47": 3,
+            "48": 3,
+            "49": 3,
+            "50": 3
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Models.RoomHub/<JoinRoom>d__6": {
+        "System.Void Audiora.Models.RoomHub/<JoinRoom>d__6::MoveNext()": {
+          "Lines": {
+            "23": 14,
+            "24": 14,
+            "26": 14,
+            "27": 14,
+            "30": 14,
+            "32": 14,
+            "33": 14
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Models.RoomHub/<LeaveRoom>d__10": {
+        "System.Void Audiora.Models.RoomHub/<LeaveRoom>d__10::MoveNext()": {
+          "Lines": {
+            "79": 1,
+            "80": 1,
+            "82": 1,
+            "83": 1,
+            "84": 1,
+            "85": 1,
+            "86": 1,
+            "88": 1,
+            "89": 1
+          },
+          "Branches": [
+            {
+              "Line": 82,
+              "Offset": 189,
+              "EndOffset": 191,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 82,
+              "Offset": 189,
+              "EndOffset": 221,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Models.RoomHub/<OnDisconnectedAsync>d__14": {
+        "System.Void Audiora.Models.RoomHub/<OnDisconnectedAsync>d__14::MoveNext()": {
+          "Lines": {
+            "139": 4,
+            "140": 4,
+            "141": 4,
+            "142": 4,
+            "143": 4,
+            "144": 4,
+            "145": 4,
+            "146": 4,
+            "147": 4,
+            "148": 1,
+            "149": 1,
+            "150": 1,
+            "151": 1,
+            "152": 1,
+            "153": 1,
+            "154": 4,
+            "155": 4
+          },
+          "Branches": [
+            {
+              "Line": 140,
+              "Offset": 52,
+              "EndOffset": 54,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 4
+            },
+            {
+              "Line": 142,
+              "Offset": 79,
+              "EndOffset": 81,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 4
+            },
+            {
+              "Line": 142,
+              "Offset": 79,
+              "EndOffset": 111,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 4
+            },
+            {
+              "Line": 140,
+              "Offset": 52,
+              "EndOffset": 119,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 4
+            },
+            {
+              "Line": 147,
+              "Offset": 153,
+              "EndOffset": 155,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 149,
+              "Offset": 182,
+              "EndOffset": 184,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 149,
+              "Offset": 182,
+              "EndOffset": 214,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            },
+            {
+              "Line": 147,
+              "Offset": 153,
+              "EndOffset": 222,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Models.RoomHub/<RegisterUser>d__7": {
+        "System.Void Audiora.Models.RoomHub/<RegisterUser>d__7::MoveNext()": {
+          "Lines": {
+            "37": 2,
+            "38": 2,
+            "39": 2,
+            "40": 2,
+            "42": 2,
+            "43": 2
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Models.RoomHub/<SendDirectMessage>d__9": {
+        "System.Void Audiora.Models.RoomHub/<SendDirectMessage>d__9::MoveNext()": {
+          "Lines": {
+            "53": 3,
+            "54": 3,
+            "55": 3,
+            "57": 3,
+            "58": 1,
+            "60": 2,
+            "61": 1,
+            "63": 1,
+            "64": 1,
+            "65": 1,
+            "66": 1,
+            "67": 1,
+            "68": 1,
+            "69": 1,
+            "70": 1,
+            "72": 1,
+            "73": 1,
+            "75": 1,
+            "76": 1
+          },
+          "Branches": [
+            {
+              "Line": 57,
+              "Offset": 91,
+              "EndOffset": 93,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 57,
+              "Offset": 91,
+              "EndOffset": 104,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 60,
+              "Offset": 126,
+              "EndOffset": 128,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 60,
+              "Offset": 126,
+              "EndOffset": 139,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Models.RoomHub/<SendMessage>d__11": {
+        "System.Void Audiora.Models.RoomHub/<SendMessage>d__11::MoveNext()": {
+          "Lines": {
+            "92": 8,
+            "93": 8,
+            "94": 3,
+            "95": 3,
+            "98": 5,
+            "99": 1,
+            "100": 1,
+            "103": 4,
+            "104": 4,
+            "105": 4,
+            "106": 4,
+            "107": 4,
+            "108": 4,
+            "109": 4,
+            "110": 4,
+            "112": 4,
+            "113": 4,
+            "115": 4,
+            "116": 4
+          },
+          "Branches": [
+            {
+              "Line": 93,
+              "Offset": 51,
+              "EndOffset": 53,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 3
+            },
+            {
+              "Line": 93,
+              "Offset": 51,
+              "EndOffset": 65,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 5
+            },
+            {
+              "Line": 98,
+              "Offset": 82,
+              "EndOffset": 84,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 5
+            },
+            {
+              "Line": 98,
+              "Offset": 82,
+              "EndOffset": 106,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 98,
+              "Offset": 109,
+              "EndOffset": 111,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 98,
+              "Offset": 109,
+              "EndOffset": 123,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Models.RoomHub/<VoteSong>d__13": {
+        "System.Void Audiora.Models.RoomHub/<VoteSong>d__13::MoveNext()": {
+          "Lines": {
+            "129": 3,
+            "130": 3,
+            "131": 1,
+            "132": 1,
+            "135": 2,
+            "136": 2
+          },
+          "Branches": [
+            {
+              "Line": 130,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 130,
+              "Offset": 40,
+              "EndOffset": 54,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Models/SpotifyCredentials.cs": {
+      "Audiora.Models.SpotifyCredentials": {
+        "System.String Audiora.Models.SpotifyCredentials::get_ClientId()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.SpotifyCredentials::get_ClientSecret()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Models/User.cs": {
+      "Audiora.Models.User": {
+        "System.Guid Audiora.Models.User::get_Id()": {
+          "Lines": {
+            "17": 28
+          },
+          "Branches": []
+        },
+        "Audiora.Models.UserRole Audiora.Models.User::get_Role()": {
+          "Lines": {
+            "18": 35
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.User::get_Username()": {
+          "Lines": {
+            "19": 34
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.User::get_Password()": {
+          "Lines": {
+            "20": 30
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<System.String> Audiora.Models.User::get_Genres()": {
+          "Lines": {
+            "21": 17
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.User::get_TopSongsJson()": {
+          "Lines": {
+            "22": 10
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<Audiora.Models.SongInfo> Audiora.Models.User::get_TopSongs()": {
+          "Lines": {
+            "28": 5,
+            "29": 5,
+            "30": 4,
+            "32": 1,
+            "33": 1,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "39": 5
+          },
+          "Branches": [
+            {
+              "Line": 29,
+              "Offset": 14,
+              "EndOffset": 16,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 4
+            },
+            {
+              "Line": 29,
+              "Offset": 14,
+              "EndOffset": 24,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 33,
+              "Offset": 38,
+              "EndOffset": 40,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 33,
+              "Offset": 38,
+              "EndOffset": 46,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        },
+        "System.Void Audiora.Models.User::set_TopSongs(System.Collections.Generic.List`1<Audiora.Models.SongInfo>)": {
+          "Lines": {
+            "41": 1,
+            "42": 1,
+            "43": 1,
+            "44": 1,
+            "45": 1
+          },
+          "Branches": [
+            {
+              "Line": 42,
+              "Offset": 3,
+              "EndOffset": 5,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 42,
+              "Offset": 11,
+              "EndOffset": 13,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 42,
+              "Offset": 3,
+              "EndOffset": 21,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 42,
+              "Offset": 11,
+              "EndOffset": 21,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Models.SongInfo": {
+        "System.String Audiora.Models.SongInfo::get_Id()": {
+          "Lines": {
+            "51": 3
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.SongInfo::get_Name()": {
+          "Lines": {
+            "54": 3
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.SongInfo::get_Artist()": {
+          "Lines": {
+            "57": 3
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.SongInfo::get_AlbumImageUrl()": {
+          "Lines": {
+            "60": 3
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Models.SongInfo::.ctor(Audiora.Models.SongInfo)": {
+          "Lines": {
+            "48": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Models/UserDto.cs": {
+      "Audiora.Models.UserDto": {
+        "System.String Audiora.Models.UserDto::get_UserId()": {
+          "Lines": {
+            "5": 11
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.UserDto::get_Username()": {
+          "Lines": {
+            "6": 11
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.UserDto::get_Role()": {
+          "Lines": {
+            "7": 11
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Migrations/20251105163212_InitialCreate.cs": {
+      "Audiora.Migrations.InitialCreate": {
+        "System.Void Audiora.Migrations.InitialCreate::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.InitialCreate::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Migrations/20251105163212_InitialCreate.Designer.cs": {
+      "Audiora.Migrations.InitialCreate": {
+        "System.Void Audiora.Migrations.InitialCreate::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "20": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "74": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Migrations/20251105182348_AddSongDetailsToSeenSongs.cs": {
+      "Audiora.Migrations.AddSongDetailsToSeenSongs": {
+        "System.Void Audiora.Migrations.AddSongDetailsToSeenSongs::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddSongDetailsToSeenSongs::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Migrations/20251105182348_AddSongDetailsToSeenSongs.Designer.cs": {
+      "Audiora.Migrations.AddSongDetailsToSeenSongs": {
+        "System.Void Audiora.Migrations.AddSongDetailsToSeenSongs::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "20": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "83": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Migrations/20251105182503_AddTopSongsJsonToUsers.cs": {
+      "Audiora.Migrations.AddTopSongsJsonToUsers": {
+        "System.Void Audiora.Migrations.AddTopSongsJsonToUsers::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddTopSongsJsonToUsers::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Migrations/20251105182503_AddTopSongsJsonToUsers.Designer.cs": {
+      "Audiora.Migrations.AddTopSongsJsonToUsers": {
+        "System.Void Audiora.Migrations.AddTopSongsJsonToUsers::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "20": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "86": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Migrations/AudioraDbContextModelSnapshot.cs": {
+      "Audiora.Migrations.AudioraDbContextModelSnapshot": {
+        "System.Void Audiora.Migrations.AudioraDbContextModelSnapshot::BuildModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "17": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "23": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "83": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Extensions/StringExtensions.cs": {
+      "Audiora.Extensions.StringExtensions": {
+        "System.Collections.Generic.IEnumerable`1<System.String> Audiora.Extensions.StringExtensions::ToSpotifySeedGenres(System.Collections.Generic.IEnumerable`1<System.String>)": {
+          "Lines": {
+            "10": 0,
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": [
+            {
+              "Line": 36,
+              "Offset": 409,
+              "EndOffset": 368,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 38,
+              "Offset": 389,
+              "EndOffset": 391,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 38,
+              "Offset": 389,
+              "EndOffset": 402,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 36,
+              "Offset": 409,
+              "EndOffset": 411,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Exceptions/SpotifyApiException.cs": {
+      "Audiora.Exceptions.SpotifyApiException": {
+        "System.Void Audiora.Exceptions.SpotifyApiException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "6": 0,
+            "7": 0,
+            "8": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Data/AudioraDbContext.cs": {
+      "Audiora.Data.AudioraDbContext": {
+        "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Models.User> Audiora.Data.AudioraDbContext::get_Users()": {
+          "Lines": {
+            "12": 110
+          },
+          "Branches": []
+        },
+        "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Data.SeenSong> Audiora.Data.AudioraDbContext::get_SeenSongs()": {
+          "Lines": {
+            "13": 104
+          },
+          "Branches": []
+        },
+        "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Models.Room> Audiora.Data.AudioraDbContext::get_Rooms()": {
+          "Lines": {
+            "14": 110
+          },
+          "Branches": []
+        },
+        "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Models.ChatMessage> Audiora.Data.AudioraDbContext::get_ChatMessages()": {
+          "Lines": {
+            "15": 101
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Data.AudioraDbContext::OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "18": 1,
+            "19": 1,
+            "20": 1,
+            "21": 1,
+            "22": 1,
+            "23": 1,
+            "24": 1,
+            "25": 1,
+            "26": 1,
+            "27": 1,
+            "29": 1,
+            "30": 1,
+            "31": 1,
+            "32": 1,
+            "33": 1,
+            "34": 1,
+            "35": 1,
+            "36": 1,
+            "37": 1,
+            "38": 1,
+            "39": 1,
+            "40": 1,
+            "41": 1,
+            "42": 1,
+            "43": 1,
+            "44": 1,
+            "45": 1,
+            "46": 1,
+            "47": 2,
+            "49": 1,
+            "50": 1,
+            "51": 1,
+            "52": 1,
+            "53": 1,
+            "54": 1,
+            "55": 1,
+            "56": 1,
+            "57": 1,
+            "58": 1,
+            "59": 2,
+            "60": 1
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Data.AudioraDbContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<Audiora.Data.AudioraDbContext>)": {
+          "Lines": {
+            "8": 87,
+            "9": 87,
+            "10": 87
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Data.SeenSong": {
+        "System.Int32 Audiora.Data.SeenSong::get_Id()": {
+          "Lines": {
+            "65": 1
+          },
+          "Branches": []
+        },
+        "System.Guid Audiora.Data.SeenSong::get_UserId()": {
+          "Lines": {
+            "66": 10
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Data.SeenSong::get_SongId()": {
+          "Lines": {
+            "67": 10
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Data.SeenSong::get_Liked()": {
+          "Lines": {
+            "68": 15
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Data.SeenSong::get_Name()": {
+          "Lines": {
+            "69": 9
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Data.SeenSong::get_Artist()": {
+          "Lines": {
+            "70": 5
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Data.SeenSong::get_AlbumImageUrl()": {
+          "Lines": {
+            "71": 2
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Controllers/AuthController.cs": {
+      "Audiora.Controllers.AuthController": {
+        "System.Void Audiora.Controllers.AuthController::.ctor(Audiora.Data.AudioraDbContext,Audiora.Services.DataService`1<Audiora.Models.User>)": {
+          "Lines": {
+            "21": 11,
+            "22": 11,
+            "23": 11,
+            "24": 11,
+            "25": 11
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.AuthController/UpdateGenresRequest": {
+        "System.String Audiora.Controllers.AuthController/UpdateGenresRequest::get_UserId()": {
+          "Lines": {
+            "128": 3
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<System.String> Audiora.Controllers.AuthController/UpdateGenresRequest::get_Genres()": {
+          "Lines": {
+            "129": 3
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.AuthController/UpdateTopSongsRequest": {
+        "System.String Audiora.Controllers.AuthController/UpdateTopSongsRequest::get_UserId()": {
+          "Lines": {
+            "134": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<Audiora.Models.SongInfo> Audiora.Controllers.AuthController/UpdateTopSongsRequest::get_TopSongs()": {
+          "Lines": {
+            "135": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.AuthController/<>c": {
+        "Audiora.Models.UserDto Audiora.Controllers.AuthController/<>c::<Register>b__3_0(Audiora.Models.User)": {
+          "Lines": {
+            "42": 8,
+            "43": 8,
+            "44": 8,
+            "45": 8,
+            "46": 8,
+            "47": 8
+          },
+          "Branches": [
+            {
+              "Line": 42,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 42,
+              "Offset": 40,
+              "EndOffset": 48,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.AuthController/<GetUser>d__5": {
+        "System.Void Audiora.Controllers.AuthController/<GetUser>d__5::MoveNext()": {
+          "Lines": {
+            "67": 2,
+            "68": 2,
+            "69": 1,
+            "70": 1,
+            "73": 1,
+            "74": 1,
+            "75": 0,
+            "77": 1,
+            "78": 1,
+            "79": 1,
+            "80": 1,
+            "81": 1,
+            "82": 1,
+            "83": 1,
+            "84": 1,
+            "85": 2
+          },
+          "Branches": [
+            {
+              "Line": 68,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 68,
+              "Offset": 40,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 68,
+              "Offset": 72,
+              "EndOffset": 74,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 68,
+              "Offset": 72,
+              "EndOffset": 97,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 74,
+              "Offset": 373,
+              "EndOffset": 375,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 74,
+              "Offset": 373,
+              "EndOffset": 392,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 1
+            },
+            {
+              "Line": 77,
+              "Offset": 443,
+              "EndOffset": 445,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 77,
+              "Offset": 443,
+              "EndOffset": 451,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            },
+            {
+              "Line": 77,
+              "Offset": 463,
+              "EndOffset": 465,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 77,
+              "Offset": 463,
+              "EndOffset": 471,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.AuthController/<Login>d__4": {
+        "System.Void Audiora.Controllers.AuthController/<Login>d__4::MoveNext()": {
+          "Lines": {
+            "54": 3,
+            "55": 3,
+            "57": 3,
+            "58": 2,
+            "59": 2,
+            "62": 1,
+            "63": 3
+          },
+          "Branches": [
+            {
+              "Line": 57,
+              "Offset": 316,
+              "EndOffset": 318,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 57,
+              "Offset": 316,
+              "EndOffset": 357,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 57,
+              "Offset": 362,
+              "EndOffset": 364,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 2
+            },
+            {
+              "Line": 57,
+              "Offset": 362,
+              "EndOffset": 384,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.AuthController/<Register>d__3": {
+        "System.Void Audiora.Controllers.AuthController/<Register>d__3::MoveNext()": {
+          "Lines": {
+            "29": 5,
+            "30": 5,
+            "31": 1,
+            "32": 1,
+            "35": 4,
+            "36": 4,
+            "37": 4,
+            "38": 4,
+            "40": 4,
+            "49": 4,
+            "50": 5
+          },
+          "Branches": [
+            {
+              "Line": 30,
+              "Offset": 313,
+              "EndOffset": 315,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 30,
+              "Offset": 313,
+              "EndOffset": 338,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 4
+            },
+            {
+              "Line": 37,
+              "Offset": 421,
+              "EndOffset": 423,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 4
+            },
+            {
+              "Line": 37,
+              "Offset": 421,
+              "EndOffset": 445,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.AuthController/<UpdateGenres>d__6": {
+        "System.Void Audiora.Controllers.AuthController/<UpdateGenres>d__6::MoveNext()": {
+          "Lines": {
+            "89": 1,
+            "90": 1,
+            "91": 0,
+            "92": 0,
+            "95": 1,
+            "96": 1,
+            "97": 0,
+            "99": 1,
+            "100": 1,
+            "101": 1,
+            "102": 1
+          },
+          "Branches": [
+            {
+              "Line": 90,
+              "Offset": 56,
+              "EndOffset": 58,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 90,
+              "Offset": 56,
+              "EndOffset": 90,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 90,
+              "Offset": 93,
+              "EndOffset": 95,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 90,
+              "Offset": 93,
+              "EndOffset": 118,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 96,
+              "Offset": 394,
+              "EndOffset": 396,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 96,
+              "Offset": 394,
+              "EndOffset": 413,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 1
+            },
+            {
+              "Line": 99,
+              "Offset": 431,
+              "EndOffset": 433,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 99,
+              "Offset": 431,
+              "EndOffset": 439,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.AuthController/<UpdateTopSongs>d__7": {
+        "System.Void Audiora.Controllers.AuthController/<UpdateTopSongs>d__7::MoveNext()": {
+          "Lines": {
+            "106": 0,
+            "107": 0,
+            "108": 0,
+            "109": 0,
+            "112": 0,
+            "113": 0,
+            "114": 0,
+            "116": 0,
+            "119": 0,
+            "121": 0,
+            "123": 0,
+            "124": 0
+          },
+          "Branches": [
+            {
+              "Line": 107,
+              "Offset": 56,
+              "EndOffset": 58,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 107,
+              "Offset": 56,
+              "EndOffset": 90,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 107,
+              "Offset": 93,
+              "EndOffset": 95,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 107,
+              "Offset": 93,
+              "EndOffset": 118,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 113,
+              "Offset": 394,
+              "EndOffset": 396,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 113,
+              "Offset": 394,
+              "EndOffset": 413,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 116,
+              "Offset": 431,
+              "EndOffset": 433,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 116,
+              "Offset": 431,
+              "EndOffset": 439,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Controllers/DirectChatController.cs": {
+      "Audiora.Controllers.DirectChatController": {
+        "System.Guid Audiora.Controllers.DirectChatController::ChatIdToGuid(System.String)": {
+          "Lines": {
+            "52": 2,
+            "53": 2,
+            "54": 2,
+            "55": 2,
+            "56": 2,
+            "57": 2,
+            "58": 2
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Controllers.DirectChatController::.ctor(Audiora.Data.AudioraDbContext,Audiora.Services.MatchStore)": {
+          "Lines": {
+            "17": 6,
+            "18": 6,
+            "19": 6,
+            "20": 6,
+            "21": 6
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.DirectChatController/SendRequest": {
+        "System.String Audiora.Controllers.DirectChatController/SendRequest::get_ChatId()": {
+          "Lines": {
+            "35": 34
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.DirectChatController/<GetMessages>d__3": {
+        "System.Void Audiora.Controllers.DirectChatController/<GetMessages>d__3::MoveNext()": {
+          "Lines": {
+            "25": 2,
+            "26": 3,
+            "27": 1,
+            "28": 1,
+            "29": 1,
+            "30": 1,
+            "31": 1,
+            "32": 1,
+            "33": 2
+          },
+          "Branches": [
+            {
+              "Line": 26,
+              "Offset": 32,
+              "EndOffset": 34,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 26,
+              "Offset": 32,
+              "EndOffset": 56,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.DirectChatController/<Send>d__5": {
+        "System.Void Audiora.Controllers.DirectChatController/<Send>d__5::MoveNext()": {
+          "Lines": {
+            "39": 4,
+            "40": 4,
+            "41": 1,
+            "42": 4,
+            "43": 3,
+            "44": 1,
+            "45": 1,
+            "46": 1,
+            "47": 1,
+            "48": 1,
+            "49": 4
+          },
+          "Branches": [
+            {
+              "Line": 40,
+              "Offset": 34,
+              "EndOffset": 36,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 3
+            },
+            {
+              "Line": 40,
+              "Offset": 52,
+              "EndOffset": 54,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 3
+            },
+            {
+              "Line": 40,
+              "Offset": 34,
+              "EndOffset": 72,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 40,
+              "Offset": 52,
+              "EndOffset": 72,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 40,
+              "Offset": 75,
+              "EndOffset": 77,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 40,
+              "Offset": 75,
+              "EndOffset": 99,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 3
+            },
+            {
+              "Line": 42,
+              "Offset": 117,
+              "EndOffset": 119,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 42,
+              "Offset": 117,
+              "EndOffset": 141,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 2
+            },
+            {
+              "Line": 43,
+              "Offset": 170,
+              "EndOffset": 172,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 1
+            },
+            {
+              "Line": 43,
+              "Offset": 170,
+              "EndOffset": 194,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Controllers/MatchController.cs": {
+      "Audiora.Controllers.MatchController": {
+        "System.Void Audiora.Controllers.MatchController::.ctor(Audiora.Services.MatchStore,Audiora.Data.AudioraDbContext,Microsoft.AspNetCore.SignalR.IHubContext`1<Audiora.Models.RoomHub>)": {
+          "Lines": {
+            "19": 7,
+            "20": 7,
+            "21": 7,
+            "22": 7,
+            "23": 7,
+            "24": 7
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.MatchController/LikeRequest": {
+        "System.String Audiora.Controllers.MatchController/LikeRequest::get_UserId()": {
+          "Lines": {
+            "67": 23
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.MatchController/<>c": {
+        "<>f__AnonymousType2`3<System.Guid,System.String,System.Collections.Generic.IEnumerable`1<<>f__AnonymousType3`3<System.String,System.String,System.String>>> Audiora.Controllers.MatchController/<>c::<GetCandidates>b__4_4(Audiora.Models.User)": {
+          "Lines": {
+            "39": 1,
+            "40": 1,
+            "41": 1,
+            "42": 0,
+            "43": 1
+          },
+          "Branches": [
+            {
+              "Line": 39,
+              "Offset": 19,
+              "EndOffset": 21,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 39,
+              "Offset": 19,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        },
+        "System.String Audiora.Controllers.MatchController/<>c::<List>b__7_1(Audiora.Models.User)": {
+          "Lines": {
+            "102": 4
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.MatchController/<>c__DisplayClass4_0": {
+        "System.String Audiora.Controllers.MatchController/<>c__DisplayClass4_0::<GetCandidates>b__0(Audiora.Services.MatchRecord)": {
+          "Lines": {
+            "33": 2
+          },
+          "Branches": [
+            {
+              "Line": 33,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 33,
+              "Offset": 17,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Boolean Audiora.Controllers.MatchController/<>c__DisplayClass4_0::<GetCandidates>b__1(Audiora.Models.User)": {
+          "Lines": {
+            "36": 1
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Controllers.MatchController/<>c__DisplayClass4_0::<GetCandidates>b__2(Audiora.Models.User)": {
+          "Lines": {
+            "37": 1
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Controllers.MatchController/<>c__DisplayClass4_0::<GetCandidates>b__3(Audiora.Models.User)": {
+          "Lines": {
+            "38": 1
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.MatchController/<>c__DisplayClass7_0": {
+        "System.String Audiora.Controllers.MatchController/<>c__DisplayClass7_0::<List>b__0(Audiora.Services.MatchRecord)": {
+          "Lines": {
+            "98": 3
+          },
+          "Branches": [
+            {
+              "Line": 98,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 98,
+              "Offset": 17,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "<>f__AnonymousType8`4<System.String,System.String,System.String,System.DateTime> Audiora.Controllers.MatchController/<>c__DisplayClass7_0::<List>b__3(Audiora.Services.MatchRecord)": {
+          "Lines": {
+            "104": 3,
+            "105": 1,
+            "106": 1,
+            "107": 1,
+            "108": 3
+          },
+          "Branches": [
+            {
+              "Line": 105,
+              "Offset": 18,
+              "EndOffset": 20,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 105,
+              "Offset": 18,
+              "EndOffset": 28,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 107,
+              "Offset": 59,
+              "EndOffset": 61,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 107,
+              "Offset": 59,
+              "EndOffset": 63,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.MatchController/<GetCandidates>d__4": {
+        "System.Void Audiora.Controllers.MatchController/<GetCandidates>d__4::MoveNext()": {
+          "Lines": {
+            "28": 2,
+            "30": 2,
+            "31": 2,
+            "32": 2,
+            "35": 2,
+            "44": 2,
+            "47": 2,
+            "48": 1,
+            "49": 1,
+            "50": 1,
+            "51": 1,
+            "52": 1,
+            "53": 1,
+            "54": 1,
+            "55": 1,
+            "56": 1,
+            "57": 1,
+            "58": 1,
+            "59": 1,
+            "60": 1,
+            "61": 1,
+            "62": 1,
+            "64": 2,
+            "65": 2
+          },
+          "Branches": [
+            {
+              "Line": 47,
+              "Offset": 697,
+              "EndOffset": 702,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 50,
+              "Offset": 756,
+              "EndOffset": 758,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 50,
+              "Offset": 756,
+              "EndOffset": 856,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 47,
+              "Offset": 697,
+              "EndOffset": 869,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.MatchController/<Like>d__6": {
+        "System.Void Audiora.Controllers.MatchController/<Like>d__6::MoveNext()": {
+          "Lines": {
+            "71": 3,
+            "72": 3,
+            "73": 1,
+            "75": 2,
+            "76": 2,
+            "77": 1,
+            "79": 1,
+            "80": 1,
+            "81": 1,
+            "84": 1,
+            "86": 1,
+            "87": 1,
+            "88": 1,
+            "89": 1,
+            "90": 1,
+            "91": 3
+          },
+          "Branches": [
+            {
+              "Line": 72,
+              "Offset": 110,
+              "EndOffset": 112,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 72,
+              "Offset": 110,
+              "EndOffset": 135,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 72,
+              "Offset": 138,
+              "EndOffset": 140,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 72,
+              "Offset": 138,
+              "EndOffset": 162,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 2
+            },
+            {
+              "Line": 76,
+              "Offset": 382,
+              "EndOffset": 384,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 76,
+              "Offset": 382,
+              "EndOffset": 395,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 1
+            },
+            {
+              "Line": 76,
+              "Offset": 400,
+              "EndOffset": 405,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 81,
+              "Offset": 826,
+              "EndOffset": 828,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 1
+            },
+            {
+              "Line": 81,
+              "Offset": 826,
+              "EndOffset": 841,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 76,
+              "Offset": 400,
+              "EndOffset": 868,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            },
+            {
+              "Line": 87,
+              "Offset": 1177,
+              "EndOffset": 1179,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 1
+            },
+            {
+              "Line": 87,
+              "Offset": 1177,
+              "EndOffset": 1183,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 87,
+              "Offset": 1189,
+              "EndOffset": 1191,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 1
+            },
+            {
+              "Line": 87,
+              "Offset": 1189,
+              "EndOffset": 1197,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.MatchController/<List>d__7": {
+        "System.Void Audiora.Controllers.MatchController/<List>d__7::MoveNext()": {
+          "Lines": {
+            "95": 2,
+            "96": 2,
+            "99": 2,
+            "100": 2,
+            "101": 2,
+            "110": 2,
+            "111": 2
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Controllers/RoomController.cs": {
+      "Audiora.Controllers.RoomController": {
+        "System.Void Audiora.Controllers.RoomController::.ctor(Audiora.Data.AudioraDbContext)": {
+          "Lines": {
+            "14": 20,
+            "15": 20,
+            "16": 20,
+            "17": 20
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.RoomController/<CreateRoom>d__2": {
+        "System.Void Audiora.Controllers.RoomController/<CreateRoom>d__2::MoveNext()": {
+          "Lines": {
+            "21": 7,
+            "22": 7,
+            "23": 1,
+            "24": 6,
+            "25": 1,
+            "27": 5,
+            "28": 5,
+            "29": 5,
+            "30": 5,
+            "31": 5,
+            "32": 5,
+            "33": 5,
+            "35": 5,
+            "36": 4,
+            "37": 4,
+            "38": 1,
+            "39": 3,
+            "40": 3,
+            "42": 4,
+            "43": 4,
+            "44": 4,
+            "45": 7
+          },
+          "Branches": [
+            {
+              "Line": 22,
+              "Offset": 36,
+              "EndOffset": 38,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 22,
+              "Offset": 36,
+              "EndOffset": 60,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 6
+            },
+            {
+              "Line": 24,
+              "Offset": 87,
+              "EndOffset": 89,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 24,
+              "Offset": 87,
+              "EndOffset": 111,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 5
+            },
+            {
+              "Line": 35,
+              "Offset": 211,
+              "EndOffset": 213,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 4
+            },
+            {
+              "Line": 37,
+              "Offset": 234,
+              "EndOffset": 236,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 37,
+              "Offset": 234,
+              "EndOffset": 258,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 3
+            },
+            {
+              "Line": 35,
+              "Offset": 211,
+              "EndOffset": 287,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.RoomController/<GetMessages>d__6": {
+        "System.Void Audiora.Controllers.RoomController/<GetMessages>d__6::MoveNext()": {
+          "Lines": {
+            "93": 2,
+            "94": 2,
+            "95": 2,
+            "96": 2,
+            "97": 2,
+            "98": 2,
+            "99": 2
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.RoomController/<GetRoom>d__4": {
+        "System.Void Audiora.Controllers.RoomController/<GetRoom>d__4::MoveNext()": {
+          "Lines": {
+            "57": 2,
+            "58": 2,
+            "59": 3,
+            "60": 1,
+            "61": 2
+          },
+          "Branches": [
+            {
+              "Line": 59,
+              "Offset": 187,
+              "EndOffset": 189,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 59,
+              "Offset": 187,
+              "EndOffset": 203,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.RoomController/<JoinRoom>d__5": {
+        "System.Void Audiora.Controllers.RoomController/<JoinRoom>d__5::MoveNext()": {
+          "Lines": {
+            "65": 8,
+            "66": 8,
+            "67": 1,
+            "69": 7,
+            "70": 7,
+            "71": 1,
+            "73": 6,
+            "74": 4,
+            "75": 4,
+            "76": 1,
+            "77": 3,
+            "78": 1,
+            "79": 2,
+            "81": 4,
+            "82": 3,
+            "83": 3,
+            "84": 3,
+            "85": 3,
+            "87": 4,
+            "88": 8
+          },
+          "Branches": [
+            {
+              "Line": 66,
+              "Offset": 56,
+              "EndOffset": 58,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 66,
+              "Offset": 56,
+              "EndOffset": 80,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 7
+            },
+            {
+              "Line": 70,
+              "Offset": 253,
+              "EndOffset": 255,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 70,
+              "Offset": 253,
+              "EndOffset": 277,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 6
+            },
+            {
+              "Line": 73,
+              "Offset": 292,
+              "EndOffset": 294,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 4
+            },
+            {
+              "Line": 75,
+              "Offset": 315,
+              "EndOffset": 317,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 75,
+              "Offset": 315,
+              "EndOffset": 339,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 3
+            },
+            {
+              "Line": 77,
+              "Offset": 375,
+              "EndOffset": 377,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 1
+            },
+            {
+              "Line": 77,
+              "Offset": 375,
+              "EndOffset": 399,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 2
+            },
+            {
+              "Line": 73,
+              "Offset": 292,
+              "EndOffset": 400,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            },
+            {
+              "Line": 81,
+              "Offset": 429,
+              "EndOffset": 434,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 3
+            },
+            {
+              "Line": 81,
+              "Offset": 429,
+              "EndOffset": 576,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.RoomController/<ListRooms>d__3": {
+        "System.Void Audiora.Controllers.RoomController/<ListRooms>d__3::MoveNext()": {
+          "Lines": {
+            "49": 1,
+            "50": 1,
+            "51": 1,
+            "52": 1,
+            "53": 1
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.CreateRoomRequest": {
+        "System.String Audiora.Controllers.CreateRoomRequest::get_Name()": {
+          "Lines": {
+            "104": 21
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.CreateRoomRequest::get_UserId()": {
+          "Lines": {
+            "105": 15
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Controllers.CreateRoomRequest::get_IsPrivate()": {
+          "Lines": {
+            "106": 26
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.CreateRoomRequest::get_Password()": {
+          "Lines": {
+            "107": 13
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Controllers.CreateRoomRequest::.ctor(Audiora.Controllers.CreateRoomRequest)": {
+          "Lines": {
+            "102": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.JoinRoomRequest": {
+        "System.String Audiora.Controllers.JoinRoomRequest::get_UserId()": {
+          "Lines": {
+            "112": 17
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.JoinRoomRequest::get_Password()": {
+          "Lines": {
+            "113": 12
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Controllers.JoinRoomRequest::.ctor(Audiora.Controllers.JoinRoomRequest)": {
+          "Lines": {
+            "110": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Controllers/SpotifyController.cs": {
+      "Audiora.Controllers.SpotifyController": {
+        "System.Void Audiora.Controllers.SpotifyController::.ctor(Audiora.Services.SpotifyService,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Audiora.Data.AudioraDbContext)": {
+          "Lines": {
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.SpotifyController/<GetRecommendations>d__5": {
+        "System.Void Audiora.Controllers.SpotifyController/<GetRecommendations>d__5::MoveNext()": {
+          "Lines": {
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "68": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "92": 0,
+            "93": 0,
+            "94": 0,
+            "96": 0
+          },
+          "Branches": [
+            {
+              "Line": 56,
+              "Offset": 51,
+              "EndOffset": 53,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 56,
+              "Offset": 51,
+              "EndOffset": 80,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 56,
+              "Offset": 83,
+              "EndOffset": 85,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 56,
+              "Offset": 83,
+              "EndOffset": 108,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 384,
+              "EndOffset": 386,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 384,
+              "EndOffset": 414,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 68,
+              "Offset": 427,
+              "EndOffset": 429,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 68,
+              "Offset": 427,
+              "EndOffset": 447,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 688,
+              "EndOffset": 693,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 78,
+              "Offset": 783,
+              "EndOffset": 785,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 78,
+              "Offset": 783,
+              "EndOffset": 791,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 80,
+              "Offset": 840,
+              "EndOffset": 842,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 80,
+              "Offset": 840,
+              "EndOffset": 857,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 80,
+              "Offset": 862,
+              "EndOffset": 864,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 83,
+              "Offset": 913,
+              "EndOffset": 915,
+              "Path": 0,
+              "Ordinal": 16,
+              "Hits": 0
+            },
+            {
+              "Line": 83,
+              "Offset": 913,
+              "EndOffset": 919,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 0
+            },
+            {
+              "Line": 80,
+              "Offset": 862,
+              "EndOffset": 944,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 73,
+              "Offset": 688,
+              "EndOffset": 959,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.SpotifyController/<Search>d__4": {
+        "System.Void Audiora.Controllers.SpotifyController/<Search>d__4::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "46": 0,
+            "47": 0,
+            "49": 0,
+            "51": 0
+          },
+          "Branches": [
+            {
+              "Line": 33,
+              "Offset": 28,
+              "EndOffset": 30,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 33,
+              "Offset": 28,
+              "EndOffset": 53,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Controllers/UserSongsController.cs": {
+      "Audiora.Controllers.UserSongsController": {
+        "System.Void Audiora.Controllers.UserSongsController::.ctor(Audiora.Data.AudioraDbContext)": {
+          "Lines": {
+            "18": 12,
+            "19": 12,
+            "20": 12,
+            "21": 12
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.UserSongsController/SeenSongRequest": {
+        "System.String Audiora.Controllers.UserSongsController/SeenSongRequest::get_UserId()": {
+          "Lines": {
+            "119": 16
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.UserSongsController/SeenSongRequest::get_SongId()": {
+          "Lines": {
+            "120": 19
+          },
+          "Branches": []
+        },
+        "System.Boolean Audiora.Controllers.UserSongsController/SeenSongRequest::get_Liked()": {
+          "Lines": {
+            "121": 10
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.UserSongsController/SeenSongRequest::get_Name()": {
+          "Lines": {
+            "122": 4
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.UserSongsController/SeenSongRequest::get_Artist()": {
+          "Lines": {
+            "123": 4
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.UserSongsController/SeenSongRequest::get_AlbumImageUrl()": {
+          "Lines": {
+            "124": 4
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.UserSongsController/<DeleteSeenSongs>d__4": {
+        "System.Void Audiora.Controllers.UserSongsController/<DeleteSeenSongs>d__4::MoveNext()": {
+          "Lines": {
+            "89": 2,
+            "90": 2,
+            "91": 1,
+            "92": 1,
+            "95": 1,
+            "96": 1,
+            "97": 1,
+            "99": 1,
+            "100": 2
+          },
+          "Branches": [
+            {
+              "Line": 90,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 90,
+              "Offset": 40,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 90,
+              "Offset": 72,
+              "EndOffset": 74,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 90,
+              "Offset": 72,
+              "EndOffset": 97,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.UserSongsController/<GetLikedSongs>d__5": {
+        "System.Void Audiora.Controllers.UserSongsController/<GetLikedSongs>d__5::MoveNext()": {
+          "Lines": {
+            "104": 3,
+            "105": 3,
+            "106": 1,
+            "107": 1,
+            "110": 2,
+            "111": 2,
+            "112": 2,
+            "114": 2,
+            "115": 3
+          },
+          "Branches": [
+            {
+              "Line": 105,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 3
+            },
+            {
+              "Line": 105,
+              "Offset": 40,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 105,
+              "Offset": 72,
+              "EndOffset": 74,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 105,
+              "Offset": 72,
+              "EndOffset": 97,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 2
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.UserSongsController/<GetSeenSongs>d__2": {
+        "System.Void Audiora.Controllers.UserSongsController/<GetSeenSongs>d__2::MoveNext()": {
+          "Lines": {
+            "25": 3,
+            "26": 3,
+            "27": 2,
+            "28": 2,
+            "31": 1,
+            "32": 1,
+            "33": 1,
+            "35": 1,
+            "36": 3
+          },
+          "Branches": [
+            {
+              "Line": 26,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 26,
+              "Offset": 40,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 26,
+              "Offset": 72,
+              "EndOffset": 74,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 2
+            },
+            {
+              "Line": 26,
+              "Offset": 72,
+              "EndOffset": 97,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.UserSongsController/<PostSeenSong>d__3": {
+        "System.Void Audiora.Controllers.UserSongsController/<PostSeenSong>d__3::MoveNext()": {
+          "Lines": {
+            "40": 4,
+            "41": 4,
+            "43": 4,
+            "44": 1,
+            "45": 1,
+            "46": 1,
+            "49": 3,
+            "50": 1,
+            "51": 1,
+            "52": 1,
+            "56": 2,
+            "57": 2,
+            "58": 1,
+            "59": 1,
+            "61": 1,
+            "62": 1,
+            "63": 1,
+            "64": 1,
+            "65": 1,
+            "67": 1,
+            "68": 1,
+            "69": 1,
+            "70": 1,
+            "71": 1,
+            "72": 1,
+            "73": 1,
+            "74": 1,
+            "75": 1,
+            "76": 1,
+            "77": 1,
+            "78": 1,
+            "80": 2,
+            "81": 2,
+            "82": 2,
+            "84": 2,
+            "85": 4
+          },
+          "Branches": [
+            {
+              "Line": 43,
+              "Offset": 211,
+              "EndOffset": 213,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 4
+            },
+            {
+              "Line": 43,
+              "Offset": 211,
+              "EndOffset": 250,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 43,
+              "Offset": 253,
+              "EndOffset": 255,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 43,
+              "Offset": 253,
+              "EndOffset": 289,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 3
+            },
+            {
+              "Line": 49,
+              "Offset": 314,
+              "EndOffset": 316,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 49,
+              "Offset": 314,
+              "EndOffset": 350,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 2
+            },
+            {
+              "Line": 57,
+              "Offset": 717,
+              "EndOffset": 722,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 57,
+              "Offset": 717,
+              "EndOffset": 895,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    },
+    "/Users/augustinaspletkus/Audiora/Controllers/YouTubeController.cs": {
+      "Audiora.Controllers.YouTubeController": {
+        "System.Void Audiora.Controllers.YouTubeController::.ctor(Audiora.Services.YouTubeService)": {
+          "Lines": {
+            "12": 8,
+            "13": 8,
+            "14": 8,
+            "15": 8
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.YouTubeController/<Search>d__2": {
+        "System.Void Audiora.Controllers.YouTubeController/<Search>d__2::MoveNext()": {
+          "Lines": {
+            "19": 8,
+            "20": 11,
+            "21": 5,
+            "22": 1,
+            "24": 1,
+            "26": 4,
+            "27": 6,
+            "28": 2,
+            "29": 8
+          },
+          "Branches": [
+            {
+              "Line": 20,
+              "Offset": 31,
+              "EndOffset": 33,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 3
+            },
+            {
+              "Line": 20,
+              "Offset": 31,
+              "EndOffset": 55,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 5
+            },
+            {
+              "Line": 21,
+              "Offset": 76,
+              "EndOffset": 78,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 21,
+              "Offset": 76,
+              "EndOffset": 103,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 4
+            },
+            {
+              "Line": 27,
+              "Offset": 264,
+              "EndOffset": 266,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 2
+            },
+            {
+              "Line": 27,
+              "Offset": 264,
+              "EndOffset": 280,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 2
+            }
+          ]
+        }
+      }
+    }
+  }
+}

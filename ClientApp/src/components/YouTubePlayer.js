@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 
 export function YouTubePlayer({ query, autoplay = false, muted = false }) {
   const [videoId, setVideoId] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(autoplay);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState(null);
+  const [userTriggered, setUserTriggered] = useState(false);
   const playerRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -18,13 +19,20 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
     }
   }, []);
 
-  // 2. Fetch Video ID from our backend
+  // Reset state when query changes
   useEffect(() => {
+    setVideoId(null);
+    setIsReady(false);
+    setError(null);
+    setUserTriggered(false);
+  }, [query]);
+
+  // 2. Fetch Video ID from our backend - ONLY if user triggered
+  useEffect(() => {
+    if (!userTriggered || !query) return;
+
     let aborted = false;
     async function fetchVideoId() {
-      setVideoId(null);
-      setIsReady(false);
-      setError(null);
       try {
         const res = await fetch(`/youtube/search?query=${encodeURIComponent(query)}`);
         if (!res.ok) throw new Error('search failed');
@@ -41,9 +49,9 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
         if (!aborted) setError("Search error");
       }
     }
-    if (query) fetchVideoId();
+    fetchVideoId();
     return () => { aborted = true; };
-  }, [query]);
+  }, [query, userTriggered]);
 
   // 3. Initialize Player when videoId is available and API is ready
   useEffect(() => {
@@ -51,9 +59,8 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
 
     const onPlayerReady = (event) => {
       setIsReady(true);
-      if (autoplay) {
-        event.target.playVideo();
-      }
+      // Always play if user triggered it (which they must have to get here)
+      event.target.playVideo();
     };
 
     const onPlayerStateChange = (event) => {
@@ -65,7 +72,6 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
     };
 
     const initPlayer = () => {
-      // If player already exists, destroy it to create a new one or load new video
       if (playerRef.current) {
         playerRef.current.destroy();
       }
@@ -77,7 +83,7 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
         playerVars: {
           'playsinline': 1,
           'controls': 0,
-          'autoplay': autoplay ? 1 : 0,
+          'autoplay': 1, 
           'mute': muted ? 1 : 0
         },
         events: {
@@ -90,7 +96,6 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
     if (window.YT && window.YT.Player) {
       initPlayer();
     } else {
-      // Wait for API to be ready
       window.onYouTubeIframeAPIReady = () => {
         initPlayer();
       };
@@ -103,7 +108,7 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
         } catch(e) {}
       }
     };
-  }, [videoId, autoplay, muted]);
+  }, [videoId, muted]);
 
   const togglePlay = () => {
     if (playerRef.current && isReady) {
@@ -115,17 +120,49 @@ export function YouTubePlayer({ query, autoplay = false, muted = false }) {
     }
   };
 
+  const handleLoadClick = () => {
+      setUserTriggered(true);
+  };
+
   if (error) {
     return <div style={{color: '#d32f2f', fontSize: '14px'}}>{error}</div>;
   }
 
-  if (!videoId) {
-    return <div style={{color: '#888', fontSize: '14px'}}>Searching...</div>;
+  // Initial State: Show Load Button
+  if (!userTriggered) {
+      return (
+        <div className="yt-player-container">
+            <button onClick={handleLoadClick} className="btn-player" style={{
+                background: '#333',
+                cursor: 'pointer',
+                boxShadow: 'none'
+            }}>
+                ▶
+            </button>
+            <div style={{marginTop: '8px', fontSize: '12px', color: '#aaa'}}>
+                Load Preview
+            </div>
+        </div>
+      );
   }
 
+  // Loading State
+  if (!videoId) {
+    return (
+        <div className="yt-player-container">
+            <div className="btn-player" style={{background: '#333', cursor: 'wait'}}>
+                ...
+            </div>
+            <div style={{marginTop: '8px', fontSize: '12px', color: '#888'}}>
+                Searching...
+            </div>
+        </div>
+    );
+  }
+
+  // Ready State
   return (
     <div className="yt-player-container">
-      {/* The div where the iframe will be mounted */}
       <div ref={containerRef} style={{ display: 'none' }}></div>
       
       <button onClick={togglePlay} disabled={!isReady} className="btn-player" style={{

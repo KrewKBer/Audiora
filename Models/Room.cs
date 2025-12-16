@@ -5,7 +5,7 @@ namespace Audiora.Models;
 public class Room : IComparable<Room>, IBaseEntity
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public Guid HostUserId { get; set; }
     public List<Guid> MemberUserIds { get; set; } = new();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -33,7 +33,7 @@ public class ChatMessage
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid RoomId { get; set; }
     public Guid UserId { get; set; }
-    public string Username { get; set; }
-    public string Message { get; set; }
+    public string Username { get; set; } = string.Empty;
+    public string Message { get; set; } = string.Empty;
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 }
