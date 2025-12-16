@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
 import { YouTubePlayer } from './YouTubePlayer';
+import { MusicBars } from './MusicBars';
 
 const HomeComponent = (props) => {
     const { songQueue, addSongsToQueue, getNextSong, clearQueue } = useSongQueue();
@@ -369,6 +370,7 @@ render() {
                         pointerEvents: 'none'
                     }}
                 >
+                    <MusicBars />
                     <h1 className="homepage-title">Discover New Music</h1>
                     <button className="btn-reset" disabled>Reset</button>
                     {nextCardContent}
@@ -378,6 +380,7 @@ render() {
             {/* Foreground Card (Current Song) */}
             {noMoreSongs ? (
                     <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
+                        <MusicBars />
                         <h1 className="homepage-title">Discover New Music</h1>
                         <button className="btn-reset" onClick={this.resetData}>Reset</button>
                         {currentCardContent}
@@ -405,6 +408,7 @@ render() {
                     className="homepage-content spotlight-card"
                     ref={this.contentRef}
                 >
+                    <MusicBars />
                     <h1 className="homepage-title">Discover New Music</h1>
                     <button className="btn-reset" onClick={this.resetData}>Reset</button>
                     {currentCardContent}
