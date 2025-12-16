@@ -85,12 +85,12 @@ export function Matchmaking() {
       <h2 className="mm-title">Matchmaking</h2>
       <p className="mm-sub">Swipe or use buttons to like / skip users. Mutual likes open a chat.</p>
       <div className="mm-stack">
-        {candidates.length === 0 && (
-          <div className="mm-empty">
-            <h3>No more candidates</h3>
-            <button className="mm-btn" onClick={() => window.location.reload()}>Refresh</button>
-          </div>
-        )}
+          {candidates.length === 0 && (
+              <div className="mm-empty">
+                  <h3>No more candidates</h3>
+                  <button className="mm-refresh-btn" onClick={() => window.location.reload()}>Refresh</button>
+              </div>
+          )}
         {candidates.map((user, index) => (
           <TinderCard
             key={user.id}
