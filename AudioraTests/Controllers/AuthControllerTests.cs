@@ -158,6 +158,8 @@ namespace AudioraTests.Controllers
             
             Assert.IsType<OkResult>(result);
             var updatedUser = await _context.Users.FindAsync(user.Id);
+            Assert.NotNull(updatedUser);
+            Assert.NotNull(updatedUser!.Genres);
             Assert.Equal(2, updatedUser.Genres.Count);
             Assert.Contains("pop", updatedUser.Genres);
             Assert.Contains("jazz", updatedUser.Genres);

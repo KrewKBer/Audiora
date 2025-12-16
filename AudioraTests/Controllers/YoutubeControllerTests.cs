@@ -45,7 +45,7 @@ public class YouTubeControllerTests
     [Fact]
     public async Task Search_WithNullQuery_ReturnsBadRequest()
     {
-        var result = await _controller.Search(null, CancellationToken.None);
+        var result = await _controller.Search(null!, CancellationToken.None);
 
         var badRequestResult = result.Should().BeOfType<BadRequestObjectResult>().Subject;
         badRequestResult.Value.Should().Be("query required");

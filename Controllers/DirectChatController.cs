@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Audiora.Controllers;
 
@@ -28,10 +29,10 @@ public class DirectChatController: ControllerBase
     {
         if (string.IsNullOrWhiteSpace(chatId)) return BadRequest("chatId required");
         var chatGuid = ChatIdToGuid(chatId);
-        var msgs = _context.ChatMessages
+        var msgs = await _context.ChatMessages
             .Where(m => m.RoomId == chatGuid)
             .OrderBy(m => m.Timestamp)
-            .ToList();
+            .ToListAsync();
         return Ok(msgs);
     }
 

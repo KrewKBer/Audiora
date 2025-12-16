@@ -91,7 +91,7 @@ namespace Audiora.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, foundUser.Id.ToString()),
-                new Claim(ClaimTypes.Name, foundUser.Username),
+                new Claim(ClaimTypes.Name, foundUser.Username ?? string.Empty),
                 new Claim(ClaimTypes.Role, foundUser.Role.ToString())
             };
 
@@ -115,6 +115,7 @@ namespace Audiora.Controllers
         public async Task<IActionResult> SetupTwoFactor()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
             var user = await _context.Users.FindAsync(Guid.Parse(userId));
             if (user == null) return NotFound();
 
@@ -134,6 +135,7 @@ namespace Audiora.Controllers
         public async Task<IActionResult> VerifyTwoFactorSetup([FromBody] TwoFactorVerifyRequest req)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
             var user = await _context.Users.FindAsync(Guid.Parse(userId));
             if (user == null) return NotFound();
 
