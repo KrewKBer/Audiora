@@ -11,11 +11,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Configuration.AddUserSecrets<Program>();
-}
-
 if (builder.Environment.IsEnvironment("Testing"))
 {
     builder.Services.AddDbContext<AudioraDbContext>(o =>
