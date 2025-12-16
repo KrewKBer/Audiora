@@ -223,10 +223,43 @@ namespace Audiora.Controllers
                 role = user.Role,
                 genres = user.Genres ?? new List<string>(),
                 topSongs = user.TopSongs ?? new List<SongInfo>(),
-                isTwoFactorEnabled = user.IsTwoFactorEnabled
+                isTwoFactorEnabled = user.IsTwoFactorEnabled,
+                xp = user.Xp,
+                level = user.Level
             });
         }
         
+        [Authorize]
+        [HttpPost("xp/add")]
+        public async Task<IActionResult> AddXp([FromBody] AddXpRequest req)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != req.UserId)
+            {
+                return Forbid();
+            }
+
+            if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
+            {
+                return BadRequest("Invalid userId");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
+            if (user == null)
+                return NotFound();
+
+            user.Xp += req.Amount;
+            
+            // Simple leveling: Level = 1 + (XP / 100), max level 100
+            int newLevel = Math.Min(100, 1 + (user.Xp / 100));
+            bool leveledUp = newLevel > user.Level;
+            user.Level = newLevel;
+            
+            await _context.SaveChangesAsync();
+            
+            return Ok(new { xp = user.Xp, level = user.Level, leveledUp });
+        }
+
         [Authorize]
         [HttpPost("update-genres")]
         public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
@@ -290,6 +323,12 @@ namespace Audiora.Controllers
         {
             public string? UserId { get; set; }
             public List<SongInfo> TopSongs { get; set; } = new List<SongInfo>();
+        }
+
+        public class AddXpRequest
+        {
+            public string? UserId { get; set; }
+            public int Amount { get; set; }
         }
 
         public class TwoFactorVerifyRequest { public string Code { get; set; } = ""; }
