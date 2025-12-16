@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthForm } from './AuthForm';
+import { WelcomeSplash } from './WelcomeSplash';
 
 export function Login() {
     const navigate = useNavigate();
@@ -8,6 +9,7 @@ export function Login() {
     const [tempUserId, setTempUserId] = useState(null);
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
+    const [showSplash, setShowSplash] = useState(false);
 
     const handleLogin = async (credentials) => {
         const response = await fetch('/auth/login', {
@@ -30,7 +32,7 @@ export function Login() {
             localStorage.setItem('role', data.role);
             
             window.dispatchEvent(new Event('storage'));
-            navigate('/rooms');
+            setShowSplash(true);
             
             return data;
         } else {
@@ -56,7 +58,7 @@ export function Login() {
                 localStorage.setItem('role', data.role);
                 
                 window.dispatchEvent(new Event('storage'));
-                navigate('/rooms');
+                setShowSplash(true);
             } else {
                 setError('Invalid 2FA Code');
             }
@@ -64,6 +66,10 @@ export function Login() {
             setError('Verification failed! Please try again.');
         }
     };
+
+    if (showSplash) {
+        return <WelcomeSplash onComplete={() => navigate('/rooms')} />;
+    }
 
     if (twoFactorRequired) {
         return (

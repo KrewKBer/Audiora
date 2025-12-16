@@ -11,7 +11,7 @@ export function Sidebar({ open, onClose }) {
       <div className={`sidebar-panel ${open ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="brand">
-            <div className="brand-mark">A</div>
+            <img src="/Logo.png" alt="Audiora" className="brand-logo" />
             <div className="brand-text">
               <strong>Audiora</strong>
               <small>your social jukebox</small>
