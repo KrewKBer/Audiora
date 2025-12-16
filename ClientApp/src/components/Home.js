@@ -154,14 +154,11 @@ class HomeInternal extends Component {
     }
   }
 
-  async handleInteraction(liked) {
+  handleInteraction(liked) {
     const { currentSong, userId } = this.state;
     console.log('[handleInteraction] Called with liked:', liked);
-    console.log('[handleInteraction] currentSong:', currentSong);
-    console.log('[handleInteraction] userId:', userId);
     
     if (!currentSong || !userId) {
-      console.log('[handleInteraction] Missing currentSong or userId, returning');
       return;
     }
 
@@ -180,25 +177,21 @@ class HomeInternal extends Component {
       albumImageUrl: albumImageUrl
     };
     
-    console.log('[handleInteraction] Sending POST to /api/user-songs/seen with payload:', payload);
-
-    try {
-      const response = await fetch('/api/user-songs/seen', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      
-      console.log('[handleInteraction] Response status:', response.status);
-      const responseText = await response.text();
-      console.log('[handleInteraction] Response body:', responseText);
-    } catch (error) {
-      console.error('[handleInteraction] Fetch error:', error);
-    }
-
-    // Remove saved song from localStorage since we're moving to the next one
+    // Update UI immediately - don't wait for server
     localStorage.removeItem('currentSong');
     this.loadNextSong();
+
+    // Send API request in background
+    console.log('[handleInteraction] Sending POST to /api/user-songs/seen with payload:', payload);
+    fetch('/api/user-songs/seen', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(response => {
+        if (!response.ok) console.warn('Failed to sync seen song', response.status);
+    }).catch(error => {
+      console.error('[handleInteraction] Fetch error:', error);
+    });
   }
 
   handleLike() {
@@ -302,41 +295,10 @@ class HomeInternal extends Component {
             return;
         }
 
-        if (!this.cardRef.current || !this.contentRef.current) return;
+        if (!this.cardRef.current) return;
 
         this.isSwiping = true;
-        const isLeft = direction === 'left';
-        const distance = isLeft ? -1000 : 1000;
-        const rotation = isLeft ? -15 : 15;
-        const element = this.contentRef.current;
-
-        element.style.transition = 'none';
-
-        requestAnimationFrame(() => {
-            if (!this.contentRef.current) {
-                this.isSwiping = false;
-                return;
-            }
-            element.style.transform = `translateX(${distance * 0.05}px) rotate(${rotation * 0.2}deg)`;
-
-            requestAnimationFrame(() => {
-                if (!this.contentRef.current) {
-                    this.isSwiping = false;
-                    return;
-                }
-                element.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-
-                element.style.transform = `translateX(${distance * 0.3}px) rotate(${rotation * 0.7}deg)`;
-
-                setTimeout(() => {
-                    if (this.cardRef.current) {
-                        this.cardRef.current.swipe(direction);
-                    } else {
-                        this.isSwiping = false;
-                    }
-                }, 150);
-            });
-        });
+        this.cardRef.current.swipe(direction);
     }
 
 
@@ -374,68 +336,69 @@ render() {
     }
 
     return (
-        <div className="homepage-container" style={{ position: 'relative' }}>
+        <div className="homepage-container">
             {this.state.fetchingRandom && (
                 <div className="page-loader-overlay"><div className="page-loader"></div></div>
             )}
             
-            {/* Background Card (Next Song) */}
-            {!noMoreSongs && nextCardContent && (
-                <div 
-                    className="homepage-content spotlight-card" 
-                    style={{ 
-                        position: 'absolute', 
-                        top: 0, 
-                        left: 0, 
-                        right: 0,
-                        margin: 'auto',
-                        zIndex: 0,
-                        transform: 'scale(0.95) translateY(10px)',
-                        opacity: 0.7,
-                        pointerEvents: 'none'
-                    }}
-                >
-                    <h1 className="homepage-title">Discover New Music</h1>
-                    <button className="btn-reset" disabled>Reset</button>
-                    {nextCardContent}
-                </div>
-            )}
+            <div className="card-stack">
+                {/* Background Card (Next Song) - Now a TinderCard for instant interaction */}
+                {!noMoreSongs && songQueue && songQueue.length > 0 && (
+                    <TinderCard
+                        key={songQueue[0].id}
+                        preventSwipe={['up', 'down']}
+                        className="tinder-card-wrapper next-card"
+                        swipeRequirementType='position'
+                        swipeThreshold={400}
+                        flickOnSwipe={true}
+                    >
+                        <div className="homepage-content spotlight-card">
+                            <h1 className="homepage-title">Discover New Music</h1>
+                            <button className="btn-reset" disabled>Reset</button>
+                            {this.renderSongCard(songQueue[0], false)}
+                        </div>
+                    </TinderCard>
+                )}
 
-            {/* Foreground Card (Current Song) */}
-            {noMoreSongs ? (
-                    <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
+                {/* Foreground Card (Current Song) */}
+                {noMoreSongs ? (
+                        <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
+                            <h1 className="homepage-title">Discover New Music</h1>
+                            <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                            {currentCardContent}
+                        </div>
+                    ) : (
+                <TinderCard
+                    ref={this.cardRef}
+                    key={this.state.currentSong?.id || 'empty'}
+                    onSwipe={dir => {
+                        // Disable pointer events on the content to allow clicking through to the next card immediately
+                        if (this.contentRef.current) {
+                            this.contentRef.current.style.pointerEvents = 'none';
+                        }
+                    }}
+                    onCardLeftScreen={dir => {
+                        this.isSwiping = false;
+                        if (dir === 'right') this.handleLike();
+                        if (dir === 'left') this.handleDislike();
+                    }}
+                    preventSwipe={['up', 'down']}
+                    swipeRequirementType='position'
+                    swipeThreshold={400}
+                    flickOnSwipe={true}
+                    className="tinder-card-wrapper current-card"
+                >
+                    <div
+                        className="homepage-content spotlight-card"
+                        ref={this.contentRef}
+                    >
                         <h1 className="homepage-title">Discover New Music</h1>
                         <button className="btn-reset" onClick={this.resetData}>Reset</button>
                         {currentCardContent}
                     </div>
-                ) : (
-            <TinderCard
-                ref={this.cardRef}
-                key={this.state.currentSong?.id || 'empty'}
-                onSwipe={dir => {
-                    // Direction recorded, waiting for card to leave screen
-                }}
-                onCardLeftScreen={dir => {
-                    this.isSwiping = false;
-                    if (dir === 'right') this.handleLike();
-                    if (dir === 'left') this.handleDislike();
-                }}
-                preventSwipe={['up', 'down']}
-                swipeRequirementType='position'
-                swipeThreshold={400}
-                flickOnSwipe={true}
-                className="tinder-card-wrapper"
-            >
-                <div
-                    className="homepage-content spotlight-card"
-                    ref={this.contentRef}
-                >
-                    <h1 className="homepage-title">Discover New Music</h1>
-                    <button className="btn-reset" onClick={this.resetData}>Reset</button>
-                    {currentCardContent}
-                </div>
-            </TinderCard>
-            )}
+                </TinderCard>
+                )}
+            </div>
         </div>
     );
   }

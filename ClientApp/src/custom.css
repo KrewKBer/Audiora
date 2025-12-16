@@ -668,3 +668,34 @@ code {
   cursor: not-allowed;
   transform: none;
 }
+.tinder-card-wrapper {
+    position: relative;
+    z-index: 10;
+}
+
+.card-stack {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: auto; /* Allow height to fit content */
+    min-height: 600px; /* Minimum height for the stack */
+    display: flex;
+    justify-content: center;
+}
+
+.tinder-card-wrapper {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tinder-card-wrapper.current-card {
+    z-index: 10;
+}
+
+.tinder-card-wrapper.next-card {
+    z-index: 5;
+    transform: scale(0.98) translateY(10px); /* Slight scale down for depth */
+}
