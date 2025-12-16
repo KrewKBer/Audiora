@@ -90,6 +90,15 @@ namespace Audiora.Controllers
                     Artist = request.Artist,
                     AlbumImageUrl = request.AlbumImageUrl
                 });
+                
+                // Award XP for discovering a new song (1 XP per song, +2 bonus if liked)
+                var user = await _context.Users.FindAsync(userGuid);
+                if (user != null)
+                {
+                    int xpGain = request.Liked ? 3 : 1;
+                    user.Xp += xpGain;
+                    user.Level = Math.Min(100, 1 + (user.Xp / 100));
+                }
             }
             
             Console.WriteLine("[PostSeenSong] Calling SaveChangesAsync...");

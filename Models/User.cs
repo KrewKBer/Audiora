@@ -23,6 +23,10 @@ namespace Audiora.Models
         
         public string? TwoFactorSecret { get; set; }
         public bool IsTwoFactorEnabled { get; set; }
+        
+        // XP System
+        public int Xp { get; set; } = 0;
+        public int Level { get; set; } = 1;
 
         [NotMapped]
         public List<SongInfo>? TopSongs 
