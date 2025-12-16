@@ -13,6 +13,9 @@ namespace Audiora.Data
         public DbSet<SeenSong> SeenSongs { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Match> Matches { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,4 +73,22 @@ namespace Audiora.Data
         public string? Artist { get; set; }
         public string? AlbumImageUrl { get; set; }
     }
+    
+    public class Like
+    {
+        public int Id { get; set; }
+        public Guid FromUserId { get; set; }
+        public Guid ToUserId { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+    
+    public class Match
+    {
+        public int Id { get; set; }
+        public Guid UserAId { get; set; }
+        public Guid UserBId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string ChatId { get; set; } = string.Empty;
+    }
+    
 }
