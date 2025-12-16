@@ -60,3 +60,19 @@ namespace Audiora.Models
         public string? AlbumImageUrl { get; init; }
     }
 }
+
+
+/*
+public class Song
+{
+  [Key]
+  public Guid Id { get; set; }
+
+  [Required]
+  [MaxLength(200)]
+  [Column("song_title")]
+  public string Title { get; set; } = null!;
+
+  public string? PreviewUrl { get; set; }
+}
+*/
