@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Audiora.Controllers;
@@ -16,10 +17,12 @@ namespace Audiora.Controllers;
 public class DirectChatController: ControllerBase
 {
     private readonly AudioraDbContext _context;
+    private readonly IHubContext<RoomHub> _hubContext;
 
-    public DirectChatController(AudioraDbContext context)
+    public DirectChatController(AudioraDbContext context, IHubContext<RoomHub> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
 
     [HttpGet("messages")]
@@ -44,7 +47,7 @@ public class DirectChatController: ControllerBase
         {
             return Forbid();
         }
-
+    
         if (string.IsNullOrWhiteSpace(req.ChatId) || string.IsNullOrWhiteSpace(req.UserId) || string.IsNullOrWhiteSpace(req.Username))
             return BadRequest("Missing required fields");
         if (string.IsNullOrWhiteSpace(req.Message)) return BadRequest("Empty message");
@@ -53,8 +56,12 @@ public class DirectChatController: ControllerBase
         var msg = new ChatMessage { RoomId = roomGuid, UserId = userGuid, Username = req.Username, Message = req.Message, Timestamp = DateTime.UtcNow };
         _context.ChatMessages.Add(msg);
         await _context.SaveChangesAsync();
+        
+        await _hubContext.Clients.Group(roomGuid.ToString()).SendAsync("ReceiveMessage", req.UserId, req.Username, req.Message, msg.Timestamp);
+    
         return Ok(msg);
     }
+    
 
     private static Guid ChatIdToGuid(string chatId)
     {
