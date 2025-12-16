@@ -24,6 +24,7 @@ class HomeInternal extends Component {
     this.audioRef = createRef();
     this.cardRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.isSwiping = false;
   }
 
   handleMouseMove(e) {
@@ -301,6 +302,8 @@ class HomeInternal extends Component {
   }
 
     swipeWithAnimation(direction) {
+        if (this.isSwiping) return;
+
         const { songQueue } = this.props;
         const { currentSong } = this.state;
         
@@ -310,6 +313,7 @@ class HomeInternal extends Component {
 
         if (!this.cardRef.current || !this.contentRef.current) return;
 
+        this.isSwiping = true;
         const isLeft = direction === 'left';
         const distance = isLeft ? -1000 : 1000;
         const rotation = isLeft ? -15 : 15;
@@ -318,15 +322,27 @@ class HomeInternal extends Component {
         element.style.transition = 'none';
 
         requestAnimationFrame(() => {
+            if (!this.contentRef.current) {
+                this.isSwiping = false;
+                return;
+            }
             element.style.transform = `translateX(${distance * 0.05}px) rotate(${rotation * 0.2}deg)`;
 
             requestAnimationFrame(() => {
+                if (!this.contentRef.current) {
+                    this.isSwiping = false;
+                    return;
+                }
                 element.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
                 element.style.transform = `translateX(${distance * 0.3}px) rotate(${rotation * 0.7}deg)`;
 
                 setTimeout(() => {
-                    this.cardRef.current.swipe(direction);
+                    if (this.cardRef.current) {
+                        this.cardRef.current.swipe(direction);
+                    } else {
+                        this.isSwiping = false;
+                    }
                 }, 150);
             });
         });
@@ -368,6 +384,7 @@ render() {
                 ref={this.cardRef}
                 key={this.state.currentSong?.id || 'empty'}
                 onSwipe={dir => {
+                    this.isSwiping = false;
                     if (dir === 'right') this.handleLike();
                     if (dir === 'left') this.handleDislike();
                 }}
