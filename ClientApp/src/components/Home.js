@@ -298,7 +298,14 @@ class HomeInternal extends Component {
         if (!this.cardRef.current) return;
 
         this.isSwiping = true;
+        
+        // Immediately trigger like/dislike and load next song
+        if (direction === 'right') this.handleLike();
+        if (direction === 'left') this.handleDislike();
+        
+        // The card ref swipe triggers the animation (which runs while new card is already showing)
         this.cardRef.current.swipe(direction);
+        this.isSwiping = false;
     }
 
 
@@ -336,69 +343,69 @@ render() {
     }
 
     return (
-        <div className="homepage-container">
+        <div className="homepage-container" style={{ position: 'relative' }}>
             {this.state.fetchingRandom && (
                 <div className="page-loader-overlay"><div className="page-loader"></div></div>
             )}
             
-            <div className="card-stack">
-                {/* Background Card (Next Song) - Now a TinderCard for instant interaction */}
-                {!noMoreSongs && songQueue && songQueue.length > 0 && (
-                    <TinderCard
-                        key={songQueue[0].id}
-                        preventSwipe={['up', 'down']}
-                        className="tinder-card-wrapper next-card"
-                        swipeRequirementType='position'
-                        swipeThreshold={400}
-                        flickOnSwipe={true}
-                    >
-                        <div className="homepage-content spotlight-card">
-                            <h1 className="homepage-title">Discover New Music</h1>
-                            <button className="btn-reset" disabled>Reset</button>
-                            {this.renderSongCard(songQueue[0], false)}
-                        </div>
-                    </TinderCard>
-                )}
-
-                {/* Foreground Card (Current Song) */}
-                {noMoreSongs ? (
-                        <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
-                            <h1 className="homepage-title">Discover New Music</h1>
-                            <button className="btn-reset" onClick={this.resetData}>Reset</button>
-                            {currentCardContent}
-                        </div>
-                    ) : (
-                <TinderCard
-                    ref={this.cardRef}
-                    key={this.state.currentSong?.id || 'empty'}
-                    onSwipe={dir => {
-                        // Disable pointer events on the content to allow clicking through to the next card immediately
-                        if (this.contentRef.current) {
-                            this.contentRef.current.style.pointerEvents = 'none';
-                        }
+            {/* Background Card (Next Song) */}
+            {!noMoreSongs && nextCardContent && (
+                <div 
+                    className="homepage-content spotlight-card" 
+                    style={{ 
+                        position: 'absolute', 
+                        top: 0, 
+                        left: 0, 
+                        right: 0,
+                        margin: 'auto',
+                        zIndex: 0,
+                        transform: 'scale(0.95) translateY(10px)',
+                        opacity: 0.7,
+                        pointerEvents: 'none'
                     }}
-                    onCardLeftScreen={dir => {
-                        this.isSwiping = false;
-                        if (dir === 'right') this.handleLike();
-                        if (dir === 'left') this.handleDislike();
-                    }}
-                    preventSwipe={['up', 'down']}
-                    swipeRequirementType='position'
-                    swipeThreshold={400}
-                    flickOnSwipe={true}
-                    className="tinder-card-wrapper current-card"
                 >
-                    <div
-                        className="homepage-content spotlight-card"
-                        ref={this.contentRef}
-                    >
+                    <h1 className="homepage-title">Discover New Music</h1>
+                    <button className="btn-reset" disabled>Reset</button>
+                    {nextCardContent}
+                </div>
+            )}
+
+            {/* Foreground Card (Current Song) */}
+            {noMoreSongs ? (
+                    <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
                         <h1 className="homepage-title">Discover New Music</h1>
                         <button className="btn-reset" onClick={this.resetData}>Reset</button>
                         {currentCardContent}
                     </div>
-                </TinderCard>
-                )}
-            </div>
+                ) : (
+            <TinderCard
+                ref={this.cardRef}
+                key={this.state.currentSong?.id || 'empty'}
+                onSwipe={dir => {
+                    // Trigger like/dislike immediately when swipe direction is decided
+                    if (dir === 'right') this.handleLike();
+                    if (dir === 'left') this.handleDislike();
+                }}
+                onCardLeftScreen={() => {
+                    // Animation complete, reset swiping flag
+                    this.isSwiping = false;
+                }}
+                preventSwipe={['up', 'down']}
+                swipeRequirementType='velocity'
+                swipeThreshold={200}
+                flickOnSwipe={true}
+                className="tinder-card-wrapper"
+            >
+                <div
+                    className="homepage-content spotlight-card"
+                    ref={this.contentRef}
+                >
+                    <h1 className="homepage-title">Discover New Music</h1>
+                    <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                    {currentCardContent}
+                </div>
+            </TinderCard>
+            )}
         </div>
     );
   }
