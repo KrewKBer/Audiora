@@ -41,3 +41,43 @@ html {
 .menu-btn-translucent:active {
   transform: translateY(0);
 }
+
+/* XP Bar Styles */
+.xp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 4px;
+    width: 140px;
+}
+
+.xp-rank {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #a5b4fc; /* Indigo-300 */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.xp-progress-bg {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+
+.xp-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: 3px;
+    transition: width 0.3s ease-out;
+}
+
+.xp-stats {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: monospace;
+}
