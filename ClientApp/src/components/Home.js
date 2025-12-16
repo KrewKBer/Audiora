@@ -357,19 +357,17 @@ class HomeInternal extends Component {
             )}
         </div>
         
-        {/* Action Buttons */}
-        <div className="action-btn-group">
-            <button className="btn-action-round btn-dislike-round" onClick={() => isActive && this.swipeWithAnimation('left')}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        {/* Side Action Buttons */}
+        <button className="side-action-btn side-btn-left" onClick={(e) => { e.stopPropagation(); isActive && this.swipeWithAnimation('left'); }} title="Dislike">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <button className="btn-action-round btn-like-round" onClick={() => isActive && this.swipeWithAnimation('right')}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+            </svg>
+        </button>
+        <button className="side-action-btn side-btn-right" onClick={(e) => { e.stopPropagation(); isActive && this.swipeWithAnimation('right'); }} title="Like">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke="none">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-            </button>
-        </div>
+            </svg>
+        </button>
 
         <p style={{ marginTop: 'auto', marginBottom: '10px', fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
