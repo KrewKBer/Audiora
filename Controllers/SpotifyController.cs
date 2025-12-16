@@ -9,9 +9,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using SpotifyAPI.Web;
 using Audiora.Exceptions;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Audiora.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class SpotifyController : ControllerBase
@@ -53,6 +56,12 @@ namespace Audiora.Controllers
         [HttpGet("recommendations")]
         public async Task<IActionResult> GetRecommendations([FromQuery] string userId)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != userId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
                 return BadRequest("Invalid userId");

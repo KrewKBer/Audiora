@@ -8,6 +8,8 @@ import { Profile } from "./components/Profile";
 import { Matchmaking } from "./components/Matchmaking";
 import { DirectChat } from "./components/DirectChat";
 import { Chats } from "./components/Chats";
+import { Rooms } from "./components/Rooms";
+import { Room } from "./components/Room";
 
 const AppRoutes = [
     {
@@ -45,6 +47,14 @@ const AppRoutes = [
             {
                 path: 'matchmaking',
                 element: <Matchmaking />
+            },
+            {
+                path: 'rooms',
+                element: <Rooms />
+            },
+            {
+                path: 'room/:id',
+                element: <Room />
             },
             {
                 path: 'directchat/:chatId',

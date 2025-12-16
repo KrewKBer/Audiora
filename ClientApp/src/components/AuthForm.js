@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const GENRES = [
     'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'K-Pop', 'EDM', 'Funk', 'Disco'
 ];
 
 export function AuthForm({ formType, onSubmit }) {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [genres, setGenres] = useState([]);
@@ -30,7 +32,23 @@ export function AuthForm({ formType, onSubmit }) {
     return (
         <div className="auth-container">
             <form onSubmit={handleSubmit} className="auth-form">
-                <h2>{formType}</h2>
+                <div className="auth-tabs">
+                    <button 
+                        type="button" 
+                        className={`auth-tab ${formType === 'Login' ? 'active' : ''}`}
+                        onClick={() => navigate('/login')}
+                    >
+                        Login
+                    </button>
+                    <button 
+                        type="button" 
+                        className={`auth-tab ${formType === 'Register' ? 'active' : ''}`}
+                        onClick={() => navigate('/register')}
+                    >
+                        Register
+                    </button>
+                </div>
+                
                 {error && <p className="auth-error">{error}</p>}
                 <div className="form-group">
                     <label htmlFor="username">Username</label>

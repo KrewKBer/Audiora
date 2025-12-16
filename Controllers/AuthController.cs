@@ -8,6 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using OtpNet;
 
 namespace Audiora.Controllers
 {
@@ -39,7 +44,33 @@ namespace Audiora.Controllers
 
             await _userDataService.AddAsync(user);
 
-            return Ok(new { userId = user.Id.ToString(), username = user.Username, role = user.Role });
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username ?? string.Empty),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTime.UtcNow.AddDays(7)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            var userDto = _userDataService.Map(user, u => new UserDto
+            {
+                UserId = u.Id.ToString(),
+                Username = u.Username ?? string.Empty,
+                Role = u.Role.ToString()
+            });
+
+            return Ok(userDto);
         }
 
         [HttpPost("login")]
@@ -52,12 +83,130 @@ namespace Audiora.Controllers
                 return Unauthorized("Invalid credentials.");
             }
 
-            return Ok(new { userId = foundUser.Id.ToString(), username = foundUser.Username, role = foundUser.Role });
+            if (foundUser.IsTwoFactorEnabled)
+            {
+                return Ok(new { status = "2fa_required", userId = foundUser.Id.ToString() });
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, foundUser.Id.ToString()),
+                new Claim(ClaimTypes.Name, foundUser.Username ?? string.Empty),
+                new Claim(ClaimTypes.Role, foundUser.Role.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTime.UtcNow.AddDays(7)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            return Ok(new { status = "success", userId = foundUser.Id.ToString(), username = foundUser.Username, role = foundUser.Role });
         }
 
+        [Authorize]
+        [HttpPost("2fa/setup")]
+        public async Task<IActionResult> SetupTwoFactor()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            var user = await _context.Users.FindAsync(Guid.Parse(userId));
+            if (user == null) return NotFound();
+
+            var key = KeyGeneration.GenerateRandomKey(20);
+            var base32String = Base32Encoding.ToString(key);
+
+            user.TwoFactorSecret = base32String;
+            await _context.SaveChangesAsync();
+
+            var otpAuthUri = $"otpauth://totp/Audiora:{user.Username}?secret={base32String}&issuer=Audiora";
+
+            return Ok(new { secret = base32String, uri = otpAuthUri });
+        }
+
+        [Authorize]
+        [HttpPost("2fa/verify-setup")]
+        public async Task<IActionResult> VerifyTwoFactorSetup([FromBody] TwoFactorVerifyRequest req)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            var user = await _context.Users.FindAsync(Guid.Parse(userId));
+            if (user == null) return NotFound();
+
+            var bytes = Base32Encoding.ToBytes(user.TwoFactorSecret);
+            var totp = new Totp(bytes);
+
+            if (totp.VerifyTotp(req.Code, out long timeStepMatched))
+            {
+                user.IsTwoFactorEnabled = true;
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return BadRequest("Invalid code");
+        }
+
+        [HttpPost("2fa/verify-login")]
+        public async Task<IActionResult> VerifyTwoFactorLogin([FromBody] TwoFactorLoginRequest req)
+        {
+            if (!Guid.TryParse(req.UserId, out var userGuid)) return BadRequest("Invalid UserId");
+            
+            var user = await _context.Users.FindAsync(userGuid);
+            if (user == null) return Unauthorized();
+
+            if (string.IsNullOrEmpty(user.TwoFactorSecret)) return Unauthorized("2FA not set up");
+
+            var bytes = Base32Encoding.ToBytes(user.TwoFactorSecret);
+            var totp = new Totp(bytes);
+            if (!totp.VerifyTotp(req.Code, out long timeStepMatched))
+            {
+                return Unauthorized("Invalid code");
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username ?? string.Empty),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTime.UtcNow.AddDays(7)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            return Ok(new { status = "success", userId = user.Id.ToString(), username = user.Username, role = user.Role });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok();
+        }
+
+        [Authorize]
         [HttpGet("user")]
         public async Task<IActionResult> GetUser([FromQuery] string userId)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != userId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
                 return BadRequest("Invalid userId");
@@ -73,13 +222,54 @@ namespace Audiora.Controllers
                 username = user.Username,
                 role = user.Role,
                 genres = user.Genres ?? new List<string>(),
-                topSongs = user.TopSongs ?? new List<SongInfo>()
+                topSongs = user.TopSongs ?? new List<SongInfo>(),
+                isTwoFactorEnabled = user.IsTwoFactorEnabled,
+                xp = user.Xp,
+                level = user.Level
             });
         }
         
+        [Authorize]
+        [HttpPost("xp/add")]
+        public async Task<IActionResult> AddXp([FromBody] AddXpRequest req)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != req.UserId)
+            {
+                return Forbid();
+            }
+
+            if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
+            {
+                return BadRequest("Invalid userId");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userGuid);
+            if (user == null)
+                return NotFound();
+
+            user.Xp += req.Amount;
+            
+            // Simple leveling: Level = 1 + (XP / 100), max level 100
+            int newLevel = Math.Min(100, 1 + (user.Xp / 100));
+            bool leveledUp = newLevel > user.Level;
+            user.Level = newLevel;
+            
+            await _context.SaveChangesAsync();
+            
+            return Ok(new { xp = user.Xp, level = user.Level, leveledUp });
+        }
+
+        [Authorize]
         [HttpPost("update-genres")]
         public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != req.UserId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
             {
                 return BadRequest("Invalid userId");
@@ -94,9 +284,16 @@ namespace Audiora.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPost("update-top-songs")]
         public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != req.UserId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
             {
                 return BadRequest("Invalid userId");
@@ -127,5 +324,14 @@ namespace Audiora.Controllers
             public string? UserId { get; set; }
             public List<SongInfo> TopSongs { get; set; } = new List<SongInfo>();
         }
+
+        public class AddXpRequest
+        {
+            public string? UserId { get; set; }
+            public int Amount { get; set; }
+        }
+
+        public class TwoFactorVerifyRequest { public string Code { get; set; } = ""; }
+        public class TwoFactorLoginRequest { public string UserId { get; set; } = ""; public string Code { get; set; } = ""; }
     }
 }

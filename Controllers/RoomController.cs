@@ -2,9 +2,12 @@
 using Audiora.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Audiora.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/room")]
 public class RoomController : ControllerBase
@@ -19,6 +22,12 @@ public class RoomController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateRoom([FromBody] CreateRoomRequest request)
     {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId != request.UserId)
+        {
+            return Forbid();
+        }
+
         if (string.IsNullOrWhiteSpace(request.Name))
             return BadRequest("Room name is required.");
         if (!Guid.TryParse(request.UserId, out var hostUserId))
@@ -63,6 +72,12 @@ public class RoomController : ControllerBase
     [HttpPost("{roomId:guid}/join")]
     public async Task<IActionResult> JoinRoom(Guid roomId, [FromBody] JoinRoomRequest request)
     {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId != request.UserId)
+        {
+            return Forbid();
+        }
+
         if (!Guid.TryParse(request.UserId, out var userId))
             return BadRequest("Invalid UserId.");
 

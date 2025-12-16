@@ -6,9 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Audiora.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/user-songs")]
     public class UserSongsController : ControllerBase
@@ -23,6 +26,12 @@ namespace Audiora.Controllers
         [HttpGet("seen")]
         public async Task<IActionResult> GetSeenSongs([FromQuery] string userId)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != userId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
                 return BadRequest("Invalid userId");
@@ -38,6 +47,12 @@ namespace Audiora.Controllers
         [HttpPost("seen")]
         public async Task<IActionResult> PostSeenSong([FromBody] SeenSongRequest request)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != request.UserId)
+            {
+                return Forbid();
+            }
+
             Console.WriteLine($"[PostSeenSong] Received request - UserId: {request.UserId}, SongId: {request.SongId}, Liked: {request.Liked}");
             
             if (string.IsNullOrEmpty(request.UserId) || !Guid.TryParse(request.UserId, out var userGuid))
@@ -75,6 +90,15 @@ namespace Audiora.Controllers
                     Artist = request.Artist,
                     AlbumImageUrl = request.AlbumImageUrl
                 });
+                
+                // Award XP for discovering a new song (1 XP per song, +2 bonus if liked)
+                var user = await _context.Users.FindAsync(userGuid);
+                if (user != null)
+                {
+                    int xpGain = request.Liked ? 3 : 1;
+                    user.Xp += xpGain;
+                    user.Level = Math.Min(100, 1 + (user.Xp / 100));
+                }
             }
             
             Console.WriteLine("[PostSeenSong] Calling SaveChangesAsync...");
@@ -87,6 +111,12 @@ namespace Audiora.Controllers
         [HttpDelete("seen")]
         public async Task<IActionResult> DeleteSeenSongs([FromQuery] string userId)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != userId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
                 return BadRequest("Invalid userId");
@@ -102,6 +132,12 @@ namespace Audiora.Controllers
         [HttpGet("liked")]
         public async Task<IActionResult> GetLikedSongs([FromQuery] string userId)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != userId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
                 return BadRequest("Invalid userId");

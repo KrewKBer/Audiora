@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Chats.css';
 
 export function Chats() {
   const [items, setItems] = useState([]);
@@ -26,29 +27,28 @@ export function Chats() {
     })();
   }, [userId, navigate]);
 
-  if (loading) return <div style={{ padding: 24 }}>Loading chats...</div>;
-  if (error) return <div style={{ padding: 24, color: '#ef4444' }}>Error: {error}</div>;
+  if (loading) return <div className="chats-container"><div className="chats-subtitle">Loading chats...</div></div>;
+  if (error) return <div className="chats-container"><div className="chats-subtitle" style={{ color: '#fca5a5' }}>Error: {error}</div></div>;
 
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '28px 16px' }}>
-      <h2 style={{ margin: 0 }}>Chats</h2>
-      <p style={{ marginTop: 6, color: '#9ca3af' }}>Your matched conversations</p>
+    <div className="chats-container">
+      <h2 className="chats-title">Chats</h2>
+      <p className="chats-subtitle">Your matched conversations</p>
+      
       {items.length === 0 && (
-        <div style={{ marginTop: 20, color: '#9ca3af' }}>No chats yet. Go to Matchmaking and like someone!</div>
+        <div className="no-chats">No chats yet. Go to Matchmaking and like someone!</div>
       )}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12, marginTop: 16 }}>
+      
+      <div className="chats-list">
         {items.map((m, i) => (
-          <div key={i} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            background: '#111827', color: '#fff', border: '1px solid #374151', borderRadius: 12, padding: '12px 14px'
-          }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <strong style={{ fontSize: 16 }}>{m.withUsername || m.withUser}</strong>
-              <small style={{ color: '#9ca3af' }}>Chat ID: {m.chatId}</small>
-              <small style={{ color: '#6b7280' }}>Since: {m.createdAt && new Date(m.createdAt).toLocaleString()}</small>
+          <div key={i} className="chat-item">
+            <div className="chat-info">
+              <span className="chat-name">{m.withUsername || m.withUser}</span>
+              <span className="chat-meta">Chat ID: {m.chatId}</span>
+              <span className="chat-meta">Since: {m.createdAt && new Date(m.createdAt).toLocaleDateString()}</span>
             </div>
             <div>
-              <button className="btn btn-primary" onClick={() => navigate(`/directchat/${m.chatId}`)}>Open</button>
+              <button className="chat-btn" onClick={() => navigate(`/directchat/${m.chatId}`)}>Open</button>
             </div>
           </div>
         ))}

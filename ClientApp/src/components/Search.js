@@ -1,92 +1,87 @@
-import React, { Component, useState, useRef } from 'react';
+import React, { Component } from 'react';
 import { useSongQueue } from './SongQueueContext';
 import './Search.css';
-import { YouTubePlayer } from './YouTubePlayer';
-
-const TrackItem = ({ track, onAddToQueue }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
-
-  const togglePlay = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      // Pause all other audios
-      document.querySelectorAll('audio').forEach(el => {
-          if(el !== audioRef.current) el.pause();
-      });
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  return (
-    <div className="track">
-      <img src={track.album?.images?.[0]?.url} alt={track.name} className="track-image" />
-      <div className="track-info">
-        <div className="track-name">{track.name}</div>
-        <div className="track-artist">{(track.artists || []).map(artist => artist.name).join(', ')}</div>
-      </div>
-      
-      <div className="track-actions">
-        {track.preview_url ? (
-          <div className="preview-player-wrapper">
-            <button className={`btn-mini-player ${isPlaying ? 'playing' : ''}`} onClick={togglePlay}>
-               {isPlaying ? '❚❚' : '▶'}
-            </button>
-            <audio 
-                ref={audioRef} 
-                src={track.preview_url} 
-                onEnded={() => setIsPlaying(false)}
-                onPause={() => setIsPlaying(false)}
-                onPlay={() => setIsPlaying(true)}
-            />
-          </div>
-        ) : (
-           <div className="preview-player-wrapper">
-             <YouTubePlayer query={`${track.name} ${(track.artists || []).map(a => a.name).join(', ')}`} />
-           </div>
-        )}
-        
-        <button className="btn-add-queue" onClick={() => onAddToQueue([track])}>
-          Add to Queue
-        </button>
-      </div>
-    </div>
-  );
-};
 
 class SearchInternal extends Component {
   static displayName = SearchInternal.name;
 
   constructor(props) {
     super(props);
+    const savedClientId = localStorage.getItem('spotifyClientId') || '';
+    const savedClientSecret = localStorage.getItem('spotifyClientSecret') || '';
     this.state = {
       searchQuery: '',
       searchResults: [],
       isSearching: false,
-      error: null
+      error: null,
+      clientId: savedClientId,
+      clientSecret: savedClientSecret,
+      isConfiguring: false,
+      configured: !!(savedClientId && savedClientSecret)
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleCredsChange = this.handleCredsChange.bind(this);
+    this.handleConfigure = this.handleConfigure.bind(this);
   }
 
   handleSearchChange(event) {
     this.setState({ searchQuery: event.target.value });
   }
 
+  handleCredsChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  async handleConfigure(event) {
+    event.preventDefault();
+    const { clientId, clientSecret } = this.state;
+    if (!clientId || !clientSecret) {
+      this.setState({ error: 'Both Client ID and Client Secret are required.' });
+      return;
+    }
+
+    this.setState({ isConfiguring: true, error: null });
+    try {
+      const res = await fetch('/spotify/configure', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId, clientSecret })
+      });
+      if (!res.ok) {
+        let message = 'Failed to configure credentials';
+        try {
+          const err = await res.json();
+          message = err?.message || message;
+        } catch (_) {}
+        throw new Error(message);
+      }
+      localStorage.setItem('spotifyClientId', clientId);
+      localStorage.setItem('spotifyClientSecret', clientSecret);
+      this.setState({ configured: true });
+    } catch (e) {
+      this.setState({ error: e.message || 'Configuration failed' });
+    } finally {
+      this.setState({ isConfiguring: false });
+    }
+  }
+
   async handleSearch(event) {
     event.preventDefault();
     this.setState({ isSearching: true, error: null });
-    const { searchQuery } = this.state;
+    const { searchQuery, configured } = this.state;
+    if (!configured) {
+      this.setState({ isSearching: false, error: 'Please configure Spotify credentials first.' });
+      return;
+    }
     if (!searchQuery) {
       this.setState({ isSearching: false });
       return;
     }
 
     try {
-      const response = await fetch(`/spotify/search?query=${encodeURIComponent(searchQuery)}`);
+      const response = await fetch(`/spotify/search?query=\${encodeURIComponent(searchQuery)}`);
       if (!response.ok) {
         let message = 'Request failed';
         try {
@@ -107,44 +102,72 @@ class SearchInternal extends Component {
     const { searchResults, isSearching, error } = this.state;
 
     if (isSearching) {
-      return <div className="search-status"><span className="spinner spinner-dark"></span>Searching...</div>;
+      return <p><em>Searching...</em></p>;
     }
 
     if (error) {
-      return <div className="search-status error">{error}</div>;
+      return <p className="search-error">{error}</p>;
     }
 
     if (searchResults.length === 0) {
-      return null;
+      return <p>No results found.</p>;
     }
 
     return (
       <div className="search-results">
         {searchResults.map(track => (
-          <TrackItem key={track.id} track={track} onAddToQueue={this.props.addSongsToQueue} />
+          <div key={track.id} className="track">
+            <img src={track.album?.images?.[0]?.url} alt={track.name} width="50" />
+            <div className="track-info">
+              <strong>{track.name}</strong>
+              <span>{(track.artists || []).map(artist => artist.name).join(', ')}</span>
+            </div>
+            <button onClick={() => this.props.addSongsToQueue([track])}>Add to Queue</button>
+            {track.preview_url && <audio controls src={track.preview_url}></audio>}
+          </div>
         ))}
       </div>
     );
   }
 
   render() {
+    const { clientId, clientSecret, isConfiguring, configured } = this.state;
     return (
-      <div className="search-container">
-        {this.state.isSearching && (
-          <div className="page-loader-overlay"><div className="page-loader"></div></div>
-        )}
-        <h1 className="search-title">Find Your Vibe</h1>
+      <div className="search-content">
+        <h1>Song Search</h1>
+
+        <form onSubmit={this.handleConfigure} className="search-credentials">
+          <h3>Spotify Credentials</h3>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+            <input
+              type="text"
+              name="clientId"
+              value={clientId}
+              onChange={this.handleCredsChange}
+              placeholder="Client ID"
+              style={{ width: 280 }}
+            />
+            <input
+              type="password"
+              name="clientSecret"
+              value={clientSecret}
+              onChange={this.handleCredsChange}
+              placeholder="Client Secret"
+              style={{ width: 280 }}
+            />
+            <button type="submit" disabled={isConfiguring}>{configured ? 'Update' : 'Save'}</button>
+            {configured && <small style={{ color: 'green' }}>Configured</small>}
+          </div>
+        </form>
+
         <form onSubmit={this.handleSearch} className="search-bar">
           <input
             type="text"
             value={this.state.searchQuery}
             onChange={this.handleSearchChange}
-            placeholder="Search for songs, artists..."
-            className="search-input"
+            placeholder="Search for a song..."
           />
-          <button type="submit" disabled={this.state.isSearching} className="search-btn">
-            Search
-          </button>
+          <button type="submit" disabled={this.state.isSearching}>Search</button>
         </form>
         {this.renderSearchResults()}
       </div>

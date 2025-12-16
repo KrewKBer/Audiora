@@ -40,10 +40,13 @@ public class YouTubeService
 
     private async Task<string?> SearchEmbeddableAsync(string searchQuery, CancellationToken ct)
     {
+        var apiKey = _apiKey;
+        if (string.IsNullOrWhiteSpace(apiKey)) return null;
+
         var client = _httpClientFactory.CreateClient();
         var qp = new Dictionary<string, string?>
         {
-            ["key"] = _apiKey,
+            ["key"] = apiKey,
             ["q"] = searchQuery,
             ["part"] = "snippet",
             ["maxResults"] = "10",
@@ -57,7 +60,7 @@ public class YouTubeService
         var requestUri = "https://www.googleapis.com/youtube/v3/search?" +
             string.Join("&", qp.Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value ?? string.Empty)}"));
         
-        Console.WriteLine($"[YouTubeService] Requesting: {requestUri.Replace(_apiKey, "HIDDEN_KEY")}");
+        Console.WriteLine($"[YouTubeService] Requesting: {requestUri.Replace(apiKey, "HIDDEN_KEY")}");
 
         using var req = new HttpRequestMessage(HttpMethod.Get, requestUri);
         using var resp = await client.SendAsync(req, ct);

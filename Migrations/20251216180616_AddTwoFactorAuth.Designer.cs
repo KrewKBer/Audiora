@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Audiora.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Audiora.Migrations
 {
     [DbContext(typeof(AudioraDbContext))]
-    partial class AudioraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251216180616_AddTwoFactorAuth")]
+    partial class AddTwoFactorAuth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,9 +142,6 @@ namespace Audiora.Migrations
                     b.Property<bool>("IsTwoFactorEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
@@ -156,9 +156,6 @@ namespace Audiora.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("text");
-
-                    b.Property<int>("Xp")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

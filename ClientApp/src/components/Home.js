@@ -24,6 +24,7 @@ class HomeInternal extends Component {
     this.audioRef = createRef();
     this.cardRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.isSwiping = false;
   }
 
   handleMouseMove(e) {
@@ -153,14 +154,11 @@ class HomeInternal extends Component {
     }
   }
 
-  async handleInteraction(liked) {
+  handleInteraction(liked) {
     const { currentSong, userId } = this.state;
     console.log('[handleInteraction] Called with liked:', liked);
-    console.log('[handleInteraction] currentSong:', currentSong);
-    console.log('[handleInteraction] userId:', userId);
     
     if (!currentSong || !userId) {
-      console.log('[handleInteraction] Missing currentSong or userId, returning');
       return;
     }
 
@@ -179,25 +177,21 @@ class HomeInternal extends Component {
       albumImageUrl: albumImageUrl
     };
     
-    console.log('[handleInteraction] Sending POST to /api/user-songs/seen with payload:', payload);
-
-    try {
-      const response = await fetch('/api/user-songs/seen', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      
-      console.log('[handleInteraction] Response status:', response.status);
-      const responseText = await response.text();
-      console.log('[handleInteraction] Response body:', responseText);
-    } catch (error) {
-      console.error('[handleInteraction] Fetch error:', error);
-    }
-
-    // Remove saved song from localStorage since we're moving to the next one
+    // Update UI immediately - don't wait for server
     localStorage.removeItem('currentSong');
     this.loadNextSong();
+
+    // Send API request in background
+    console.log('[handleInteraction] Sending POST to /api/user-songs/seen with payload:', payload);
+    fetch('/api/user-songs/seen', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(response => {
+        if (!response.ok) console.warn('Failed to sync seen song', response.status);
+    }).catch(error => {
+      console.error('[handleInteraction] Fetch error:', error);
+    });
   }
 
   handleLike() {
@@ -209,10 +203,6 @@ class HomeInternal extends Component {
   }
 
   async resetData() {
-    if (!window.confirm('Are you sure you want to reset everything? This will clear the queue and delete all liked/disliked songs.')) {
-      return;
-    }
-
     try {
       const { userId } = this.state;
       // Delete seen songs (includes liked/disliked)
@@ -225,77 +215,67 @@ class HomeInternal extends Component {
       localStorage.removeItem('currentSong');
       this.setState({ currentSong: null });
       
-      alert('Successfully reset! Queue cleared and all song data deleted.');
     } catch (error) {
       console.error('Error resetting data:', error);
       alert('Failed to reset data. Please try again.');
     }
   }
 
-  renderCurrentSong() {
-    const { currentSong, fetchingRandom } = this.state;
+  renderSongCard(song, isActive) {
     const { songQueue } = this.props;
 
-    if (!currentSong && songQueue.length === 0) {
-      return (
-        <div>
-          <p className="no-songs" color="white">No songs in queue. Add songs from the Search page or get random recommendations!</p>
-          <button 
-            className="btn-random" 
-            onClick={this.handleGetRandomSongs}
-            disabled={fetchingRandom}
-          >
-            {fetchingRandom ? (<><span className="spinner spinner-sm"></span>Loading...</>) : 'Get 25 Random Songs'}
-          </button>
-        </div>
-      );
-    }
-
-    if (!currentSong) {
+    if (!song) {
       return <div className="loading"><span className="spinner"></span>Loading next song...</div>;
     }
 
     return (
       <div className="song-card">
-        {currentSong.album?.images?.[0]?.url && (
-          <img src={currentSong.album.images[0].url} alt={currentSong.name} width="200" />
+        {song.album?.images?.[0]?.url && (
+          <img src={song.album.images[0].url} alt={song.name} width="200" />
         )}
-        <h2 className="song-title">{currentSong.name}</h2>
-        <p className="song-artist">Artist: <span>{currentSong.artists?.map(artist => artist.name).join(', ')}</span></p>
+        <h2 className="song-title">{song.name}</h2>
+        <p className="song-artist">Artist: <span>{song.artists?.map(artist => artist.name).join(', ')}</span></p>
         
         <div className="player-controls">
-            <button className="btn-action dislike" onClick={() => this.swipeWithAnimation('left')}>✕</button>
+            <button className="btn-action dislike" onClick={() => isActive && this.swipeWithAnimation('left')}>✕</button>
             
-            {currentSong.preview_url ? (
+            {song.preview_url ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <button 
                     className="btn-player"
-                    onClick={this.togglePlayPause}
+                    onClick={isActive ? this.togglePlayPause : undefined}
+                    disabled={!isActive}
                 >
-                    {this.state.isPlaying ? '❚❚' : '▶'}
+                    {isActive && this.state.isPlaying ? '❚❚' : '▶'}
                 </button>
                 <span style={{ fontSize: '12px', color: '#888', marginTop: '5px' }}>
-                    {this.state.isPlaying ? 'Playing Preview' : 'Preview'}
+                    {isActive && this.state.isPlaying ? 'Playing Preview' : 'Preview'}
                 </span>
                 <audio 
-                ref={this.audioRef}
-                src={currentSong.preview_url}
-                onEnded={() => this.setState({ isPlaying: false })}
-                onPlay={() => this.setState({ isPlaying: true })}
-                onPause={() => this.setState({ isPlaying: false })}
+                ref={isActive ? this.audioRef : null}
+                src={song.preview_url}
+                onEnded={() => isActive && this.setState({ isPlaying: false })}
+                onPlay={() => isActive && this.setState({ isPlaying: true })}
+                onPause={() => isActive && this.setState({ isPlaying: false })}
                 >
                 Your browser does not support the audio element.
                 </audio>
             </div>
             ) : (
+                isActive ? (
                 <YouTubePlayer
-                query={`${currentSong.name} ${currentSong.artists?.map(a => a.name).join(', ') || ''}`}
+                query={`${song.name} ${song.artists?.map(a => a.name).join(', ') || ''}`}
                 autoplay={true}
                 muted={false}
                 />
+                ) : (
+                    <div className="youtube-placeholder">
+                        <p>Video will play when card is active</p>
+                    </div>
+                )
             )}
 
-            <button className="btn-action like" onClick={() => this.swipeWithAnimation('right')}>♥</button>
+            <button className="btn-action like" onClick={() => isActive && this.swipeWithAnimation('right')}>♥</button>
         </div>
 
         <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
@@ -306,6 +286,8 @@ class HomeInternal extends Component {
   }
 
     swipeWithAnimation(direction) {
+        if (this.isSwiping) return;
+
         const { songQueue } = this.props;
         const { currentSong } = this.state;
         
@@ -313,73 +295,106 @@ class HomeInternal extends Component {
             return;
         }
 
-        if (!this.cardRef.current || !this.contentRef.current) return;
+        if (!this.cardRef.current) return;
 
-        const isLeft = direction === 'left';
-        const distance = isLeft ? -1000 : 1000;
-        const rotation = isLeft ? -15 : 15;
-        const element = this.contentRef.current;
-
-        element.style.transition = 'none';
-
-        requestAnimationFrame(() => {
-            element.style.transform = `translateX(${distance * 0.05}px) rotate(${rotation * 0.2}deg)`;
-
-            requestAnimationFrame(() => {
-                element.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-
-                element.style.transform = `translateX(${distance * 0.3}px) rotate(${rotation * 0.7}deg)`;
-
-                setTimeout(() => {
-                    this.cardRef.current.swipe(direction);
-                }, 150);
-            });
-        });
+        this.isSwiping = true;
+        
+        // Immediately trigger like/dislike and load next song
+        if (direction === 'right') this.handleLike();
+        if (direction === 'left') this.handleDislike();
+        
+        // The card ref swipe triggers the animation (which runs while new card is already showing)
+        this.cardRef.current.swipe(direction);
+        this.isSwiping = false;
     }
 
 
 
 render() {
-    const { currentSong } = this.state;
+    const { currentSong, fetchingRandom } = this.state;
     const { songQueue } = this.props;
     const noMoreSongs = (!currentSong && (!songQueue || songQueue.length === 0));
-    let contents = this.state.loading
-        ? <div className="loading"><em>Loading...</em></div>
-        : this.renderCurrentSong();
-        
-    /* temporarily removed effects  
-    const spotlightStyle = {
-        background: `radial-gradient(650px circle at ${mouse.x}px ${mouse.y}px, rgba(14, 165, 233, 0.15), transparent 80%)`,
-        transition: 'background 0.2s',
-    };
+    
+    // Determine content for the current card
+    let currentCardContent = null;
+    if (this.state.loading) {
+        currentCardContent = <div className="loading"><em>Loading...</em></div>;
+    } else if (noMoreSongs) {
+        currentCardContent = (
+            <div>
+              <p className="no-songs" color="white">No songs in queue. Add songs from the Search page or get random recommendations!</p>
+              <button 
+                className="btn-random" 
+                onClick={this.handleGetRandomSongs}
+                disabled={fetchingRandom}
+              >
+                {fetchingRandom ? (<><span className="spinner spinner-sm"></span>Loading...</>) : 'Get 25 Random Songs'}
+              </button>
+            </div>
+        );
+    } else {
+        currentCardContent = this.renderSongCard(currentSong, true);
+    }
 
-    const cardTransform =
-        hoverDir === 'left' ? 'translateX(-20px)' :
-            hoverDir === 'right' ? 'translateX(20px)' : 'none';*/
+    // Determine content for the background card (next song)
+    let nextCardContent = null;
+    if (songQueue && songQueue.length > 0) {
+        nextCardContent = this.renderSongCard(songQueue[0], false);
+    }
 
     return (
-        <div className="homepage-container">
+        <div className="homepage-container" style={{ position: 'relative' }}>
             {this.state.fetchingRandom && (
                 <div className="page-loader-overlay"><div className="page-loader"></div></div>
             )}
+            
+            {/* Background Card (Next Song) */}
+            {!noMoreSongs && nextCardContent && (
+                <div 
+                    className="homepage-content spotlight-card" 
+                    style={{ 
+                        position: 'absolute', 
+                        top: 0, 
+                        left: 0, 
+                        right: 0,
+                        margin: 'auto',
+                        zIndex: 0,
+                        transform: 'scale(0.95) translateY(10px)',
+                        opacity: 0.7,
+                        pointerEvents: 'none'
+                    }}
+                >
+                    <h1 className="homepage-title">Discover New Music</h1>
+                    <button className="btn-reset" disabled>Reset</button>
+                    {nextCardContent}
+                </div>
+            )}
+
+            {/* Foreground Card (Current Song) */}
             {noMoreSongs ? (
-                    <div className="homepage-content spotlight-card no-more-songs-card">
+                    <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
                         <h1 className="homepage-title">Discover New Music</h1>
                         <button className="btn-reset" onClick={this.resetData}>Reset</button>
-                        {contents}
+                        {currentCardContent}
                     </div>
                 ) : (
             <TinderCard
                 ref={this.cardRef}
                 key={this.state.currentSong?.id || 'empty'}
                 onSwipe={dir => {
+                    // Trigger like/dislike immediately when swipe direction is decided
                     if (dir === 'right') this.handleLike();
                     if (dir === 'left') this.handleDislike();
                 }}
+                onCardLeftScreen={() => {
+                    // Animation complete, reset swiping flag
+                    this.isSwiping = false;
+                }}
                 preventSwipe={['up', 'down']}
-                swipeRequirementType='position'
-                swipeThreshold={400}
+                swipeRequirementType='velocity'
+                swipeThreshold={200}
                 flickOnSwipe={true}
+                className="tinder-card-wrapper"
             >
                 <div
                     className="homepage-content spotlight-card"
@@ -387,7 +402,7 @@ render() {
                 >
                     <h1 className="homepage-title">Discover New Music</h1>
                     <button className="btn-reset" onClick={this.resetData}>Reset</button>
-                    {contents}
+                    {currentCardContent}
                 </div>
             </TinderCard>
             )}

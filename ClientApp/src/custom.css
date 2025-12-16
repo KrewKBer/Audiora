@@ -109,6 +109,45 @@ code {
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
 
+/* Auth Tabs */
+.auth-tabs {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.auth-tab:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.auth-tab.active {
+    color: #fff;
+}
+
+.auth-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    box-shadow: 0 -2px 10px rgba(99, 102, 241, 0.5);
+}
+
 /* Genre Selection Styling */
 .genre-list {
     display: flex;
@@ -460,7 +499,6 @@ code {
 .spotlight-card img {
     pointer-events: none;
     -webkit-user-drag: none;
-    user-drag: none;
 }
 
 /* Title glow for better integration */
@@ -629,4 +667,35 @@ code {
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;
+}
+.tinder-card-wrapper {
+    position: relative;
+    z-index: 10;
+}
+
+.card-stack {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: auto; /* Allow height to fit content */
+    min-height: 600px; /* Minimum height for the stack */
+    display: flex;
+    justify-content: center;
+}
+
+.tinder-card-wrapper {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tinder-card-wrapper.current-card {
+    z-index: 10;
+}
+
+.tinder-card-wrapper.next-card {
+    z-index: 5;
+    transform: scale(0.98) translateY(10px); /* Slight scale down for depth */
 }
