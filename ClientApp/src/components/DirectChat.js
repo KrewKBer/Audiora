@@ -26,6 +26,7 @@ export function DirectChat() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [realtime, setRealtime] = useState(false);
+  const [otherUser, setOtherUser] = useState(null);
   const hubConnectionRef = useRef(null);
 
   const userId = localStorage.getItem('userId');
@@ -48,6 +49,23 @@ export function DirectChat() {
   useEffect(() => {
     if (!userId) { navigate('/login'); return; }
     loadMessages();
+    
+    // Fetch other user details
+    if (chatId) {
+      const parts = chatId.split('_');
+      const otherId = parts.find(p => p !== userId);
+      if (otherId) {
+        fetch(`/api/match/user/${otherId}`)
+          .then(res => {
+             if(res.ok) return res.json();
+             return null;
+          })
+          .then(data => {
+             if(data) setOtherUser(data);
+          })
+          .catch(console.error);
+      }
+    }
   }, [chatId, userId, navigate]);
 
   // Real-time join via RoomHub using JoinDirectChat
@@ -99,8 +117,19 @@ export function DirectChat() {
 
   return (
     <div style={{ maxWidth:680, margin:'0 auto', padding:'28px 18px' }}>
-      <h2 style={{ margin:'0 0 8px' }}>Direct Chat</h2>
-      <p style={{ margin:'0 0 24px', color:'#6b7280', fontSize:14 }}>Chat ID: <code>{chatId}</code></p>
+      <h2 style={{ margin:'0 0 8px' }}>
+        {otherUser ? (
+          <span>
+            {otherUser.username} 
+            <span style={{ fontSize:'0.6em', color:'#6b7280', marginLeft:10, verticalAlign:'middle', border:'1px solid #374151', padding:'2px 8px', borderRadius:12 }}>
+              Lvl {otherUser.level}
+            </span>
+          </span>
+        ) : 'Direct Chat'}
+      </h2>
+      <p style={{ margin:'0 0 24px', color:'#6b7280', fontSize:14 }}>
+        {otherUser ? `Chatting with ${otherUser.username}` : <span>Chat ID: <code>{chatId}</code></span>}
+      </p>
       {error && (<div style={{ background:'#7f1d1d', color:'#fecaca', padding:'8px 12px', borderRadius:8, marginBottom:16 }}>{error}</div>)}
       <div style={{
         border:'1px solid #374151', borderRadius:16, padding:16,

@@ -69,6 +69,21 @@
       "FromUserId": "f1a22420-ea86-4767-84aa-7696119181cf",
       "ToUserId": "80e57d7a-ea1e-4a93-b07b-d887ffdedbcd",
       "Timestamp": "2025-12-16T18:36:48.974177Z"
+    },
+    {
+      "FromUserId": "f1a22420-ea86-4767-84aa-7696119181cf",
+      "ToUserId": "838fcdd9-9b52-4f1f-b3c9-287a9ec3e196",
+      "Timestamp": "2025-12-16T19:38:31.842081Z"
+    },
+    {
+      "FromUserId": "f1a22420-ea86-4767-84aa-7696119181cf",
+      "ToUserId": "575e7940-b39c-45b0-8f32-e546933e9dcd",
+      "Timestamp": "2025-12-16T19:38:32.388401Z"
+    },
+    {
+      "FromUserId": "f1a22420-ea86-4767-84aa-7696119181cf",
+      "ToUserId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+      "Timestamp": "2025-12-16T19:38:32.685021Z"
     }
   ],
   "Matches": [
@@ -83,6 +98,12 @@
       "UserBId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
       "CreatedAt": "2025-11-20T10:42:03.659076Z",
       "ChatId": "57209df8-dd67-4a46-bd13-c11a35ebda18_575e7940-b39c-45b0-8f32-e546933e9dcd"
+    },
+    {
+      "UserAId": "f1a22420-ea86-4767-84aa-7696119181cf",
+      "UserBId": "57209df8-dd67-4a46-bd13-c11a35ebda18",
+      "CreatedAt": "2025-12-16T19:38:32.685519Z",
+      "ChatId": "57209df8-dd67-4a46-bd13-c11a35ebda18_f1a22420-ea86-4767-84aa-7696119181cf"
     }
   ]
 }

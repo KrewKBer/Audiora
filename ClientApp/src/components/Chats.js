@@ -43,7 +43,12 @@ export function Chats() {
         {items.map((m, i) => (
           <div key={i} className="chat-item">
             <div className="chat-info">
-              <span className="chat-name">{m.withUsername || m.withUser}</span>
+              <span className="chat-name">
+                {m.withUsername || m.withUser} 
+                <span style={{ fontSize: '0.85em', color: '#9ca3af', marginLeft: '8px', fontWeight: 'normal' }}>
+                  Lvl {m.withLevel || 1}
+                </span>
+              </span>
               <span className="chat-meta">Chat ID: {m.chatId}</span>
               <span className="chat-meta">Since: {m.createdAt && new Date(m.createdAt).toLocaleDateString()}</span>
             </div>
