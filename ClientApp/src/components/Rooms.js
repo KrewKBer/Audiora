@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Rooms.css';
 
@@ -64,31 +64,66 @@ export function Rooms() {
         navigate(`/room/${room.id}`);
     };
 
+    const getInitial = (name) => (name || 'R').charAt(0).toUpperCase();
+
     return (
         <div className="rooms-container">
-            <h2 className="rooms-title">Rooms</h2>
+            <h2 className="rooms-title">Community Rooms</h2>
+            <p className="rooms-subtitle">Join a discussion or start your own topic</p>
 
-            <div className="create-room">
-                <input value={name} onChange={e => setName(e.target.value)} placeholder="Room name" type="text" />
-                <label>
-                    <input type="checkbox" checked={isPrivate} onChange={e => setIsPrivate(e.target.checked)} />
-                    Private
-                </label>
-                {isPrivate && (
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-                )}
-                <button onClick={createRoom}>Create</button>
+            <div className="create-room-section">
+                <div className="create-room-form">
+                    <input 
+                        className="create-room-input"
+                        value={name} 
+                        onChange={e => setName(e.target.value)} 
+                        placeholder="New Room Name..." 
+                        type="text" 
+                    />
+                    <label className="create-room-checkbox-label">
+                        <input 
+                            type="checkbox" 
+                            checked={isPrivate} 
+                            onChange={e => setIsPrivate(e.target.checked)} 
+                        />
+                        Private
+                    </label>
+                    {isPrivate && (
+                        <input 
+                            className="create-room-input"
+                            type="password" 
+                            value={password} 
+                            onChange={e => setPassword(e.target.value)} 
+                            placeholder="Password" 
+                        />
+                    )}
+                    <button className="create-room-btn" onClick={createRoom}>Create Room</button>
+                </div>
             </div>
 
             <div className="rooms-list">
                 {rooms.map(r => (
                     <div key={r.id} className="room-item" onClick={() => joinRoom(r)}>
-                        <div className="room-info">
-                            <h4>{r.name}</h4>
-                            <p>{r.memberUserIds?.length || 0} Members</p>
+                        <div className="room-avatar">
+                            {getInitial(r.name)}
                         </div>
-                        <div className="room-status">
-                            {r.isPrivate ? '🔒' : '🔓'}
+                        <div className="room-info">
+                            <div className="room-name-row">
+                                <span className="room-name">{r.name}</span>
+                                <span className={`room-badge ${r.isPrivate ? 'private' : 'public'}`}>
+                                    {r.isPrivate ? 'Private' : 'Public'}
+                                </span>
+                            </div>
+                            <div className="room-meta">
+                                <span>{r.memberUserIds?.length || 0} Members</span>
+                                <span>•</span>
+                                <span>Active now</span>
+                            </div>
+                        </div>
+                        <div className="room-action">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
                         </div>
                     </div>
                 ))}
