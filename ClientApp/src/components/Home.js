@@ -384,6 +384,9 @@ render() {
                 ref={this.cardRef}
                 key={this.state.currentSong?.id || 'empty'}
                 onSwipe={dir => {
+                    // Direction recorded, waiting for card to leave screen
+                }}
+                onCardLeftScreen={dir => {
                     this.isSwiping = false;
                     if (dir === 'right') this.handleLike();
                     if (dir === 'left') this.handleDislike();
