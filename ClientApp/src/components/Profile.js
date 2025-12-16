@@ -187,8 +187,12 @@ export function Profile() {
                 <div className="profile-section">
                     <h3>Security</h3>
                     {twoFactorEnabled ? (
-                        <div className="alert alert-success" style={{textAlign: 'center'}}>
-                            ✅ Two-Factor Authentication is <strong>ENABLED</strong>
+                        <div className="tfa-status">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Two-Factor Authentication is ENABLED
                         </div>
                     ) : (
                         !twoFactorSetup && (
@@ -199,21 +203,23 @@ export function Profile() {
                     )}
                     
                     {twoFactorSetup && !twoFactorEnabled && (
-                        <div className="2fa-setup" style={{textAlign: 'center', background: '#222', padding: '20px', borderRadius: '8px'}}>
+                        <div className="tfa-setup-container">
                             <h4>Scan this QR Code with Google Authenticator</h4>
-                            <div style={{background: 'white', padding: '10px', display: 'inline-block', margin: '10px 0'}}>
+                            <div className="tfa-qr">
                                 <QRCodeSVG value={twoFactorSetup.uri} size={200} />
                             </div>
-                            <p style={{fontSize: '12px', color: '#aaa'}}>Secret: {twoFactorSetup.secret}</p>
-                            <div style={{marginTop: '10px'}}>
+                            <div>
+                                <span className="tfa-secret">Secret: {twoFactorSetup.secret}</span>
+                            </div>
+                            <div className="tfa-input-group">
                                 <input 
                                     type="text" 
-                                    placeholder="Enter 6-digit code" 
+                                    placeholder="000000" 
+                                    maxLength={6}
                                     value={twoFactorCode}
                                     onChange={e => setTwoFactorCode(e.target.value)}
-                                    style={{padding: '8px', borderRadius: '4px', border: 'none', marginRight: '10px'}}
                                 />
-                                <button className="btn-save" onClick={verify2FASetup}>Verify & Enable</button>
+                                <button className="btn-save" onClick={verify2FASetup}>Verify</button>
                             </div>
                         </div>
                     )}

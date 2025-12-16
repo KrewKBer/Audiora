@@ -74,10 +74,17 @@ export function AuthForm({ formType, onSubmit }) {
                 </div>
                 {formType === 'Register' && (
                     <div className="form-group">
-                        <label>Select your favorite genres:</label>
+                        <label style={{marginBottom: '15px', display: 'block'}}>Select your favorite genres:</label>
                         <div className="genre-list">
-                            {GENRES.map((genre) => (
-                                <label key={genre} className={genres.includes(genre) ? 'selected' : ''}>
+                            {GENRES.map((genre, index) => (
+                                <label 
+                                    key={genre} 
+                                    className={genres.includes(genre) ? 'selected' : ''}
+                                    style={{ 
+                                        animationDelay: `${index * 0.05}s`,
+                                        animationDuration: `${3 + (index % 5) * 0.5}s`
+                                    }}
+                                >
                                     <input
                                         type="checkbox"
                                         value={genre}

@@ -8,7 +8,7 @@
 
 .sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #263044}
 .brand{display:flex;align-items:center;gap:10px}
-.brand-mark{height:34px;width:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 6px 16px rgba(99,102,241,.35)}
+.brand-logo{height:34px;width:34px;border-radius:8px;object-fit:contain}
 .brand-text small{display:block;color:#9ca3af;margin-top:-2px}
 
 .btn-close-x{background:#1f2937;border:1px solid #374151;color:#fff;border-radius:10px;padding:6px 10px}

@@ -91,7 +91,7 @@ export function Matchmaking() {
             <button className="mm-btn" onClick={() => window.location.reload()}>Refresh</button>
           </div>
         )}
-        {candidates.map(user => (
+        {candidates.map((user, index) => (
           <TinderCard
             key={user.id}
             onSwipe={(dir) => {
@@ -100,7 +100,7 @@ export function Matchmaking() {
             }}
             preventSwipe={['up','down']}
           >
-            <div className="mm-card">
+            <div className="mm-card" style={{ opacity: index < candidates.length - 1 ? 0 : 1 }}>
               <div className="mm-head">
                 <Avatar username={user.username} />
                 <div className="mm-user">

@@ -17,7 +17,7 @@
     "react-router-dom": "^6.11.0",
     "react-scripts": "^5.0.1",
     "react-spring": "^8.0.27",
-    "react-tinder-card": "^1.4.5",
+    "react-tinder-card": "1.4.5",
     "react-youtube": "^10.1.0",
     "reactstrap": "^9.1.9",
     "rimraf": "^5.0.10",
@@ -55,7 +55,11 @@
   "overrides": {
     "autoprefixer": "10.4.5",
     "nth-check": "2.1.1",
-    "webpack": "5.81.0"
+    "webpack": "5.81.0",
+    "react-tinder-card": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   },
   "scripts": {
     "prestart": "node aspnetcore-https && node aspnetcore-react",

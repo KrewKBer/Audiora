@@ -38,7 +38,7 @@ logs/
 coverage.xml
 CoverageReport/
 coverage.fsx
-
+coverage.info
 # Optional: uncomment to avoid committing generated wwwroot assets
 # wwwroot/
 

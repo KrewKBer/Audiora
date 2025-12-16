@@ -67,9 +67,19 @@ code {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    color: #fff;
+    color: #fff !important;
     font-size: 1rem;
     transition: all 0.3s ease;
+}
+
+/* Fix for browser autofill styles */
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover, 
+.form-control:-webkit-autofill:focus, 
+.form-control:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-control:focus {
@@ -149,29 +159,70 @@ code {
 }
 
 /* Genre Selection Styling */
+@keyframes floatBubble {
+    0% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-8px) rotate(2deg); }
+    66% { transform: translateY(4px) rotate(-2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.5); }
+    50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.8), 0 0 10px rgba(255, 255, 255, 0.4); }
+    100% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.5); }
+}
+
 .genre-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px !important; /* Override inline style */
-    margin-top: 10px !important;
+    gap: 12px !important;
+    margin-top: 20px !important;
+    justify-content: center;
+    padding: 10px;
+    perspective: 1000px;
 }
 
 .genre-list label {
+    position: relative;
     display: inline-flex !important;
     align-items: center;
-    gap: 0 !important;
-    padding: 6px 12px;
+    justify-content: center;
+    padding: 12px 24px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    border-radius: 50px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.85rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 0.95rem;
+    font-weight: 600;
     user-select: none;
+    color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    animation: floatBubble ease-in-out infinite;
+    overflow: hidden;
+}
+
+.genre-list label::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    border-radius: 50px;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .genre-list label:hover {
+    transform: translateY(-5px) scale(1.05);
     background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+.genre-list label:hover::before {
+    opacity: 1;
 }
 
 .genre-list input[type="checkbox"] {
@@ -180,9 +231,17 @@ code {
 
 .genre-list label:has(input:checked),
 .genre-list label.selected {
-    background: #6366f1;
-    border-color: #6366f1;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    border-color: transparent;
     color: white;
+    transform: scale(1.1);
+    animation: floatBubble ease-in-out infinite, pulseGlow 2s infinite;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+.genre-list label:active {
+    transform: scale(0.95);
 }
 
 .homepage-container {
