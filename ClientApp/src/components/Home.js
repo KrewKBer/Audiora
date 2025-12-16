@@ -19,10 +19,12 @@ class HomeInternal extends Component {
     this.resetData = this.resetData.bind(this);
     this.loadNextSong = this.loadNextSong.bind(this);
     this.handleGetRandomSongs = this.handleGetRandomSongs.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
     this.contentRef = createRef();
     this.cardRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.isSwiping = false;
+    this.embedController = null;
   }
 
   handleMouseMove(e) {
@@ -82,12 +84,91 @@ class HomeInternal extends Component {
       // No saved song, load next from queue
       this.loadNextSong();
     }
+
+    // Initialize Spotify IFrame API after a short delay to ensure DOM is ready
+    setTimeout(() => this.initSpotifyEmbed(), 100);
   }
 
-  componentDidUpdate(prevProps) {
+  initSpotifyEmbed() {
+    if (window.IFrameAPI) {
+      // API already loaded
+      this.createSpotifyController();
+      return;
+    }
+
+    if (!window.SpotifyIframeApiLoaded) {
+      window.SpotifyIframeApiLoaded = true;
+      const script = document.createElement('script');
+      script.src = "https://open.spotify.com/embed-podcast/iframe-api/v1";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      window.IFrameAPI = IFrameAPI;
+      this.createSpotifyController();
+    };
+  }
+
+  createSpotifyController() {
+    const element = document.getElementById('spotify-embed-hidden');
+    if (!element) {
+      console.error('Spotify embed element not found');
+      return;
+    }
+
+    if (!window.IFrameAPI) {
+      console.error('Spotify IFrame API not loaded');
+      return;
+    }
+
+    const options = {
+        uri: this.state.currentSong ? `spotify:track:${this.state.currentSong.id}` : 'spotify:track:3n3Ppam7vgaVa1iaRUc9Lp',
+        width: '100%',
+        height: '80px'
+    };
+    
+    const callback = (EmbedController) => {
+        this.embedController = EmbedController;
+        console.log('Spotify Embed Controller initialized');
+        
+        EmbedController.addListener('playback_update', e => {
+            this.setState({ isPlaying: !e.data.isPaused });
+        });
+
+        // Auto-play if we have a current song
+        if (this.state.currentSong) {
+             EmbedController.loadUri(`spotify:track:${this.state.currentSong.id}`);
+             EmbedController.play();
+        }
+    };
+    
+    window.IFrameAPI.createController(element, options, callback);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     // If queue length changed and we don't have a current song, load next
     if (prevProps.songQueue.length !== this.props.songQueue.length && !this.state.currentSong) {
       this.loadNextSong();
+    }
+
+    // If song changed, update embed
+    if (this.state.currentSong && this.state.currentSong !== prevState.currentSong) {
+        if (this.embedController) {
+            this.embedController.loadUri(`spotify:track:${this.state.currentSong.id}`);
+            this.embedController.play();
+        }
+    }
+  }
+
+  togglePlay() {
+    if (this.embedController) {
+        console.log('Toggling play/pause');
+        this.embedController.togglePlay();
+    } else {
+        console.error('Embed controller not initialized yet');
+        // Try to reinitialize
+        this.initSpotifyEmbed();
     }
   }
 
@@ -213,20 +294,49 @@ class HomeInternal extends Component {
       return <div className="loading"><span className="spinner"></span>Loading next song...</div>;
     }
 
+    // Fallback for album art
+    const albumArt = song.album && song.album.images && song.album.images.length > 0 
+        ? song.album.images[0].url 
+        : 'https://via.placeholder.com/200';
+
+    const artistName = song.artists && song.artists.length > 0 ? song.artists[0].name : 'Unknown Artist';
+
     return (
       <div className="song-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', paddingTop: '10px' }}>
-        {/* Large Spotify Embed - Contains Art, Title, Artist, and Controls */}
-        <div className="spotify-embed-wrapper" style={{ marginBottom: '25px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <iframe 
-                src={`https://open.spotify.com/embed/track/${song.id}?theme=0&autoplay=1`}
-                width="100%" 
-                height="352" 
-                frameBorder="0" 
-                allowtransparency="true" 
-                allow="encrypted-media; autoplay"
-                title={`Spotify Player - ${song.name}`}
-                style={{ borderRadius: '12px', maxWidth: '300px', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}
+        
+        {/* Custom Player UI */}
+        <div className="custom-player" style={{ marginBottom: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+            <img 
+                src={albumArt} 
+                alt={song.name} 
+                style={{ width: '250px', height: '250px', borderRadius: '12px', marginBottom: '20px', boxShadow: '0 8px 24px rgba(0,0,0,0.3)', objectFit: 'cover' }} 
             />
+            <h3 style={{ margin: '0 0 5px 0', fontSize: '20px', textAlign: 'center', fontWeight: '600' }}>{song.name}</h3>
+            <p style={{ margin: '0 0 20px 0', fontSize: '15px', color: 'rgba(255,255,255,0.6)', textAlign: 'center' }}>{artistName}</p>
+            
+            <button 
+                onClick={(e) => { e.stopPropagation(); this.togglePlay(); }}
+                style={{ 
+                    width: '64px', 
+                    height: '64px', 
+                    borderRadius: '50%', 
+                    border: 'none', 
+                    background: '#1DB954', 
+                    color: 'white', 
+                    fontSize: '28px', 
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(29, 185, 84, 0.4)',
+                    transition: 'transform 0.2s ease'
+                }}
+                onMouseDown={e => e.currentTarget.style.transform = 'scale(0.95)'}
+                onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+            >
+                {this.state.isPlaying ? '⏸' : '▶'}
+            </button>
         </div>
         
         {/* Action Buttons */}
@@ -301,6 +411,11 @@ render() {
 
     return (
         <div className="homepage-container" style={{ position: 'relative' }}>
+            {/* Hidden Spotify Embed Container - Always present for API */}
+            <div style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', opacity: 0, pointerEvents: 'none', zIndex: -9999 }}>
+                <div id="spotify-embed-hidden" style={{ width: '300px', height: '80px' }}></div>
+            </div>
+
             {this.state.fetchingRandom && (
                 <div className="page-loader-overlay"><div className="page-loader"></div></div>
             )}
