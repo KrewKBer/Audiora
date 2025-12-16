@@ -270,6 +270,7 @@ code {
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #5d666f00 0%, #e0e7ff00 100%);
+    padding: 40px 20px;
 }
 
 .homepage-content {

@@ -239,8 +239,8 @@ class HomeInternal extends Component {
     };
     
     // Update UI immediately - don't wait for server
-    localStorage.removeItem('currentSong');
-    this.loadNextSong();
+    // localStorage.removeItem('currentSong');
+    // this.loadNextSong();
 
     // Optimistically update XP locally for UI feedback
     // 1 XP for seen, +2 if liked = 3 total
@@ -390,13 +390,9 @@ class HomeInternal extends Component {
 
         this.isSwiping = true;
         
-        // Immediately trigger like/dislike and load next song
-        if (direction === 'right') this.handleLike();
-        if (direction === 'left') this.handleDislike();
-        
         // The card ref swipe triggers the animation (which runs while new card is already showing)
+        // This will trigger onSwipe callback which handles the API call
         this.cardRef.current.swipe(direction);
-        this.isSwiping = false;
     }
 
 
@@ -495,6 +491,9 @@ render() {
                 onCardLeftScreen={() => {
                     // Animation complete, reset swiping flag
                     this.isSwiping = false;
+                    // Load next song after animation completes to prevent UI glitches
+                    localStorage.removeItem('currentSong');
+                    this.loadNextSong();
                 }}
                 preventSwipe={['up', 'down']}
                 swipeRequirementType='velocity'
