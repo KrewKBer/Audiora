@@ -67,9 +67,19 @@ code {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    color: #fff;
+    color: #fff !important;
     font-size: 1rem;
     transition: all 0.3s ease;
+}
+
+/* Fix for browser autofill styles */
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover, 
+.form-control:-webkit-autofill:focus, 
+.form-control:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-control:focus {
