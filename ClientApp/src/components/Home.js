@@ -1,7 +1,6 @@
 import React, { Component, createRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useSongQueue } from './SongQueueContext';
-import { YouTubePlayer } from './YouTubePlayer';
 import { MusicBars } from './MusicBars';
 
 const HomeComponent = (props) => {
@@ -20,9 +19,7 @@ class HomeInternal extends Component {
     this.resetData = this.resetData.bind(this);
     this.loadNextSong = this.loadNextSong.bind(this);
     this.handleGetRandomSongs = this.handleGetRandomSongs.bind(this);
-    this.togglePlayPause = this.togglePlayPause.bind(this);
     this.contentRef = createRef();
-    this.audioRef = createRef();
     this.cardRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.isSwiping = false;
@@ -107,24 +104,6 @@ class HomeInternal extends Component {
       // No more songs
       localStorage.removeItem('currentSong');
       this.setState({ currentSong: null, isPlaying: false });
-    }
-    
-    // Stop any playing audio
-    if (this.audioRef.current) {
-      this.audioRef.current.pause();
-      this.audioRef.current.currentTime = 0;
-    }
-  }
-
-  togglePlayPause() {
-    if (!this.audioRef.current) return;
-    
-    if (this.state.isPlaying) {
-      this.audioRef.current.pause();
-      this.setState({ isPlaying: false });
-    } else {
-      this.audioRef.current.play();
-      this.setState({ isPlaying: true });
     }
   }
 
@@ -235,56 +214,28 @@ class HomeInternal extends Component {
     }
 
     return (
-      <div className="song-card">
-        {song.album?.images?.[0]?.url && (
-          <img src={song.album.images[0].url} alt={song.name} width="200" />
-        )}
-        <h2 className="song-title">{song.name}</h2>
-        <p className="song-artist">Artist: <span>{song.artists?.map(artist => artist.name).join(', ')}</span></p>
+      <div className="song-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', paddingTop: '10px' }}>
+        {/* Large Spotify Embed - Contains Art, Title, Artist, and Controls */}
+        <div className="spotify-embed-wrapper" style={{ marginBottom: '25px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <iframe 
+                src={`https://open.spotify.com/embed/track/${song.id}?theme=0&autoplay=1`}
+                width="100%" 
+                height="352" 
+                frameBorder="0" 
+                allowtransparency="true" 
+                allow="encrypted-media; autoplay"
+                title={`Spotify Player - ${song.name}`}
+                style={{ borderRadius: '12px', maxWidth: '300px', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}
+            />
+        </div>
         
-        <div className="player-controls">
+        {/* Action Buttons */}
+        <div className="player-controls" style={{ display: 'flex', justifyContent: 'center', gap: '40px', width: '100%' }}>
             <button className="btn-action dislike" onClick={() => isActive && this.swipeWithAnimation('left')}>✕</button>
-            
-            {song.preview_url ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <button 
-                    className="btn-player"
-                    onClick={isActive ? this.togglePlayPause : undefined}
-                    disabled={!isActive}
-                >
-                    {isActive && this.state.isPlaying ? '❚❚' : '▶'}
-                </button>
-                <span style={{ fontSize: '12px', color: '#888', marginTop: '5px' }}>
-                    {isActive && this.state.isPlaying ? 'Playing Preview' : 'Preview'}
-                </span>
-                <audio 
-                ref={isActive ? this.audioRef : null}
-                src={song.preview_url}
-                onEnded={() => isActive && this.setState({ isPlaying: false })}
-                onPlay={() => isActive && this.setState({ isPlaying: true })}
-                onPause={() => isActive && this.setState({ isPlaying: false })}
-                >
-                Your browser does not support the audio element.
-                </audio>
-            </div>
-            ) : (
-                isActive ? (
-                <YouTubePlayer
-                query={`${song.name} ${song.artists?.map(a => a.name).join(', ') || ''}`}
-                autoplay={true}
-                muted={false}
-                />
-                ) : (
-                    <div className="youtube-placeholder">
-                        <p>Video will play when card is active</p>
-                    </div>
-                )
-            )}
-
             <button className="btn-action like" onClick={() => isActive && this.swipeWithAnimation('right')}>♥</button>
         </div>
 
-        <p style={{ marginTop: '10px', fontSize: '14px', color: '#888' }}>
+        <p style={{ marginTop: 'auto', marginBottom: '10px', fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
         </p>
       </div>
