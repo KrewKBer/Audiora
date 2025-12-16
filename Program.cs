@@ -41,7 +41,6 @@ builder.Services.AddSingleton<SpotifyService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<YouTubeService>();
-builder.Services.AddSingleton<MatchStore>();
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
@@ -55,6 +54,12 @@ builder.Services.AddSignalR(o => { o.EnableDetailedErrors = true; });
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AudioraDbContext>();
+    db.Database.Migrate(); // Applies pending migrations automatically
+}
 
 if (!app.Environment.IsDevelopment())
 {

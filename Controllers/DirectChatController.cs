@@ -16,15 +16,13 @@ namespace Audiora.Controllers;
 public class DirectChatController: ControllerBase
 {
     private readonly AudioraDbContext _context;
-    private readonly MatchStore _matchStore;
 
-    public DirectChatController(AudioraDbContext context, MatchStore matchStore)
+    public DirectChatController(AudioraDbContext context)
     {
         _context = context;
-        _matchStore = matchStore;
     }
 
-    [HttpGet("messages")] // api/directchat/messages?chatId=xxx
+    [HttpGet("messages")]
     public async Task<IActionResult> GetMessages([FromQuery] string chatId)
     {
         if (string.IsNullOrWhiteSpace(chatId)) return BadRequest("chatId required");
@@ -38,7 +36,7 @@ public class DirectChatController: ControllerBase
 
     public class SendRequest { public required string ChatId { get; set; } public required string UserId { get; set; } public required string Username { get; set; } public required string Message { get; set; } }
 
-    [HttpPost("send")] // api/directchat/send
+    [HttpPost("send")]
     public async Task<IActionResult> Send([FromBody] SendRequest req)
     {
         var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
