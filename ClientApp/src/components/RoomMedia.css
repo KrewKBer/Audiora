@@ -1,0 +1,20 @@
+.media-embed {
+    margin-top: 8px;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.media-embed.youtube {
+    max-width: 400px;
+}
+
+.message-link {
+    color: #60a5fa;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+.message-link:hover {
+    color: #93c5fd;
+}
