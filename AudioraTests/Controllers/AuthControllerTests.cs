@@ -9,7 +9,7 @@ using Xunit;
 namespace AudioraTests.Controllers
 {
     [Trait("Category", "Unit")]
-    public class AuthControllerTests
+    public class AuthControllerTests : IDisposable
     {
         private readonly AudioraDbContext _context;
         private readonly AuthController _controller;
