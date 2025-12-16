@@ -8,6 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Audiora.Controllers
 {
@@ -39,6 +43,25 @@ namespace Audiora.Controllers
 
             await _userDataService.AddAsync(user);
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username ?? string.Empty),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTime.UtcNow.AddDays(7)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
             var userDto = _userDataService.Map(user, u => new UserDto
             {
                 UserId = u.Id.ToString(),
@@ -59,12 +82,45 @@ namespace Audiora.Controllers
                 return Unauthorized("Invalid credentials.");
             }
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, foundUser.Id.ToString()),
+                new Claim(ClaimTypes.Name, foundUser.Username),
+                new Claim(ClaimTypes.Role, foundUser.Role.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTime.UtcNow.AddDays(7)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
             return Ok(new { userId = foundUser.Id.ToString(), username = foundUser.Username, role = foundUser.Role });
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok();
+        }
+
+        [Authorize]
         [HttpGet("user")]
         public async Task<IActionResult> GetUser([FromQuery] string userId)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != userId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             {
                 return BadRequest("Invalid userId");
@@ -84,9 +140,16 @@ namespace Audiora.Controllers
             });
         }
         
+        [Authorize]
         [HttpPost("update-genres")]
         public async Task<IActionResult> UpdateGenres([FromBody] UpdateGenresRequest req)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != req.UserId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
             {
                 return BadRequest("Invalid userId");
@@ -101,9 +164,16 @@ namespace Audiora.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPost("update-top-songs")]
         public async Task<IActionResult> UpdateTopSongs([FromBody] UpdateTopSongsRequest req)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != req.UserId)
+            {
+                return Forbid();
+            }
+
             if (string.IsNullOrEmpty(req.UserId) || !Guid.TryParse(req.UserId, out var userGuid))
             {
                 return BadRequest("Invalid userId");

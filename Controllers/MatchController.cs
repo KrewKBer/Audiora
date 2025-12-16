@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Audiora.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/match")]
 public class MatchController : ControllerBase
@@ -26,6 +29,12 @@ public class MatchController : ControllerBase
     [HttpGet("candidates")] // api/match/candidates?userId=xxx
     public async Task<IActionResult> GetCandidates([FromQuery] string userId)
     {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId != userId)
+        {
+            return Forbid();
+        }
+
         // Load users from database
         var users = await _context.Users.AsNoTracking().ToListAsync();
         var likedTargets = await _matchStore.GetLikedTargetsAsync(userId);
@@ -69,6 +78,12 @@ public class MatchController : ControllerBase
     [HttpPost("like")] // api/match/like
     public async Task<IActionResult> Like([FromBody] LikeRequest request)
     {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId != request.UserId)
+        {
+            return Forbid();
+        }
+
         if (string.IsNullOrWhiteSpace(request.UserId) || string.IsNullOrWhiteSpace(request.TargetUserId))
             return BadRequest("Missing user ids.");
 
@@ -93,6 +108,12 @@ public class MatchController : ControllerBase
     [HttpGet("list")] // api/match/list?userId=xxx
     public async Task<IActionResult> List([FromQuery] string userId)
     {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId != userId)
+        {
+            return Forbid();
+        }
+
         var matches = await _matchStore.GetMatchesForAsync(userId);
 
         var otherIds = matches.Select(m => m.UserAId == userId ? m.UserBId : m.UserAId).Distinct().ToList();
