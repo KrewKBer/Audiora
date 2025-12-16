@@ -61,7 +61,7 @@ export function Login() {
                 setError('Invalid 2FA Code');
             }
         } catch (err) {
-            setError('Verification failed');
+            setError('Verification failed! Please try again.');
         }
     };
 
