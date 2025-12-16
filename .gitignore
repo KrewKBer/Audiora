@@ -18,6 +18,7 @@ Thumbs.db
 # Environment files (store secrets outside repo)
 .env
 .env.local
+appsettings.Development.json
 .env.*.local
 
 # SPA/Node

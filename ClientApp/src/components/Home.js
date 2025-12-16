@@ -19,10 +19,12 @@ class HomeInternal extends Component {
     this.resetData = this.resetData.bind(this);
     this.loadNextSong = this.loadNextSong.bind(this);
     this.handleGetRandomSongs = this.handleGetRandomSongs.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
     this.contentRef = createRef();
     this.cardRef = createRef();
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.isSwiping = false;
+    this.embedController = null;
   }
 
   handleMouseMove(e) {
@@ -82,12 +84,91 @@ class HomeInternal extends Component {
       // No saved song, load next from queue
       this.loadNextSong();
     }
+
+    // Initialize Spotify IFrame API after a short delay to ensure DOM is ready
+    setTimeout(() => this.initSpotifyEmbed(), 100);
   }
 
-  componentDidUpdate(prevProps) {
+  initSpotifyEmbed() {
+    if (window.IFrameAPI) {
+      // API already loaded
+      this.createSpotifyController();
+      return;
+    }
+
+    if (!window.SpotifyIframeApiLoaded) {
+      window.SpotifyIframeApiLoaded = true;
+      const script = document.createElement('script');
+      script.src = "https://open.spotify.com/embed-podcast/iframe-api/v1";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      window.IFrameAPI = IFrameAPI;
+      this.createSpotifyController();
+    };
+  }
+
+  createSpotifyController() {
+    const element = document.getElementById('spotify-embed-hidden');
+    if (!element) {
+      console.error('Spotify embed element not found');
+      return;
+    }
+
+    if (!window.IFrameAPI) {
+      console.error('Spotify IFrame API not loaded');
+      return;
+    }
+
+    const options = {
+        uri: this.state.currentSong ? `spotify:track:${this.state.currentSong.id}` : 'spotify:track:3n3Ppam7vgaVa1iaRUc9Lp',
+        width: '100%',
+        height: '80px'
+    };
+    
+    const callback = (EmbedController) => {
+        this.embedController = EmbedController;
+        console.log('Spotify Embed Controller initialized');
+        
+        EmbedController.addListener('playback_update', e => {
+            this.setState({ isPlaying: !e.data.isPaused });
+        });
+
+        // Auto-play if we have a current song
+        if (this.state.currentSong) {
+             EmbedController.loadUri(`spotify:track:${this.state.currentSong.id}`);
+             EmbedController.play();
+        }
+    };
+    
+    window.IFrameAPI.createController(element, options, callback);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     // If queue length changed and we don't have a current song, load next
     if (prevProps.songQueue.length !== this.props.songQueue.length && !this.state.currentSong) {
       this.loadNextSong();
+    }
+
+    // If song changed, update embed
+    if (this.state.currentSong && this.state.currentSong !== prevState.currentSong) {
+        if (this.embedController) {
+            this.embedController.loadUri(`spotify:track:${this.state.currentSong.id}`);
+            this.embedController.play();
+        }
+    }
+  }
+
+  togglePlay() {
+    if (this.embedController) {
+        console.log('Toggling play/pause');
+        this.embedController.togglePlay();
+    } else {
+        console.error('Embed controller not initialized yet');
+        // Try to reinitialize
+        this.initSpotifyEmbed();
     }
   }
 
@@ -158,8 +239,8 @@ class HomeInternal extends Component {
     };
     
     // Update UI immediately - don't wait for server
-    localStorage.removeItem('currentSong');
-    this.loadNextSong();
+    // localStorage.removeItem('currentSong');
+    // this.loadNextSong();
 
     // Optimistically update XP locally for UI feedback
     // 1 XP for seen, +2 if liked = 3 total
@@ -213,27 +294,80 @@ class HomeInternal extends Component {
       return <div className="loading"><span className="spinner"></span>Loading next song...</div>;
     }
 
+    // Fallback for album art
+    const albumArt = song.album && song.album.images && song.album.images.length > 0 
+        ? song.album.images[0].url 
+        : 'https://via.placeholder.com/200';
+
+    const artistName = song.artists && song.artists.length > 0 ? song.artists[0].name : 'Unknown Artist';
+
     return (
       <div className="song-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', paddingTop: '10px' }}>
-        {/* Large Spotify Embed - Contains Art, Title, Artist, and Controls */}
-        <div className="spotify-embed-wrapper" style={{ marginBottom: '25px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <iframe 
-                src={`https://open.spotify.com/embed/track/${song.id}?theme=0&autoplay=1`}
-                width="100%" 
-                height="352" 
-                frameBorder="0" 
-                allowtransparency="true" 
-                allow="encrypted-media; autoplay"
-                title={`Spotify Player - ${song.name}`}
-                style={{ borderRadius: '12px', maxWidth: '300px', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}
+        
+        {/* Custom Player UI */}
+        <div className="custom-player" style={{ marginBottom: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+            <img 
+                src={albumArt} 
+                alt={song.name} 
+                style={{ width: '250px', height: '250px', borderRadius: '12px', marginBottom: '20px', boxShadow: '0 8px 24px rgba(0,0,0,0.3)', objectFit: 'cover' }} 
             />
+            <h3 style={{ margin: '0 0 5px 0', fontSize: '20px', textAlign: 'center', fontWeight: '600' }}>{song.name}</h3>
+            <p style={{ margin: '0 0 20px 0', fontSize: '15px', color: 'rgba(255,255,255,0.6)', textAlign: 'center' }}>{artistName}</p>
+            
+            <button 
+                onClick={(e) => { e.stopPropagation(); this.togglePlay(); }}
+                className={this.state.isPlaying ? 'btn-play-pulse' : ''}
+                style={{ 
+                    width: '64px', 
+                    height: '64px', 
+                    borderRadius: '50%', 
+                    border: 'none', 
+                    background: '#1DB954', 
+                    color: 'white', 
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(29, 185, 84, 0.4)',
+                    transition: 'transform 0.2s ease'
+                }}
+                onMouseDown={e => e.currentTarget.style.transform = 'scale(0.95)'}
+                onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+            >
+                {this.state.isPlaying ? (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
+                ) : (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '4px' }}>
+                    <path d="M5 3L19 12L5 21V3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+            </button>
+
+            {this.state.isPlaying && (
+              <div className="now-playing-text">
+                <div className="playing-indicator-bar"></div>
+                <div className="playing-indicator-bar"></div>
+                <div className="playing-indicator-bar"></div>
+                <span>Track is now playing</span>
+              </div>
+            )}
         </div>
         
-        {/* Action Buttons */}
-        <div className="player-controls" style={{ display: 'flex', justifyContent: 'center', gap: '40px', width: '100%' }}>
-            <button className="btn-action dislike" onClick={() => isActive && this.swipeWithAnimation('left')}>✕</button>
-            <button className="btn-action like" onClick={() => isActive && this.swipeWithAnimation('right')}>♥</button>
-        </div>
+        {/* Side Action Buttons */}
+        <button className="side-action-btn side-btn-left" onClick={(e) => { e.stopPropagation(); isActive && this.swipeWithAnimation('left'); }} title="Dislike">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <button className="side-action-btn side-btn-right" onClick={(e) => { e.stopPropagation(); isActive && this.swipeWithAnimation('right'); }} title="Like">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </button>
 
         <p style={{ marginTop: 'auto', marginBottom: '10px', fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
           {songQueue.length} song{songQueue.length !== 1 ? 's' : ''} remaining in queue
@@ -256,13 +390,9 @@ class HomeInternal extends Component {
 
         this.isSwiping = true;
         
-        // Immediately trigger like/dislike and load next song
-        if (direction === 'right') this.handleLike();
-        if (direction === 'left') this.handleDislike();
-        
         // The card ref swipe triggers the animation (which runs while new card is already showing)
+        // This will trigger onSwipe callback which handles the API call
         this.cardRef.current.swipe(direction);
-        this.isSwiping = false;
     }
 
 
@@ -301,6 +431,11 @@ render() {
 
     return (
         <div className="homepage-container" style={{ position: 'relative' }}>
+            {/* Hidden Spotify Embed Container - Always present for API */}
+            <div style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', opacity: 0, pointerEvents: 'none', zIndex: -9999 }}>
+                <div id="spotify-embed-hidden" style={{ width: '300px', height: '80px' }}></div>
+            </div>
+
             {this.state.fetchingRandom && (
                 <div className="page-loader-overlay"><div className="page-loader"></div></div>
             )}
@@ -323,7 +458,11 @@ render() {
                 >
                     <MusicBars />
                     <h1 className="homepage-title">Discover New Music</h1>
-                    <button className="btn-reset" disabled>Reset</button>
+                    <button className="btn-reset-icon" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
                     {nextCardContent}
                 </div>
             )}
@@ -333,7 +472,11 @@ render() {
                     <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
                         <MusicBars />
                         <h1 className="homepage-title">Discover New Music</h1>
-                        <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                        <button className="btn-reset-icon" onClick={this.resetData} title="Reset Data">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </button>
                         {currentCardContent}
                     </div>
                 ) : (
@@ -348,6 +491,9 @@ render() {
                 onCardLeftScreen={() => {
                     // Animation complete, reset swiping flag
                     this.isSwiping = false;
+                    // Load next song after animation completes to prevent UI glitches
+                    localStorage.removeItem('currentSong');
+                    this.loadNextSong();
                 }}
                 preventSwipe={['up', 'down']}
                 swipeRequirementType='velocity'
@@ -361,7 +507,11 @@ render() {
                 >
                     <MusicBars />
                     <h1 className="homepage-title">Discover New Music</h1>
-                    <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                    <button className="btn-reset-icon" onClick={this.resetData} title="Reset Data">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
                     {currentCardContent}
                 </div>
             </TinderCard>
