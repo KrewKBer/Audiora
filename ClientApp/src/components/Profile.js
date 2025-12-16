@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 import './Profile.css';
 
 const GENRES = [
@@ -17,6 +18,11 @@ export function Profile() {
     const [searching, setSearching] = useState([false, false, false]);
     const [dropdownOpen, setDropdownOpen] = useState([false, false, false]);
     const inputRefs = [useRef(), useRef(), useRef()];
+
+    // 2FA State
+    const [twoFactorSetup, setTwoFactorSetup] = useState(null);
+    const [twoFactorCode, setTwoFactorCode] = useState('');
+    const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
 
     useEffect(() => {
         async function fetchProfile() {
@@ -134,6 +140,36 @@ export function Profile() {
         }
     };
 
+    const start2FASetup = async () => {
+        try {
+            const res = await fetch('/auth/2fa/setup', { method: 'POST' });
+            if (!res.ok) throw new Error('Failed to start 2FA setup');
+            const data = await res.json();
+            setTwoFactorSetup(data);
+        } catch (e) {
+            setError(e.message);
+        }
+    };
+
+    const verify2FASetup = async () => {
+        try {
+            const res = await fetch('/auth/2fa/verify-setup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: twoFactorCode })
+            });
+            if (res.ok) {
+                setTwoFactorEnabled(true);
+                setTwoFactorSetup(null);
+                setSuccess("Two-Factor Authentication Enabled!");
+            } else {
+                setError("Invalid Code");
+            }
+        } catch (e) {
+            setError("Verification failed");
+        }
+    };
+
     if (loading) return <div>Loading profile...</div>;
 
     return (
@@ -147,6 +183,35 @@ export function Profile() {
                 {error && <div className="alert alert-danger">{error}</div>}
                 {success && <div className="alert alert-success">{success}</div>}
                 
+                <div className="profile-section">
+                    <h3>Security</h3>
+                    {!twoFactorEnabled && !twoFactorSetup && (
+                        <button className="btn-save" onClick={start2FASetup} style={{background: '#4285F4'}}>
+                            Enable Two-Factor Authentication
+                        </button>
+                    )}
+                    
+                    {twoFactorSetup && (
+                        <div className="2fa-setup" style={{textAlign: 'center', background: '#222', padding: '20px', borderRadius: '8px'}}>
+                            <h4>Scan this QR Code with Google Authenticator</h4>
+                            <div style={{background: 'white', padding: '10px', display: 'inline-block', margin: '10px 0'}}>
+                                <QRCodeSVG value={twoFactorSetup.uri} size={200} />
+                            </div>
+                            <p style={{fontSize: '12px', color: '#aaa'}}>Secret: {twoFactorSetup.secret}</p>
+                            <div style={{marginTop: '10px'}}>
+                                <input 
+                                    type="text" 
+                                    placeholder="Enter 6-digit code" 
+                                    value={twoFactorCode}
+                                    onChange={e => setTwoFactorCode(e.target.value)}
+                                    style={{padding: '8px', borderRadius: '4px', border: 'none', marginRight: '10px'}}
+                                />
+                                <button className="btn-save" onClick={verify2FASetup}>Verify & Enable</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
                 <div className="profile-section">
                     <h3>Favorite Genres</h3>
                     <div className="genre-list">

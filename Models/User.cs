@@ -21,6 +21,9 @@ namespace Audiora.Models
         public List<string>? Genres { get; set; }
         public string? TopSongsJson { get; set; }
         
+        public string? TwoFactorSecret { get; set; }
+        public bool IsTwoFactorEnabled { get; set; }
+
         [NotMapped]
         public List<SongInfo>? TopSongs 
         { 
