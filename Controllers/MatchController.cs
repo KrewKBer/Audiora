@@ -161,6 +161,7 @@ public class MatchController : ControllerBase
 
         var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == guid);
         if (user == null) return NotFound();
+        
         return Ok(new { 
             user.Id, 
             user.Username, 

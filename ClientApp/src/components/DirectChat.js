@@ -205,11 +205,14 @@ export function DirectChat() {
               className="direct-chat-songs-toggle"
               onClick={() => setShowSongs(!showSongs)}
             >
-              🎵 {showSongs ? 'Hide' : 'View'} Top Songs
+              <span>{showSongs ? '▼' : '▶'}</span>
+              <span>Top Songs</span>
+              {otherUser.topSongs && otherUser.topSongs.length > 0 && (
+                <span style={{ marginLeft: 'auto', fontSize: '0.75rem', opacity: 0.7 }}>({otherUser.topSongs.length})</span>
+              )}
             </button>
 
-            {showSongs && (
-              <div className="direct-chat-songs-panel">
+            <div className={`direct-chat-songs-panel ${showSongs ? 'open' : ''}`}>
                 {otherUser.topSongs && otherUser.topSongs.length > 0 ? (
                   otherUser.topSongs.slice(0, 3).map((song, i) => (
                     <div key={i} className="direct-chat-song-item">
@@ -229,8 +232,7 @@ export function DirectChat() {
                     No top songs available
                   </div>
                 )}
-              </div>
-            )}
+            </div>
           </>
         ) : (
           <div className="direct-chat-loading">
