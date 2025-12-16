@@ -777,3 +777,136 @@ code {
     z-index: 5;
     transform: scale(0.98) translateY(10px); /* Slight scale down for depth */
 }
+
+/* New UI Styles for Home Component */
+
+/* Reset Button - Top Right Icon */
+.btn-reset-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.btn-reset-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Play Button Pulse Animation */
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(29, 185, 84, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0);
+  }
+}
+
+.btn-play-pulse {
+  animation: pulse-green 2s infinite;
+}
+
+/* Now Playing Text */
+.now-playing-text {
+  font-size: 12px;
+  color: #1DB954;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 15px;
+  opacity: 0;
+  transform: translateY(5px);
+  animation: fadeInUp 0.5s forwards;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.playing-indicator-bar {
+  width: 3px;
+  height: 10px;
+  background-color: #1DB954;
+  border-radius: 1px;
+  animation: sound-bar 1s infinite ease-in-out;
+}
+
+.playing-indicator-bar:nth-child(1) { animation-delay: 0.0s; }
+.playing-indicator-bar:nth-child(2) { animation-delay: 0.2s; }
+.playing-indicator-bar:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes sound-bar {
+  0%, 100% { height: 4px; }
+  50% { height: 12px; }
+}
+
+/* Action Buttons (Like/Dislike) */
+.action-btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.btn-action-round {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.btn-action-round:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.btn-action-round:active {
+  transform: scale(0.95);
+}
+
+.btn-dislike-round {
+  background: #fff;
+  color: #ef4444;
+  border: 2px solid #fca5a5;
+}
+
+.btn-like-round {
+  background: linear-gradient(135deg, #1DB954, #1ed760);
+  color: white;
+  border: none;
+}
+
+.btn-dislike-round svg, .btn-like-round svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 2.5;
+}

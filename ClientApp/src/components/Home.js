@@ -316,6 +316,7 @@ class HomeInternal extends Component {
             
             <button 
                 onClick={(e) => { e.stopPropagation(); this.togglePlay(); }}
+                className={this.state.isPlaying ? 'btn-play-pulse' : ''}
                 style={{ 
                     width: '64px', 
                     height: '64px', 
@@ -323,7 +324,6 @@ class HomeInternal extends Component {
                     border: 'none', 
                     background: '#1DB954', 
                     color: 'white', 
-                    fontSize: '28px', 
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -335,14 +335,40 @@ class HomeInternal extends Component {
                 onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
                 onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
-                {this.state.isPlaying ? '⏸' : '▶'}
+                {this.state.isPlaying ? (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
+                ) : (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '4px' }}>
+                    <path d="M5 3L19 12L5 21V3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
             </button>
+
+            {this.state.isPlaying && (
+              <div className="now-playing-text">
+                <div className="playing-indicator-bar"></div>
+                <div className="playing-indicator-bar"></div>
+                <div className="playing-indicator-bar"></div>
+                <span>Track is now playing</span>
+              </div>
+            )}
         </div>
         
         {/* Action Buttons */}
-        <div className="player-controls" style={{ display: 'flex', justifyContent: 'center', gap: '40px', width: '100%' }}>
-            <button className="btn-action dislike" onClick={() => isActive && this.swipeWithAnimation('left')}>✕</button>
-            <button className="btn-action like" onClick={() => isActive && this.swipeWithAnimation('right')}>♥</button>
+        <div className="action-btn-group">
+            <button className="btn-action-round btn-dislike-round" onClick={() => isActive && this.swipeWithAnimation('left')}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <button className="btn-action-round btn-like-round" onClick={() => isActive && this.swipeWithAnimation('right')}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
         </div>
 
         <p style={{ marginTop: 'auto', marginBottom: '10px', fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
@@ -438,7 +464,11 @@ render() {
                 >
                     <MusicBars />
                     <h1 className="homepage-title">Discover New Music</h1>
-                    <button className="btn-reset" disabled>Reset</button>
+                    <button className="btn-reset-icon" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
                     {nextCardContent}
                 </div>
             )}
@@ -448,7 +478,11 @@ render() {
                     <div className="homepage-content spotlight-card no-more-songs-card" style={{ position: 'relative', zIndex: 1 }}>
                         <MusicBars />
                         <h1 className="homepage-title">Discover New Music</h1>
-                        <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                        <button className="btn-reset-icon" onClick={this.resetData} title="Reset Data">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </button>
                         {currentCardContent}
                     </div>
                 ) : (
@@ -476,7 +510,11 @@ render() {
                 >
                     <MusicBars />
                     <h1 className="homepage-title">Discover New Music</h1>
-                    <button className="btn-reset" onClick={this.resetData}>Reset</button>
+                    <button className="btn-reset-icon" onClick={this.resetData} title="Reset Data">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
                     {currentCardContent}
                 </div>
             </TinderCard>
