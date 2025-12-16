@@ -1,0 +1,281 @@
+.direct-chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    color: #fff;
+}
+
+.direct-chat-header {
+    margin-bottom: 1.5rem;
+}
+
+.direct-chat-user {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.direct-chat-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+}
+
+.direct-chat-user-info {
+    flex: 1;
+}
+
+.direct-chat-username {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(to right, #fff, #ccc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.direct-chat-level {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    border: 1px solid #374151;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.1);
+    -webkit-text-fill-color: #9ca3af;
+}
+
+.direct-chat-genres {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.direct-chat-genre-tag {
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: #d1d5db;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.direct-chat-songs-toggle {
+    background: transparent;
+    border: none;
+    color: #6366f1;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+}
+
+.direct-chat-songs-toggle:hover {
+    color: #818cf8;
+}
+
+.direct-chat-songs-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.direct-chat-song-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.direct-chat-song-item:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.direct-chat-song-art {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: #374151;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.direct-chat-song-info {
+    overflow: hidden;
+}
+
+.direct-chat-song-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+
+.direct-chat-song-artist {
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+.direct-chat-messages-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    overflow: hidden;
+}
+
+.direct-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.direct-chat-message {
+    max-width: 75%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    animation: messageIn 0.2s ease;
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.direct-chat-message.mine {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-bottom-right-radius: 4px;
+}
+
+.direct-chat-message.theirs {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 4px;
+}
+
+.direct-chat-message-meta {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-bottom: 4px;
+}
+
+.direct-chat-message-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.direct-chat-empty {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 80px;
+    font-size: 1rem;
+}
+
+.direct-chat-input-area {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.direct-chat-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 24px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.direct-chat-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.direct-chat-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.direct-chat-send-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.direct-chat-send-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+}
+
+.direct-chat-send-btn:active {
+    transform: translateY(0);
+}
+
+.direct-chat-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.direct-chat-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.direct-chat-skeleton {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}

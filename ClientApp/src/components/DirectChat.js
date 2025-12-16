@@ -1,22 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as signalR from '@microsoft/signalr';
-
-// NOTE: The server RoomHub expects GUID strings for roomId. Our chatId is a composite
-// string like userA_userB. DirectChatController maps chatId -> deterministic GUID via MD5.
-// We replicate that mapping client-side to join the SignalR group so real-time works.
-function guidFromChatId(chatId) {
-  // Simple MD5 implementation using Web Crypto
-  // Returns GUID format based on first 16 bytes of MD5 hash (same as backend approach).
-  // Backend uses MD5 hash bytes directly as Guid.
-  // We perform hash then format to XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-  const encoder = new TextEncoder();
-  const data = encoder.encode(chatId);
-  // Web Crypto MD5 isn't built-in; fallback: deterministic pseudo-hash (NOT cryptographically accurate)
-  // For consistency we will call the backend to fetch messages; for hub join we skip GUID requirement
-  // by sending the composite chatId itself. If backend rejects, we fall back to HTTP-only mode.
-  return null; // indicate we will use HTTP-only for messaging for now.
-}
+import './DirectChat.css';
 
 export function DirectChat() {
   const { chatId } = useParams();
@@ -27,10 +12,21 @@ export function DirectChat() {
   const [loading, setLoading] = useState(true);
   const [realtime, setRealtime] = useState(false);
   const [otherUser, setOtherUser] = useState(null);
+  const [showSongs, setShowSongs] = useState(false);
+  const [sending, setSending] = useState(false);
+  const messagesEndRef = useRef(null);
   const hubConnectionRef = useRef(null);
 
   const userId = localStorage.getItem('userId');
   const username = localStorage.getItem('username') || 'Anonymous';
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   // Load existing messages
   const loadMessages = async () => {
@@ -53,7 +49,9 @@ export function DirectChat() {
     // Fetch other user details
     if (chatId) {
       const parts = chatId.split('_');
-      const otherId = parts.find(p => p !== userId);
+      const myId = userId.toLowerCase();
+      const otherId = parts.find(p => p.toLowerCase() !== myId);
+      
       if (otherId) {
         fetch(`/api/match/user/${otherId}`)
           .then(res => {
@@ -61,9 +59,30 @@ export function DirectChat() {
              return null;
           })
           .then(data => {
-             if(data) setOtherUser(data);
+             if(data) {
+               // Normalize property names (backend uses PascalCase, we want camelCase)
+               setOtherUser({
+                 id: data.id || data.Id,
+                 username: data.username || data.Username,
+                 level: data.level || data.Level || 1,
+                 role: data.role || data.Role,
+                 genres: data.genres || data.Genres || [],
+                 topSongs: (data.topSongs || data.TopSongs || []).map(s => ({
+                   name: s.name || s.Name,
+                   artist: s.artist || s.Artist,
+                   albumImageUrl: s.albumImageUrl || s.AlbumImageUrl
+                 }))
+               });
+             } else {
+               setOtherUser({ username: 'User', level: 1, genres: [], topSongs: [] });
+             }
           })
-          .catch(console.error);
+          .catch(err => {
+            console.error('Profile fetch error:', err);
+            setOtherUser({ username: 'User', level: 1, genres: [], topSongs: [] });
+          });
+      } else {
+        setOtherUser({ username: 'Chat', level: 1, genres: [], topSongs: [] });
       }
     }
   }, [chatId, userId, navigate]);
@@ -76,8 +95,19 @@ export function DirectChat() {
       .withAutomaticReconnect()
       .build();
 
+    hubConnectionRef.current = connection;
+
     connection.on('ReceiveMessage', (fromUserId, fromUsername, message, timestamp) => {
-      setMessages(prev => [...prev, { userId: fromUserId, username: fromUsername, message, timestamp }]);
+      // Avoid duplicates if we already added the message optimistically
+      setMessages(prev => {
+        const exists = prev.some(m => 
+          m.userId === fromUserId && 
+          m.message === message && 
+          Math.abs(new Date(m.timestamp) - new Date(timestamp)) < 2000
+        );
+        if (exists) return prev;
+        return [...prev, { userId: fromUserId, username: fromUsername, message, timestamp }];
+      });
     });
 
     connection.start().then(() => {
@@ -91,91 +121,173 @@ export function DirectChat() {
   }, [chatId, userId, username]);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || sending) return;
+    
+    const messageText = input.trim();
+    setInput('');
+    setSending(true);
+    
+    // Optimistic update - show the message immediately
+    const optimisticMessage = {
+      id: `temp-${Date.now()}`,
+      userId,
+      username,
+      message: messageText,
+      timestamp: new Date().toISOString()
+    };
+    setMessages(prev => [...prev, optimisticMessage]);
+    
     try {
-      // Try realtime first
-      if (realtime) {
-        const connection = new signalR.HubConnectionBuilder().withUrl('/roomHub').build();
-        // Avoid creating a new connection; instead rely on server echo via existing connection
-        // So we'll still post to HTTP to persist + rely on hub to broadcast back if realtime isn't ready
-      }
       const res = await fetch('/api/directchat/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chatId, userId, username, message: input })
+        body: JSON.stringify({ chatId, userId, username, message: messageText })
       });
       if (!res.ok) throw new Error(await res.text() || 'Send failed');
       const saved = await res.json();
-      if (!realtime) setMessages(prev => [...prev, saved]);
-      setInput('');
+      
+      // Replace optimistic message with the saved one (with real ID)
+      setMessages(prev => prev.map(m => 
+        m.id === optimisticMessage.id ? { ...saved } : m
+      ));
     } catch (e) {
+      // Remove optimistic message on error
+      setMessages(prev => prev.filter(m => m.id !== optimisticMessage.id));
       setError(e.message);
+    } finally {
+      setSending(false);
     }
   };
 
-  if (loading) return <div style={{ padding:32 }}>Loading chat...</div>;
+  const getInitial = (name) => {
+    return (name || 'U').charAt(0).toUpperCase();
+  };
+
+  if (loading) {
+    return (
+      <div className="direct-chat-container">
+        <div className="direct-chat-loading">
+          <div className="direct-chat-skeleton" style={{ height: 56, width: 200 }}></div>
+          <div className="direct-chat-skeleton" style={{ height: 24, width: 150 }}></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ maxWidth:680, margin:'0 auto', padding:'28px 18px' }}>
-      <h2 style={{ margin:'0 0 8px' }}>
+    <div className="direct-chat-container">
+      {/* Header with user info */}
+      <div className="direct-chat-header">
         {otherUser ? (
-          <span>
-            {otherUser.username} 
-            <span style={{ fontSize:'0.6em', color:'#6b7280', marginLeft:10, verticalAlign:'middle', border:'1px solid #374151', padding:'2px 8px', borderRadius:12 }}>
-              Lvl {otherUser.level}
-            </span>
-          </span>
-        ) : 'Direct Chat'}
-      </h2>
-      <p style={{ margin:'0 0 24px', color:'#6b7280', fontSize:14 }}>
-        {otherUser ? `Chatting with ${otherUser.username}` : <span>Chat ID: <code>{chatId}</code></span>}
-      </p>
-      {error && (<div style={{ background:'#7f1d1d', color:'#fecaca', padding:'8px 12px', borderRadius:8, marginBottom:16 }}>{error}</div>)}
-      <div style={{
-        border:'1px solid #374151', borderRadius:16, padding:16,
-        background:'#111827', display:'flex', flexDirection:'column', height:480, boxShadow:'0 8px 24px -4px rgba(0,0,0,0.4)'
-      }}>
-        <div style={{ flex:1, overflowY:'auto', display:'flex', flexDirection:'column', gap:10 }}>
-          {messages.map(m => {
-            const mine = m.userId && m.userId.toLowerCase() === userId?.toLowerCase();
-            const ts = m.timestamp ? new Date(m.timestamp).toLocaleTimeString() : '';
-            return (
-              <div key={m.id || m.timestamp + m.message} style={{
-                alignSelf: mine ? 'flex-end' : 'flex-start',
-                maxWidth:'70%',
-                background: mine ? '#2563eb' : '#1f2937',
-                color:'#fff',
-                padding:'10px 14px',
-                borderRadius: mine ? '18px 4px 18px 18px' : '4px 18px 18px 18px',
-                boxShadow:'0 4px 12px rgba(0,0,0,0.35)'
-              }}>
-                <div style={{ fontSize:12, opacity:0.75, marginBottom:4 }}>
-                  <strong>{m.username || 'Anon'}</strong> • {ts}
-                </div>
-                <div style={{ whiteSpace:'pre-wrap', wordBreak:'break-word' }}>{m.message}</div>
+          <>
+            <div className="direct-chat-user">
+              <div className="direct-chat-avatar">
+                {getInitial(otherUser.username)}
               </div>
-            );
-          })}
-          {messages.length === 0 && (
-            <div style={{ textAlign:'center', color:'#9ca3af', marginTop:40 }}>No messages yet. Say hi </div>
+              <div className="direct-chat-user-info">
+                <h2 className="direct-chat-username">
+                  {otherUser.username}
+                  <span className="direct-chat-level">Lvl {otherUser.level}</span>
+                </h2>
+                <div className="direct-chat-genres">
+                  {otherUser.genres && otherUser.genres.length > 0 ? (
+                    otherUser.genres.slice(0, 5).map((g, i) => (
+                      <span key={i} className="direct-chat-genre-tag">{g}</span>
+                    ))
+                  ) : (
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>No genres set</span>
+                  )}
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              className="direct-chat-songs-toggle"
+              onClick={() => setShowSongs(!showSongs)}
+            >
+              🎵 {showSongs ? 'Hide' : 'View'} Top Songs
+            </button>
+
+            {showSongs && (
+              <div className="direct-chat-songs-panel">
+                {otherUser.topSongs && otherUser.topSongs.length > 0 ? (
+                  otherUser.topSongs.slice(0, 3).map((song, i) => (
+                    <div key={i} className="direct-chat-song-item">
+                      {song.albumImageUrl ? (
+                        <img src={song.albumImageUrl} alt="" className="direct-chat-song-art" />
+                      ) : (
+                        <div className="direct-chat-song-art" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>🎵</div>
+                      )}
+                      <div className="direct-chat-song-info">
+                        <div className="direct-chat-song-name">{song.name}</div>
+                        <div className="direct-chat-song-artist">{song.artist}</div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ color: 'rgba(255,255,255,0.4)', textAlign: 'center', padding: '12px' }}>
+                    No top songs available
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="direct-chat-loading">
+            <div className="direct-chat-skeleton" style={{ height: 56, width: 56, borderRadius: '50%' }}></div>
+            <div className="direct-chat-skeleton" style={{ height: 24, width: 150 }}></div>
+          </div>
+        )}
+      </div>
+
+      {error && <div className="direct-chat-error">{error}</div>}
+
+      {/* Messages area */}
+      <div className="direct-chat-messages-box">
+        <div className="direct-chat-messages">
+          {messages.length === 0 ? (
+            <div className="direct-chat-empty">
+              No messages yet. Say hi! 👋
+            </div>
+          ) : (
+            messages.map((m, index) => {
+              const mine = m.userId && m.userId.toLowerCase() === userId?.toLowerCase();
+              const ts = m.timestamp ? new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+              return (
+                <div 
+                  key={m.id || `msg-${index}`} 
+                  className={`direct-chat-message ${mine ? 'mine' : 'theirs'}`}
+                >
+                  <div className="direct-chat-message-meta">
+                    {!mine && <strong>{m.username || 'Anon'}</strong>}
+                    {!mine && ' • '}{ts}
+                  </div>
+                  <div className="direct-chat-message-text">{m.message}</div>
+                </div>
+              );
+            })
           )}
+          <div ref={messagesEndRef} />
         </div>
-        <div style={{ display:'flex', gap:12, marginTop:12 }}>
+
+        {/* Input area */}
+        <div className="direct-chat-input-area">
           <input
-            style={{ flex:1, background:'#1f2937', border:'1px solid #374151', color:'#fff', borderRadius:12, padding:'12px 14px' }}
-            placeholder={`Message as ${username || '...'}`}
+            className="direct-chat-input"
+            placeholder={`Message ${otherUser?.username || ''}...`}
             value={input}
             onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') sendMessage(); }}
+            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+            disabled={sending}
           />
           <button
+            className="direct-chat-send-btn"
             onClick={sendMessage}
-            style={{ background:'#10b981', color:'#fff', border:'none', borderRadius:12, padding:'0 24px', fontWeight:600 }}
-          >Send</button>
+            disabled={sending || !input.trim()}
+          >
+            {sending ? '...' : 'Send'}
+          </button>
         </div>
-        {!realtime && (
-          <small style={{ marginTop:8, color:'#9ca3af' }}>Real-time disabled (using polling). Upgrade server to support non-GUID rooms for SignalR join.</small>
-        )}
       </div>
     </div>
   );
