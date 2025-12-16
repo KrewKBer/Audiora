@@ -39,6 +39,7 @@ export function Profile() {
                 if (!response.ok) throw new Error('Failed to fetch profile');
                 const user = await response.json();
                 setGenres(user.genres || []);
+                setTwoFactorEnabled(user.isTwoFactorEnabled);
                 const rawTop = (user.topSongs && user.topSongs.length > 0) ? user.topSongs : [];
                 // Normalize properties regardless of server casing policy
                 const normalized = rawTop.map(s => ({
@@ -185,13 +186,19 @@ export function Profile() {
                 
                 <div className="profile-section">
                     <h3>Security</h3>
-                    {!twoFactorEnabled && !twoFactorSetup && (
-                        <button className="btn-save" onClick={start2FASetup} style={{background: '#4285F4'}}>
-                            Enable Two-Factor Authentication
-                        </button>
+                    {twoFactorEnabled ? (
+                        <div className="alert alert-success" style={{textAlign: 'center'}}>
+                            ✅ Two-Factor Authentication is <strong>ENABLED</strong>
+                        </div>
+                    ) : (
+                        !twoFactorSetup && (
+                            <button className="btn-save" onClick={start2FASetup} style={{background: '#4285F4'}}>
+                                Enable Two-Factor Authentication
+                            </button>
+                        )
                     )}
                     
-                    {twoFactorSetup && (
+                    {twoFactorSetup && !twoFactorEnabled && (
                         <div className="2fa-setup" style={{textAlign: 'center', background: '#222', padding: '20px', borderRadius: '8px'}}>
                             <h4>Scan this QR Code with Google Authenticator</h4>
                             <div style={{background: 'white', padding: '10px', display: 'inline-block', margin: '10px 0'}}>

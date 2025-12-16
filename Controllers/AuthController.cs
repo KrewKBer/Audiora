@@ -222,7 +222,8 @@ namespace Audiora.Controllers
                 username = user.Username,
                 role = user.Role,
                 genres = user.Genres ?? new List<string>(),
-                topSongs = user.TopSongs ?? new List<SongInfo>()
+                topSongs = user.TopSongs ?? new List<SongInfo>(),
+                isTwoFactorEnabled = user.IsTwoFactorEnabled
             });
         }
         
