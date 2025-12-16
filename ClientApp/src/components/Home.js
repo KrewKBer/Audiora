@@ -181,6 +181,11 @@ class HomeInternal extends Component {
     localStorage.removeItem('currentSong');
     this.loadNextSong();
 
+    // Optimistically update XP locally for UI feedback
+    // 1 XP for seen, +2 if liked = 3 total
+    const xpGain = liked ? 3 : 1;
+    window.dispatchEvent(new CustomEvent('xpUpdate', { detail: { amount: xpGain } }));
+
     // Send API request in background
     console.log('[handleInteraction] Sending POST to /api/user-songs/seen with payload:', payload);
     fetch('/api/user-songs/seen', {

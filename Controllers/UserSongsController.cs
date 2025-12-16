@@ -98,6 +98,14 @@ namespace Audiora.Controllers
                     int xpGain = request.Liked ? 3 : 1;
                     user.Xp += xpGain;
                     user.Level = Math.Min(100, 1 + (user.Xp / 100));
+
+                    // Rank Progression
+                    if (user.Role != UserRole.Admin)
+                    {
+                        if (user.Level >= 20) user.Role = UserRole.Hacker;
+                        else if (user.Level >= 10) user.Role = UserRole.Pro;
+                        else user.Role = UserRole.Noob;
+                    }
                 }
             }
             

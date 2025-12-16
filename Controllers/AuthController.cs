@@ -250,14 +250,21 @@ namespace Audiora.Controllers
 
             user.Xp += req.Amount;
             
-            // Simple leveling: Level = 1 + (XP / 100), max level 100
+            // Leveling Logic
             int newLevel = Math.Min(100, 1 + (user.Xp / 100));
-            bool leveledUp = newLevel > user.Level;
             user.Level = newLevel;
+
+            // Rank Progression
+            if (user.Role != UserRole.Admin)
+            {
+                if (user.Level >= 20) user.Role = UserRole.Hacker;
+                else if (user.Level >= 10) user.Role = UserRole.Pro;
+                else user.Role = UserRole.Noob;
+            }
             
             await _context.SaveChangesAsync();
             
-            return Ok(new { xp = user.Xp, level = user.Level, leveledUp });
+            return Ok(new { xp = user.Xp, level = user.Level, role = user.Role.ToString() });
         }
 
         [Authorize]
