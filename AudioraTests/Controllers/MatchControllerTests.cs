@@ -3,6 +3,7 @@ using Audiora.Data;
 using Audiora.Models;
 using Audiora.Services;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -156,6 +157,7 @@ namespace AudioraTests.Controllers
             await _matchStore.LikeAsync(userAId, userBId);
             await _matchStore.LikeAsync(userBId, userAId);
 
+            SetupUser(userAId);
             var result = await _controller.List(userAId);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -168,6 +170,7 @@ namespace AudioraTests.Controllers
         {
             var userId = Guid.NewGuid().ToString();
 
+            SetupUser(userId);
             var result = await _controller.List(userId);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -179,6 +182,21 @@ namespace AudioraTests.Controllers
         {
             _context.Database.EnsureDeleted();
             _context.Dispose();
+        }
+
+        private void SetupUser(string userId)
+        {
+            var claims = new List<System.Security.Claims.Claim>
+            {
+                new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, userId)
+            };
+            var identity = new System.Security.Claims.ClaimsIdentity(claims, "TestAuthType");
+            var claimsPrincipal = new System.Security.Claims.ClaimsPrincipal(identity);
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+            };
         }
     }
 }
