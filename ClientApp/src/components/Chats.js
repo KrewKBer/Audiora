@@ -40,23 +40,30 @@ export function Chats() {
       )}
       
       <div className="chats-list">
-        {items.map((m, i) => (
-          <div key={i} className="chat-item">
-            <div className="chat-info">
-              <span className="chat-name">
-                {m.withUsername || m.withUser} 
-                <span style={{ fontSize: '0.85em', color: '#9ca3af', marginLeft: '8px', fontWeight: 'normal' }}>
-                  Lvl {m.withLevel || 1}
-                </span>
-              </span>
-              <span className="chat-meta">Chat ID: {m.chatId}</span>
-              <span className="chat-meta">Since: {m.createdAt && new Date(m.createdAt).toLocaleDateString()}</span>
+        {items.map((m, i) => {
+          const getInitial = (name) => (name || 'U').charAt(0).toUpperCase();
+          const matchDate = m.createdAt ? new Date(m.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+          
+          return (
+            <div key={i} className="chat-item" onClick={() => navigate(`/directchat/${m.chatId}`)}>
+              <div className="chat-avatar">
+                {getInitial(m.withUsername || m.withUser)}
+              </div>
+              <div className="chat-info">
+                <div className="chat-name-row">
+                  <span className="chat-name">{m.withUsername || m.withUser}</span>
+                  <span className="chat-level-badge">Lvl {m.withLevel || 1}</span>
+                </div>
+                <span className="chat-date">Matched on {matchDate}</span>
+              </div>
+              <div className="chat-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </div>
             </div>
-            <div>
-              <button className="chat-btn" onClick={() => navigate(`/directchat/${m.chatId}`)}>Open</button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
