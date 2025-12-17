@@ -730,12 +730,12 @@ export default function DomeGallery({
       ref={rootRef}
       className="sphere-root"
       style={{
-        ['--segments-x']: segments,
-        ['--segments-y']: segments,
-        ['--overlay-blur-color']: overlayBlurColor,
-        ['--tile-radius']: imageBorderRadius,
-        ['--enlarge-radius']: openedImageBorderRadius,
-        ['--image-filter']: grayscale ? 'grayscale(1)' : 'none'
+        '--segments-x': segments,
+        '--segments-y': segments,
+        '--overlay-blur-color': overlayBlurColor,
+        '--tile-radius': imageBorderRadius,
+        '--enlarge-radius': openedImageBorderRadius,
+        '--image-filter': grayscale ? 'grayscale(1)' : 'none'
       }}
     >
       <main ref={mainRef} className="sphere-main">
@@ -754,10 +754,10 @@ export default function DomeGallery({
                 data-size-x={it.sizeX}
                 data-size-y={it.sizeY}
                 style={{
-                  ['--offset-x']: it.x,
-                  ['--offset-y']: it.y,
-                  ['--item-size-x']: it.sizeX,
-                  ['--item-size-y']: it.sizeY
+                  '--offset-x': it.x,
+                  '--offset-y': it.y,
+                  '--item-size-x': it.sizeX,
+                  '--item-size-y': it.sizeY
                 }}
               >
                 <div
