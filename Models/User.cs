@@ -6,17 +6,17 @@ namespace Audiora.Models
 { 
     public enum Gender
     {
+        PreferNotToSay,
         Male,
         Female,
-        NonBinary,
-        PreferNotToSay
+        NonBinary
     }
 
     public enum SexualityPreference
     {
+        Everyone,
         Men,
-        Women,
-        Everyone
+        Women
     }
     [JsonConverter(typeof(StringEnumConverter))]
     public enum UserRole

@@ -72,26 +72,7 @@ export function Profile() {
     const handleSongInputChange = (idx, value) => {
         setSearchQueries(qs => qs.map((q, i) => i === idx ? value : q));
     };
-
-    const handleSavePreferences = async () => {
-        try {
-            const userId = localStorage.getItem('userId');
-            const res = await fetch('/api/match/update-preferences', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, gender, preference })
-            });
-            if (res.ok) {
-                setSuccess('Preferences updated!');
-            } else {
-                setError('Failed to update preferences');
-            }
-        } catch (e) {
-            setError(e.message);
-        }
-    };
     
-
     // Always use the latest value from the input field
     const handleSongSearch = async (idx) => {
         const query = inputRefs[idx].current ? inputRefs[idx].current.value : searchQueries[idx];
@@ -156,6 +137,12 @@ export function Profile() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId, topSongs: topSongs.filter(Boolean) }),
             });
+            // Save preferences
+            await fetch('/api/match/update-preferences', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, gender, preference })
+            });
             setSuccess('Profile updated successfully!');
         } catch (err) {
             setError(err.message);
@@ -163,6 +150,7 @@ export function Profile() {
             setSaving(false);
         }
     };
+
 
     const start2FASetup = async () => {
         try {
@@ -267,7 +255,6 @@ export function Profile() {
                             <option value="Everyone">Everyone</option>
                         </select>
                     </div>
-                    <button className="btn-save" onClick={handleSavePreferences}>Save Preferences</button>
                 </div>
                 
 

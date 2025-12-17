@@ -42,7 +42,7 @@ namespace Audiora.Controllers
                 Id = Guid.NewGuid(),
                 Username = req.Username,
                 Password = BCrypt.Net.BCrypt.HashPassword(req.Password),
-                Genres = new List<string>(),
+                Genres = req.Genres ?? new List<string>(),
                 Gender = req.Gender,
                 Preference = req.Preference
             };
@@ -224,7 +224,9 @@ namespace Audiora.Controllers
                 topSongs = user.TopSongs ?? new List<SongInfo>(),
                 isTwoFactorEnabled = user.IsTwoFactorEnabled,
                 xp = user.Xp,
-                level = user.Level
+                level = user.Level,
+                gender = user.Gender,
+                preference = user.Preference
             });
         }
         
@@ -343,6 +345,7 @@ namespace Audiora.Controllers
         {
             public required string Username { get; set; }
             public required string Password { get; set; }
+            public List<string> Genres { get; set; } = new List<string>();
             public Gender Gender { get; set; } = Gender.PreferNotToSay;
             public SexualityPreference Preference { get; set; } = SexualityPreference.Everyone;
         }
