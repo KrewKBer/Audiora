@@ -86,7 +86,7 @@ export function NavMenu() {
     const levelProgress = xpData.xp % 100;
 
     return (
-        <header>
+        <header style={{ position: 'relative', zIndex: 10 }}>
             <Navbar className="navbar-expand-sm navbar-toggleable-sm box-shadow mb-3" container light>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                     <NavbarBrand tag={Link} className='text-light' to="/">Audiora</NavbarBrand>

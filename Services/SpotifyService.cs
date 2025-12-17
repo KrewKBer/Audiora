@@ -72,7 +72,23 @@ namespace Audiora.Services
             }
         }
 
-        public virtual async Task<List<FullTrack>> GetRecommendations(List<string> genres)
+        public async Task<List<SimpleAlbum>> GetNewReleases()
+        {
+            try
+            {
+                var client = await GetSpotifyClient();
+                var request = new NewReleasesRequest { Limit = 20, Country = "US" };
+                var response = await client.Browse.GetNewReleases(request);
+                return response.Albums.Items;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching new releases from Spotify.");
+                throw;
+            }
+        }
+
+        public async Task<List<FullTrack>> GetRecommendations(List<string> genres)
         {
             try
             {
@@ -99,7 +115,15 @@ namespace Audiora.Services
                         var recs = await client.Browse.GetRecommendations(recReq);
                         if (recs.Tracks != null && recs.Tracks.Count > 0)
                         {
-                            return recs.Tracks;
+                            // Recommendations endpoint returns simplified tracks which might lack Album info.
+                            // We need Album info for the frontend images.
+                            var trackIds = recs.Tracks.Select(t => t.Id).Where(id => !string.IsNullOrEmpty(id)).ToList();
+                            if (trackIds.Count > 0)
+                            {
+                                var fullTracksReq = new TracksRequest(trackIds);
+                                var fullTracksResponse = await client.Tracks.GetSeveral(fullTracksReq);
+                                return fullTracksResponse.Tracks;
+                            }
                         }
                         _logger.LogWarning("Seed-genre recommendations returned no tracks; falling back to search-based strategy.");
                     }

@@ -1,0 +1,431 @@
+.sphere-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  --radius: 520px;
+  --viewer-pad: 72px;
+  --circ: calc(var(--radius) * 3.14);
+  --rot-y: calc((360deg / var(--segments-x)) / 2);
+  --rot-x: calc((360deg / var(--segments-y)) / 2);
+  --item-width: calc(var(--circ) / var(--segments-x));
+  --item-height: calc(var(--circ) / var(--segments-y));
+}
+
+.sphere-root * {
+  box-sizing: border-box;
+}
+
+.sphere,
+.item,
+.item__image {
+  transform-style: preserve-3d;
+}
+
+main.sphere-main {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background: transparent;
+}
+
+.stage {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  perspective: calc(var(--radius) * 2);
+  perspective-origin: 50% 50%;
+  contain: layout paint size;
+}
+
+.sphere {
+  transform: translateZ(calc(var(--radius) * -1));
+  will-change: transform;
+}
+
+.overlay,
+.overlay--blur {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.overlay {
+  background-image: radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, #060010) 100%);
+}
+
+.overlay--blur {
+  -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+  mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+  backdrop-filter: blur(3px);
+}
+
+.item {
+  width: calc(var(--item-width) * var(--item-size-x));
+  height: calc(var(--item-height) * var(--item-size-y));
+  position: absolute;
+  top: -999px;
+  bottom: -999px;
+  left: -999px;
+  right: -999px;
+  margin: auto;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  transition: transform 300ms;
+  transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+    translateZ(var(--radius));
+}
+
+.item__image {
+  position: absolute;
+  display: block;
+  inset: 10px;
+  border-radius: var(--tile-radius, 12px);
+  background: transparent;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transition: transform 300ms;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  pointer-events: auto;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.item__image:focus {
+  outline: none;
+}
+
+.item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  backface-visibility: hidden;
+  filter: var(--image-filter, none);
+}
+
+.viewer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--viewer-pad);
+}
+
+.viewer .frame {
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--enlarge-radius, 32px);
+  display: flex;
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .viewer .frame {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.viewer .scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 500ms ease;
+  backdrop-filter: blur(3px);
+}
+
+.sphere-root[data-enlarging='true'] .viewer .scrim {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.viewer .enlarge {
+  position: absolute;
+  z-index: 30;
+  border-radius: var(--enlarge-radius, 32px);
+  overflow: hidden;
+  transition:
+    transform 500ms ease,
+    opacity 500ms ease;
+  transform-origin: top left;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.viewer .enlarge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--image-filter, none);
+}
+
+.sphere-root .enlarge-closing img {
+  filter: var(--image-filter, none);
+}
+
+.edge-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--overlay-blur-color, #060010));
+}
+
+.edge-fade--top {
+  top: 0;
+  transform: rotate(180deg);
+}
+
+.edge-fade--bottom {
+  bottom: 0;
+}
+
+.dg-loading-splash {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dg-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.dg-splash-logo {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  animation: dg-popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+             dg-pulseLogo 2s ease-in-out infinite;
+}
+
+.dg-splash-text {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: dg-slideUpFade 0.8s ease-out 0.4s forwards;
+  letter-spacing: -1px;
+}
+
+@keyframes dg-popIn {
+  0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes dg-slideUpFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dg-pulseLogo {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(99, 102, 241, 0)); }
+  50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.5)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(99, 102, 241, 0)); }
+}
+
+/* Toggle Button */
+.dg-list-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: none;
+  border-radius: 16px 0 0 16px;
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.dg-list-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  width: 48px;
+  color: #fff;
+  box-shadow: -6px 0 25px rgba(0, 0, 0, 0.3);
+}
+
+.dg-list-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dg-list-toggle.open {
+  right: 360px; /* Width of panel */
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.dg-list-toggle.open svg {
+  transform: rotate(180deg);
+}
+
+/* Side Panel */
+.dg-side-panel {
+  position: absolute;
+  top: 0;
+  right: -360px;
+  width: 360px;
+  height: 100%;
+  background: rgba(18, 18, 24, 0.85);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 99;
+  transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.dg-side-panel.open {
+  right: 0;
+}
+
+.dg-panel-header {
+  padding: 30px 25px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.03), transparent);
+}
+
+.dg-panel-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dg-song-count {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.dg-song-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  scroll-behavior: smooth;
+}
+
+.dg-song-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dg-song-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dg-song-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.dg-song-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.dg-song-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  cursor: default;
+  border: 1px solid transparent;
+}
+
+.dg-song-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.05);
+  transform: translateX(-2px);
+}
+
+.dg-song-item img {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.dg-song-item:hover img {
+  transform: scale(1.05);
+}
+
+.dg-song-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dg-song-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.dg-song-artist {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}

@@ -102,28 +102,34 @@ class SearchInternal extends Component {
     const { searchResults, isSearching, error } = this.state;
 
     if (isSearching) {
-      return <p><em>Searching...</em></p>;
+      return <div className="search-status"><em>Searching...</em></div>;
     }
 
     if (error) {
-      return <p className="search-error">{error}</p>;
+      return <div className="search-status error">{error}</div>;
     }
 
     if (searchResults.length === 0) {
-      return <p>No results found.</p>;
+      return <div className="search-status">No results found.</div>;
     }
 
     return (
       <div className="search-results">
         {searchResults.map(track => (
           <div key={track.id} className="track">
-            <img src={track.album?.images?.[0]?.url} alt={track.name} width="50" />
+            <img className="track-image" src={track.album?.images?.[0]?.url} alt={track.name} />
             <div className="track-info">
-              <strong>{track.name}</strong>
-              <span>{(track.artists || []).map(artist => artist.name).join(', ')}</span>
+              <div className="track-name">{track.name}</div>
+              <div className="track-artist">{(track.artists || []).map(artist => artist.name).join(', ')}</div>
             </div>
-            <button onClick={() => this.props.addSongsToQueue([track])}>Add to Queue</button>
-            {track.preview_url && <audio controls src={track.preview_url}></audio>}
+            <div className="track-actions">
+                {track.preview_url && (
+                    <div className="preview-player-wrapper">
+                        <audio controls src={track.preview_url} style={{ height: '30px', maxWidth: '200px' }}></audio>
+                    </div>
+                )}
+                <button className="btn-add-queue" onClick={() => this.props.addSongsToQueue([track])}>Add to Queue</button>
+            </div>
           </div>
         ))}
       </div>
@@ -133,41 +139,42 @@ class SearchInternal extends Component {
   render() {
     const { clientId, clientSecret, isConfiguring, configured } = this.state;
     return (
-      <div className="search-content">
-        <h1>Song Search</h1>
+      <div className="search-container">
+        <h1 className="search-title">Song Search</h1>
 
         <form onSubmit={this.handleConfigure} className="search-credentials">
-          <h3>Spotify Credentials</h3>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <h3 className="credentials-title">Spotify Credentials</h3>
+          <div className="credentials-form">
             <input
+              className="search-input-creds"
               type="text"
               name="clientId"
               value={clientId}
               onChange={this.handleCredsChange}
               placeholder="Client ID"
-              style={{ width: 280 }}
             />
             <input
+              className="search-input-creds"
               type="password"
               name="clientSecret"
               value={clientSecret}
               onChange={this.handleCredsChange}
               placeholder="Client Secret"
-              style={{ width: 280 }}
             />
-            <button type="submit" disabled={isConfiguring}>{configured ? 'Update' : 'Save'}</button>
-            {configured && <small style={{ color: 'green' }}>Configured</small>}
+            <button className="btn-creds" type="submit" disabled={isConfiguring}>{configured ? 'Update' : 'Save'}</button>
+            {configured && <span className="creds-status">Configured</span>}
           </div>
         </form>
 
         <form onSubmit={this.handleSearch} className="search-bar">
           <input
+            className="search-input"
             type="text"
             value={this.state.searchQuery}
             onChange={this.handleSearchChange}
             placeholder="Search for a song..."
           />
-          <button type="submit" disabled={this.state.isSearching}>Search</button>
+          <button className="search-btn" type="submit" disabled={this.state.isSearching}>Search</button>
         </form>
         {this.renderSearchResults()}
       </div>
