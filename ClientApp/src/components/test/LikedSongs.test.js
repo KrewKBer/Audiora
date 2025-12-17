@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { LikedSongs } from './LikedSongs';
+import { LikedSongs } from '../LikedSongs';
 
 global.fetch = jest.fn();
 

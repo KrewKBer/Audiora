@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Search } from './Search';
-import { SongQueueProvider } from './SongQueueContext';
+import { Search } from '../Search';
+import { SongQueueProvider } from '../SongQueueContext';
 
 // Mock YouTubePlayer
-jest.mock('./YouTubePlayer', () => ({
+jest.mock('../YouTubePlayer', () => ({
   YouTubePlayer: () => <div data-testid="youtube-player">YouTube Player</div>
 }));
 

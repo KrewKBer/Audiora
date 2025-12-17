@@ -2,10 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import { Layout } from './Layout';
+import { Layout } from '../Layout';
 
 // Mock NavMenu
-jest.mock('./NavMenu', () => ({
+jest.mock('../NavMenu', () => ({
   NavMenu: () => <div data-testid="nav-menu">NavMenu</div>
 }));
 
