@@ -38,7 +38,6 @@
 
 .profile-content input[type="text"],
 .profile-content input[type="password"],
-.profile-content select,
 .profile-content textarea {
   width: 100%;
   padding: 12px 20px;
@@ -56,6 +55,39 @@
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
   outline: none;
 }
+
+.profile-section select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.05);
+    color: #f3f4f6;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.profile-section select:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.profile-section select:focus {
+    outline: none;
+    border-color: rgba(99, 102, 241, 0.6);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.profile-section select option {
+    background: #1f2937;
+    color: #f3f4f6;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
 
 .btn-save {
   background: linear-gradient(135deg, #6366f1, #8b5cf6);

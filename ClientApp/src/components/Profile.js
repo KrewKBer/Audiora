@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import './Profile.css';
+import {CustomSelect} from "./CustomSelect";
 
 const GENRES = [
     'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
@@ -239,23 +240,32 @@ export function Profile() {
                 <div className="profile-section">
                     <h3>Dating Preferences</h3>
                     <div style={{marginBottom:'1rem'}}>
-                        <label style={{display:'block',marginBottom:'0.5rem',fontWeight:'500'}}>Gender</label>
-                        <select value={gender} onChange={e => setGender(e.target.value)} style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #ddd',fontSize:'1rem'}}>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="NonBinary">Non-Binary</option>
-                            <option value="PreferNotToSay">Prefer Not To Say</option>
-                        </select>
+                        <label>Gender</label>
+                        <CustomSelect
+                            value={gender}
+                            onChange={setGender}
+                            options={[
+                                { value: 'Male', label: 'Male' },
+                                { value: 'Female', label: 'Female' },
+                                { value: 'NonBinary', label: 'Non-Binary' },
+                                { value: 'PreferNotToSay', label: 'Prefer Not To Say' }
+                            ]}
+                        />
                     </div>
                     <div style={{marginBottom:'1rem'}}>
-                        <label style={{display:'block',marginBottom:'0.5rem',fontWeight:'500'}}>Interested In</label>
-                        <select value={preference} onChange={e => setPreference(e.target.value)} style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #ddd',fontSize:'1rem'}}>
-                            <option value="Men">Men</option>
-                            <option value="Women">Women</option>
-                            <option value="Everyone">Everyone</option>
-                        </select>
+                        <label>Interested In</label>
+                        <CustomSelect
+                            value={preference}
+                            onChange={setPreference}
+                            options={[
+                                { value: 'Men', label: 'Men' },
+                                { value: 'Women', label: 'Women' },
+                                { value: 'Everyone', label: 'Everyone' }
+                            ]}
+                        />
                     </div>
                 </div>
+                
                 
 
                 <div className="profile-section">

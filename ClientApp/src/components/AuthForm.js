@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CustomSelect } from './CustomSelect';
 
 const GENRES = [
     'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
@@ -75,31 +76,29 @@ export function AuthForm({ formType, onSubmit, gender, setGender, preference, se
                 {formType === 'Register' && (
                     <>
                         <div className="form-group">
-                            <label htmlFor="gender">Gender</label>
-                            <select
-                                id="gender"
-                                className="form-control"
+                            <label>Gender</label>
+                            <CustomSelect
                                 value={gender}
-                                onChange={e => setGender(e.target.value)}
-                            >
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="NonBinary">Non-Binary</option>
-                                <option value="PreferNotToSay">Prefer Not To Say</option>
-                            </select>
+                                onChange={setGender}
+                                options={[
+                                    { value: 'Male', label: 'Male' },
+                                    { value: 'Female', label: 'Female' },
+                                    { value: 'NonBinary', label: 'Non-Binary' },
+                                    { value: 'PreferNotToSay', label: 'Prefer Not To Say' }
+                                ]}
+                            />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="preference">Interested In</label>
-                            <select
-                                id="preference"
-                                className="form-control"
+                            <label>Interested In</label>
+                            <CustomSelect
                                 value={preference}
-                                onChange={e => setPreference(e.target.value)}
-                            >
-                                <option value="Men">Men</option>
-                                <option value="Women">Women</option>
-                                <option value="Everyone">Everyone</option>
-                            </select>
+                                onChange={setPreference}
+                                options={[
+                                    { value: 'Men', label: 'Men' },
+                                    { value: 'Women', label: 'Women' },
+                                    { value: 'Everyone', label: 'Everyone' }
+                                ]}
+                            />
                         </div>
                         <div className="form-group">
                             <label style={{marginBottom: '15px', display: 'block'}}>Select your favorite genres:</label>

@@ -56,9 +56,10 @@ public class MatchController : ControllerBase
         var candidates = filteredUsers.Select(u => new {
             id = u.Id,
             username = u.Username,
+            gender = u.Gender.ToString(),
             topSongs = (u.TopSongs ?? new List<SongInfo>()).Take(3).Select(ts => new { ts.Name, ts.Artist, ts.AlbumImageUrl })
         });
-
+        
         return Ok(candidates);
     }
 
