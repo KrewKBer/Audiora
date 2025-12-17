@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthForm } from './AuthForm';
 
 export function Register() {
     const navigate = useNavigate();
+    const [gender, setGender] = useState('PreferNotToSay');
+    const [preference, setPreference] = useState('Everyone');
 
     const handleRegister = async (credentials) => {
         const response = await fetch('auth/register', {
@@ -11,7 +13,11 @@ export function Register() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(credentials),
+            body: JSON.stringify({
+                ...credentials,
+                gender: gender,
+                preference: preference
+            }),
         });
 
         if (response.ok) {
@@ -29,6 +35,14 @@ export function Register() {
             throw new Error(errorText || 'Registration failed');
         }
     };
-
-    return <AuthForm formType="Register" onSubmit={handleRegister} />;
+    return (
+        <AuthForm
+            formType="Register"
+            onSubmit={handleRegister}
+            gender={gender}
+            setGender={setGender}
+            preference={preference}
+            setPreference={setPreference}
+        />
+    );
 }

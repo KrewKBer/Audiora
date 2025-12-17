@@ -105,7 +105,7 @@ export function Matchmaking() {
                 <Avatar username={user.username} />
                 <div className="mm-user">
                   <h3>{user.username}</h3>
-                  <small>{user.id}</small>
+                    <small>{user.gender === 'PreferNotToSay' ? 'Gender not specified' : user.gender}</small>
                 </div>
               </div>
               <div className="mm-body">

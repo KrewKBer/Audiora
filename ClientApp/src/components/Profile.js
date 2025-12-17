@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import './Profile.css';
+import {CustomSelect} from "./CustomSelect";
 
 const GENRES = [
     'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
@@ -18,6 +19,8 @@ export function Profile() {
     const [searching, setSearching] = useState([false, false, false]);
     const [dropdownOpen, setDropdownOpen] = useState([false, false, false]);
     const inputRefs = [useRef(), useRef(), useRef()];
+    const [gender, setGender] = useState('PreferNotToSay');
+    const [preference, setPreference] = useState('Everyone');
 
     // 2FA State
     const [twoFactorSetup, setTwoFactorSetup] = useState(null);
@@ -40,6 +43,8 @@ export function Profile() {
                 const user = await response.json();
                 setGenres(user.genres || []);
                 setTwoFactorEnabled(user.isTwoFactorEnabled);
+                setGender(user.gender || 'PreferNotToSay');
+                setPreference(user.preference || 'Everyone');
                 const rawTop = (user.topSongs && user.topSongs.length > 0) ? user.topSongs : [];
                 // Normalize properties regardless of server casing policy
                 const normalized = rawTop.map(s => ({
@@ -68,7 +73,7 @@ export function Profile() {
     const handleSongInputChange = (idx, value) => {
         setSearchQueries(qs => qs.map((q, i) => i === idx ? value : q));
     };
-
+    
     // Always use the latest value from the input field
     const handleSongSearch = async (idx) => {
         const query = inputRefs[idx].current ? inputRefs[idx].current.value : searchQueries[idx];
@@ -133,6 +138,12 @@ export function Profile() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId, topSongs: topSongs.filter(Boolean) }),
             });
+            // Save preferences
+            await fetch('/api/match/update-preferences', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, gender, preference })
+            });
             setSuccess('Profile updated successfully!');
         } catch (err) {
             setError(err.message);
@@ -140,6 +151,7 @@ export function Profile() {
             setSaving(false);
         }
     };
+
 
     const start2FASetup = async () => {
         try {
@@ -224,6 +236,37 @@ export function Profile() {
                         </div>
                     )}
                 </div>
+
+                <div className="profile-section">
+                    <h3>Dating Preferences</h3>
+                    <div style={{marginBottom:'1rem'}}>
+                        <label>Gender</label>
+                        <CustomSelect
+                            value={gender}
+                            onChange={setGender}
+                            options={[
+                                { value: 'Male', label: 'Male' },
+                                { value: 'Female', label: 'Female' },
+                                { value: 'NonBinary', label: 'Non-Binary' },
+                                { value: 'PreferNotToSay', label: 'Prefer Not To Say' }
+                            ]}
+                        />
+                    </div>
+                    <div style={{marginBottom:'1rem'}}>
+                        <label>Interested In</label>
+                        <CustomSelect
+                            value={preference}
+                            onChange={setPreference}
+                            options={[
+                                { value: 'Men', label: 'Men' },
+                                { value: 'Women', label: 'Women' },
+                                { value: 'Everyone', label: 'Everyone' }
+                            ]}
+                        />
+                    </div>
+                </div>
+                
+                
 
                 <div className="profile-section">
                     <h3>Favorite Genres</h3>

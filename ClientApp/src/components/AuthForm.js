@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CustomSelect } from './CustomSelect';
 
 const GENRES = [
-    'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'K-Pop', 'EDM', 'Funk', 'Disco'
+    'Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'Electronic', 'Country', 'R&B', 'Reggae', 'Metal', 'Blues', 'Folk', 'Latin', 'Soul', 'Punk', 'Indie', 'EDM', 'Funk', 'Disco', 'Rap', 'Lithuanian', 'Alternative'
 ];
 
-export function AuthForm({ formType, onSubmit }) {
+export function AuthForm({ formType, onSubmit, gender, setGender, preference, setPreference }) {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,7 +22,7 @@ export function AuthForm({ formType, onSubmit }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Clear previous errors
+        setError('');
         try {
             await onSubmit({ username, password, genres });
         } catch (err) {
@@ -33,22 +34,22 @@ export function AuthForm({ formType, onSubmit }) {
         <div className="auth-container">
             <form onSubmit={handleSubmit} className="auth-form">
                 <div className="auth-tabs">
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         className={`auth-tab ${formType === 'Login' ? 'active' : ''}`}
                         onClick={() => navigate('/login')}
                     >
                         Login
                     </button>
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         className={`auth-tab ${formType === 'Register' ? 'active' : ''}`}
                         onClick={() => navigate('/register')}
                     >
                         Register
                     </button>
                 </div>
-                
+
                 {error && <p className="auth-error">{error}</p>}
                 <div className="form-group">
                     <label htmlFor="username">Username</label>
@@ -73,29 +74,56 @@ export function AuthForm({ formType, onSubmit }) {
                     />
                 </div>
                 {formType === 'Register' && (
-                    <div className="form-group">
-                        <label style={{marginBottom: '15px', display: 'block'}}>Select your favorite genres:</label>
-                        <div className="genre-list">
-                            {GENRES.map((genre, index) => (
-                                <label 
-                                    key={genre} 
-                                    className={genres.includes(genre) ? 'selected' : ''}
-                                    style={{ 
-                                        animationDelay: `${index * 0.05}s`,
-                                        animationDuration: `${3 + (index % 5) * 0.5}s`
-                                    }}
-                                >
-                                    <input
-                                        type="checkbox"
-                                        value={genre}
-                                        checked={genres.includes(genre)}
-                                        onChange={handleGenreChange}
-                                    />
-                                    {genre}
-                                </label>
-                            ))}
+                    <>
+                        <div className="form-group">
+                            <label>Gender</label>
+                            <CustomSelect
+                                value={gender}
+                                onChange={setGender}
+                                options={[
+                                    { value: 'Male', label: 'Male' },
+                                    { value: 'Female', label: 'Female' },
+                                    { value: 'NonBinary', label: 'Non-Binary' },
+                                    { value: 'PreferNotToSay', label: 'Prefer Not To Say' }
+                                ]}
+                            />
                         </div>
-                    </div>
+                        <div className="form-group">
+                            <label>Interested In</label>
+                            <CustomSelect
+                                value={preference}
+                                onChange={setPreference}
+                                options={[
+                                    { value: 'Men', label: 'Men' },
+                                    { value: 'Women', label: 'Women' },
+                                    { value: 'Everyone', label: 'Everyone' }
+                                ]}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label style={{marginBottom: '15px', display: 'block'}}>Select your favorite genres:</label>
+                            <div className="genre-list">
+                                {GENRES.map((genre, index) => (
+                                    <label
+                                        key={genre}
+                                        className={genres.includes(genre) ? 'selected' : ''}
+                                        style={{
+                                            animationDelay: `${index * 0.05}s`,
+                                            animationDuration: `${3 + (index % 5) * 0.5}s`
+                                        }}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={genre}
+                                            checked={genres.includes(genre)}
+                                            onChange={handleGenreChange}
+                                        />
+                                        {genre}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    </>
                 )}
                 <button type="submit" className="btn btn-primary btn-block">{formType}</button>
             </form>

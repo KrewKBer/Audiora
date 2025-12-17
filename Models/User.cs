@@ -3,7 +3,21 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Audiora.Models
-{   
+{ 
+    public enum Gender
+    {
+        PreferNotToSay,
+        Male,
+        Female,
+        NonBinary
+    }
+
+    public enum SexualityPreference
+    {
+        Everyone,
+        Men,
+        Women
+    }
     [JsonConverter(typeof(StringEnumConverter))]
     public enum UserRole
     {
@@ -27,6 +41,9 @@ namespace Audiora.Models
         // XP System
         public int Xp { get; set; } = 0;
         public int Level { get; set; } = 1;
+        
+        public Gender Gender { get; set; } = Gender.PreferNotToSay;
+        public SexualityPreference Preference { get; set; } = SexualityPreference.Everyone;
 
         [NotMapped]
         public List<SongInfo>? TopSongs 
@@ -52,6 +69,7 @@ namespace Audiora.Models
             }
         }
     }
+    
     public record SongInfo
     {
         [JsonProperty(nameof(Id))]
