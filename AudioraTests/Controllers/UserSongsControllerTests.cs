@@ -3,6 +3,7 @@ using Audiora.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using Microsoft.AspNetCore.Http;
 
 namespace AudioraTests.Controllers
 {
@@ -21,10 +22,26 @@ namespace AudioraTests.Controllers
             _controller = new UserSongsController(_context);
         }
 
+        private void SetupUser(string userId)
+        {
+            var claims = new List<System.Security.Claims.Claim>
+            {
+                new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, userId)
+            };
+            var identity = new System.Security.Claims.ClaimsIdentity(claims, "TestAuthType");
+            var claimsPrincipal = new System.Security.Claims.ClaimsPrincipal(identity);
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+            };
+        }
+
         [Fact]
         public async Task GetSeenSongs_WithValidUserId_ReturnsOk()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             _context.SeenSongs.Add(new SeenSong
             {
                 UserId = userId,
@@ -45,6 +62,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task GetSeenSongs_WithInvalidUserId_ReturnsBadRequest()
         {
+            SetupUser("invalid-guid");
             var result = await _controller.GetSeenSongs("invalid-guid");
 
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
@@ -54,6 +72,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task GetSeenSongs_WithEmptyUserId_ReturnsBadRequest()
         {
+            SetupUser("");
             var result = await _controller.GetSeenSongs("");
 
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
@@ -63,9 +82,11 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task PostSeenSong_WithNewSong_AddsToDatabase()
         {
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var request = new UserSongsController.SeenSongRequest
             {
-                UserId = Guid.NewGuid().ToString(),
+                UserId = userId,
                 SongId = "song1",
                 Liked = true,
                 Name = "Test Song",
@@ -86,6 +107,7 @@ namespace AudioraTests.Controllers
         public async Task PostSeenSong_WithExistingSong_UpdatesRecord()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             _context.SeenSongs.Add(new SeenSong
             {
                 UserId = userId,
@@ -119,6 +141,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task PostSeenSong_WithInvalidUserId_ReturnsBadRequest()
         {
+            SetupUser("invalid-guid");
             var request = new UserSongsController.SeenSongRequest
             {
                 UserId = "invalid-guid",
@@ -135,9 +158,11 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task PostSeenSong_WithEmptySongId_ReturnsBadRequest()
         {
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var request = new UserSongsController.SeenSongRequest
             {
-                UserId = Guid.NewGuid().ToString(),
+                UserId = userId,
                 SongId = "",
                 Liked = true
             };
@@ -151,8 +176,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task DeleteSeenSongs_WithValidUserId_RemovesAllUserSongs()
         {
-            var userId = Guid.NewGuid();
-            _context.SeenSongs.AddRange(
+            var userId = Guid.NewGuid();            SetupUser(userId.ToString());            _context.SeenSongs.AddRange(
                 new SeenSong { UserId = userId, SongId = "song1", Liked = true },
                 new SeenSong { UserId = userId, SongId = "song2", Liked = false },
                 new SeenSong { UserId = Guid.NewGuid(), SongId = "song3", Liked = true }
@@ -171,6 +195,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task DeleteSeenSongs_WithInvalidUserId_ReturnsBadRequest()
         {
+            SetupUser("invalid-guid");
             var result = await _controller.DeleteSeenSongs("invalid-guid");
 
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
@@ -181,6 +206,7 @@ namespace AudioraTests.Controllers
         public async Task GetLikedSongs_WithValidUserId_ReturnsOnlyLikedSongs()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             _context.SeenSongs.AddRange(
                 new SeenSong { UserId = userId, SongId = "song1", Liked = true, Name = "Liked Song" },
                 new SeenSong { UserId = userId, SongId = "song2", Liked = false, Name = "Not Liked Song" },
@@ -199,6 +225,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task GetLikedSongs_WithInvalidUserId_ReturnsBadRequest()
         {
+            SetupUser("invalid-guid");
             var result = await _controller.GetLikedSongs("invalid-guid");
 
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
@@ -209,6 +236,7 @@ namespace AudioraTests.Controllers
         public async Task GetLikedSongs_WithNoLikedSongs_ReturnsEmptyList()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             _context.SeenSongs.Add(new SeenSong
             {
                 UserId = userId,

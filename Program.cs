@@ -53,7 +53,10 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AudioraDbContext>();
-    db.Database.Migrate(); // Applies pending migrations automatically
+    if (db.Database.IsRelational())
+    {
+        db.Database.Migrate(); // Applies pending migrations automatically
+    }
 }
 
 if (!app.Environment.IsDevelopment())

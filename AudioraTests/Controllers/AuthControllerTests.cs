@@ -5,6 +5,10 @@ using Audiora.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Moq;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AudioraTests.Controllers
 {
@@ -13,6 +17,8 @@ namespace AudioraTests.Controllers
     {
         private readonly AudioraDbContext _context;
         private readonly AuthController _controller;
+        private readonly Mock<IAuthenticationService> _authServiceMock;
+        private readonly Mock<IServiceProvider> _serviceProviderMock;
 
         public AuthControllerTests()
         {
@@ -24,10 +30,46 @@ namespace AudioraTests.Controllers
             // Create a DataService instance for the controller
             var dataService = new DataService<User>(_context);
             _controller = new AuthController(_context, dataService);
+
+            _authServiceMock = new Mock<IAuthenticationService>();
+            _serviceProviderMock = new Mock<IServiceProvider>();
+            _serviceProviderMock
+                .Setup(s => s.GetService(typeof(IAuthenticationService)))
+                .Returns(_authServiceMock.Object);
         }
+
+        private void SetupUser(string userId)
+        {
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId)
+            }, "mock"));
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext 
+                { 
+                    User = user,
+                    RequestServices = _serviceProviderMock.Object
+                }
+            };
+        }
+
+        private void SetupAuthentication()
+        {
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    RequestServices = _serviceProviderMock.Object
+                }
+            };
+        }
+
         [Fact]
         public async Task Register_WithValidUser_ReturnsOkWithUserData()
         {
+            SetupAuthentication();
             var user = new User
             {
                 Username = "testuser",
@@ -45,6 +87,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task Register_WithExistingUsername_ReturnsBadRequest()
         {
+            SetupAuthentication();
             var existingUser = new User
             {
                 Id = Guid.NewGuid(),
@@ -71,6 +114,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task Login_WithValidCredentials_ReturnsOkWithUserData()
         {
+            SetupAuthentication();
             var password = "password123";
             var user = new User
             {
@@ -97,6 +141,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task Login_WithInvalidPassword_ReturnsUnauthorized()
         {
+            SetupAuthentication();
             var user = new User
             {
                 Id = Guid.NewGuid(),
@@ -122,6 +167,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task Login_WithNonExistentUser_ReturnsUnauthorized()
         {
+            SetupAuthentication();
             var loginUser = new User
             {
                 Username = "nonexistent",
@@ -148,6 +194,7 @@ namespace AudioraTests.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            SetupUser(user.Id.ToString());
             var request = new AuthController.UpdateGenresRequest
             {
                 UserId = user.Id.ToString(),
@@ -178,6 +225,7 @@ namespace AudioraTests.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             
+            SetupUser(user.Id.ToString());
             var result = await _controller.GetUser(user.Id.ToString());
             
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -187,6 +235,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task GetUser_WithInvalidUserId_ReturnsBadRequest()
         {
+            SetupUser("invalid-guid");
             var result = await _controller.GetUser("invalid-guid");
             
             Assert.IsType<BadRequestObjectResult>(result);
