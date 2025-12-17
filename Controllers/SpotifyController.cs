@@ -22,12 +22,14 @@ namespace Audiora.Controllers
         private readonly SpotifyService _spotifyService;
         private readonly IWebHostEnvironment _env;
         private readonly AudioraDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public SpotifyController(SpotifyService spotifyService, IWebHostEnvironment env, AudioraDbContext context)
+        public SpotifyController(SpotifyService spotifyService, IWebHostEnvironment env, AudioraDbContext context,  IConfiguration configuration)
         {
             _spotifyService = spotifyService;
             _env = env;
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpGet("search")]
@@ -68,6 +70,20 @@ namespace Audiora.Controllers
                 Console.WriteLine($"Error getting new releases: {ex}");
                 return StatusCode(500, new { message = ex.Message });
             }
+        }
+        
+        [HttpGet("test-config")]
+        [AllowAnonymous]
+        public IActionResult TestConfig()
+        {
+            var clientId = _configuration["Spotify:ClientId"];
+            var clientSecret = _configuration["Spotify:ClientSecret"];
+    
+            return Ok(new {
+                clientIdPresent = !string.IsNullOrEmpty(clientId),
+                clientSecretPresent = !string.IsNullOrEmpty(clientSecret),
+                clientIdLength = clientId?.Length ?? 0
+            });
         }
 
         [HttpGet("recommendations")]
