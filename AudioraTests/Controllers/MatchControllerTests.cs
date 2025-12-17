@@ -39,13 +39,25 @@ namespace AudioraTests.Controllers
         public async Task GetCandidates_WithNoExistingMatches_ReturnsAllOtherUsers()
         {
             var userId = Guid.NewGuid();
-            SetupUser(userId.ToString());
+            var currentUser = new User
+            {
+                Id = userId,
+                Username = "currentuser",
+                Password = BCrypt.Net.BCrypt.HashPassword("password"),
+                Role = UserRole.Noob,
+                Gender = Gender.Male,
+                Preference = SexualityPreference.Everyone
+            };
+            _context.Users.Add(currentUser);
+
             var user1 = new User
             {
                 Id = Guid.NewGuid(),
                 Username = "user1",
                 Password = BCrypt.Net.BCrypt.HashPassword("password"),
                 Role = UserRole.Noob,
+                Gender = Gender.Female,
+                Preference = SexualityPreference.Everyone,
                 TopSongs = new List<SongInfo>
                 {
                     new SongInfo
@@ -60,6 +72,8 @@ namespace AudioraTests.Controllers
             _context.Users.Add(user1);
             await _context.SaveChangesAsync();
 
+            SetupUser(userId.ToString());
+
             var result = await _controller.GetCandidates(userId.ToString());
 
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -70,20 +84,32 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task GetCandidates_ExcludesLikedUsers()
         {
-            var userId = Guid.NewGuid().ToString();
-            SetupUser(userId);
-            var targetId = Guid.NewGuid().ToString();
+            var userId = Guid.NewGuid();
+            var targetId = Guid.NewGuid();
             
-            _context.Likes.Add(new Like { FromUserId = Guid.Parse(userId), ToUserId = Guid.Parse(targetId), Timestamp = DateTime.UtcNow });
+            var currentUser = new User
+            {
+                Id = userId,
+                Username = "currentuser",
+                Password = BCrypt.Net.BCrypt.HashPassword("password"),
+                Role = UserRole.Noob,
+                Gender = Gender.Male,
+                Preference = SexualityPreference.Everyone
+            };
+            _context.Users.Add(currentUser);
+        
+            _context.Likes.Add(new Like { FromUserId = userId, ToUserId = targetId, Timestamp = DateTime.UtcNow });
             await _context.SaveChangesAsync();
-
-            var result = await _controller.GetCandidates(userId);
-
+        
+            SetupUser(userId.ToString());
+        
+            var result = await _controller.GetCandidates(userId.ToString());
+        
             var okResult = Assert.IsType<OkObjectResult>(result);
             var candidates = Assert.IsAssignableFrom<IEnumerable<object>>(okResult.Value);
-            Assert.DoesNotContain(candidates, c => c.GetType().GetProperty("id")?.GetValue(c)?.ToString() == targetId);
+            Assert.DoesNotContain(candidates, c => c.GetType().GetProperty("id")?.GetValue(c)?.ToString() == targetId.ToString());
         }
-
+        
         [Fact]
         public async Task Like_WithNewLike_ReturnsLikedStatus()
         {
