@@ -79,7 +79,7 @@ namespace Audiora.Services
                 var client = await GetSpotifyClient();
                 var request = new NewReleasesRequest { Limit = 20, Country = "US" };
                 var response = await client.Browse.GetNewReleases(request);
-                return response.Albums.Items;
+                return response.Albums?.Items ?? new List<SimpleAlbum>();
             }
             catch (Exception ex)
             {
