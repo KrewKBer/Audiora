@@ -9,6 +9,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using Microsoft.AspNetCore.Authentication;
+using OtpNet;
 
 namespace AudioraTests.Controllers
 {
@@ -239,6 +240,112 @@ namespace AudioraTests.Controllers
             var result = await _controller.GetUser("invalid-guid");
             
             Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task SetupTwoFactor_ReturnsOk_WithSecretAndUri()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var user = new User { Id = userId, Username = "testuser" };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            SetupUser(userId.ToString());
+
+            // Act
+            var result = await _controller.SetupTwoFactor();
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var val = okResult.Value;
+            var secret = val.GetType().GetProperty("secret").GetValue(val, null) as string;
+            var uri = val.GetType().GetProperty("uri").GetValue(val, null) as string;
+            
+            Assert.NotNull(secret);
+            Assert.NotNull(uri);
+            Assert.Contains(secret, uri);
+        }
+
+        [Fact]
+        public async Task VerifyTwoFactorSetup_ReturnsOk_WhenCodeIsValid()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var secretKey = KeyGeneration.GenerateRandomKey(20);
+            var secret = Base32Encoding.ToString(secretKey);
+            var user = new User { Id = userId, Username = "testuser", TwoFactorSecret = secret };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            SetupUser(userId.ToString());
+
+            var totp = new Totp(secretKey);
+            var code = totp.ComputeTotp();
+
+            var req = new AuthController.TwoFactorVerifyRequest { Code = code };
+
+            // Act
+            var result = await _controller.VerifyTwoFactorSetup(req);
+
+            // Assert
+            Assert.IsType<OkResult>(result);
+            var dbUser = await _context.Users.FindAsync(userId);
+            Assert.True(dbUser.IsTwoFactorEnabled);
+        }
+
+        [Fact]
+        public async Task VerifyTwoFactorSetup_ReturnsBadRequest_WhenCodeIsInvalid()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var secretKey = KeyGeneration.GenerateRandomKey(20);
+            var secret = Base32Encoding.ToString(secretKey);
+            var user = new User { Id = userId, Username = "testuser", TwoFactorSecret = secret };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            SetupUser(userId.ToString());
+
+            var req = new AuthController.TwoFactorVerifyRequest { Code = "000000" };
+
+            // Act
+            var result = await _controller.VerifyTwoFactorSetup(req);
+
+            // Assert
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Invalid code", badRequest.Value);
+        }
+
+        [Fact]
+        public async Task VerifyTwoFactorLogin_ReturnsOk_WhenCodeIsValid()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var secretKey = KeyGeneration.GenerateRandomKey(20);
+            var secret = Base32Encoding.ToString(secretKey);
+            var user = new User { Id = userId, Username = "testuser", TwoFactorSecret = secret, IsTwoFactorEnabled = true, Role = UserRole.Noob };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var totp = new Totp(secretKey);
+            var code = totp.ComputeTotp();
+
+            var req = new AuthController.TwoFactorLoginRequest { UserId = userId.ToString(), Code = code };
+            
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext 
+                { 
+                    RequestServices = _serviceProviderMock.Object 
+                }
+            };
+
+            _authServiceMock.Setup(x => x.SignInAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthenticationProperties>()))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.VerifyTwoFactorLogin(req);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
         }
 
         public void Dispose()
