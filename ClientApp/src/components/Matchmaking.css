@@ -6,26 +6,28 @@
 .mm-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,.35);border-radius:16px;color:#cbd5e1}
 .mm-empty h3{margin:0 0 16px;color:#e5e7eb}
 
-.mm-card{position:absolute;width:100%;height:440px;border:1px solid rgba(255,255,255,.28);border-radius:16px;background:rgba(255,255,255,.03);backdrop-filter:blur(6px);color:#f3f4f6;padding:24px;display:flex;flex-direction:column;gap:16px}
+.mm-card{position:absolute;width:100%;height:440px;border:1px solid rgba(255,255,255,0.08);border-radius:1.25rem;background:rgba(24,24,27,0.55);backdrop-filter:blur(12px) saturate(120%);-webkit-backdrop-filter:blur(12px) saturate(120%);color:#f3f4f6;padding:24px;display:flex;flex-direction:column;gap:16px;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03),0 10px 30px rgba(0,0,0,0.35),0 1px 0 rgba(255,255,255,0.03)}
 .mm-head{display:flex;align-items:center;gap:16px}
 .mm-user{flex:1}
-.mm-user h3{margin:0;color:#fff}
-.mm-user small{color:#9ca3af}
+.mm-user h3{margin:0;color:#fff;font-size:1.25rem;font-weight:700}
+.mm-user small{color:#9ca3af;font-size:0.9rem}
 
 .mm-body{flex:1;overflow:auto}
-.mm-body h4{margin:0 0 8px;color:#e5e7eb}
-.mm-song{padding:8px 10px;border-radius:10px;margin-bottom:8px;border:1px solid rgba(255,255,255,.18);display:flex;flex-direction:column}
-.mm-song strong{font-size:14px;color:#fff}
+.mm-body h4{margin:0 0 12px;color:#e5e7eb;font-size:0.95rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.8}
+.mm-song{padding:12px;border-radius:12px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);display:flex;flex-direction:column;transition:background 0.2s}
+.mm-song:hover{background:rgba(255,255,255,0.06)}
+.mm-song strong{font-size:14px;color:#fff;margin-bottom:2px}
 .mm-song span{font-size:12px;color:#cbd5e1}
-.mm-note{color:#9ca3af;font-size:13px}
+.mm-note{color:#9ca3af;font-size:13px;font-style:italic;margin-top:8px;display:block}
 
-.mm-actions{display:flex;gap:10px}
-.mm-btn{flex:1;padding:10px 0;border-radius:12px;border:1px solid rgba(255,255,255,.28);background:transparent;color:#e5e7eb;transition:transform .12s,background .12s,border-color .12s}
-.mm-btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.05)}
-.mm-btn:disabled{opacity:.6}
-.mm-btn.primary{border-color:rgba(16,185,129,.6);color:#d1fae5}
-.mm-btn.primary:hover{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.8)}
-.mm-btn.ghost{border-color:rgba(255,255,255,.22)}
+.mm-actions{display:flex;gap:12px}
+.mm-btn{flex:1;padding:12px 0;border-radius:14px;border:none;background:rgba(255,255,255,0.1);color:#fff;font-weight:600;cursor:pointer;transition:all 0.2s ease}
+.mm-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,0.15);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.mm-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.mm-btn.primary{background:linear-gradient(135deg, #10b981, #059669);color:white}
+.mm-btn.primary:hover{box-shadow:0 4px 12px rgba(16,185,129,0.4)}
+.mm-btn.ghost{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1)}
+.mm-btn.ghost:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2)}
 
 .mm-refresh-btn{margin-top:16px;padding:12px 32px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#e5e7eb;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s ease}
 .mm-refresh-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2)}

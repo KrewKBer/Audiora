@@ -96,33 +96,39 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(24,24,27,0.55);
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
     padding: 16px 20px;
-    border-radius: 16px;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03), 0 10px 30px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.03);
 }
 
 .room-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateX(4px);
-    border-color: rgba(16, 185, 129, 0.3);
-    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
+    background: rgba(24,24,27,0.65);
+    transform: translateY(-2px);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 14px 40px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .room-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
     background: linear-gradient(135deg, #10b981, #3b82f6);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: white;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .room-info {
