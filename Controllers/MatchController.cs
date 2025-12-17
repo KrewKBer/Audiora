@@ -22,7 +22,6 @@ public class MatchController : ControllerBase
         _context = context;
         _hub = hub;
     }
-
     [HttpGet("candidates")]
     public async Task<IActionResult> GetCandidates([FromQuery] string userId)
     {
@@ -30,6 +29,9 @@ public class MatchController : ControllerBase
         if (currentUserId != userId) return Forbid();
 
         if (!Guid.TryParse(userId, out var userGuid)) return BadRequest("Invalid user ID");
+
+        var currentUser = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userGuid);
+        if (currentUser == null) return NotFound("User not found");
 
         var likedTargets = await _context.Likes
             .Where(l => l.FromUserId == userGuid)
@@ -48,13 +50,29 @@ public class MatchController : ControllerBase
             .Where(u => !excludedIds.Contains(u.Id))
             .ToListAsync();
 
-        var candidates = users.Select(u => new {
+        // Filter by preferences
+        var filteredUsers = users.Where(u => MatchesPreferences(currentUser, u)).ToList();
+
+        var candidates = filteredUsers.Select(u => new {
             id = u.Id,
             username = u.Username,
             topSongs = (u.TopSongs ?? new List<SongInfo>()).Take(3).Select(ts => new { ts.Name, ts.Artist, ts.AlbumImageUrl })
         });
 
         return Ok(candidates);
+    }
+
+    private bool MatchesPreferences(User currentUser, User candidate)
+    {
+        bool currentUserInterested = currentUser.Preference == SexualityPreference.Everyone ||
+            (currentUser.Preference == SexualityPreference.Men && candidate.Gender == Gender.Male) ||
+            (currentUser.Preference == SexualityPreference.Women && candidate.Gender == Gender.Female);
+        
+        bool candidateInterested = candidate.Preference == SexualityPreference.Everyone ||
+            (candidate.Preference == SexualityPreference.Men && currentUser.Gender == Gender.Male) ||
+            (candidate.Preference == SexualityPreference.Women && currentUser.Gender == Gender.Female);
+
+        return currentUserInterested && candidateInterested;
     }
 
     public class LikeRequest { public required string UserId { get; set; } public required string TargetUserId { get; set; } }
@@ -143,10 +161,35 @@ public class MatchController : ControllerBase
 
         return Ok(new { user.Id, user.Username, user.Level, user.Role, user.Genres, TopSongs = user.TopSongs });
     }
+    
+    [HttpPost("update-preferences")]
+    public async Task<IActionResult> UpdatePreferences([FromBody] UpdatePreferencesRequest req)
+    {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (currentUserId != req.UserId) return Forbid();
+
+        if (!Guid.TryParse(req.UserId, out var guid)) return BadRequest("Invalid user ID");
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == guid);
+        if (user == null) return NotFound();
+
+        user.Gender = req.Gender;
+        user.Preference = req.Preference;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Preferences updated" });
+    }
 
     private static string GenerateChatId(string a, string b)
     {
         var ordered = new[] { a, b }.OrderBy(x => x, StringComparer.Ordinal).ToArray();
         return $"{ordered[0]}_{ordered[1]}";
+    }
+    
+    public class UpdatePreferencesRequest
+    {
+        public required string UserId { get; set; }
+        public Gender Gender { get; set; }
+        public SexualityPreference Preference { get; set; }
     }
 }

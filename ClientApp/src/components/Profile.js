@@ -18,6 +18,8 @@ export function Profile() {
     const [searching, setSearching] = useState([false, false, false]);
     const [dropdownOpen, setDropdownOpen] = useState([false, false, false]);
     const inputRefs = [useRef(), useRef(), useRef()];
+    const [gender, setGender] = useState('PreferNotToSay');
+    const [preference, setPreference] = useState('Everyone');
 
     // 2FA State
     const [twoFactorSetup, setTwoFactorSetup] = useState(null);
@@ -40,6 +42,8 @@ export function Profile() {
                 const user = await response.json();
                 setGenres(user.genres || []);
                 setTwoFactorEnabled(user.isTwoFactorEnabled);
+                setGender(user.gender || 'PreferNotToSay');
+                setPreference(user.preference || 'Everyone');
                 const rawTop = (user.topSongs && user.topSongs.length > 0) ? user.topSongs : [];
                 // Normalize properties regardless of server casing policy
                 const normalized = rawTop.map(s => ({
@@ -68,6 +72,25 @@ export function Profile() {
     const handleSongInputChange = (idx, value) => {
         setSearchQueries(qs => qs.map((q, i) => i === idx ? value : q));
     };
+
+    const handleSavePreferences = async () => {
+        try {
+            const userId = localStorage.getItem('userId');
+            const res = await fetch('/api/match/update-preferences', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, gender, preference })
+            });
+            if (res.ok) {
+                setSuccess('Preferences updated!');
+            } else {
+                setError('Failed to update preferences');
+            }
+        } catch (e) {
+            setError(e.message);
+        }
+    };
+    
 
     // Always use the latest value from the input field
     const handleSongSearch = async (idx) => {
@@ -224,6 +247,29 @@ export function Profile() {
                         </div>
                     )}
                 </div>
+
+                <div className="profile-section">
+                    <h3>Dating Preferences</h3>
+                    <div style={{marginBottom:'1rem'}}>
+                        <label style={{display:'block',marginBottom:'0.5rem',fontWeight:'500'}}>Gender</label>
+                        <select value={gender} onChange={e => setGender(e.target.value)} style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #ddd',fontSize:'1rem'}}>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="NonBinary">Non-Binary</option>
+                            <option value="PreferNotToSay">Prefer Not To Say</option>
+                        </select>
+                    </div>
+                    <div style={{marginBottom:'1rem'}}>
+                        <label style={{display:'block',marginBottom:'0.5rem',fontWeight:'500'}}>Interested In</label>
+                        <select value={preference} onChange={e => setPreference(e.target.value)} style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #ddd',fontSize:'1rem'}}>
+                            <option value="Men">Men</option>
+                            <option value="Women">Women</option>
+                            <option value="Everyone">Everyone</option>
+                        </select>
+                    </div>
+                    <button className="btn-save" onClick={handleSavePreferences}>Save Preferences</button>
+                </div>
+                
 
                 <div className="profile-section">
                     <h3>Favorite Genres</h3>

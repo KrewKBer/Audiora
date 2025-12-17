@@ -30,17 +30,22 @@ namespace Audiora.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(User user)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest req)
         {
-            if (await _context.Users.AnyAsync(u => u.Username == user.Username))
+            if (await _context.Users.AnyAsync(u => u.Username == req.Username))
             {
                 return BadRequest("Username already exists.");
             }
 
-            user.Id = Guid.NewGuid();
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            if (user.Genres == null)
-                user.Genres = new List<string>();
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                Username = req.Username,
+                Password = BCrypt.Net.BCrypt.HashPassword(req.Password),
+                Genres = new List<string>(),
+                Gender = req.Gender,
+                Preference = req.Preference
+            };
 
             await _userDataService.AddAsync(user);
 
@@ -63,15 +68,9 @@ namespace Audiora.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            var userDto = _userDataService.Map(user, u => new UserDto
-            {
-                UserId = u.Id.ToString(),
-                Username = u.Username ?? string.Empty,
-                Role = u.Role.ToString()
-            });
-
-            return Ok(userDto);
+            return Ok(new { userId = user.Id.ToString(), username = user.Username, role = user.Role.ToString() });
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] User loginUser)
@@ -340,5 +339,12 @@ namespace Audiora.Controllers
 
         public class TwoFactorVerifyRequest { public string Code { get; set; } = ""; }
         public class TwoFactorLoginRequest { public string UserId { get; set; } = ""; public string Code { get; set; } = ""; }
+        public class RegisterRequest
+        {
+            public required string Username { get; set; }
+            public required string Password { get; set; }
+            public Gender Gender { get; set; } = Gender.PreferNotToSay;
+            public SexualityPreference Preference { get; set; } = SexualityPreference.Everyone;
+        }
     }
 }
