@@ -1,0 +1,24 @@
+services:
+  audiora-app:
+    image: ghcr.io/${GITHUB_REPOSITORY}:latest
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=audiora-db;Database=audiora;Username=postgres;Password=postgres
+    depends_on:
+      - audiora-db
+    restart: always
+
+  audiora-db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=audiora
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
