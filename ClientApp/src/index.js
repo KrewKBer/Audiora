@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import GradientBackground from './components/GradientBackground';
+import ColorBends from './components/ColorBends';
 import { SongQueueProvider } from './components/SongQueueContext';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
@@ -14,7 +14,19 @@ const root = createRoot(rootElement);
 
 root.render(
   <>
-    <GradientBackground />
+    <ColorBends
+      style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1, backgroundColor: '#000' }}
+      colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
+      rotation={50}
+      speed={0.15}
+      scale={1.7}
+      frequency={1}
+      warpStrength={1}
+      mouseInfluence={1}
+      parallax={0.5}
+      noise={0.01}
+      transparent
+    />
     <BrowserRouter basename={baseUrl}>
       <SongQueueProvider>
         <App />
