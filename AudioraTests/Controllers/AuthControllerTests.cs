@@ -258,8 +258,15 @@ namespace AudioraTests.Controllers
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             var val = okResult.Value;
-            var secret = val.GetType().GetProperty("secret").GetValue(val, null) as string;
-            var uri = val.GetType().GetProperty("uri").GetValue(val, null) as string;
+            Assert.NotNull(val);
+            
+            var secretProp = val.GetType().GetProperty("secret");
+            Assert.NotNull(secretProp);
+            var secret = secretProp.GetValue(val, null) as string;
+
+            var uriProp = val.GetType().GetProperty("uri");
+            Assert.NotNull(uriProp);
+            var uri = uriProp.GetValue(val, null) as string;
             
             Assert.NotNull(secret);
             Assert.NotNull(uri);
@@ -289,6 +296,7 @@ namespace AudioraTests.Controllers
             // Assert
             Assert.IsType<OkResult>(result);
             var dbUser = await _context.Users.FindAsync(userId);
+            Assert.NotNull(dbUser);
             Assert.True(dbUser.IsTwoFactorEnabled);
         }
 

@@ -29,7 +29,7 @@ namespace AudioraTests.Services
             _configMock.Setup(x => x["YouTube:ApiKey"]).Returns("test-key");
 
             // Setup cache to return false for TryGetValue
-            object expectedValue;
+            object? expectedValue = null;
             _cacheMock.Setup(x => x.TryGetValue(It.IsAny<object>(), out expectedValue))
                 .Returns(false);
             
