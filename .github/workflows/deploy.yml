@@ -65,10 +65,13 @@ jobs:
             
             # Pull the latest docker-compose.prod.yml (You might need to copy this file to server first or curl it)
             # For simplicity, we will create/overwrite it here with the content
+            # IMPORTANT: We force lowercase for the image name because Docker requires it
+            REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+            
             cat <<EOF > docker-compose.yml
             services:
               audiora-app:
-                image: ghcr.io/${{ github.repository }}:latest
+                image: ghcr.io/$REPO_LOWER:latest
                 ports:
                   - "80:8080"
                 environment:
