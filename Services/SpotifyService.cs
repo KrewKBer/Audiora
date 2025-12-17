@@ -72,6 +72,22 @@ namespace Audiora.Services
             }
         }
 
+        public async Task<List<SimpleAlbum>> GetNewReleases()
+        {
+            try
+            {
+                var client = await GetSpotifyClient();
+                var request = new NewReleasesRequest { Limit = 20, Country = "US" };
+                var response = await client.Browse.GetNewReleases(request);
+                return response.Albums.Items;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching new releases from Spotify.");
+                throw;
+            }
+        }
+
         public async Task<List<FullTrack>> GetRecommendations(List<string> genres)
         {
             try
