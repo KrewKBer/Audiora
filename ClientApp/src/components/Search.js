@@ -7,74 +7,27 @@ class SearchInternal extends Component {
 
   constructor(props) {
     super(props);
-    const savedClientId = localStorage.getItem('spotifyClientId') || '';
-    const savedClientSecret = localStorage.getItem('spotifyClientSecret') || '';
     this.state = {
       searchQuery: '',
       searchResults: [],
       isSearching: false,
-      error: null,
-      clientId: savedClientId,
-      clientSecret: savedClientSecret,
-      isConfiguring: false,
-      configured: !!(savedClientId && savedClientSecret)
+      error: null
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleCredsChange = this.handleCredsChange.bind(this);
-    this.handleConfigure = this.handleConfigure.bind(this);
   }
 
   handleSearchChange(event) {
     this.setState({ searchQuery: event.target.value });
   }
 
-  handleCredsChange(event) {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  }
 
-  async handleConfigure(event) {
-    event.preventDefault();
-    const { clientId, clientSecret } = this.state;
-    if (!clientId || !clientSecret) {
-      this.setState({ error: 'Both Client ID and Client Secret are required.' });
-      return;
-    }
-
-    this.setState({ isConfiguring: true, error: null });
-    try {
-      const res = await fetch('/spotify/configure', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clientId, clientSecret })
-      });
-      if (!res.ok) {
-        let message = 'Failed to configure credentials';
-        try {
-          const err = await res.json();
-          message = err?.message || message;
-        } catch (_) {}
-        throw new Error(message);
-      }
-      localStorage.setItem('spotifyClientId', clientId);
-      localStorage.setItem('spotifyClientSecret', clientSecret);
-      this.setState({ configured: true });
-    } catch (e) {
-      this.setState({ error: e.message || 'Configuration failed' });
-    } finally {
-      this.setState({ isConfiguring: false });
-    }
-  }
 
   async handleSearch(event) {
     event.preventDefault();
     this.setState({ isSearching: true, error: null });
-    const { searchQuery, configured } = this.state;
-    if (!configured) {
-      this.setState({ isSearching: false, error: 'Please configure Spotify credentials first.' });
-      return;
-    }
+    const { searchQuery } = this.state;
+
     if (!searchQuery) {
       this.setState({ isSearching: false });
       return;
@@ -137,34 +90,9 @@ class SearchInternal extends Component {
   }
 
   render() {
-    const { clientId, clientSecret, isConfiguring, configured } = this.state;
     return (
       <div className="search-container">
         <h1 className="search-title">Song Search</h1>
-
-        <form onSubmit={this.handleConfigure} className="search-credentials">
-          <h3 className="credentials-title">Spotify Credentials</h3>
-          <div className="credentials-form">
-            <input
-              className="search-input-creds"
-              type="text"
-              name="clientId"
-              value={clientId}
-              onChange={this.handleCredsChange}
-              placeholder="Client ID"
-            />
-            <input
-              className="search-input-creds"
-              type="password"
-              name="clientSecret"
-              value={clientSecret}
-              onChange={this.handleCredsChange}
-              placeholder="Client Secret"
-            />
-            <button className="btn-creds" type="submit" disabled={isConfiguring}>{configured ? 'Update' : 'Save'}</button>
-            {configured && <span className="creds-status">Configured</span>}
-          </div>
-        </form>
 
         <form onSubmit={this.handleSearch} className="search-bar">
           <input
