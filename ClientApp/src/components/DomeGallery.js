@@ -44,9 +44,15 @@ function buildItems(pool, seg) {
 
   const normalizedImages = extendedPool.map(image => {
     if (typeof image === 'string') {
-      return { src: image, alt: '' };
+      return { src: image, alt: '', title: '', artist: '', albumName: '' };
     }
-    return { src: image.src || '', alt: image.alt || '' };
+    return { 
+        src: image.src || '', 
+        alt: image.alt || '',
+        title: image.title || '',
+        artist: image.artist || '',
+        albumName: image.albumName || ''
+    };
   });
 
   const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
@@ -150,32 +156,43 @@ export default function DomeGallery({
 
           try {
               // 1. Fetch Liked Songs
-              const response = await fetch(`/api/user-songs/liked?userId=${userId}`);
+              const response = await fetch(`/api/user-songs/liked?userId=${encodeURIComponent(userId)}`, {
+                  headers: {
+                      'Accept': 'application/json'
+                  }
+              });
+              
               if (response.ok) {
                   const data = await response.json();
                   console.log("Fetched liked songs:", data);
                   
-                  const likedImages = data.map(song => {
-                      const url = song.albumImageUrl || song.AlbumImageUrl;
-                      const name = song.name || song.Name;
-                      const artist = song.artist || song.Artist;
-                      
-                      return {
-                          src: url,
-                          alt: name,
-                          title: name,
-                          artist: artist,
-                          albumName: ''
-                      };
-                  }).filter(img => img && img.src);
-                  allImages = [...allImages, ...likedImages];
+                  if (Array.isArray(data)) {
+                      const likedImages = data.map(song => {
+                          const url = song.albumImageUrl || song.AlbumImageUrl;
+                          const name = song.name || song.Name;
+                          const artist = song.artist || song.Artist;
+                          
+                          return {
+                              src: url,
+                              alt: name,
+                              title: name,
+                              artist: artist,
+                              albumName: ''
+                          };
+                      }).filter(img => img && img.src);
+                      allImages = [...allImages, ...likedImages];
+                  }
+              } else {
+                  console.warn("Failed to fetch liked songs, status:", response.status);
               }
           } catch (e) {
               console.error("Failed to fetch liked songs", e);
           }
 
           // 2. If we don't have enough images (e.g. < 100), fetch recommendations to fill the dome
-          if (allImages.length < 100) {
+          // Only fetch recommendations if we have NO liked songs, or very few (less than 5)
+          // If we have at least 5 liked songs, we'll just repeat them to fill the dome
+          if (allImages.length < 5) {
              try {
                   const response = await fetch(`/spotify/recommendations?userId=${userId}`);
                   if (response.ok) {
@@ -208,7 +225,7 @@ export default function DomeGallery({
           }
 
           // 3. If still not enough, fetch new releases
-          if (allImages.length < 100) {
+          if (allImages.length < 5) {
               try {
                   const response = await fetch(`/spotify/new-releases`);
                   if (response.ok) {
@@ -600,6 +617,9 @@ export default function DomeGallery({
       overlay.style.willChange = 'transform, opacity';
       overlay.style.transformOrigin = 'top left';
       overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
+      overlay.style.borderRadius = 'var(--enlarge-radius, 32px)';
+      overlay.style.overflow = 'hidden';
+      overlay.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.5)';
       
       const rawSrc = parent.dataset.src || el.querySelector('img')?.src || '';
       const img = document.createElement('img');
@@ -614,25 +634,31 @@ export default function DomeGallery({
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 20px;
-        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        padding: 1.5rem;
+        background: rgba(24, 24, 27, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
         color: white;
         opacity: 0;
         transition: opacity 300ms ease 200ms;
         pointer-events: none;
         z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
       `;
       
-      const title = parent.dataset.title || '';
-      const artist = parent.dataset.artist || '';
+      const title = parent.dataset.title || 'Unknown Title';
+      const artist = parent.dataset.artist || 'Unknown Artist';
       const albumName = parent.dataset.album || '';
       
       console.log("Opening item with data:", { title, artist, albumName });
 
       infoDiv.innerHTML = `
-        <h3 style="margin: 0 0 5px 0; font-size: 1.2rem; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${title}</h3>
-        <p style="margin: 0 0 3px 0; font-size: 0.9rem; opacity: 0.9; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${artist}</p>
-        <p style="margin: 0; font-size: 0.8rem; opacity: 0.7; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${albumName}</p>
+        <h3 style="margin: 0; font-size: 1.25rem; font-weight: 600; color: #fff;">${title}</h3>
+        <p style="margin: 0; font-size: 1rem; color: rgba(255, 255, 255, 0.7);">${artist}</p>
+        ${albumName ? `<p style="margin: 0; font-size: 0.875rem; color: rgba(255, 255, 255, 0.5);">${albumName}</p>` : ''}
       `;
       overlay.appendChild(infoDiv);
 

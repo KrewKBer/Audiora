@@ -115,7 +115,15 @@ namespace Audiora.Services
                         var recs = await client.Browse.GetRecommendations(recReq);
                         if (recs.Tracks != null && recs.Tracks.Count > 0)
                         {
-                            return recs.Tracks;
+                            // Recommendations endpoint returns simplified tracks which might lack Album info.
+                            // We need Album info for the frontend images.
+                            var trackIds = recs.Tracks.Select(t => t.Id).Where(id => !string.IsNullOrEmpty(id)).ToList();
+                            if (trackIds.Count > 0)
+                            {
+                                var fullTracksReq = new TracksRequest(trackIds);
+                                var fullTracksResponse = await client.Tracks.GetSeveral(fullTracksReq);
+                                return fullTracksResponse.Tracks;
+                            }
                         }
                         _logger.LogWarning("Seed-genre recommendations returned no tracks; falling back to search-based strategy.");
                     }
