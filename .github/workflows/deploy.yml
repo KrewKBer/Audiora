@@ -73,7 +73,7 @@ jobs:
               audiora-app:
                 image: ghcr.io/$REPO_LOWER:latest
                 ports:
-                  - "80:8080"
+                  - "8080:8080"
                 environment:
                   - ASPNETCORE_ENVIRONMENT=Production
                   - ConnectionStrings__DefaultConnection=Host=audiora-db;Database=audiora;Username=postgres;Password=postgres
