@@ -100,7 +100,10 @@ export default function DomeGallery({
   openedImageBorderRadius = '30px',
   grayscale = false
 }) {
+  // Use a ref to track if we've already fetched data to prevent infinite loops
+  const hasFetchedRef = useRef(false);
   const [galleryImages, setGalleryImages] = useState(images);
+  const [loading, setLoading] = useState(images.length === 0);
   const rootRef = useRef(null);
   const mainRef = useRef(null);
   const sphereRef = useRef(null);
@@ -135,9 +138,11 @@ export default function DomeGallery({
 
   useEffect(() => {
       async function fetchLikedSongs() {
+          setLoading(true);
           const userId = localStorage.getItem('userId');
           if (!userId) {
               console.warn("No userId found, cannot fetch liked songs");
+              setLoading(false);
               return;
           }
 
@@ -236,12 +241,16 @@ export default function DomeGallery({
           if (allImages.length > 0) {
               setGalleryImages(allImages);
           }
+          setLoading(false);
       }
-      // Only fetch if no images provided
-      if (images.length === 0) {
+      
+      // Only fetch if no images provided and we haven't fetched yet
+      if (images.length === 0 && !hasFetchedRef.current) {
+          hasFetchedRef.current = true;
           fetchLikedSongs();
-      } else {
+      } else if (images.length > 0) {
           setGalleryImages(images);
+          setLoading(false);
       }
   }, [images]);
 
@@ -768,6 +777,15 @@ export default function DomeGallery({
           <div ref={scrimRef} className="scrim" />
           <div ref={frameRef} className="frame" />
         </div>
+
+        {loading && (
+          <div className="dg-loading-splash">
+            <div className="dg-logo-container">
+              <img src="/Logo.png" alt="Audiora" className="dg-splash-logo" />
+              <h1 className="dg-splash-text">Audiora</h1>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
