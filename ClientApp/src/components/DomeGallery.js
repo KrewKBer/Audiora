@@ -122,6 +122,8 @@ export default function DomeGallery({
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
+  
+  const [showList, setShowList] = useState(false);
 
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
@@ -776,6 +778,35 @@ export default function DomeGallery({
         <div className="viewer" ref={viewerRef}>
           <div ref={scrimRef} className="scrim" />
           <div ref={frameRef} className="frame" />
+        </div>
+
+        {/* Liked Songs Side Panel */}
+        <button 
+          className={`dg-list-toggle ${showList ? 'open' : ''}`}
+          onClick={() => setShowList(!showList)}
+          aria-label="Toggle Liked Songs List"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <div className={`dg-side-panel ${showList ? 'open' : ''}`}>
+          <div className="dg-panel-header">
+            <h2>Liked Songs</h2>
+            <span className="dg-song-count">{galleryImages.length} songs</span>
+          </div>
+          <div className="dg-song-list">
+            {galleryImages.map((img, idx) => (
+              <div key={idx} className="dg-song-item">
+                <img src={img.src} alt={img.title} loading="lazy" />
+                <div className="dg-song-info">
+                  <div className="dg-song-title" title={img.title}>{img.title}</div>
+                  <div className="dg-song-artist" title={img.artist}>{img.artist}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {loading && (
