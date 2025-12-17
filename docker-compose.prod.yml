@@ -6,6 +6,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=audiora-db;Database=audiora;Username=postgres;Password=postgres
+      - Spotify__ClientId=4eb4c350d37b48c8b246d6a071369a18
+      - Spotify__ClientSecret=6561c07711af4f1a87ea9f2b8f737a21
     depends_on:
       - audiora-db
     restart: always
