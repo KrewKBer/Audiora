@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Rooms } from './Rooms';
+import { Rooms } from '../Rooms';
 
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({

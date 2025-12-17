@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Matchmaking } from './Matchmaking';
+import { Matchmaking } from '../Matchmaking';
 
 // Mock react-router-dom
 const mockNavigate = jest.fn();

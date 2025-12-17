@@ -16,7 +16,6 @@ namespace AudioraTests.Controllers
     public class MatchControllerTests : IDisposable
     {
         private readonly AudioraDbContext _context;
-        private readonly MatchStore _matchStore;
         private readonly Mock<IHubContext<RoomHub>> _mockHubContext;
         private readonly MatchController _controller;
 
@@ -27,11 +26,6 @@ namespace AudioraTests.Controllers
                 .Options;
             _context = new AudioraDbContext(options);
 
-            // Mock IWebHostEnvironment for MatchStore
-            var mockEnv = new Mock<IWebHostEnvironment>();
-            mockEnv.Setup(e => e.ContentRootPath).Returns(Path.GetTempPath());
-            _matchStore = new MatchStore(mockEnv.Object);
-    
             _mockHubContext = new Mock<IHubContext<RoomHub>>();
 
             // Setup mock for SignalR Groups
@@ -39,12 +33,13 @@ namespace AudioraTests.Controllers
             var mockClientProxy = new Mock<IClientProxy>();
             _mockHubContext.Setup(x => x.Clients.Group(It.IsAny<string>())).Returns(mockClientProxy.Object);
 
-            _controller = new MatchController(_matchStore, _context, _mockHubContext.Object);
+            _controller = new MatchController(_context, _mockHubContext.Object);
         }
         [Fact]
         public async Task GetCandidates_WithNoExistingMatches_ReturnsAllOtherUsers()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             var user1 = new User
             {
                 Id = Guid.NewGuid(),
@@ -76,9 +71,11 @@ namespace AudioraTests.Controllers
         public async Task GetCandidates_ExcludesLikedUsers()
         {
             var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var targetId = Guid.NewGuid().ToString();
             
-            await _matchStore.LikeAsync(userId, targetId);
+            _context.Likes.Add(new Like { FromUserId = Guid.Parse(userId), ToUserId = Guid.Parse(targetId), Timestamp = DateTime.UtcNow });
+            await _context.SaveChangesAsync();
 
             var result = await _controller.GetCandidates(userId);
 
@@ -90,9 +87,11 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task Like_WithNewLike_ReturnsLikedStatus()
         {
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var request = new MatchController.LikeRequest
             {
-                UserId = Guid.NewGuid().ToString(),
+                UserId = userId,
                 TargetUserId = Guid.NewGuid().ToString()
             };
 
@@ -106,9 +105,11 @@ namespace AudioraTests.Controllers
         public async Task Like_WhenMutualLike_ReturnsMatchedStatus()
         {
             var userAId = Guid.NewGuid().ToString();
+            SetupUser(userAId);
             var userBId = Guid.NewGuid().ToString();
             
-            await _matchStore.LikeAsync(userBId, userAId);
+            _context.Likes.Add(new Like { FromUserId = Guid.Parse(userBId), ToUserId = Guid.Parse(userAId), Timestamp = DateTime.UtcNow });
+            await _context.SaveChangesAsync();
 
             var request = new MatchController.LikeRequest
             {
@@ -127,6 +128,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task Like_WithEmptyUserIds_ReturnsBadRequest()
         {
+            SetupUser("");
             var request = new MatchController.LikeRequest
             {
                 UserId = "",
@@ -154,8 +156,8 @@ namespace AudioraTests.Controllers
             _context.Users.Add(userB);
             await _context.SaveChangesAsync();
 
-            await _matchStore.LikeAsync(userAId, userBId);
-            await _matchStore.LikeAsync(userBId, userAId);
+            _context.Matches.Add(new Audiora.Data.Match { UserAId = Guid.Parse(userAId), UserBId = Guid.Parse(userBId), CreatedAt = DateTime.UtcNow, ChatId = "chat_id" });
+            await _context.SaveChangesAsync();
 
             SetupUser(userAId);
             var result = await _controller.List(userAId);

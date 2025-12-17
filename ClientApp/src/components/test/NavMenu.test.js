@@ -2,10 +2,10 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import { NavMenu } from './NavMenu';
+import { NavMenu } from '../NavMenu';
 
 // Mock Sidebar component
-jest.mock('./Sidebar', () => ({
+jest.mock('../Sidebar', () => ({
   Sidebar: ({ open, onClose }) => (
     open ? <div data-testid="sidebar">Sidebar Open</div> : null
   )

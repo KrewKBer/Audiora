@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, renderHook, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { SongQueueProvider, useSongQueue } from './SongQueueContext';
+import { SongQueueProvider, useSongQueue } from '../SongQueueContext';
 
 describe('SongQueueContext', () => {
   const mockSongs = [

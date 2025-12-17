@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Profile } from './Profile';
+import { Profile } from '../Profile';
 
 global.fetch = jest.fn();
 

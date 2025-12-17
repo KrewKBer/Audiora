@@ -5,6 +5,9 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Moq;
 
 namespace AudioraTests.Controllers
 {
@@ -23,10 +26,24 @@ namespace AudioraTests.Controllers
             _controller = new RoomController(_context);
         }
 
+        private void SetupUser(string userId)
+        {
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId)
+            }, "mock"));
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user }
+            };
+        }
+
         [Fact]
         public async Task CreateRoom_WithValidPublicRoom_ReturnsOkWithRoom()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             var request = new CreateRoomRequest
             {
                 Name = "Test Room",
@@ -50,6 +67,7 @@ namespace AudioraTests.Controllers
         public async Task CreateRoom_WithValidPrivateRoom_ReturnsOkWithHashedPassword()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             var request = new CreateRoomRequest
             {
                 Name = "Private Room",
@@ -71,10 +89,12 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task CreateRoom_WithEmptyName_ReturnsBadRequest()
         {
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var request = new CreateRoomRequest
             {
                 Name = "",
-                UserId = Guid.NewGuid().ToString(),
+                UserId = userId,
                 IsPrivate = false
             };
             
@@ -87,6 +107,7 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task CreateRoom_WithInvalidUserId_ReturnsBadRequest()
         {
+            SetupUser("invalid-guid");
             var request = new CreateRoomRequest
             {
                 Name = "Test Room",
@@ -103,10 +124,12 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task CreateRoom_PrivateRoomWithoutPassword_ReturnsBadRequest()
         {
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var request = new CreateRoomRequest
             {
                 Name = "Private Room",
-                UserId = Guid.NewGuid().ToString(),
+                UserId = userId,
                 IsPrivate = true,
                 Password = null
             };
@@ -189,6 +212,7 @@ namespace AudioraTests.Controllers
         {
             var hostId = Guid.NewGuid();
             var joiningUserId = Guid.NewGuid();
+            SetupUser(joiningUserId.ToString());
             var room = new Room
             {
                 Name = "Public Room",
@@ -217,6 +241,7 @@ namespace AudioraTests.Controllers
         public async Task JoinRoom_UserAlreadyMember_DoesNotAddDuplicate()
         {
             var userId = Guid.NewGuid();
+            SetupUser(userId.ToString());
             var room = new Room
             {
                 Name = "Test Room",
@@ -244,6 +269,7 @@ namespace AudioraTests.Controllers
         {
             var hostId = Guid.NewGuid();
             var joiningUserId = Guid.NewGuid();
+            SetupUser(joiningUserId.ToString());
             var password = "secret123";
             var room = new Room
             {
@@ -274,6 +300,8 @@ namespace AudioraTests.Controllers
         public async Task JoinRoom_PrivateRoomWithIncorrectPassword_ReturnsUnauthorized()
         {
             var hostId = Guid.NewGuid();
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var room = new Room
             {
                 Name = "Private Room",
@@ -287,7 +315,7 @@ namespace AudioraTests.Controllers
 
             var request = new JoinRoomRequest
             {
-                UserId = Guid.NewGuid().ToString(),
+                UserId = userId,
                 Password = "wrong"
             };
             var result = await _controller.JoinRoom(room.Id, request);
@@ -310,9 +338,11 @@ namespace AudioraTests.Controllers
             _context.Rooms.Add(room);
             await _context.SaveChangesAsync();
 
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var request = new JoinRoomRequest
             {
-                UserId = Guid.NewGuid().ToString(),
+                UserId = userId,
                 Password = null
             };
             
@@ -334,6 +364,7 @@ namespace AudioraTests.Controllers
             _context.Rooms.Add(room);
             await _context.SaveChangesAsync();
 
+            SetupUser("invalid-guid");
             var request = new JoinRoomRequest
             {
                 UserId = "invalid-guid"
@@ -348,9 +379,11 @@ namespace AudioraTests.Controllers
         [Fact]
         public async Task JoinRoom_WithNonExistentRoom_ReturnsNotFound()
         {
+            var userId = Guid.NewGuid().ToString();
+            SetupUser(userId);
             var request = new JoinRoomRequest
             {
-                UserId = Guid.NewGuid().ToString()
+                UserId = userId
             };
             
             var result = await _controller.JoinRoom(Guid.NewGuid(), request);

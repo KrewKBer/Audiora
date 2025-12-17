@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from '../PrivateRoute';
 
 describe('PrivateRoute Component', () => {
   beforeEach(() => {
