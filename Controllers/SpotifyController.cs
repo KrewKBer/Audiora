@@ -53,6 +53,23 @@ namespace Audiora.Controllers
             }
         }
 
+        [HttpGet("new-releases")]
+        public async Task<IActionResult> GetNewReleases()
+        {
+            try
+            {
+                Console.WriteLine("Getting new releases...");
+                var albums = await _spotifyService.GetNewReleases();
+                Console.WriteLine($"Found {albums?.Count ?? 0} albums.");
+                return Ok(albums);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting new releases: {ex}");
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
         [HttpGet("recommendations")]
         public async Task<IActionResult> GetRecommendations([FromQuery] string userId)
         {
