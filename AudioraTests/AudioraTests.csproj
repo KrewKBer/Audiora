@@ -9,7 +9,13 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup>
+        <CollectCoverage>true</CollectCoverage>
+        <Exclude>[*.Migrations]*</Exclude>
+    </PropertyGroup>
+
+
+    <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="Fluentassertions" Version="8.8.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />

@@ -71,15 +71,17 @@ namespace AudioraTests.Controllers
         public async Task Register_WithValidUser_ReturnsOkWithUserData()
         {
             SetupAuthentication();
-            var user = new User
+            var registerRequest = new AuthController.RegisterRequest
             {
                 Username = "testuser",
                 Password = "password123",
-                Role = UserRole.Noob
+                Genres = new List<string>(),
+                Gender = Gender.PreferNotToSay,
+                Preference = SexualityPreference.Everyone
             };
-            
-            var result = await _controller.Register(user);
-            
+
+            var result = await _controller.Register(registerRequest);
+
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnValue = okResult.Value;
             Assert.NotNull(returnValue);
@@ -99,14 +101,16 @@ namespace AudioraTests.Controllers
             _context.Users.Add(existingUser);
             await _context.SaveChangesAsync();
 
-            var newUser = new User
+            var registerRequest = new AuthController.RegisterRequest
             {
                 Username = "testuser",
                 Password = "password123",
-                Role = UserRole.Noob
+                Genres = new List<string>(),
+                Gender = Gender.PreferNotToSay,
+                Preference = SexualityPreference.Everyone
             };
-            
-            var result = await _controller.Register(newUser);
+
+            var result = await _controller.Register(registerRequest);
 
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Username already exists.", badRequestResult.Value);

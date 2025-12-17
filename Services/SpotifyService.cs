@@ -72,7 +72,7 @@ namespace Audiora.Services
             }
         }
 
-        public async Task<List<SimpleAlbum>> GetNewReleases()
+        public virtual async Task<List<SimpleAlbum>> GetNewReleases()
         {
             try
             {
@@ -88,7 +88,7 @@ namespace Audiora.Services
             }
         }
 
-        public async Task<List<FullTrack>> GetRecommendations(List<string> genres)
+        public virtual async Task<List<FullTrack>> GetRecommendations(List<string> genres)
         {
             try
             {
@@ -113,10 +113,8 @@ namespace Audiora.Services
                             recReq.SeedGenres.Add(g);
                         }
                         var recs = await client.Browse.GetRecommendations(recReq);
-                        if (recs.Tracks != null && recs.Tracks.Count > 0)
+                        if (recs?.Tracks != null && recs.Tracks.Count > 0)
                         {
-                            // Recommendations endpoint returns simplified tracks which might lack Album info.
-                            // We need Album info for the frontend images.
                             var trackIds = recs.Tracks.Select(t => t.Id).Where(id => !string.IsNullOrEmpty(id)).ToList();
                             if (trackIds.Count > 0)
                             {

@@ -1,62 +1,71 @@
 {
   "Audiora.dll": {
-    "C:\\Audiora\\Program.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Program.cs": {
       "Program": {
         "System.Void Program::<Main>$(System.String[])": {
           "Lines": {
-            "12": 2,
-            "14": 2,
-            "15": 2,
-            "16": 2,
-            "17": 23,
-            "18": 2,
+            "12": 8,
+            "14": 8,
+            "15": 8,
+            "16": 8,
+            "17": 83,
+            "18": 8,
             "20": 0,
             "21": 0,
             "22": 0,
             "23": 0,
-            "25": 2,
-            "26": 2,
-            "27": 2,
-            "28": 2,
-            "29": 2,
-            "30": 2,
-            "31": 2,
-            "32": 4,
-            "34": 2,
-            "35": 2,
-            "36": 2,
-            "37": 2,
-            "38": 2,
-            "40": 2,
-            "41": 2,
-            "42": 2,
-            "43": 2,
-            "44": 2,
-            "45": 2,
-            "46": 4,
-            "48": 8,
-            "51": 2,
-            "53": 2,
-            "54": 2,
-            "55": 2,
-            "56": 2,
-            "57": 0,
-            "58": 0,
-            "59": 0,
-            "60": 2,
-            "62": 2,
-            "63": 2,
-            "64": 2,
-            "65": 2,
-            "67": 2,
-            "68": 2,
-            "70": 2,
-            "72": 2,
-            "73": 2,
-            "75": 2,
-            "76": 2,
-            "77": 2,
-            "79": 2
+            "25": 8,
+            "26": 8,
+            "27": 8,
+            "28": 8,
+            "29": 8,
+            "30": 8,
+            "31": 8,
+            "32": 8,
+            "33": 8,
+            "34": 8,
+            "35": 8,
+            "36": 8,
+            "37": 8,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 16,
+            "43": 8,
+            "44": 8,
+            "45": 8,
+            "46": 8,
+            "47": 8,
+            "49": 8,
+            "50": 8,
+            "51": 8,
+            "52": 8,
+            "53": 8,
+            "54": 8,
+            "55": 16,
+            "57": 32,
+            "60": 8,
+            "62": 8,
+            "63": 8,
+            "64": 8,
+            "65": 8,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 8,
+            "71": 8,
+            "72": 8,
+            "73": 8,
+            "74": 8,
+            "76": 8,
+            "77": 8,
+            "79": 8,
+            "81": 8,
+            "82": 8,
+            "84": 8,
+            "85": 8,
+            "86": 8,
+            "88": 8
           },
           "Branches": [
             {
@@ -65,7 +74,7 @@
               "EndOffset": 43,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 2
+              "Hits": 8
             },
             {
               "Line": 14,
@@ -76,49 +85,65 @@
               "Hits": 0
             },
             {
-              "Line": 56,
-              "Offset": 438,
-              "EndOffset": 440,
+              "Line": 65,
+              "Offset": 419,
+              "EndOffset": 421,
               "Path": 0,
               "Ordinal": 2,
               "Hits": 0
             },
             {
-              "Line": 56,
-              "Offset": 438,
-              "EndOffset": 455,
+              "Line": 65,
+              "Offset": 419,
+              "EndOffset": 436,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 2
+              "Hits": 8
             },
             {
-              "Line": 62,
-              "Offset": 487,
-              "EndOffset": 489,
+              "Line": 71,
+              "Offset": 468,
+              "EndOffset": 470,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 2
+              "Hits": 8
             },
             {
-              "Line": 62,
-              "Offset": 487,
-              "EndOffset": 498,
+              "Line": 71,
+              "Offset": 468,
+              "EndOffset": 479,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 2
+              "Hits": 8
+            },
+            {
+              "Line": 32,
+              "Offset": 66,
+              "EndOffset": 68,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 8
+            },
+            {
+              "Line": 32,
+              "Offset": 66,
+              "EndOffset": 98,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
             }
           ]
         }
       }
     },
-    "C:\\Audiora\\Services\\DataService.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Services\\DataService.cs": {
       "Audiora.Services.DataService`1": {
         "TOutput Audiora.Services.DataService`1::Map(T,System.Func`2<T,TOutput>)": {
           "Lines": {
-            "35": 4,
-            "36": 4,
-            "37": 4,
-            "38": 4
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0
           },
           "Branches": [
             {
@@ -135,17 +160,17 @@
               "EndOffset": 25,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 4
+              "Hits": 0
             }
           ]
         },
         "System.Void Audiora.Services.DataService`1::.ctor(Audiora.Data.AudioraDbContext)": {
           "Lines": {
-            "12": 15,
-            "13": 15,
-            "14": 15,
-            "15": 15,
-            "16": 15
+            "12": 33,
+            "13": 33,
+            "14": 33,
+            "15": 33,
+            "16": 33
           },
           "Branches": []
         }
@@ -153,10 +178,10 @@
       "Audiora.Services.DataService`1/<AddAsync>d__5": {
         "System.Void Audiora.Services.DataService`1/<AddAsync>d__5::MoveNext()": {
           "Lines": {
-            "29": 4,
-            "30": 4,
-            "31": 4,
-            "32": 4
+            "29": 15,
+            "30": 15,
+            "31": 15,
+            "32": 15
           },
           "Branches": []
         }
@@ -182,27 +207,27 @@
         }
       }
     },
-    "C:\\Audiora\\Services\\SpotifyService.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Services\\SpotifyService.cs": {
       "Audiora.Services.SpotifyService": {
         "System.Threading.Tasks.Task`1<SpotifyAPI.Web.ISpotifyClient> Audiora.Services.SpotifyService::GetSpotifyClient()": {
           "Lines": {
-            "27": 0,
-            "28": 0,
-            "29": 0,
-            "30": 0,
-            "31": 0,
-            "33": 0,
-            "35": 0,
+            "27": 2,
+            "28": 2,
+            "29": 2,
+            "30": 2,
+            "31": 2,
+            "33": 2,
+            "35": 2,
             "36": 0,
             "37": 0,
             "38": 0,
-            "41": 0,
-            "42": 0,
-            "43": 0,
-            "45": 0,
-            "46": 0,
-            "47": 0,
-            "48": 0
+            "41": 2,
+            "42": 2,
+            "43": 2,
+            "45": 2,
+            "46": 2,
+            "47": 2,
+            "48": 2
           },
           "Branches": [
             {
@@ -211,7 +236,7 @@
               "EndOffset": 17,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 0
+              "Hits": 2
             },
             {
               "Line": 35,
@@ -219,7 +244,7 @@
               "EndOffset": 82,
               "Path": 0,
               "Ordinal": 2,
-              "Hits": 0
+              "Hits": 2
             },
             {
               "Line": 35,
@@ -243,7 +268,7 @@
               "EndOffset": 131,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 0
+              "Hits": 2
             },
             {
               "Line": 28,
@@ -251,335 +276,396 @@
               "EndOffset": 162,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 0
+              "Hits": 2
             }
           ]
         },
         "System.Void Audiora.Services.SpotifyService::.ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Logging.ILogger`1<Audiora.Services.SpotifyService>)": {
           "Lines": {
-            "20": 9,
-            "21": 9,
-            "22": 9,
-            "23": 9,
-            "24": 9
+            "20": 19,
+            "21": 19,
+            "22": 19,
+            "23": 19,
+            "24": 19
           },
           "Branches": []
         }
       },
       "Audiora.Services.SpotifyService/<>c": {
-        "System.Boolean Audiora.Services.SpotifyService/<>c::<GetRecommendations>b__6_0(System.String)": {
+        "System.Boolean Audiora.Services.SpotifyService/<>c::<GetRecommendations>b__7_0(System.String)": {
           "Lines": {
-            "80": 2
+            "96": 12
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Services.SpotifyService/<>c::<GetRecommendations>b__7_1(SpotifyAPI.Web.FullTrack)": {
+          "Lines": {
+            "118": 3
           },
           "Branches": []
         }
       },
-      "Audiora.Services.SpotifyService/<GetRecommendations>d__6": {
-        "System.Void Audiora.Services.SpotifyService/<GetRecommendations>d__6::MoveNext()": {
+      "Audiora.Services.SpotifyService/<GetNewReleases>d__6": {
+        "System.Void Audiora.Services.SpotifyService/<GetNewReleases>d__6::MoveNext()": {
           "Lines": {
-            "76": 1,
-            "78": 1,
-            "79": 1,
-            "81": 1,
+            "76": 2,
+            "78": 2,
+            "79": 2,
+            "80": 2,
+            "81": 2,
             "82": 1,
             "84": 1,
+            "85": 1,
             "86": 1,
             "87": 1,
-            "88": 1,
-            "90": 1,
-            "91": 1,
-            "92": 1,
-            "93": 1,
-            "94": 1,
-            "95": 5,
-            "96": 1,
-            "97": 1,
-            "98": 1,
-            "99": 1,
-            "100": 1,
-            "101": 1,
-            "102": 1,
-            "104": 0,
-            "105": 0,
-            "106": 0,
-            "107": 0,
-            "108": 0,
-            "110": 0,
-            "111": 0,
-            "114": 0,
-            "115": 0,
-            "116": 0,
-            "117": 0,
-            "119": 0,
-            "120": 0,
-            "121": 0,
-            "124": 0,
-            "126": 0,
-            "127": 0,
-            "128": 0,
-            "129": 0,
-            "131": 0,
-            "132": 0,
-            "133": 0,
-            "134": 0,
-            "135": 0,
-            "136": 0,
-            "137": 0,
-            "138": 0,
-            "139": 0,
-            "140": 0,
-            "141": 0,
+            "89": 1
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Services.SpotifyService/<GetRecommendations>d__7": {
+        "System.Void Audiora.Services.SpotifyService/<GetRecommendations>d__7::MoveNext()": {
+          "Lines": {
+            "92": 6,
+            "94": 6,
+            "95": 6,
+            "97": 7,
+            "98": 6,
+            "100": 6,
+            "102": 6,
+            "103": 6,
+            "104": 6,
+            "106": 6,
+            "107": 6,
+            "108": 6,
+            "109": 6,
+            "110": 6,
+            "111": 32,
+            "112": 7,
+            "113": 7,
+            "114": 7,
+            "115": 6,
+            "116": 3,
+            "117": 1,
+            "119": 1,
+            "120": 1,
+            "121": 1,
+            "122": 1,
+            "123": 1,
+            "125": 0,
+            "126": 2,
+            "127": 2,
+            "128": 2,
+            "129": 2,
+            "130": 2,
+            "132": 2,
+            "133": 4,
+            "136": 4,
+            "137": 4,
+            "138": 4,
+            "139": 4,
+            "141": 3,
             "142": 0,
             "143": 0,
-            "144": 0,
-            "145": 0,
-            "146": 0,
-            "147": 0,
-            "149": 0,
-            "150": 0,
-            "151": 0,
-            "152": 0,
-            "154": 1
+            "146": 3,
+            "148": 1,
+            "149": 1,
+            "150": 1,
+            "151": 1,
+            "153": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0,
+            "158": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "162": 0,
+            "163": 0,
+            "164": 0,
+            "165": 0,
+            "166": 0,
+            "167": 0,
+            "168": 0,
+            "169": 0,
+            "171": 1,
+            "172": 1,
+            "173": 1,
+            "174": 1,
+            "176": 4
           },
           "Branches": [
             {
-              "Line": 80,
-              "Offset": 183,
-              "EndOffset": 185,
+              "Line": 96,
+              "Offset": 187,
+              "EndOffset": 189,
               "Path": 0,
               "Ordinal": 0,
               "Hits": 0
             },
             {
-              "Line": 80,
-              "Offset": 183,
-              "EndOffset": 191,
+              "Line": 96,
+              "Offset": 187,
+              "EndOffset": 195,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 6
             },
             {
-              "Line": 81,
-              "Offset": 255,
-              "EndOffset": 257,
+              "Line": 97,
+              "Offset": 259,
+              "EndOffset": 261,
               "Path": 0,
               "Ordinal": 2,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 81,
-              "Offset": 255,
-              "EndOffset": 280,
+              "Line": 97,
+              "Offset": 259,
+              "EndOffset": 284,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 1
+              "Hits": 6
             },
             {
-              "Line": 86,
-              "Offset": 374,
-              "EndOffset": 379,
+              "Line": 102,
+              "Offset": 378,
+              "EndOffset": 383,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 1
+              "Hits": 6
             },
             {
-              "Line": 95,
-              "Offset": 546,
-              "EndOffset": 486,
+              "Line": 111,
+              "Offset": 561,
+              "EndOffset": 501,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 1
+              "Hits": 7
             },
             {
-              "Line": 95,
-              "Offset": 546,
-              "EndOffset": 548,
+              "Line": 111,
+              "Offset": 561,
+              "EndOffset": 563,
               "Path": 0,
               "Ordinal": 6,
-              "Hits": 1
+              "Hits": 6
             },
             {
-              "Line": 100,
-              "Offset": 745,
-              "EndOffset": 747,
+              "Line": 116,
+              "Offset": 756,
+              "EndOffset": 758,
               "Path": 0,
               "Ordinal": 8,
               "Hits": 1
             },
             {
-              "Line": 100,
-              "Offset": 745,
-              "EndOffset": 768,
+              "Line": 116,
+              "Offset": 756,
+              "EndOffset": 762,
               "Path": 1,
               "Ordinal": 9,
-              "Hits": 0
+              "Hits": 2
             },
             {
-              "Line": 100,
-              "Offset": 773,
-              "EndOffset": 775,
+              "Line": 116,
+              "Offset": 767,
+              "EndOffset": 769,
               "Path": 0,
               "Ordinal": 10,
+              "Hits": 2
+            },
+            {
+              "Line": 116,
+              "Offset": 767,
+              "EndOffset": 790,
+              "Path": 1,
+              "Ordinal": 11,
               "Hits": 1
             },
             {
-              "Line": 100,
-              "Offset": 773,
-              "EndOffset": 793,
-              "Path": 1,
-              "Ordinal": 11,
-              "Hits": 0
-            },
-            {
-              "Line": 108,
-              "Offset": 905,
-              "EndOffset": 907,
+              "Line": 116,
+              "Offset": 795,
+              "EndOffset": 800,
               "Path": 0,
               "Ordinal": 12,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 108,
-              "Offset": 905,
-              "EndOffset": 920,
-              "Path": 1,
-              "Ordinal": 13,
-              "Hits": 0
-            },
-            {
-              "Line": 86,
-              "Offset": 374,
-              "EndOffset": 971,
-              "Path": 1,
-              "Ordinal": 5,
-              "Hits": 0
-            },
-            {
-              "Line": 114,
-              "Offset": 984,
-              "EndOffset": 986,
+              "Line": 119,
+              "Offset": 913,
+              "EndOffset": 918,
               "Path": 0,
               "Ordinal": 14,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 114,
-              "Offset": 984,
-              "EndOffset": 992,
+              "Line": 119,
+              "Offset": 913,
+              "EndOffset": 1102,
               "Path": 1,
               "Ordinal": 15,
               "Hits": 0
             },
             {
-              "Line": 119,
-              "Offset": 1244,
-              "EndOffset": 1246,
+              "Line": 116,
+              "Offset": 795,
+              "EndOffset": 1110,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 2
+            },
+            {
+              "Line": 130,
+              "Offset": 1222,
+              "EndOffset": 1224,
               "Path": 0,
               "Ordinal": 16,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 119,
-              "Offset": 1244,
-              "EndOffset": 1258,
+              "Line": 130,
+              "Offset": 1222,
+              "EndOffset": 1237,
               "Path": 1,
               "Ordinal": 17,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 133,
-              "Offset": 1406,
-              "EndOffset": 1408,
+              "Line": 102,
+              "Offset": 378,
+              "EndOffset": 1288,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            },
+            {
+              "Line": 136,
+              "Offset": 1301,
+              "EndOffset": 1303,
               "Path": 0,
               "Ordinal": 18,
               "Hits": 0
             },
             {
-              "Line": 133,
-              "Offset": 1406,
-              "EndOffset": 1421,
+              "Line": 136,
+              "Offset": 1301,
+              "EndOffset": 1309,
               "Path": 1,
               "Ordinal": 19,
-              "Hits": 0
+              "Hits": 4
             },
             {
-              "Line": 135,
-              "Offset": 1478,
-              "EndOffset": 1480,
+              "Line": 141,
+              "Offset": 1561,
+              "EndOffset": 1563,
               "Path": 0,
               "Ordinal": 20,
               "Hits": 0
             },
             {
-              "Line": 135,
-              "Offset": 1478,
-              "EndOffset": 1484,
+              "Line": 141,
+              "Offset": 1561,
+              "EndOffset": 1575,
               "Path": 1,
               "Ordinal": 21,
-              "Hits": 0
+              "Hits": 3
             },
             {
-              "Line": 135,
-              "Offset": 1495,
-              "EndOffset": 1497,
+              "Line": 155,
+              "Offset": 1723,
+              "EndOffset": 1725,
               "Path": 0,
               "Ordinal": 22,
               "Hits": 0
             },
             {
-              "Line": 135,
-              "Offset": 1495,
-              "EndOffset": 1583,
+              "Line": 155,
+              "Offset": 1723,
+              "EndOffset": 1738,
               "Path": 1,
               "Ordinal": 23,
               "Hits": 0
             },
             {
-              "Line": 139,
-              "Offset": 1595,
-              "EndOffset": 1597,
+              "Line": 157,
+              "Offset": 1795,
+              "EndOffset": 1797,
               "Path": 0,
               "Ordinal": 24,
               "Hits": 0
             },
             {
-              "Line": 139,
-              "Offset": 1595,
-              "EndOffset": 1601,
+              "Line": 157,
+              "Offset": 1795,
+              "EndOffset": 1801,
               "Path": 1,
               "Ordinal": 25,
               "Hits": 0
             },
             {
-              "Line": 139,
-              "Offset": 1613,
-              "EndOffset": 1615,
+              "Line": 157,
+              "Offset": 1812,
+              "EndOffset": 1814,
               "Path": 0,
               "Ordinal": 26,
               "Hits": 0
             },
             {
-              "Line": 139,
-              "Offset": 1613,
-              "EndOffset": 1662,
+              "Line": 157,
+              "Offset": 1812,
+              "EndOffset": 1900,
               "Path": 1,
               "Ordinal": 27,
               "Hits": 0
             },
             {
-              "Line": 143,
-              "Offset": 1685,
-              "EndOffset": 1687,
+              "Line": 161,
+              "Offset": 1912,
+              "EndOffset": 1914,
               "Path": 0,
               "Ordinal": 28,
               "Hits": 0
             },
             {
-              "Line": 143,
-              "Offset": 1685,
-              "EndOffset": 1722,
+              "Line": 161,
+              "Offset": 1912,
+              "EndOffset": 1918,
               "Path": 1,
               "Ordinal": 29,
+              "Hits": 0
+            },
+            {
+              "Line": 161,
+              "Offset": 1930,
+              "EndOffset": 1932,
+              "Path": 0,
+              "Ordinal": 30,
+              "Hits": 0
+            },
+            {
+              "Line": 161,
+              "Offset": 1930,
+              "EndOffset": 1979,
+              "Path": 1,
+              "Ordinal": 31,
+              "Hits": 0
+            },
+            {
+              "Line": 165,
+              "Offset": 2002,
+              "EndOffset": 2004,
+              "Path": 0,
+              "Ordinal": 32,
+              "Hits": 0
+            },
+            {
+              "Line": 165,
+              "Offset": 2002,
+              "EndOffset": 2039,
+              "Path": 1,
+              "Ordinal": 33,
               "Hits": 0
             }
           ]
@@ -588,30 +674,30 @@
       "Audiora.Services.SpotifyService/<SearchTracks>d__5": {
         "System.Void Audiora.Services.SpotifyService/<SearchTracks>d__5::MoveNext()": {
           "Lines": {
-            "51": 2,
-            "53": 2,
-            "54": 2,
-            "55": 2,
-            "56": 2,
-            "58": 0,
-            "59": 0,
-            "60": 0,
-            "61": 0,
+            "51": 5,
+            "53": 5,
+            "54": 5,
+            "55": 5,
+            "56": 5,
+            "58": 1,
+            "59": 1,
+            "60": 1,
+            "61": 1,
             "63": 1,
             "64": 1,
             "65": 1,
             "66": 1,
-            "68": 0,
-            "69": 0,
-            "70": 0,
-            "71": 0,
-            "73": 1
+            "68": 1,
+            "69": 1,
+            "70": 1,
+            "71": 1,
+            "73": 2
           },
           "Branches": []
         }
       }
     },
-    "C:\\Audiora\\Services\\YouTubeService.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Services\\YouTubeService.cs": {
       "Audiora.Services.YouTubeService": {
         "System.Boolean Audiora.Services.YouTubeService::get_HasApiKey()": {
           "Lines": {
@@ -905,7 +991,7 @@
         }
       }
     },
-    "C:\\Audiora\\Models\\Room.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Models\\Room.cs": {
       "Audiora.Models.Room": {
         "System.Guid Audiora.Models.Room::get_Id()": {
           "Lines": {
@@ -1021,43 +1107,43 @@
       "Audiora.Models.ChatMessage": {
         "System.Guid Audiora.Models.ChatMessage::get_Id()": {
           "Lines": {
-            "33": 10
+            "33": 20
           },
           "Branches": []
         },
         "System.Guid Audiora.Models.ChatMessage::get_RoomId()": {
           "Lines": {
-            "34": 11
+            "34": 18
           },
           "Branches": []
         },
         "System.Guid Audiora.Models.ChatMessage::get_UserId()": {
           "Lines": {
-            "35": 11
+            "35": 18
           },
           "Branches": []
         },
         "System.String Audiora.Models.ChatMessage::get_Username()": {
           "Lines": {
-            "36": 23
+            "36": 35
           },
           "Branches": []
         },
         "System.String Audiora.Models.ChatMessage::get_Message()": {
           "Lines": {
-            "37": 28
+            "37": 40
           },
           "Branches": []
         },
         "System.DateTime Audiora.Models.ChatMessage::get_Timestamp()": {
           "Lines": {
-            "38": 25
+            "38": 39
           },
           "Branches": []
         }
       }
     },
-    "C:\\Audiora\\Models\\RoomHub.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Models\\RoomHub.cs": {
       "Audiora.Models.RoomHub": {
         "System.Boolean Audiora.Models.RoomHub::IsConnectionValid(System.String)": {
           "Lines": {
@@ -1139,16 +1225,16 @@
         },
         "System.Collections.Generic.HashSet`1<System.String> Audiora.Models.RoomHub::<RegisterUser>b__7_0(System.String,System.Collections.Generic.HashSet`1<System.String>)": {
           "Lines": {
-            "41": 2
+            "41": 3
           },
           "Branches": []
         },
         "System.Void Audiora.Models.RoomHub::.ctor(Audiora.Data.AudioraDbContext)": {
           "Lines": {
-            "17": 28,
-            "18": 28,
-            "19": 28,
-            "20": 28
+            "17": 31,
+            "18": 31,
+            "19": 31,
+            "20": 31
           },
           "Branches": []
         },
@@ -1253,23 +1339,23 @@
       "Audiora.Models.RoomHub/<OnDisconnectedAsync>d__14": {
         "System.Void Audiora.Models.RoomHub/<OnDisconnectedAsync>d__14::MoveNext()": {
           "Lines": {
-            "139": 4,
-            "140": 4,
+            "139": 5,
+            "140": 5,
             "141": 4,
             "142": 4,
             "143": 4,
             "144": 4,
             "145": 4,
             "146": 4,
-            "147": 4,
-            "148": 1,
-            "149": 1,
-            "150": 1,
-            "151": 1,
-            "152": 1,
-            "153": 1,
-            "154": 4,
-            "155": 4
+            "147": 5,
+            "148": 2,
+            "149": 2,
+            "150": 2,
+            "151": 2,
+            "152": 2,
+            "153": 2,
+            "154": 5,
+            "155": 5
           },
           "Branches": [
             {
@@ -1302,7 +1388,7 @@
               "EndOffset": 119,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 4
+              "Hits": 5
             },
             {
               "Line": 147,
@@ -1310,7 +1396,7 @@
               "EndOffset": 155,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 1
+              "Hits": 2
             },
             {
               "Line": 149,
@@ -1318,7 +1404,7 @@
               "EndOffset": 184,
               "Path": 0,
               "Ordinal": 6,
-              "Hits": 1
+              "Hits": 2
             },
             {
               "Line": 149,
@@ -1326,7 +1412,7 @@
               "EndOffset": 214,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 1
+              "Hits": 2
             },
             {
               "Line": 147,
@@ -1334,7 +1420,7 @@
               "EndOffset": 222,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 4
+              "Hits": 5
             }
           ]
         }
@@ -1342,12 +1428,12 @@
       "Audiora.Models.RoomHub/<RegisterUser>d__7": {
         "System.Void Audiora.Models.RoomHub/<RegisterUser>d__7::MoveNext()": {
           "Lines": {
-            "37": 2,
-            "38": 2,
-            "39": 2,
-            "40": 2,
-            "42": 2,
-            "43": 2
+            "37": 3,
+            "38": 3,
+            "39": 3,
+            "40": 3,
+            "42": 3,
+            "43": 3
           },
           "Branches": []
         }
@@ -1517,7 +1603,7 @@
         }
       }
     },
-    "C:\\Audiora\\Models\\SpotifyCredentials.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Models\\SpotifyCredentials.cs": {
       "Audiora.Models.SpotifyCredentials": {
         "System.String Audiora.Models.SpotifyCredentials::get_ClientId()": {
           "Lines": {
@@ -1533,99 +1619,111 @@
         }
       }
     },
-    "C:\\Audiora\\Models\\User.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Models\\User.cs": {
       "Audiora.Models.User": {
         "System.Guid Audiora.Models.User::get_Id()": {
           "Lines": {
-            "17": 39
+            "31": 86
           },
           "Branches": []
         },
         "Audiora.Models.UserRole Audiora.Models.User::get_Role()": {
           "Lines": {
-            "18": 48
+            "32": 111
           },
           "Branches": []
         },
         "System.String Audiora.Models.User::get_Username()": {
           "Lines": {
-            "19": 46
+            "33": 91
           },
           "Branches": []
         },
         "System.String Audiora.Models.User::get_Password()": {
           "Lines": {
-            "20": 30
+            "34": 35
           },
           "Branches": []
         },
         "System.Collections.Generic.List`1<System.String> Audiora.Models.User::get_Genres()": {
           "Lines": {
-            "21": 20
+            "35": 29
           },
           "Branches": []
         },
         "System.String Audiora.Models.User::get_TopSongsJson()": {
           "Lines": {
-            "22": 10
+            "36": 21
           },
           "Branches": []
         },
         "System.String Audiora.Models.User::get_TwoFactorSecret()": {
           "Lines": {
-            "24": 11
+            "38": 9
           },
           "Branches": []
         },
         "System.Boolean Audiora.Models.User::get_IsTwoFactorEnabled()": {
           "Lines": {
-            "25": 8
+            "39": 9
           },
           "Branches": []
         },
         "System.Int32 Audiora.Models.User::get_Xp()": {
           "Lines": {
-            "28": 26
+            "42": 65
           },
           "Branches": []
         },
         "System.Int32 Audiora.Models.User::get_Level()": {
           "Lines": {
-            "29": 27
+            "43": 68
+          },
+          "Branches": []
+        },
+        "Audiora.Models.Gender Audiora.Models.User::get_Gender()": {
+          "Lines": {
+            "45": 97
+          },
+          "Branches": []
+        },
+        "Audiora.Models.SexualityPreference Audiora.Models.User::get_Preference()": {
+          "Lines": {
+            "46": 107
           },
           "Branches": []
         },
         "System.Collections.Generic.List`1<Audiora.Models.SongInfo> Audiora.Models.User::get_TopSongs()": {
           "Lines": {
-            "35": 5,
-            "36": 5,
-            "37": 4,
-            "39": 1,
-            "40": 1,
-            "42": 0,
-            "43": 0,
-            "44": 0,
-            "46": 5
+            "52": 13,
+            "53": 13,
+            "54": 9,
+            "56": 4,
+            "57": 4,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "63": 13
           },
           "Branches": [
             {
-              "Line": 36,
+              "Line": 53,
               "Offset": 14,
               "EndOffset": 16,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 4
+              "Hits": 9
             },
             {
-              "Line": 36,
+              "Line": 53,
               "Offset": 14,
               "EndOffset": 24,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 4
             },
             {
-              "Line": 40,
+              "Line": 57,
               "Offset": 38,
               "EndOffset": 40,
               "Path": 0,
@@ -1633,42 +1731,42 @@
               "Hits": 0
             },
             {
-              "Line": 40,
+              "Line": 57,
               "Offset": 38,
               "EndOffset": 46,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 1
+              "Hits": 4
             }
           ]
         },
         "System.Void Audiora.Models.User::set_TopSongs(System.Collections.Generic.List`1<Audiora.Models.SongInfo>)": {
           "Lines": {
-            "48": 1,
-            "49": 1,
-            "50": 1,
-            "51": 1,
-            "52": 1
+            "65": 3,
+            "66": 3,
+            "67": 3,
+            "68": 3,
+            "69": 3
           },
           "Branches": [
             {
-              "Line": 49,
+              "Line": 66,
               "Offset": 3,
               "EndOffset": 5,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 49,
+              "Line": 66,
               "Offset": 11,
               "EndOffset": 13,
               "Path": 0,
               "Ordinal": 2,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 49,
+              "Line": 66,
               "Offset": 3,
               "EndOffset": 21,
               "Path": 1,
@@ -1676,7 +1774,7 @@
               "Hits": 0
             },
             {
-              "Line": 49,
+              "Line": 66,
               "Offset": 11,
               "EndOffset": 21,
               "Path": 1,
@@ -1689,96 +1787,1514 @@
       "Audiora.Models.SongInfo": {
         "System.String Audiora.Models.SongInfo::get_Id()": {
           "Lines": {
-            "58": 3
+            "76": 19
           },
           "Branches": []
         },
         "System.String Audiora.Models.SongInfo::get_Name()": {
           "Lines": {
-            "61": 3
+            "79": 20
           },
           "Branches": []
         },
         "System.String Audiora.Models.SongInfo::get_Artist()": {
           "Lines": {
-            "64": 3
+            "82": 20
           },
           "Branches": []
         },
         "System.String Audiora.Models.SongInfo::get_AlbumImageUrl()": {
           "Lines": {
-            "67": 3
+            "85": 20
           },
           "Branches": []
         },
         "System.Void Audiora.Models.SongInfo::.ctor(Audiora.Models.SongInfo)": {
           "Lines": {
+            "73": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Models\\UserDto.cs": {
+      "Audiora.Models.UserDto": {
+        "System.String Audiora.Models.UserDto::get_UserId()": {
+          "Lines": {
+            "5": 0
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.UserDto::get_Username()": {
+          "Lines": {
+            "6": 0
+          },
+          "Branches": []
+        },
+        "System.String Audiora.Models.UserDto::get_Role()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251105163212_InitialCreate.cs": {
+      "Audiora.Migrations.InitialCreate": {
+        "System.Void Audiora.Migrations.InitialCreate::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.InitialCreate::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251105163212_InitialCreate.Designer.cs": {
+      "Audiora.Migrations.InitialCreate": {
+        "System.Void Audiora.Migrations.InitialCreate::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "20": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "74": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251105182348_AddSongDetailsToSeenSongs.cs": {
+      "Audiora.Migrations.AddSongDetailsToSeenSongs": {
+        "System.Void Audiora.Migrations.AddSongDetailsToSeenSongs::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddSongDetailsToSeenSongs::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251105182348_AddSongDetailsToSeenSongs.Designer.cs": {
+      "Audiora.Migrations.AddSongDetailsToSeenSongs": {
+        "System.Void Audiora.Migrations.AddSongDetailsToSeenSongs::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "20": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "83": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251105182503_AddTopSongsJsonToUsers.cs": {
+      "Audiora.Migrations.AddTopSongsJsonToUsers": {
+        "System.Void Audiora.Migrations.AddTopSongsJsonToUsers::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddTopSongsJsonToUsers::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251105182503_AddTopSongsJsonToUsers.Designer.cs": {
+      "Audiora.Migrations.AddTopSongsJsonToUsers": {
+        "System.Void Audiora.Migrations.AddTopSongsJsonToUsers::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "20": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "86": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251216180616_AddTwoFactorAuth.cs": {
+      "Audiora.Migrations.AddTwoFactorAuth": {
+        "System.Void Audiora.Migrations.AddTwoFactorAuth::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddTwoFactorAuth::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "68": 0,
+            "69": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251216180616_AddTwoFactorAuth.Designer.cs": {
+      "Audiora.Migrations.AddTwoFactorAuth": {
+        "System.Void Audiora.Migrations.AddTwoFactorAuth::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "21": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "27": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "105": 0,
+            "106": 0,
+            "107": 0,
+            "108": 0,
+            "109": 0,
+            "110": 0,
+            "111": 0,
+            "112": 0,
+            "113": 0,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "118": 0,
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "122": 0,
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0,
+            "131": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "140": 0,
+            "141": 0,
+            "142": 0,
+            "143": 0,
+            "144": 0,
+            "145": 0,
+            "146": 0,
+            "147": 0,
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "152": 0,
+            "153": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0,
+            "158": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "162": 0,
+            "163": 0,
+            "165": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251216191111_AddXpSystem.cs": {
+      "Audiora.Migrations.AddXpSystem": {
+        "System.Void Audiora.Migrations.AddXpSystem::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddXpSystem::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251216191111_AddXpSystem.Designer.cs": {
+      "Audiora.Migrations.AddXpSystem": {
+        "System.Void Audiora.Migrations.AddXpSystem::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "21": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "27": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "105": 0,
+            "106": 0,
+            "107": 0,
+            "108": 0,
+            "109": 0,
+            "110": 0,
+            "111": 0,
+            "112": 0,
+            "113": 0,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "118": 0,
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "122": 0,
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0,
+            "131": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "140": 0,
+            "141": 0,
+            "142": 0,
+            "143": 0,
+            "144": 0,
+            "145": 0,
+            "146": 0,
+            "147": 0,
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "152": 0,
+            "153": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0,
+            "158": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "162": 0,
+            "163": 0,
+            "164": 0,
+            "165": 0,
+            "166": 0,
+            "167": 0,
+            "168": 0,
+            "169": 0,
+            "171": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251216222511_AddMatchesAndLikesToDatabase.cs": {
+      "Audiora.Migrations.AddMatchesAndLikesToDatabase": {
+        "System.Void Audiora.Migrations.AddMatchesAndLikesToDatabase::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddMatchesAndLikesToDatabase::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "53": 0,
+            "54": 0,
             "55": 0
           },
           "Branches": []
         }
       }
     },
-    "C:\\Audiora\\Models\\UserDto.cs": {
-      "Audiora.Models.UserDto": {
-        "System.String Audiora.Models.UserDto::get_UserId()": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251216222511_AddMatchesAndLikesToDatabase.Designer.cs": {
+      "Audiora.Migrations.AddMatchesAndLikesToDatabase": {
+        "System.Void Audiora.Migrations.AddMatchesAndLikesToDatabase::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
           "Lines": {
-            "5": 11
-          },
-          "Branches": []
-        },
-        "System.String Audiora.Models.UserDto::get_Username()": {
-          "Lines": {
-            "6": 11
-          },
-          "Branches": []
-        },
-        "System.String Audiora.Models.UserDto::get_Role()": {
-          "Lines": {
-            "7": 11
+            "21": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "27": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "94": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "105": 0,
+            "106": 0,
+            "107": 0,
+            "109": 0,
+            "110": 0,
+            "111": 0,
+            "112": 0,
+            "113": 0,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "118": 0,
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "122": 0,
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "140": 0,
+            "141": 0,
+            "143": 0,
+            "144": 0,
+            "145": 0,
+            "146": 0,
+            "147": 0,
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "152": 0,
+            "153": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0,
+            "158": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "162": 0,
+            "163": 0,
+            "164": 0,
+            "165": 0,
+            "166": 0,
+            "167": 0,
+            "168": 0,
+            "169": 0,
+            "170": 0,
+            "171": 0,
+            "172": 0,
+            "173": 0,
+            "174": 0,
+            "175": 0,
+            "176": 0,
+            "177": 0,
+            "178": 0,
+            "179": 0,
+            "181": 0,
+            "182": 0,
+            "183": 0,
+            "184": 0,
+            "185": 0,
+            "186": 0,
+            "187": 0,
+            "188": 0,
+            "189": 0,
+            "190": 0,
+            "191": 0,
+            "192": 0,
+            "193": 0,
+            "194": 0,
+            "195": 0,
+            "196": 0,
+            "197": 0,
+            "198": 0,
+            "199": 0,
+            "200": 0,
+            "201": 0,
+            "202": 0,
+            "203": 0,
+            "204": 0,
+            "205": 0,
+            "206": 0,
+            "207": 0,
+            "208": 0,
+            "209": 0,
+            "210": 0,
+            "211": 0,
+            "212": 0,
+            "213": 0,
+            "214": 0,
+            "215": 0,
+            "216": 0,
+            "217": 0,
+            "219": 0
           },
           "Branches": []
         }
       }
     },
-    "C:\\Audiora\\Extensions\\StringExtensions.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251217105035_AddGenderAndPreferences.cs": {
+      "Audiora.Migrations.AddGenderAndPreferences": {
+        "System.Void Audiora.Migrations.AddGenderAndPreferences::Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0
+          },
+          "Branches": []
+        },
+        "System.Void Audiora.Migrations.AddGenderAndPreferences::Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)": {
+          "Lines": {
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\20251217105035_AddGenderAndPreferences.Designer.cs": {
+      "Audiora.Migrations.AddGenderAndPreferences": {
+        "System.Void Audiora.Migrations.AddGenderAndPreferences::BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "21": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "27": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "94": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "105": 0,
+            "106": 0,
+            "107": 0,
+            "109": 0,
+            "110": 0,
+            "111": 0,
+            "112": 0,
+            "113": 0,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "118": 0,
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "122": 0,
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "140": 0,
+            "141": 0,
+            "143": 0,
+            "144": 0,
+            "145": 0,
+            "146": 0,
+            "147": 0,
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "152": 0,
+            "153": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0,
+            "158": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "162": 0,
+            "163": 0,
+            "164": 0,
+            "165": 0,
+            "166": 0,
+            "167": 0,
+            "168": 0,
+            "169": 0,
+            "170": 0,
+            "171": 0,
+            "172": 0,
+            "173": 0,
+            "174": 0,
+            "175": 0,
+            "176": 0,
+            "177": 0,
+            "178": 0,
+            "179": 0,
+            "181": 0,
+            "182": 0,
+            "183": 0,
+            "184": 0,
+            "185": 0,
+            "186": 0,
+            "187": 0,
+            "188": 0,
+            "189": 0,
+            "190": 0,
+            "191": 0,
+            "192": 0,
+            "193": 0,
+            "194": 0,
+            "195": 0,
+            "196": 0,
+            "197": 0,
+            "198": 0,
+            "199": 0,
+            "200": 0,
+            "201": 0,
+            "202": 0,
+            "203": 0,
+            "204": 0,
+            "205": 0,
+            "206": 0,
+            "207": 0,
+            "208": 0,
+            "209": 0,
+            "210": 0,
+            "211": 0,
+            "212": 0,
+            "213": 0,
+            "214": 0,
+            "215": 0,
+            "216": 0,
+            "217": 0,
+            "218": 0,
+            "219": 0,
+            "220": 0,
+            "221": 0,
+            "222": 0,
+            "223": 0,
+            "225": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Migrations\\AudioraDbContextModelSnapshot.cs": {
+      "Audiora.Migrations.AudioraDbContextModelSnapshot": {
+        "System.Void Audiora.Migrations.AudioraDbContextModelSnapshot::BuildModel(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "18": 0,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "24": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "94": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "106": 0,
+            "107": 0,
+            "108": 0,
+            "109": 0,
+            "110": 0,
+            "111": 0,
+            "112": 0,
+            "113": 0,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0,
+            "118": 0,
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "122": 0,
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "140": 0,
+            "141": 0,
+            "142": 0,
+            "143": 0,
+            "144": 0,
+            "145": 0,
+            "146": 0,
+            "147": 0,
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "152": 0,
+            "153": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0,
+            "158": 0,
+            "159": 0,
+            "160": 0,
+            "161": 0,
+            "162": 0,
+            "163": 0,
+            "164": 0,
+            "165": 0,
+            "166": 0,
+            "167": 0,
+            "168": 0,
+            "169": 0,
+            "170": 0,
+            "171": 0,
+            "172": 0,
+            "173": 0,
+            "174": 0,
+            "175": 0,
+            "176": 0,
+            "178": 0,
+            "179": 0,
+            "180": 0,
+            "181": 0,
+            "182": 0,
+            "183": 0,
+            "184": 0,
+            "185": 0,
+            "186": 0,
+            "187": 0,
+            "188": 0,
+            "189": 0,
+            "190": 0,
+            "191": 0,
+            "192": 0,
+            "193": 0,
+            "194": 0,
+            "195": 0,
+            "196": 0,
+            "197": 0,
+            "198": 0,
+            "199": 0,
+            "200": 0,
+            "201": 0,
+            "202": 0,
+            "203": 0,
+            "204": 0,
+            "205": 0,
+            "206": 0,
+            "207": 0,
+            "208": 0,
+            "209": 0,
+            "210": 0,
+            "211": 0,
+            "212": 0,
+            "213": 0,
+            "214": 0,
+            "215": 0,
+            "216": 0,
+            "217": 0,
+            "218": 0,
+            "219": 0,
+            "220": 0,
+            "222": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Extensions\\StringExtensions.cs": {
       "Audiora.Extensions.StringExtensions": {
         "System.Collections.Generic.IEnumerable`1<System.String> Audiora.Extensions.StringExtensions::ToSpotifySeedGenres(System.Collections.Generic.IEnumerable`1<System.String>)": {
           "Lines": {
-            "10": 1,
-            "11": 1,
-            "12": 1,
-            "13": 1,
-            "14": 1,
-            "15": 1,
-            "16": 1,
-            "17": 1,
-            "18": 1,
-            "19": 1,
-            "20": 1,
-            "21": 1,
-            "22": 1,
-            "23": 1,
-            "24": 1,
-            "25": 1,
-            "26": 1,
-            "27": 1,
-            "28": 1,
-            "29": 1,
-            "30": 1,
-            "31": 1,
-            "32": 1,
-            "33": 1,
-            "35": 1,
-            "36": 5,
-            "37": 1,
-            "38": 1,
-            "39": 1,
-            "40": 1,
-            "41": 1,
-            "42": 1,
-            "43": 1,
-            "44": 1
+            "10": 6,
+            "11": 6,
+            "12": 6,
+            "13": 6,
+            "14": 6,
+            "15": 6,
+            "16": 6,
+            "17": 6,
+            "18": 6,
+            "19": 6,
+            "20": 6,
+            "21": 6,
+            "22": 6,
+            "23": 6,
+            "24": 6,
+            "25": 6,
+            "26": 6,
+            "27": 6,
+            "28": 6,
+            "29": 6,
+            "30": 6,
+            "31": 6,
+            "32": 6,
+            "33": 6,
+            "35": 6,
+            "36": 32,
+            "37": 7,
+            "38": 7,
+            "39": 7,
+            "40": 7,
+            "41": 7,
+            "42": 7,
+            "43": 6,
+            "44": 6
           },
           "Branches": [
             {
@@ -1787,7 +3303,7 @@
               "EndOffset": 368,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 1
+              "Hits": 7
             },
             {
               "Line": 38,
@@ -1795,7 +3311,7 @@
               "EndOffset": 391,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 1
+              "Hits": 7
             },
             {
               "Line": 38,
@@ -1803,7 +3319,7 @@
               "EndOffset": 402,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 7
             },
             {
               "Line": 36,
@@ -1811,59 +3327,59 @@
               "EndOffset": 411,
               "Path": 0,
               "Ordinal": 2,
-              "Hits": 1
+              "Hits": 6
             }
           ]
         }
       }
     },
-    "C:\\Audiora\\Exceptions\\SpotifyApiException.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Exceptions\\SpotifyApiException.cs": {
       "Audiora.Exceptions.SpotifyApiException": {
         "System.Void Audiora.Exceptions.SpotifyApiException::.ctor(System.String,System.Exception)": {
           "Lines": {
-            "6": 2,
-            "7": 2,
-            "8": 2
+            "6": 4,
+            "7": 4,
+            "8": 4
           },
           "Branches": []
         }
       }
     },
-    "C:\\Audiora\\Data\\AudioraDbContext.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Data\\AudioraDbContext.cs": {
       "Audiora.Data.AudioraDbContext": {
         "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Models.User> Audiora.Data.AudioraDbContext::get_Users()": {
           "Lines": {
-            "12": 134
+            "12": 223
           },
           "Branches": []
         },
         "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Data.SeenSong> Audiora.Data.AudioraDbContext::get_SeenSongs()": {
           "Lines": {
-            "13": 115
+            "13": 169
           },
           "Branches": []
         },
         "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Models.Room> Audiora.Data.AudioraDbContext::get_Rooms()": {
           "Lines": {
-            "14": 121
+            "14": 175
           },
           "Branches": []
         },
         "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Models.ChatMessage> Audiora.Data.AudioraDbContext::get_ChatMessages()": {
           "Lines": {
-            "15": 111
+            "15": 169
           },
           "Branches": []
         },
         "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Data.Like> Audiora.Data.AudioraDbContext::get_Likes()": {
           "Lines": {
-            "16": 108
+            "16": 178
           },
           "Branches": []
         },
         "Microsoft.EntityFrameworkCore.DbSet`1<Audiora.Data.Match> Audiora.Data.AudioraDbContext::get_Matches()": {
           "Lines": {
-            "17": 105
+            "17": 169
           },
           "Branches": []
         },
@@ -1915,9 +3431,9 @@
         },
         "System.Void Audiora.Data.AudioraDbContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<Audiora.Data.AudioraDbContext>)": {
           "Lines": {
-            "8": 98,
-            "9": 98,
-            "10": 98
+            "8": 152,
+            "9": 152,
+            "10": 152
           },
           "Branches": []
         }
@@ -1975,19 +3491,19 @@
         },
         "System.Guid Audiora.Data.Like::get_FromUserId()": {
           "Lines": {
-            "80": 4
+            "80": 8
           },
           "Branches": []
         },
         "System.Guid Audiora.Data.Like::get_ToUserId()": {
           "Lines": {
-            "81": 4
+            "81": 8
           },
           "Branches": []
         },
         "System.DateTime Audiora.Data.Like::get_Timestamp()": {
           "Lines": {
-            "82": 4
+            "82": 8
           },
           "Branches": []
         }
@@ -2001,39 +3517,39 @@
         },
         "System.Guid Audiora.Data.Match::get_UserAId()": {
           "Lines": {
-            "88": 4
+            "88": 12
           },
           "Branches": []
         },
         "System.Guid Audiora.Data.Match::get_UserBId()": {
           "Lines": {
-            "89": 4
+            "89": 8
           },
           "Branches": []
         },
         "System.DateTime Audiora.Data.Match::get_CreatedAt()": {
           "Lines": {
-            "90": 3
+            "90": 7
           },
           "Branches": []
         },
         "System.String Audiora.Data.Match::get_ChatId()": {
           "Lines": {
-            "91": 5
+            "91": 13
           },
           "Branches": []
         }
       }
     },
-    "C:\\Audiora\\Controllers\\AuthController.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Controllers\\AuthController.cs": {
       "Audiora.Controllers.AuthController": {
         "System.Void Audiora.Controllers.AuthController::.ctor(Audiora.Data.AudioraDbContext,Audiora.Services.DataService`1<Audiora.Models.User>)": {
           "Lines": {
-            "26": 15,
-            "27": 15,
-            "28": 15,
-            "29": 15,
-            "30": 15
+            "26": 33,
+            "27": 33,
+            "28": 33,
+            "29": 33,
+            "30": 33
           },
           "Branches": []
         }
@@ -2041,13 +3557,13 @@
       "Audiora.Controllers.AuthController/UpdateGenresRequest": {
         "System.String Audiora.Controllers.AuthController/UpdateGenresRequest::get_UserId()": {
           "Lines": {
-            "325": 4
+            "326": 9
           },
           "Branches": []
         },
         "System.Collections.Generic.List`1<System.String> Audiora.Controllers.AuthController/UpdateGenresRequest::get_Genres()": {
           "Lines": {
-            "326": 3
+            "327": 7
           },
           "Branches": []
         }
@@ -2055,13 +3571,13 @@
       "Audiora.Controllers.AuthController/UpdateTopSongsRequest": {
         "System.String Audiora.Controllers.AuthController/UpdateTopSongsRequest::get_UserId()": {
           "Lines": {
-            "331": 0
+            "332": 10
           },
           "Branches": []
         },
         "System.Collections.Generic.List`1<Audiora.Models.SongInfo> Audiora.Controllers.AuthController/UpdateTopSongsRequest::get_TopSongs()": {
           "Lines": {
-            "332": 0
+            "333": 8
           },
           "Branches": []
         }
@@ -2069,13 +3585,13 @@
       "Audiora.Controllers.AuthController/AddXpRequest": {
         "System.String Audiora.Controllers.AuthController/AddXpRequest::get_UserId()": {
           "Lines": {
-            "337": 0
+            "338": 0
           },
           "Branches": []
         },
         "System.Int32 Audiora.Controllers.AuthController/AddXpRequest::get_Amount()": {
           "Lines": {
-            "338": 0
+            "339": 0
           },
           "Branches": []
         }
@@ -2083,7 +3599,7 @@
       "Audiora.Controllers.AuthController/TwoFactorVerifyRequest": {
         "System.String Audiora.Controllers.AuthController/TwoFactorVerifyRequest::get_Code()": {
           "Lines": {
-            "341": 6
+            "342": 6
           },
           "Branches": []
         }
@@ -2091,71 +3607,73 @@
       "Audiora.Controllers.AuthController/TwoFactorLoginRequest": {
         "System.String Audiora.Controllers.AuthController/TwoFactorLoginRequest::get_UserId()": {
           "Lines": {
-            "342": 6
+            "343": 6
           },
           "Branches": []
         }
       },
-      "Audiora.Controllers.AuthController/<>c": {
-        "Audiora.Models.UserDto Audiora.Controllers.AuthController/<>c::<Register>b__3_0(Audiora.Models.User)": {
+      "Audiora.Controllers.AuthController/RegisterRequest": {
+        "System.String Audiora.Controllers.AuthController/RegisterRequest::get_Username()": {
           "Lines": {
-            "66": 8,
-            "67": 8,
-            "68": 8,
-            "69": 8,
-            "70": 8,
-            "71": 8
+            "346": 61
           },
-          "Branches": [
-            {
-              "Line": 66,
-              "Offset": 40,
-              "EndOffset": 42,
-              "Path": 0,
-              "Ordinal": 0,
-              "Hits": 0
-            },
-            {
-              "Line": 66,
-              "Offset": 40,
-              "EndOffset": 48,
-              "Path": 1,
-              "Ordinal": 1,
-              "Hits": 4
-            }
-          ]
+          "Branches": []
+        },
+        "System.String Audiora.Controllers.AuthController/RegisterRequest::get_Password()": {
+          "Lines": {
+            "347": 45
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<System.String> Audiora.Controllers.AuthController/RegisterRequest::get_Genres()": {
+          "Lines": {
+            "348": 57
+          },
+          "Branches": []
+        },
+        "Audiora.Models.Gender Audiora.Controllers.AuthController/RegisterRequest::get_Gender()": {
+          "Lines": {
+            "349": 63
+          },
+          "Branches": []
+        },
+        "Audiora.Models.SexualityPreference Audiora.Controllers.AuthController/RegisterRequest::get_Preference()": {
+          "Lines": {
+            "350": 63
+          },
+          "Branches": []
         }
       },
       "Audiora.Controllers.AuthController/<AddXp>d__10": {
         "System.Void Audiora.Controllers.AuthController/<AddXp>d__10::MoveNext()": {
           "Lines": {
-            "235": 0,
             "236": 0,
             "237": 0,
             "238": 0,
             "239": 0,
-            "242": 0,
+            "240": 0,
             "243": 0,
             "244": 0,
-            "247": 0,
+            "245": 0,
             "248": 0,
             "249": 0,
-            "251": 0,
-            "254": 0,
+            "250": 0,
+            "252": 0,
             "255": 0,
-            "258": 0,
+            "256": 0,
             "259": 0,
             "260": 0,
             "261": 0,
             "262": 0,
             "263": 0,
-            "265": 0,
-            "267": 0,
-            "268": 0
+            "264": 0,
+            "266": 0,
+            "268": 0,
+            "269": 0
           },
           "Branches": [
             {
-              "Line": 236,
+              "Line": 237,
               "Offset": 63,
               "EndOffset": 65,
               "Path": 0,
@@ -2163,7 +3681,7 @@
               "Hits": 0
             },
             {
-              "Line": 236,
+              "Line": 237,
               "Offset": 63,
               "EndOffset": 69,
               "Path": 1,
@@ -2171,7 +3689,7 @@
               "Hits": 0
             },
             {
-              "Line": 237,
+              "Line": 238,
               "Offset": 103,
               "EndOffset": 105,
               "Path": 0,
@@ -2179,7 +3697,7 @@
               "Hits": 0
             },
             {
-              "Line": 237,
+              "Line": 238,
               "Offset": 103,
               "EndOffset": 123,
               "Path": 1,
@@ -2187,7 +3705,7 @@
               "Hits": 0
             },
             {
-              "Line": 242,
+              "Line": 243,
               "Offset": 139,
               "EndOffset": 141,
               "Path": 0,
@@ -2195,7 +3713,7 @@
               "Hits": 0
             },
             {
-              "Line": 242,
+              "Line": 243,
               "Offset": 139,
               "EndOffset": 173,
               "Path": 1,
@@ -2203,7 +3721,7 @@
               "Hits": 0
             },
             {
-              "Line": 242,
+              "Line": 243,
               "Offset": 176,
               "EndOffset": 178,
               "Path": 0,
@@ -2211,7 +3729,7 @@
               "Hits": 0
             },
             {
-              "Line": 242,
+              "Line": 243,
               "Offset": 176,
               "EndOffset": 201,
               "Path": 1,
@@ -2219,7 +3737,7 @@
               "Hits": 0
             },
             {
-              "Line": 248,
+              "Line": 249,
               "Offset": 480,
               "EndOffset": 482,
               "Path": 0,
@@ -2227,7 +3745,7 @@
               "Hits": 0
             },
             {
-              "Line": 248,
+              "Line": 249,
               "Offset": 480,
               "EndOffset": 499,
               "Path": 1,
@@ -2235,7 +3753,7 @@
               "Hits": 0
             },
             {
-              "Line": 258,
+              "Line": 259,
               "Offset": 597,
               "EndOffset": 599,
               "Path": 0,
@@ -2243,7 +3761,7 @@
               "Hits": 0
             },
             {
-              "Line": 260,
+              "Line": 261,
               "Offset": 622,
               "EndOffset": 624,
               "Path": 0,
@@ -2251,7 +3769,7 @@
               "Hits": 0
             },
             {
-              "Line": 260,
+              "Line": 261,
               "Offset": 622,
               "EndOffset": 639,
               "Path": 1,
@@ -2259,7 +3777,7 @@
               "Hits": 0
             },
             {
-              "Line": 261,
+              "Line": 262,
               "Offset": 661,
               "EndOffset": 663,
               "Path": 0,
@@ -2267,7 +3785,7 @@
               "Hits": 0
             },
             {
-              "Line": 261,
+              "Line": 262,
               "Offset": 661,
               "EndOffset": 678,
               "Path": 1,
@@ -2275,7 +3793,7 @@
               "Hits": 0
             },
             {
-              "Line": 258,
+              "Line": 259,
               "Offset": 597,
               "EndOffset": 692,
               "Path": 1,
@@ -2288,33 +3806,35 @@
       "Audiora.Controllers.AuthController/<GetUser>d__9": {
         "System.Void Audiora.Controllers.AuthController/<GetUser>d__9::MoveNext()": {
           "Lines": {
-            "203": 2,
-            "204": 2,
-            "205": 2,
+            "202": 4,
+            "203": 4,
+            "204": 4,
+            "205": 0,
             "206": 0,
-            "207": 0,
-            "210": 2,
+            "209": 4,
+            "210": 1,
             "211": 1,
-            "212": 1,
-            "215": 1,
-            "216": 1,
-            "217": 0,
-            "219": 1,
-            "220": 1,
-            "221": 1,
-            "222": 1,
-            "223": 1,
-            "224": 1,
-            "225": 1,
-            "226": 1,
-            "227": 1,
-            "228": 1,
-            "229": 1,
-            "230": 2
+            "214": 3,
+            "215": 3,
+            "216": 0,
+            "218": 3,
+            "219": 3,
+            "220": 3,
+            "221": 3,
+            "222": 3,
+            "223": 3,
+            "224": 3,
+            "225": 3,
+            "226": 3,
+            "227": 3,
+            "228": 3,
+            "229": 3,
+            "230": 3,
+            "231": 4
           },
           "Branches": [
             {
-              "Line": 204,
+              "Line": 203,
               "Offset": 52,
               "EndOffset": 54,
               "Path": 0,
@@ -2322,15 +3842,15 @@
               "Hits": 0
             },
             {
-              "Line": 204,
+              "Line": 203,
               "Offset": 52,
               "EndOffset": 58,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 2
+              "Hits": 4
             },
             {
-              "Line": 205,
+              "Line": 204,
               "Offset": 87,
               "EndOffset": 89,
               "Path": 0,
@@ -2338,23 +3858,23 @@
               "Hits": 0
             },
             {
-              "Line": 205,
+              "Line": 204,
               "Offset": 87,
               "EndOffset": 107,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 2
+              "Hits": 4
             },
             {
-              "Line": 210,
+              "Line": 209,
               "Offset": 118,
               "EndOffset": 120,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 2
+              "Hits": 4
             },
             {
-              "Line": 210,
+              "Line": 209,
               "Offset": 118,
               "EndOffset": 147,
               "Path": 1,
@@ -2362,7 +3882,7 @@
               "Hits": 0
             },
             {
-              "Line": 210,
+              "Line": 209,
               "Offset": 150,
               "EndOffset": 152,
               "Path": 0,
@@ -2370,15 +3890,15 @@
               "Hits": 1
             },
             {
-              "Line": 210,
+              "Line": 209,
               "Offset": 150,
               "EndOffset": 175,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 216,
+              "Line": 215,
               "Offset": 454,
               "EndOffset": 456,
               "Path": 0,
@@ -2386,15 +3906,15 @@
               "Hits": 0
             },
             {
-              "Line": 216,
+              "Line": 215,
               "Offset": 454,
               "EndOffset": 473,
               "Path": 1,
               "Ordinal": 9,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 219,
+              "Line": 218,
               "Offset": 524,
               "EndOffset": 526,
               "Path": 0,
@@ -2402,15 +3922,15 @@
               "Hits": 1
             },
             {
-              "Line": 219,
+              "Line": 218,
               "Offset": 524,
               "EndOffset": 532,
               "Path": 1,
               "Ordinal": 11,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 219,
+              "Line": 218,
               "Offset": 544,
               "EndOffset": 546,
               "Path": 0,
@@ -2418,12 +3938,12 @@
               "Hits": 0
             },
             {
-              "Line": 219,
+              "Line": 218,
               "Offset": 544,
               "EndOffset": 552,
               "Path": 1,
               "Ordinal": 13,
-              "Hits": 1
+              "Hits": 3
             }
           ]
         }
@@ -2431,44 +3951,44 @@
       "Audiora.Controllers.AuthController/<Login>d__4": {
         "System.Void Audiora.Controllers.AuthController/<Login>d__4::MoveNext()": {
           "Lines": {
-            "78": 3,
-            "79": 3,
-            "81": 3,
+            "77": 4,
+            "78": 4,
+            "80": 4,
+            "81": 2,
             "82": 2,
-            "83": 2,
-            "86": 1,
+            "85": 2,
+            "86": 0,
             "87": 0,
-            "88": 0,
-            "91": 1,
-            "92": 1,
-            "93": 1,
-            "94": 1,
-            "95": 1,
-            "96": 1,
-            "98": 1,
-            "99": 1,
-            "100": 1,
-            "101": 1,
-            "102": 1,
-            "103": 1,
-            "105": 1,
-            "106": 1,
-            "107": 1,
-            "108": 1,
-            "110": 1,
-            "111": 3
+            "90": 2,
+            "91": 2,
+            "92": 2,
+            "93": 2,
+            "94": 2,
+            "95": 2,
+            "97": 2,
+            "98": 2,
+            "99": 2,
+            "100": 2,
+            "101": 2,
+            "102": 2,
+            "104": 2,
+            "105": 2,
+            "106": 2,
+            "107": 2,
+            "109": 2,
+            "110": 4
           },
           "Branches": [
             {
-              "Line": 81,
+              "Line": 80,
               "Offset": 327,
               "EndOffset": 329,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 2
+              "Hits": 3
             },
             {
-              "Line": 81,
+              "Line": 80,
               "Offset": 327,
               "EndOffset": 368,
               "Path": 1,
@@ -2476,7 +3996,7 @@
               "Hits": 1
             },
             {
-              "Line": 81,
+              "Line": 80,
               "Offset": 373,
               "EndOffset": 375,
               "Path": 0,
@@ -2484,15 +4004,15 @@
               "Hits": 2
             },
             {
-              "Line": 81,
+              "Line": 80,
               "Offset": 373,
               "EndOffset": 398,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 86,
+              "Line": 85,
               "Offset": 413,
               "EndOffset": 415,
               "Path": 0,
@@ -2500,15 +4020,15 @@
               "Hits": 0
             },
             {
-              "Line": 86,
+              "Line": 85,
               "Offset": 413,
               "EndOffset": 469,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 91,
+              "Line": 90,
               "Offset": 536,
               "EndOffset": 538,
               "Path": 0,
@@ -2516,12 +4036,12 @@
               "Hits": 0
             },
             {
-              "Line": 91,
+              "Line": 90,
               "Offset": 536,
               "EndOffset": 544,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 1
+              "Hits": 2
             }
           ]
         }
@@ -2529,10 +4049,10 @@
       "Audiora.Controllers.AuthController/<Logout>d__8": {
         "System.Void Audiora.Controllers.AuthController/<Logout>d__8::MoveNext()": {
           "Lines": {
-            "195": 0,
-            "196": 0,
-            "197": 0,
-            "198": 0
+            "194": 1,
+            "195": 1,
+            "196": 1,
+            "197": 1
           },
           "Branches": []
         }
@@ -2540,33 +4060,38 @@
       "Audiora.Controllers.AuthController/<Register>d__3": {
         "System.Void Audiora.Controllers.AuthController/<Register>d__3::MoveNext()": {
           "Lines": {
-            "34": 5,
-            "35": 5,
+            "34": 16,
+            "35": 16,
             "36": 1,
             "37": 1,
-            "40": 4,
-            "41": 4,
-            "42": 4,
-            "43": 4,
-            "45": 4,
-            "47": 4,
-            "48": 4,
-            "49": 4,
-            "50": 4,
-            "51": 4,
-            "52": 4,
-            "54": 4,
-            "55": 4,
-            "56": 4,
-            "57": 4,
-            "58": 4,
-            "59": 4,
-            "61": 4,
-            "62": 4,
-            "63": 4,
-            "64": 4,
-            "73": 4,
-            "74": 5
+            "40": 15,
+            "41": 15,
+            "42": 15,
+            "43": 15,
+            "44": 15,
+            "45": 15,
+            "46": 15,
+            "47": 15,
+            "48": 15,
+            "50": 15,
+            "52": 15,
+            "53": 15,
+            "54": 15,
+            "55": 15,
+            "56": 15,
+            "57": 15,
+            "59": 15,
+            "60": 15,
+            "61": 15,
+            "62": 15,
+            "63": 15,
+            "64": 15,
+            "66": 15,
+            "67": 15,
+            "68": 15,
+            "69": 15,
+            "71": 15,
+            "72": 16
           },
           "Branches": [
             {
@@ -2583,39 +4108,39 @@
               "EndOffset": 352,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 4
+              "Hits": 15
             },
             {
-              "Line": 42,
-              "Offset": 435,
-              "EndOffset": 437,
+              "Line": 40,
+              "Offset": 439,
+              "EndOffset": 441,
               "Path": 0,
               "Ordinal": 2,
-              "Hits": 4
+              "Hits": 0
             },
             {
-              "Line": 42,
-              "Offset": 435,
-              "EndOffset": 459,
+              "Line": 40,
+              "Offset": 439,
+              "EndOffset": 447,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 4
+              "Hits": 15
             },
             {
-              "Line": 47,
-              "Offset": 657,
-              "EndOffset": 659,
+              "Line": 52,
+              "Offset": 687,
+              "EndOffset": 689,
               "Path": 0,
               "Ordinal": 4,
               "Hits": 0
             },
             {
-              "Line": 47,
-              "Offset": 657,
-              "EndOffset": 665,
+              "Line": 52,
+              "Offset": 687,
+              "EndOffset": 695,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 4
+              "Hits": 15
             }
           ]
         }
@@ -2623,22 +4148,22 @@
       "Audiora.Controllers.AuthController/<SetupTwoFactor>d__5": {
         "System.Void Audiora.Controllers.AuthController/<SetupTwoFactor>d__5::MoveNext()": {
           "Lines": {
+            "115": 1,
             "116": 1,
             "117": 1,
             "118": 1,
             "119": 1,
-            "120": 1,
+            "121": 1,
             "122": 1,
-            "123": 1,
+            "124": 1,
             "125": 1,
-            "126": 1,
-            "128": 1,
-            "130": 1,
-            "131": 1
+            "127": 1,
+            "129": 1,
+            "130": 1
           },
           "Branches": [
             {
-              "Line": 117,
+              "Line": 116,
               "Offset": 52,
               "EndOffset": 54,
               "Path": 0,
@@ -2646,7 +4171,7 @@
               "Hits": 0
             },
             {
-              "Line": 117,
+              "Line": 116,
               "Offset": 52,
               "EndOffset": 58,
               "Path": 1,
@@ -2654,7 +4179,7 @@
               "Hits": 1
             },
             {
-              "Line": 118,
+              "Line": 117,
               "Offset": 81,
               "EndOffset": 83,
               "Path": 0,
@@ -2662,7 +4187,7 @@
               "Hits": 0
             },
             {
-              "Line": 118,
+              "Line": 117,
               "Offset": 81,
               "EndOffset": 100,
               "Path": 1,
@@ -2670,7 +4195,7 @@
               "Hits": 1
             },
             {
-              "Line": 120,
+              "Line": 119,
               "Offset": 278,
               "EndOffset": 280,
               "Path": 0,
@@ -2678,7 +4203,7 @@
               "Hits": 0
             },
             {
-              "Line": 120,
+              "Line": 119,
               "Offset": 278,
               "EndOffset": 297,
               "Path": 1,
@@ -2691,25 +4216,25 @@
       "Audiora.Controllers.AuthController/<UpdateGenres>d__11": {
         "System.Void Audiora.Controllers.AuthController/<UpdateGenres>d__11::MoveNext()": {
           "Lines": {
-            "273": 1,
-            "274": 1,
-            "275": 1,
-            "276": 0,
+            "274": 2,
+            "275": 2,
+            "276": 2,
             "277": 0,
-            "280": 1,
-            "281": 0,
+            "278": 0,
+            "281": 2,
             "282": 0,
-            "285": 1,
-            "286": 1,
-            "287": 0,
-            "289": 1,
-            "290": 1,
-            "291": 1,
-            "292": 1
+            "283": 0,
+            "286": 2,
+            "287": 2,
+            "288": 0,
+            "290": 2,
+            "291": 2,
+            "292": 2,
+            "293": 2
           },
           "Branches": [
             {
-              "Line": 274,
+              "Line": 275,
               "Offset": 63,
               "EndOffset": 65,
               "Path": 0,
@@ -2717,15 +4242,15 @@
               "Hits": 0
             },
             {
-              "Line": 274,
+              "Line": 275,
               "Offset": 63,
               "EndOffset": 69,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 275,
+              "Line": 276,
               "Offset": 103,
               "EndOffset": 105,
               "Path": 0,
@@ -2733,23 +4258,23 @@
               "Hits": 0
             },
             {
-              "Line": 275,
+              "Line": 276,
               "Offset": 103,
               "EndOffset": 123,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 280,
+              "Line": 281,
               "Offset": 139,
               "EndOffset": 141,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 280,
+              "Line": 281,
               "Offset": 139,
               "EndOffset": 173,
               "Path": 1,
@@ -2757,7 +4282,7 @@
               "Hits": 0
             },
             {
-              "Line": 280,
+              "Line": 281,
               "Offset": 176,
               "EndOffset": 178,
               "Path": 0,
@@ -2765,15 +4290,15 @@
               "Hits": 0
             },
             {
-              "Line": 280,
+              "Line": 281,
               "Offset": 176,
               "EndOffset": 201,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 286,
+              "Line": 287,
               "Offset": 480,
               "EndOffset": 482,
               "Path": 0,
@@ -2781,15 +4306,15 @@
               "Hits": 0
             },
             {
-              "Line": 286,
+              "Line": 287,
               "Offset": 480,
               "EndOffset": 499,
               "Path": 1,
               "Ordinal": 9,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 289,
+              "Line": 290,
               "Offset": 517,
               "EndOffset": 519,
               "Path": 0,
@@ -2797,12 +4322,12 @@
               "Hits": 0
             },
             {
-              "Line": 289,
+              "Line": 290,
               "Offset": 517,
               "EndOffset": 525,
               "Path": 1,
               "Ordinal": 11,
-              "Hits": 1
+              "Hits": 2
             }
           ]
         }
@@ -2810,26 +4335,26 @@
       "Audiora.Controllers.AuthController/<UpdateTopSongs>d__12": {
         "System.Void Audiora.Controllers.AuthController/<UpdateTopSongs>d__12::MoveNext()": {
           "Lines": {
-            "297": 0,
-            "298": 0,
-            "299": 0,
-            "300": 0,
+            "298": 2,
+            "299": 2,
+            "300": 2,
             "301": 0,
-            "304": 0,
-            "305": 0,
+            "302": 0,
+            "305": 2,
             "306": 0,
-            "309": 0,
-            "310": 0,
-            "311": 0,
-            "313": 0,
-            "316": 0,
-            "318": 0,
-            "320": 0,
-            "321": 0
+            "307": 0,
+            "310": 2,
+            "311": 2,
+            "312": 0,
+            "314": 2,
+            "317": 2,
+            "319": 2,
+            "321": 2,
+            "322": 2
           },
           "Branches": [
             {
-              "Line": 298,
+              "Line": 299,
               "Offset": 63,
               "EndOffset": 65,
               "Path": 0,
@@ -2837,15 +4362,15 @@
               "Hits": 0
             },
             {
-              "Line": 298,
+              "Line": 299,
               "Offset": 63,
               "EndOffset": 69,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 0
+              "Hits": 2
             },
             {
-              "Line": 299,
+              "Line": 300,
               "Offset": 103,
               "EndOffset": 105,
               "Path": 0,
@@ -2853,23 +4378,23 @@
               "Hits": 0
             },
             {
-              "Line": 299,
+              "Line": 300,
               "Offset": 103,
               "EndOffset": 123,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 0
+              "Hits": 2
             },
             {
-              "Line": 304,
+              "Line": 305,
               "Offset": 139,
               "EndOffset": 141,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 0
+              "Hits": 2
             },
             {
-              "Line": 304,
+              "Line": 305,
               "Offset": 139,
               "EndOffset": 173,
               "Path": 1,
@@ -2877,7 +4402,7 @@
               "Hits": 0
             },
             {
-              "Line": 304,
+              "Line": 305,
               "Offset": 176,
               "EndOffset": 178,
               "Path": 0,
@@ -2885,15 +4410,15 @@
               "Hits": 0
             },
             {
-              "Line": 304,
+              "Line": 305,
               "Offset": 176,
               "EndOffset": 201,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 0
+              "Hits": 2
             },
             {
-              "Line": 310,
+              "Line": 311,
               "Offset": 480,
               "EndOffset": 482,
               "Path": 0,
@@ -2901,15 +4426,15 @@
               "Hits": 0
             },
             {
-              "Line": 310,
+              "Line": 311,
               "Offset": 480,
               "EndOffset": 499,
               "Path": 1,
               "Ordinal": 9,
-              "Hits": 0
+              "Hits": 2
             },
             {
-              "Line": 313,
+              "Line": 314,
               "Offset": 517,
               "EndOffset": 519,
               "Path": 0,
@@ -2917,12 +4442,12 @@
               "Hits": 0
             },
             {
-              "Line": 313,
+              "Line": 314,
               "Offset": 517,
               "EndOffset": 525,
               "Path": 1,
               "Ordinal": 11,
-              "Hits": 0
+              "Hits": 2
             }
           ]
         }
@@ -2930,38 +4455,38 @@
       "Audiora.Controllers.AuthController/<VerifyTwoFactorLogin>d__7": {
         "System.Void Audiora.Controllers.AuthController/<VerifyTwoFactorLogin>d__7::MoveNext()": {
           "Lines": {
+            "155": 1,
             "156": 1,
-            "157": 1,
+            "158": 1,
             "159": 1,
-            "160": 1,
-            "162": 1,
+            "161": 1,
+            "163": 1,
             "164": 1,
             "165": 1,
-            "166": 1,
+            "166": 0,
             "167": 0,
-            "168": 0,
+            "170": 1,
             "171": 1,
             "172": 1,
             "173": 1,
             "174": 1,
             "175": 1,
-            "176": 1,
+            "177": 1,
             "178": 1,
             "179": 1,
             "180": 1,
             "181": 1,
             "182": 1,
-            "183": 1,
+            "184": 1,
             "185": 1,
             "186": 1,
             "187": 1,
-            "188": 1,
-            "190": 1,
-            "191": 1
+            "189": 1,
+            "190": 1
           },
           "Branches": [
             {
-              "Line": 157,
+              "Line": 156,
               "Offset": 56,
               "EndOffset": 58,
               "Path": 0,
@@ -2969,7 +4494,7 @@
               "Hits": 0
             },
             {
-              "Line": 157,
+              "Line": 156,
               "Offset": 56,
               "EndOffset": 80,
               "Path": 1,
@@ -2977,7 +4502,7 @@
               "Hits": 1
             },
             {
-              "Line": 160,
+              "Line": 159,
               "Offset": 253,
               "EndOffset": 255,
               "Path": 0,
@@ -2985,7 +4510,7 @@
               "Hits": 0
             },
             {
-              "Line": 160,
+              "Line": 159,
               "Offset": 253,
               "EndOffset": 272,
               "Path": 1,
@@ -2993,7 +4518,7 @@
               "Hits": 1
             },
             {
-              "Line": 162,
+              "Line": 161,
               "Offset": 292,
               "EndOffset": 294,
               "Path": 0,
@@ -3001,7 +4526,7 @@
               "Hits": 0
             },
             {
-              "Line": 162,
+              "Line": 161,
               "Offset": 292,
               "EndOffset": 316,
               "Path": 1,
@@ -3009,7 +4534,7 @@
               "Hits": 1
             },
             {
-              "Line": 166,
+              "Line": 165,
               "Offset": 396,
               "EndOffset": 398,
               "Path": 0,
@@ -3017,7 +4542,7 @@
               "Hits": 0
             },
             {
-              "Line": 166,
+              "Line": 165,
               "Offset": 396,
               "EndOffset": 421,
               "Path": 1,
@@ -3025,7 +4550,7 @@
               "Hits": 1
             },
             {
-              "Line": 171,
+              "Line": 170,
               "Offset": 488,
               "EndOffset": 490,
               "Path": 0,
@@ -3033,7 +4558,7 @@
               "Hits": 0
             },
             {
-              "Line": 171,
+              "Line": 170,
               "Offset": 488,
               "EndOffset": 496,
               "Path": 1,
@@ -3046,24 +4571,24 @@
       "Audiora.Controllers.AuthController/<VerifyTwoFactorSetup>d__6": {
         "System.Void Audiora.Controllers.AuthController/<VerifyTwoFactorSetup>d__6::MoveNext()": {
           "Lines": {
+            "135": 2,
             "136": 2,
             "137": 2,
             "138": 2,
             "139": 2,
-            "140": 2,
+            "141": 2,
             "142": 2,
-            "143": 2,
-            "145": 2,
+            "144": 2,
+            "145": 1,
             "146": 1,
             "147": 1,
             "148": 1,
-            "149": 1,
-            "151": 1,
-            "152": 2
+            "150": 1,
+            "151": 2
           },
           "Branches": [
             {
-              "Line": 137,
+              "Line": 136,
               "Offset": 52,
               "EndOffset": 54,
               "Path": 0,
@@ -3071,7 +4596,7 @@
               "Hits": 0
             },
             {
-              "Line": 137,
+              "Line": 136,
               "Offset": 52,
               "EndOffset": 58,
               "Path": 1,
@@ -3079,7 +4604,7 @@
               "Hits": 2
             },
             {
-              "Line": 138,
+              "Line": 137,
               "Offset": 81,
               "EndOffset": 83,
               "Path": 0,
@@ -3087,7 +4612,7 @@
               "Hits": 0
             },
             {
-              "Line": 138,
+              "Line": 137,
               "Offset": 81,
               "EndOffset": 100,
               "Path": 1,
@@ -3095,7 +4620,7 @@
               "Hits": 2
             },
             {
-              "Line": 140,
+              "Line": 139,
               "Offset": 278,
               "EndOffset": 280,
               "Path": 0,
@@ -3103,7 +4628,7 @@
               "Hits": 0
             },
             {
-              "Line": 140,
+              "Line": 139,
               "Offset": 278,
               "EndOffset": 297,
               "Path": 1,
@@ -3111,7 +4636,7 @@
               "Hits": 2
             },
             {
-              "Line": 145,
+              "Line": 144,
               "Offset": 374,
               "EndOffset": 379,
               "Path": 0,
@@ -3119,7 +4644,7 @@
               "Hits": 1
             },
             {
-              "Line": 145,
+              "Line": 144,
               "Offset": 374,
               "EndOffset": 527,
               "Path": 1,
@@ -3130,27 +4655,27 @@
         }
       }
     },
-    "C:\\Audiora\\Controllers\\DirectChatController.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Controllers\\DirectChatController.cs": {
       "Audiora.Controllers.DirectChatController": {
         "System.Guid Audiora.Controllers.DirectChatController::ChatIdToGuid(System.String)": {
           "Lines": {
-            "67": 2,
-            "68": 2,
-            "69": 2,
-            "70": 2,
-            "71": 2,
-            "72": 2,
-            "73": 2
+            "67": 6,
+            "68": 6,
+            "69": 6,
+            "70": 6,
+            "71": 6,
+            "72": 6,
+            "73": 6
           },
           "Branches": []
         },
         "System.Void Audiora.Controllers.DirectChatController::.ctor(Audiora.Data.AudioraDbContext,Microsoft.AspNetCore.SignalR.IHubContext`1<Audiora.Models.RoomHub>)": {
           "Lines": {
-            "22": 6,
-            "23": 6,
-            "24": 6,
-            "25": 6,
-            "26": 6
+            "22": 10,
+            "23": 10,
+            "24": 10,
+            "25": 10,
+            "26": 10
           },
           "Branches": []
         }
@@ -3158,7 +4683,7 @@
       "Audiora.Controllers.DirectChatController/SendRequest": {
         "System.String Audiora.Controllers.DirectChatController/SendRequest::get_ChatId()": {
           "Lines": {
-            "40": 41
+            "40": 81
           },
           "Branches": []
         }
@@ -3166,15 +4691,15 @@
       "Audiora.Controllers.DirectChatController/<GetMessages>d__3": {
         "System.Void Audiora.Controllers.DirectChatController/<GetMessages>d__3::MoveNext()": {
           "Lines": {
-            "30": 2,
-            "31": 3,
-            "32": 1,
-            "33": 1,
-            "34": 1,
-            "35": 1,
-            "36": 1,
-            "37": 1,
-            "38": 2
+            "30": 4,
+            "31": 5,
+            "32": 3,
+            "33": 3,
+            "34": 3,
+            "35": 3,
+            "36": 3,
+            "37": 3,
+            "38": 4
           },
           "Branches": [
             {
@@ -3191,7 +4716,7 @@
               "EndOffset": 66,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 3
             }
           ]
         }
@@ -3199,22 +4724,22 @@
       "Audiora.Controllers.DirectChatController/<Send>d__5": {
         "System.Void Audiora.Controllers.DirectChatController/<Send>d__5::MoveNext()": {
           "Lines": {
-            "44": 4,
-            "45": 4,
-            "46": 4,
+            "44": 6,
+            "45": 6,
+            "46": 6,
             "47": 0,
             "48": 0,
-            "51": 4,
+            "51": 6,
             "52": 1,
-            "53": 4,
-            "54": 3,
-            "55": 1,
-            "56": 1,
-            "57": 1,
-            "58": 1,
-            "60": 1,
-            "62": 1,
-            "63": 4
+            "53": 6,
+            "54": 5,
+            "55": 3,
+            "56": 3,
+            "57": 3,
+            "58": 3,
+            "60": 3,
+            "62": 3,
+            "63": 6
           },
           "Branches": [
             {
@@ -3231,7 +4756,7 @@
               "EndOffset": 58,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 4
+              "Hits": 6
             },
             {
               "Line": 46,
@@ -3247,7 +4772,7 @@
               "EndOffset": 112,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 4
+              "Hits": 6
             },
             {
               "Line": 51,
@@ -3255,7 +4780,7 @@
               "EndOffset": 130,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 3
+              "Hits": 5
             },
             {
               "Line": 51,
@@ -3263,7 +4788,7 @@
               "EndOffset": 148,
               "Path": 0,
               "Ordinal": 6,
-              "Hits": 3
+              "Hits": 5
             },
             {
               "Line": 51,
@@ -3295,7 +4820,7 @@
               "EndOffset": 193,
               "Path": 1,
               "Ordinal": 9,
-              "Hits": 3
+              "Hits": 5
             },
             {
               "Line": 53,
@@ -3311,7 +4836,7 @@
               "EndOffset": 237,
               "Path": 1,
               "Ordinal": 11,
-              "Hits": 2
+              "Hits": 4
             },
             {
               "Line": 54,
@@ -3327,30 +4852,173 @@
               "EndOffset": 290,
               "Path": 1,
               "Ordinal": 13,
-              "Hits": 1
+              "Hits": 3
             }
           ]
         }
       }
     },
-    "C:\\Audiora\\Controllers\\MatchController.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Controllers\\MatchController.cs": {
       "Audiora.Controllers.MatchController": {
+        "System.Boolean Audiora.Controllers.MatchController::MatchesPreferences(Audiora.Models.User,Audiora.Models.User)": {
+          "Lines": {
+            "67": 9,
+            "68": 9,
+            "69": 9,
+            "70": 9,
+            "72": 9,
+            "73": 9,
+            "74": 9,
+            "76": 9,
+            "77": 9
+          },
+          "Branches": [
+            {
+              "Line": 68,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 68,
+              "Offset": 16,
+              "EndOffset": 18,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 68,
+              "Offset": 16,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 68,
+              "Offset": 25,
+              "EndOffset": 27,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 68,
+              "Offset": 34,
+              "EndOffset": 36,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 68,
+              "Offset": 34,
+              "EndOffset": 47,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 68,
+              "Offset": 7,
+              "EndOffset": 50,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 8
+            },
+            {
+              "Line": 68,
+              "Offset": 25,
+              "EndOffset": 50,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 8
+            },
+            {
+              "Line": 72,
+              "Offset": 58,
+              "EndOffset": 60,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 2
+            },
+            {
+              "Line": 72,
+              "Offset": 67,
+              "EndOffset": 69,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 2
+            },
+            {
+              "Line": 72,
+              "Offset": 67,
+              "EndOffset": 78,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 72,
+              "Offset": 76,
+              "EndOffset": 78,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 72,
+              "Offset": 85,
+              "EndOffset": 87,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 72,
+              "Offset": 85,
+              "EndOffset": 98,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 72,
+              "Offset": 58,
+              "EndOffset": 101,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 9
+            },
+            {
+              "Line": 72,
+              "Offset": 76,
+              "EndOffset": 101,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 9
+            }
+          ]
+        },
         "System.String Audiora.Controllers.MatchController::GenerateChatId(System.String,System.String)": {
           "Lines": {
-            "148": 1,
-            "149": 3,
-            "150": 1,
-            "151": 1
+            "185": 3,
+            "186": 9,
+            "187": 3,
+            "188": 3
           },
           "Branches": []
         },
         "System.Void Audiora.Controllers.MatchController::.ctor(Audiora.Data.AudioraDbContext,Microsoft.AspNetCore.SignalR.IHubContext`1<Audiora.Models.RoomHub>)": {
           "Lines": {
-            "20": 7,
-            "21": 7,
-            "22": 7,
-            "23": 7,
-            "24": 7
+            "20": 18,
+            "21": 18,
+            "22": 18,
+            "23": 18,
+            "24": 18
           },
           "Branches": []
         }
@@ -3358,103 +5026,132 @@
       "Audiora.Controllers.MatchController/LikeRequest": {
         "System.String Audiora.Controllers.MatchController/LikeRequest::get_UserId()": {
           "Lines": {
-            "60": 23
+            "79": 69
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.MatchController/UpdatePreferencesRequest": {
+        "System.String Audiora.Controllers.MatchController/UpdatePreferencesRequest::get_UserId()": {
+          "Lines": {
+            "192": 4
+          },
+          "Branches": []
+        },
+        "Audiora.Models.Gender Audiora.Controllers.MatchController/UpdatePreferencesRequest::get_Gender()": {
+          "Lines": {
+            "193": 4
+          },
+          "Branches": []
+        },
+        "Audiora.Models.SexualityPreference Audiora.Controllers.MatchController/UpdatePreferencesRequest::get_Preference()": {
+          "Lines": {
+            "194": 4
           },
           "Branches": []
         }
       },
       "Audiora.Controllers.MatchController/<>c": {
-        "<>f__AnonymousType5`3<System.Guid,System.String,System.Collections.Generic.IEnumerable`1<<>f__AnonymousType6`3<System.String,System.String,System.String>>> Audiora.Controllers.MatchController/<>c::<GetCandidates>b__3_0(Audiora.Models.User)": {
+        "<>f__AnonymousType6`4<System.Guid,System.String,System.String,System.Collections.Generic.IEnumerable`1<<>f__AnonymousType7`3<System.String,System.String,System.String>>> Audiora.Controllers.MatchController/<>c::<GetCandidates>b__3_1(Audiora.Models.User)": {
           "Lines": {
-            "51": 3,
-            "52": 3,
-            "53": 3,
-            "54": 0,
-            "55": 3
+            "56": 15,
+            "57": 15,
+            "58": 15,
+            "59": 15,
+            "60": 1,
+            "61": 15
           },
           "Branches": [
             {
-              "Line": 51,
-              "Offset": 19,
-              "EndOffset": 21,
+              "Line": 56,
+              "Offset": 39,
+              "EndOffset": 41,
               "Path": 0,
               "Ordinal": 0,
               "Hits": 0
             },
             {
-              "Line": 51,
-              "Offset": 19,
-              "EndOffset": 27,
+              "Line": 56,
+              "Offset": 39,
+              "EndOffset": 47,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 9
             }
           ]
         },
-        "System.Guid Audiora.Controllers.MatchController/<>c::<List>b__6_1(Audiora.Models.User)": {
+        "System.Guid Audiora.Controllers.MatchController/<>c::<List>b__7_1(Audiora.Models.User)": {
           "Lines": {
-            "119": 3
+            "138": 7
           },
           "Branches": []
         }
       },
-      "Audiora.Controllers.MatchController/<>c__DisplayClass6_0": {
-        "System.Guid Audiora.Controllers.MatchController/<>c__DisplayClass6_0::<List>b__0(Audiora.Data.Match)": {
+      "Audiora.Controllers.MatchController/<>c__DisplayClass3_0": {
+        "System.Boolean Audiora.Controllers.MatchController/<>c__DisplayClass3_0::<GetCandidates>b__0(Audiora.Models.User)": {
           "Lines": {
-            "117": 3
+            "54": 15
+          },
+          "Branches": []
+        }
+      },
+      "Audiora.Controllers.MatchController/<>c__DisplayClass7_0": {
+        "System.Guid Audiora.Controllers.MatchController/<>c__DisplayClass7_0::<List>b__0(Audiora.Data.Match)": {
+          "Lines": {
+            "136": 7
           },
           "Branches": [
             {
-              "Line": 117,
+              "Line": 136,
               "Offset": 17,
               "EndOffset": 19,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 117,
+              "Line": 136,
               "Offset": 17,
               "EndOffset": 27,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 2
             }
           ]
         },
-        "<>f__AnonymousType11`5<System.String,System.String,System.String,System.Int32,System.DateTime> Audiora.Controllers.MatchController/<>c__DisplayClass6_0::<List>b__2(Audiora.Data.Match)": {
+        "<>f__AnonymousType12`5<System.String,System.String,System.String,System.Int32,System.DateTime> Audiora.Controllers.MatchController/<>c__DisplayClass7_0::<List>b__2(Audiora.Data.Match)": {
           "Lines": {
-            "121": 3,
-            "122": 1,
-            "123": 1,
-            "124": 1,
-            "125": 1,
-            "126": 1,
-            "127": 1,
-            "128": 1,
-            "129": 1,
-            "130": 1,
-            "131": 3
+            "140": 7,
+            "141": 3,
+            "142": 3,
+            "143": 3,
+            "144": 3,
+            "145": 3,
+            "146": 3,
+            "147": 3,
+            "148": 3,
+            "149": 3,
+            "150": 7
           },
           "Branches": [
             {
-              "Line": 122,
+              "Line": 141,
               "Offset": 18,
               "EndOffset": 20,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 122,
+              "Line": 141,
               "Offset": 18,
               "EndOffset": 28,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 124,
+              "Line": 143,
               "Offset": 70,
               "EndOffset": 72,
               "Path": 0,
@@ -3462,15 +5159,15 @@
               "Hits": 0
             },
             {
-              "Line": 124,
+              "Line": 143,
               "Offset": 70,
               "EndOffset": 75,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 124,
+              "Line": 143,
               "Offset": 82,
               "EndOffset": 84,
               "Path": 0,
@@ -3478,15 +5175,15 @@
               "Hits": 0
             },
             {
-              "Line": 124,
+              "Line": 143,
               "Offset": 82,
               "EndOffset": 98,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 124,
+              "Line": 143,
               "Offset": 99,
               "EndOffset": 101,
               "Path": 0,
@@ -3494,12 +5191,12 @@
               "Hits": 0
             },
             {
-              "Line": 124,
+              "Line": 143,
               "Offset": 99,
               "EndOffset": 104,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 1
+              "Hits": 3
             }
           ]
         }
@@ -3507,91 +5204,109 @@
       "Audiora.Controllers.MatchController/<GetCandidates>d__3": {
         "System.Void Audiora.Controllers.MatchController/<GetCandidates>d__3::MoveNext()": {
           "Lines": {
-            "28": 2,
-            "29": 2,
-            "30": 2,
-            "32": 2,
-            "34": 2,
-            "35": 2,
-            "36": 2,
-            "37": 2,
-            "39": 2,
-            "40": 2,
-            "41": 2,
-            "42": 2,
-            "44": 2,
-            "46": 2,
-            "47": 2,
-            "48": 2,
-            "49": 2,
-            "57": 2,
-            "58": 2
+            "27": 6,
+            "28": 6,
+            "29": 6,
+            "31": 6,
+            "33": 6,
+            "34": 6,
+            "36": 6,
+            "37": 6,
+            "38": 6,
+            "39": 6,
+            "41": 6,
+            "42": 6,
+            "43": 6,
+            "44": 6,
+            "46": 6,
+            "48": 6,
+            "49": 6,
+            "50": 6,
+            "51": 6,
+            "63": 6,
+            "64": 6
           },
           "Branches": [
             {
-              "Line": 29,
-              "Offset": 77,
-              "EndOffset": 79,
+              "Line": 28,
+              "Offset": 103,
+              "EndOffset": 105,
               "Path": 0,
               "Ordinal": 0,
               "Hits": 0
             },
             {
-              "Line": 29,
-              "Offset": 77,
-              "EndOffset": 83,
+              "Line": 28,
+              "Offset": 103,
+              "EndOffset": 109,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 2
+              "Hits": 6
             },
             {
-              "Line": 30,
-              "Offset": 112,
-              "EndOffset": 114,
+              "Line": 29,
+              "Offset": 138,
+              "EndOffset": 140,
               "Path": 0,
               "Ordinal": 2,
               "Hits": 0
             },
             {
-              "Line": 30,
-              "Offset": 112,
-              "EndOffset": 131,
+              "Line": 29,
+              "Offset": 138,
+              "EndOffset": 157,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 2
+              "Hits": 6
             },
             {
-              "Line": 32,
-              "Offset": 158,
-              "EndOffset": 160,
+              "Line": 31,
+              "Offset": 184,
+              "EndOffset": 186,
               "Path": 0,
               "Ordinal": 4,
               "Hits": 0
             },
             {
-              "Line": 32,
-              "Offset": 158,
-              "EndOffset": 182,
+              "Line": 31,
+              "Offset": 184,
+              "EndOffset": 208,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 2
+              "Hits": 6
+            },
+            {
+              "Line": 34,
+              "Offset": 502,
+              "EndOffset": 504,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 34,
+              "Offset": 502,
+              "EndOffset": 526,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 6
             }
           ]
         }
       },
-      "Audiora.Controllers.MatchController/<GetUser>d__7": {
-        "System.Void Audiora.Controllers.MatchController/<GetUser>d__7::MoveNext()": {
+      "Audiora.Controllers.MatchController/<GetUser>d__8": {
+        "System.Void Audiora.Controllers.MatchController/<GetUser>d__8::MoveNext()": {
           "Lines": {
-            "138": 0,
-            "139": 0,
-            "141": 0,
-            "142": 0,
-            "144": 0,
-            "145": 0
+            "157": 0,
+            "158": 0,
+            "160": 0,
+            "161": 0,
+            "163": 0,
+            "164": 0
           },
           "Branches": [
             {
-              "Line": 139,
+              "Line": 158,
               "Offset": 56,
               "EndOffset": 58,
               "Path": 0,
@@ -3599,7 +5314,7 @@
               "Hits": 0
             },
             {
-              "Line": 139,
+              "Line": 158,
               "Offset": 56,
               "EndOffset": 80,
               "Path": 1,
@@ -3607,7 +5322,7 @@
               "Hits": 0
             },
             {
-              "Line": 142,
+              "Line": 161,
               "Offset": 361,
               "EndOffset": 363,
               "Path": 0,
@@ -3615,7 +5330,7 @@
               "Hits": 0
             },
             {
-              "Line": 142,
+              "Line": 161,
               "Offset": 361,
               "EndOffset": 377,
               "Path": 1,
@@ -3625,42 +5340,42 @@
           ]
         }
       },
-      "Audiora.Controllers.MatchController/<Like>d__5": {
-        "System.Void Audiora.Controllers.MatchController/<Like>d__5::MoveNext()": {
+      "Audiora.Controllers.MatchController/<Like>d__6": {
+        "System.Void Audiora.Controllers.MatchController/<Like>d__6::MoveNext()": {
           "Lines": {
-            "64": 3,
-            "65": 3,
-            "66": 3,
-            "68": 3,
-            "69": 1,
-            "71": 2,
-            "73": 2,
-            "74": 2,
-            "76": 2,
-            "77": 2,
-            "79": 2,
-            "80": 2,
-            "81": 1,
-            "82": 1,
-            "83": 1,
-            "85": 1,
-            "86": 1,
-            "87": 1,
+            "83": 7,
+            "84": 7,
+            "85": 7,
+            "87": 7,
             "88": 1,
-            "89": 1,
-            "90": 1,
-            "92": 1,
-            "93": 1,
-            "95": 1,
-            "97": 0,
-            "99": 1,
-            "100": 1,
-            "102": 1,
-            "103": 3
+            "90": 6,
+            "92": 6,
+            "93": 6,
+            "95": 6,
+            "96": 6,
+            "98": 6,
+            "99": 6,
+            "100": 3,
+            "101": 3,
+            "102": 3,
+            "104": 3,
+            "105": 3,
+            "106": 3,
+            "107": 3,
+            "108": 3,
+            "109": 3,
+            "111": 3,
+            "112": 3,
+            "114": 3,
+            "116": 0,
+            "118": 3,
+            "119": 3,
+            "121": 3,
+            "122": 7
           },
           "Branches": [
             {
-              "Line": 65,
+              "Line": 84,
               "Offset": 131,
               "EndOffset": 133,
               "Path": 0,
@@ -3668,15 +5383,15 @@
               "Hits": 0
             },
             {
-              "Line": 65,
+              "Line": 84,
               "Offset": 131,
               "EndOffset": 137,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 3
+              "Hits": 7
             },
             {
-              "Line": 66,
+              "Line": 85,
               "Offset": 171,
               "EndOffset": 173,
               "Path": 0,
@@ -3684,23 +5399,23 @@
               "Hits": 0
             },
             {
-              "Line": 66,
+              "Line": 85,
               "Offset": 171,
               "EndOffset": 190,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 3
+              "Hits": 7
             },
             {
-              "Line": 68,
+              "Line": 87,
               "Offset": 217,
               "EndOffset": 219,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 2
+              "Hits": 6
             },
             {
-              "Line": 68,
+              "Line": 87,
               "Offset": 217,
               "EndOffset": 251,
               "Path": 1,
@@ -3708,7 +5423,7 @@
               "Hits": 1
             },
             {
-              "Line": 68,
+              "Line": 87,
               "Offset": 254,
               "EndOffset": 256,
               "Path": 0,
@@ -3716,15 +5431,15 @@
               "Hits": 1
             },
             {
-              "Line": 68,
+              "Line": 87,
               "Offset": 254,
               "EndOffset": 278,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 2
+              "Hits": 6
             },
             {
-              "Line": 71,
+              "Line": 90,
               "Offset": 309,
               "EndOffset": 311,
               "Path": 0,
@@ -3732,15 +5447,15 @@
               "Hits": 0
             },
             {
-              "Line": 71,
+              "Line": 90,
               "Offset": 309,
               "EndOffset": 333,
               "Path": 1,
               "Ordinal": 9,
-              "Hits": 2
+              "Hits": 6
             },
             {
-              "Line": 74,
+              "Line": 93,
               "Offset": 696,
               "EndOffset": 698,
               "Path": 0,
@@ -3748,31 +5463,31 @@
               "Hits": 0
             },
             {
-              "Line": 74,
+              "Line": 93,
               "Offset": 696,
               "EndOffset": 725,
               "Path": 1,
               "Ordinal": 11,
-              "Hits": 2
+              "Hits": 6
             },
             {
-              "Line": 80,
+              "Line": 99,
               "Offset": 1283,
               "EndOffset": 1288,
               "Path": 0,
               "Ordinal": 12,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 85,
+              "Line": 104,
               "Offset": 1820,
               "EndOffset": 1825,
               "Path": 0,
               "Ordinal": 14,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 85,
+              "Line": 104,
               "Offset": 1820,
               "EndOffset": 2459,
               "Path": 1,
@@ -3780,15 +5495,15 @@
               "Hits": 0
             },
             {
-              "Line": 80,
+              "Line": 99,
               "Offset": 1283,
               "EndOffset": 2467,
               "Path": 1,
               "Ordinal": 13,
-              "Hits": 1
+              "Hits": 3
             },
             {
-              "Line": 100,
+              "Line": 119,
               "Offset": 2793,
               "EndOffset": 2795,
               "Path": 0,
@@ -3796,15 +5511,15 @@
               "Hits": 1
             },
             {
-              "Line": 100,
+              "Line": 119,
               "Offset": 2793,
               "EndOffset": 2799,
               "Path": 1,
               "Ordinal": 17,
-              "Hits": 0
+              "Hits": 2
             },
             {
-              "Line": 100,
+              "Line": 119,
               "Offset": 2805,
               "EndOffset": 2807,
               "Path": 0,
@@ -3812,33 +5527,33 @@
               "Hits": 1
             },
             {
-              "Line": 100,
+              "Line": 119,
               "Offset": 2805,
               "EndOffset": 2813,
               "Path": 1,
               "Ordinal": 19,
-              "Hits": 1
+              "Hits": 3
             }
           ]
         }
       },
-      "Audiora.Controllers.MatchController/<List>d__6": {
-        "System.Void Audiora.Controllers.MatchController/<List>d__6::MoveNext()": {
+      "Audiora.Controllers.MatchController/<List>d__7": {
+        "System.Void Audiora.Controllers.MatchController/<List>d__7::MoveNext()": {
           "Lines": {
-            "107": 2,
-            "108": 2,
-            "109": 2,
-            "111": 2,
-            "113": 2,
-            "114": 2,
-            "115": 2,
-            "118": 2,
-            "133": 2,
-            "134": 2
+            "126": 4,
+            "127": 4,
+            "128": 4,
+            "130": 4,
+            "132": 4,
+            "133": 4,
+            "134": 4,
+            "137": 4,
+            "152": 4,
+            "153": 4
           },
           "Branches": [
             {
-              "Line": 108,
+              "Line": 127,
               "Offset": 63,
               "EndOffset": 65,
               "Path": 0,
@@ -3846,15 +5561,15 @@
               "Hits": 0
             },
             {
-              "Line": 108,
+              "Line": 127,
               "Offset": 63,
               "EndOffset": 69,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 2
+              "Hits": 4
             },
             {
-              "Line": 109,
+              "Line": 128,
               "Offset": 98,
               "EndOffset": 100,
               "Path": 0,
@@ -3862,15 +5577,15 @@
               "Hits": 0
             },
             {
-              "Line": 109,
+              "Line": 128,
               "Offset": 98,
               "EndOffset": 117,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 2
+              "Hits": 4
             },
             {
-              "Line": 111,
+              "Line": 130,
               "Offset": 144,
               "EndOffset": 146,
               "Path": 0,
@@ -3878,18 +5593,101 @@
               "Hits": 0
             },
             {
-              "Line": 111,
+              "Line": 130,
               "Offset": 144,
               "EndOffset": 168,
               "Path": 1,
               "Ordinal": 5,
-              "Hits": 2
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.MatchController/<UpdatePreferences>d__9": {
+        "System.Void Audiora.Controllers.MatchController/<UpdatePreferences>d__9::MoveNext()": {
+          "Lines": {
+            "168": 1,
+            "169": 1,
+            "170": 1,
+            "172": 1,
+            "174": 1,
+            "175": 1,
+            "177": 1,
+            "178": 1,
+            "179": 1,
+            "181": 1,
+            "182": 1
+          },
+          "Branches": [
+            {
+              "Line": 169,
+              "Offset": 63,
+              "EndOffset": 65,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 169,
+              "Offset": 63,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 170,
+              "Offset": 103,
+              "EndOffset": 105,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 170,
+              "Offset": 103,
+              "EndOffset": 122,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 172,
+              "Offset": 154,
+              "EndOffset": 156,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 172,
+              "Offset": 154,
+              "EndOffset": 178,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 1
+            },
+            {
+              "Line": 175,
+              "Offset": 457,
+              "EndOffset": 459,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 175,
+              "Offset": 457,
+              "EndOffset": 476,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
             }
           ]
         }
       }
     },
-    "C:\\Audiora\\Controllers\\RoomController.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Controllers\\RoomController.cs": {
       "Audiora.Controllers.RoomController": {
         "System.Void Audiora.Controllers.RoomController::.ctor(Audiora.Data.AudioraDbContext)": {
           "Lines": {
@@ -4299,64 +6097,99 @@
         }
       }
     },
-    "C:\\Audiora\\Controllers\\SpotifyController.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Controllers\\SpotifyController.cs": {
       "Audiora.Controllers.SpotifyController": {
         "System.Void Audiora.Controllers.SpotifyController::.ctor(Audiora.Services.SpotifyService,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Audiora.Data.AudioraDbContext)": {
           "Lines": {
-            "26": 6,
-            "27": 6,
-            "28": 6,
-            "29": 6,
-            "30": 6,
-            "31": 6
+            "26": 8,
+            "27": 8,
+            "28": 8,
+            "29": 8,
+            "30": 8,
+            "31": 8
           },
           "Branches": []
         }
       },
-      "Audiora.Controllers.SpotifyController/<GetRecommendations>d__5": {
-        "System.Void Audiora.Controllers.SpotifyController/<GetRecommendations>d__5::MoveNext()": {
+      "Audiora.Controllers.SpotifyController/<GetNewReleases>d__5": {
+        "System.Void Audiora.Controllers.SpotifyController/<GetNewReleases>d__5::MoveNext()": {
           "Lines": {
-            "58": 3,
-            "59": 3,
-            "60": 3,
-            "61": 1,
-            "62": 1,
-            "65": 2,
+            "58": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
             "66": 0,
             "67": 0,
-            "71": 2,
-            "72": 2,
-            "73": 1,
-            "74": 1,
-            "77": 1,
-            "79": 1,
-            "80": 1,
-            "81": 1,
-            "82": 1,
-            "83": 1,
-            "84": 1,
-            "85": 1,
-            "86": 1,
-            "87": 1,
-            "88": 1,
-            "89": 1,
-            "90": 1,
-            "91": 1,
-            "92": 1,
-            "93": 1,
-            "94": 1,
-            "95": 1,
-            "97": 0,
-            "98": 0,
-            "99": 0,
-            "101": 0,
-            "102": 0,
-            "103": 0,
-            "105": 3
+            "68": 0,
+            "69": 0,
+            "71": 0
           },
           "Branches": [
             {
-              "Line": 59,
+              "Line": 63,
+              "Offset": 197,
+              "EndOffset": 199,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 197,
+              "EndOffset": 203,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "Audiora.Controllers.SpotifyController/<GetRecommendations>d__6": {
+        "System.Void Audiora.Controllers.SpotifyController/<GetRecommendations>d__6::MoveNext()": {
+          "Lines": {
+            "75": 4,
+            "76": 4,
+            "77": 4,
+            "78": 1,
+            "79": 1,
+            "82": 3,
+            "83": 0,
+            "84": 0,
+            "88": 3,
+            "89": 3,
+            "90": 1,
+            "91": 1,
+            "94": 2,
+            "96": 2,
+            "97": 2,
+            "98": 2,
+            "99": 2,
+            "100": 2,
+            "101": 2,
+            "102": 2,
+            "103": 2,
+            "104": 2,
+            "105": 2,
+            "106": 2,
+            "107": 2,
+            "108": 2,
+            "109": 2,
+            "110": 2,
+            "111": 2,
+            "112": 2,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "118": 0,
+            "119": 0,
+            "120": 0,
+            "122": 4
+          },
+          "Branches": [
+            {
+              "Line": 76,
               "Offset": 63,
               "EndOffset": 65,
               "Path": 0,
@@ -4364,15 +6197,15 @@
               "Hits": 0
             },
             {
-              "Line": 59,
+              "Line": 76,
               "Offset": 63,
               "EndOffset": 69,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 3
+              "Hits": 4
             },
             {
-              "Line": 60,
+              "Line": 77,
               "Offset": 98,
               "EndOffset": 100,
               "Path": 0,
@@ -4380,23 +6213,23 @@
               "Hits": 1
             },
             {
-              "Line": 60,
+              "Line": 77,
               "Offset": 98,
               "EndOffset": 118,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 2
+              "Hits": 3
             },
             {
-              "Line": 65,
+              "Line": 82,
               "Offset": 129,
               "EndOffset": 131,
               "Path": 0,
               "Ordinal": 4,
-              "Hits": 2
+              "Hits": 3
             },
             {
-              "Line": 65,
+              "Line": 82,
               "Offset": 129,
               "EndOffset": 158,
               "Path": 1,
@@ -4404,7 +6237,7 @@
               "Hits": 0
             },
             {
-              "Line": 65,
+              "Line": 82,
               "Offset": 161,
               "EndOffset": 163,
               "Path": 0,
@@ -4412,15 +6245,15 @@
               "Hits": 0
             },
             {
-              "Line": 65,
+              "Line": 82,
               "Offset": 161,
               "EndOffset": 186,
               "Path": 1,
               "Ordinal": 7,
-              "Hits": 2
+              "Hits": 3
             },
             {
-              "Line": 72,
+              "Line": 89,
               "Offset": 465,
               "EndOffset": 467,
               "Path": 0,
@@ -4428,15 +6261,15 @@
               "Hits": 1
             },
             {
-              "Line": 72,
+              "Line": 89,
               "Offset": 465,
               "EndOffset": 495,
               "Path": 1,
               "Ordinal": 9,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 77,
+              "Line": 94,
               "Offset": 508,
               "EndOffset": 510,
               "Path": 0,
@@ -4444,47 +6277,47 @@
               "Hits": 0
             },
             {
-              "Line": 77,
+              "Line": 94,
               "Offset": 508,
               "EndOffset": 528,
               "Path": 1,
               "Ordinal": 11,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 82,
+              "Line": 99,
               "Offset": 769,
               "EndOffset": 774,
               "Path": 0,
               "Ordinal": 12,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 87,
+              "Line": 104,
               "Offset": 864,
               "EndOffset": 866,
               "Path": 0,
               "Ordinal": 14,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 87,
+              "Line": 104,
               "Offset": 864,
               "EndOffset": 872,
               "Path": 1,
               "Ordinal": 15,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 89,
+              "Line": 106,
               "Offset": 921,
               "EndOffset": 923,
               "Path": 0,
               "Ordinal": 16,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 89,
+              "Line": 106,
               "Offset": 921,
               "EndOffset": 938,
               "Path": 1,
@@ -4492,15 +6325,15 @@
               "Hits": 0
             },
             {
-              "Line": 89,
+              "Line": 106,
               "Offset": 943,
               "EndOffset": 945,
               "Path": 0,
               "Ordinal": 18,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 92,
+              "Line": 109,
               "Offset": 994,
               "EndOffset": 996,
               "Path": 0,
@@ -4508,28 +6341,28 @@
               "Hits": 1
             },
             {
-              "Line": 92,
+              "Line": 109,
               "Offset": 994,
               "EndOffset": 1000,
               "Path": 1,
               "Ordinal": 21,
-              "Hits": 0
+              "Hits": 1
             },
             {
-              "Line": 89,
+              "Line": 106,
               "Offset": 943,
               "EndOffset": 1025,
               "Path": 1,
               "Ordinal": 19,
-              "Hits": 1
+              "Hits": 2
             },
             {
-              "Line": 82,
+              "Line": 99,
               "Offset": 769,
               "EndOffset": 1040,
               "Path": 1,
               "Ordinal": 13,
-              "Hits": 1
+              "Hits": 2
             }
           ]
         }
@@ -4537,20 +6370,20 @@
       "Audiora.Controllers.SpotifyController/<Search>d__4": {
         "System.Void Audiora.Controllers.SpotifyController/<Search>d__4::MoveNext()": {
           "Lines": {
-            "35": 3,
-            "36": 3,
+            "35": 4,
+            "36": 4,
             "37": 1,
             "38": 1,
-            "41": 2,
-            "42": 2,
-            "43": 1,
+            "41": 3,
+            "42": 3,
+            "43": 2,
             "45": 1,
             "46": 1,
             "47": 1,
             "49": 0,
             "50": 0,
             "52": 0,
-            "54": 3
+            "54": 4
           },
           "Branches": [
             {
@@ -4567,13 +6400,13 @@
               "EndOffset": 53,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 2
+              "Hits": 4
             }
           ]
         }
       }
     },
-    "C:\\Audiora\\Controllers\\UserSongsController.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Controllers\\UserSongsController.cs": {
       "Audiora.Controllers.UserSongsController": {
         "System.Void Audiora.Controllers.UserSongsController::.ctor(Audiora.Data.AudioraDbContext)": {
           "Lines": {
@@ -5116,7 +6949,7 @@
         }
       }
     },
-    "C:\\Audiora\\Controllers\\YouTubeController.cs": {
+    "C:\\Users\\berni\\Desktop\\MIF\\2 kursas\\PSI\\Grupinis\\Audiora\\Controllers\\YouTubeController.cs": {
       "Audiora.Controllers.YouTubeController": {
         "System.Void Audiora.Controllers.YouTubeController::.ctor(Audiora.Services.YouTubeService)": {
           "Lines": {
