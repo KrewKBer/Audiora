@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { Home } from './Home';
-import { SongQueueProvider } from './SongQueueContext';
+import { Home } from '../Home';
+import { SongQueueProvider } from '../SongQueueContext';
 
 // Mock dependencies
 jest.mock('react-tinder-card', () => {
@@ -17,7 +17,7 @@ jest.mock('react-tinder-card', () => {
   ));
 });
 
-jest.mock('./YouTubePlayer', () => ({
+jest.mock('../YouTubePlayer', () => ({
   YouTubePlayer: () => <div data-testid="youtube-player">YouTube Player</div>
 }));
 
@@ -103,7 +103,7 @@ describe('Home Component Integration', () => {
     const mockGetNext = jest.fn().mockReturnValue(mockSong);
     const mockClear = jest.fn();
     
-    jest.spyOn(require('./SongQueueContext'), 'useSongQueue').mockReturnValue({
+    jest.spyOn(require('../SongQueueContext'), 'useSongQueue').mockReturnValue({
       songQueue: [mockSong],
       addSongsToQueue: mockAddSongs,
       getNextSong: mockGetNext,

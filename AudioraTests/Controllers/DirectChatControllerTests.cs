@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Moq;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Http;
 
 namespace AudioraTests.Controllers;
 
@@ -14,7 +17,7 @@ namespace AudioraTests.Controllers;
 public class DirectChatControllerTests : IDisposable
 {
     private readonly AudioraDbContext _context;
-    private readonly MatchStore _matchStore;
+    private readonly Mock<IHubContext<RoomHub>> _mockHubContext;
     private readonly DirectChatController _controller;
 
     public DirectChatControllerTests()
@@ -23,8 +26,14 @@ public class DirectChatControllerTests : IDisposable
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
         _context = new AudioraDbContext(options);
-        _matchStore = new MatchStore(new MockWebHostEnvironment());
-        _controller = new DirectChatController(_context, _matchStore);
+        _mockHubContext = new Mock<IHubContext<RoomHub>>();
+        
+        var mockClients = new Mock<IHubClients>();
+        var mockClientProxy = new Mock<IClientProxy>();
+        _mockHubContext.Setup(h => h.Clients).Returns(mockClients.Object);
+        mockClients.Setup(c => c.Group(It.IsAny<string>())).Returns(mockClientProxy.Object);
+
+        _controller = new DirectChatController(_context, _mockHubContext.Object);
     }
 
     [Fact]
@@ -73,10 +82,12 @@ public class DirectChatControllerTests : IDisposable
     [Fact]
     public async Task Send_WithValidRequest_SavesAndReturnsMessage()
     {
+        var userId = Guid.NewGuid().ToString();
+        SetupUser(userId);
         var request = new DirectChatController.SendRequest
         {
             ChatId = "user1_user2",
-            UserId = Guid.NewGuid().ToString(),
+            UserId = userId,
             Username = "TestUser",
             Message = "Test message"
         };
@@ -95,10 +106,12 @@ public class DirectChatControllerTests : IDisposable
     [Fact]
     public async Task Send_WithEmptyMessage_ReturnsBadRequest()
     {
+        var userId = Guid.NewGuid().ToString();
+        SetupUser(userId);
         var request = new DirectChatController.SendRequest
         {
             ChatId = "user1_user2",
-            UserId = Guid.NewGuid().ToString(),
+            UserId = userId,
             Username = "TestUser",
             Message = ""
         };
@@ -112,10 +125,12 @@ public class DirectChatControllerTests : IDisposable
     [Fact]
     public async Task Send_WithInvalidUserId_ReturnsBadRequest()
     {
+        var userId = "invalid-guid";
+        SetupUser(userId);
         var request = new DirectChatController.SendRequest
         {
             ChatId = "user1_user2",
-            UserId = "invalid-guid",
+            UserId = userId,
             Username = "TestUser",
             Message = "Test"
         };
@@ -128,6 +143,7 @@ public class DirectChatControllerTests : IDisposable
     [Fact]
     public async Task Send_WithMissingFields_ReturnsBadRequest()
     {
+        SetupUser("");
         var request = new DirectChatController.SendRequest
         {
             ChatId = "",
@@ -149,6 +165,21 @@ public class DirectChatControllerTests : IDisposable
         Span<byte> guidBytes = stackalloc byte[16];
         hash.AsSpan(0, 16).CopyTo(guidBytes);
         return new Guid(guidBytes);
+    }
+
+    private void SetupUser(string userId)
+    {
+        var claims = new List<System.Security.Claims.Claim>
+        {
+            new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, userId)
+        };
+        var identity = new System.Security.Claims.ClaimsIdentity(claims, "TestAuthType");
+        var claimsPrincipal = new System.Security.Claims.ClaimsPrincipal(identity);
+
+        _controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+        };
     }
 
     public void Dispose()

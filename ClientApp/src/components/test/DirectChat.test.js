@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { DirectChat } from './DirectChat';
+import { DirectChat } from '../DirectChat';
 
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({

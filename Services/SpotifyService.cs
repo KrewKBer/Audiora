@@ -15,7 +15,7 @@ namespace Audiora.Services
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<SpotifyService> _logger;
-        private SpotifyClient? _spotifyClient;
+        private ISpotifyClient? _spotifyClient;
 
         public SpotifyService(IConfiguration configuration, ILogger<SpotifyService> logger)
         {
@@ -23,12 +23,12 @@ namespace Audiora.Services
             _logger = logger;
         }
 
-    private Task<SpotifyClient> GetSpotifyClient()
+        protected virtual Task<ISpotifyClient> GetSpotifyClient()
         {
             if (_spotifyClient == null)
             {
-        var clientId = _configuration["Spotify:ClientId"];
-        var clientSecret = _configuration["Spotify:ClientSecret"];
+                var clientId = _configuration["Spotify:ClientId"];
+                var clientSecret = _configuration["Spotify:ClientSecret"];
 
                 _logger.LogInformation($"GetSpotifyClient: Using credentials from configuration.");
 
@@ -47,7 +47,7 @@ namespace Audiora.Services
             return Task.FromResult(_spotifyClient);
         }
 
-        public async Task<SearchResponse> SearchTracks(string query)
+        public virtual async Task<SearchResponse> SearchTracks(string query)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Audiora.Services
             }
         }
 
-        public async Task<List<FullTrack>> GetRecommendations(List<string> genres)
+        public virtual async Task<List<FullTrack>> GetRecommendations(List<string> genres)
         {
             try
             {
