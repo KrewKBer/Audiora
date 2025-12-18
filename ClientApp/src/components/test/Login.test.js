@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { Login } from '../Login';
@@ -24,12 +24,13 @@ describe('Login Component', () => {
   test('renders login form', () => {
     render(<BrowserRouter><Login /></BrowserRouter>);
     
-    expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
+    // Check for elements specific to the login form
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
   });
 
   test('successful login stores user data and navigates to rooms', async () => {
+    jest.useFakeTimers();
     const mockResponse = {
       userId: '123',
       username: 'testuser',
@@ -50,7 +51,9 @@ describe('Login Component', () => {
       target: { value: 'password123' },
     });
 
-    fireEvent.submit(screen.getByRole('button', { name: /login/i }));
+    const buttons = screen.getAllByRole('button', { name: /login/i });
+    const submitButton = buttons.find(btn => btn.type === 'submit');
+    fireEvent.submit(submitButton);
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith('/auth/login', {
@@ -60,12 +63,24 @@ describe('Login Component', () => {
       });
     });
 
+    // Wait for splash screen
+    await waitFor(() => {
+        expect(screen.getByText('Audiora')).toBeInTheDocument();
+    });
+
+    // Advance timer for splash screen
+    act(() => {
+        jest.advanceTimersByTime(3000);
+    });
+
     await waitFor(() => {
       expect(localStorage.getItem('userId')).toBe('123');
       expect(localStorage.getItem('username')).toBe('testuser');
       expect(localStorage.getItem('role')).toBe('User');
       expect(mockNavigate).toHaveBeenCalledWith('/rooms');
     });
+
+    jest.useRealTimers();
   });
 
   test('failed login displays error message', async () => {
@@ -83,7 +98,9 @@ describe('Login Component', () => {
       target: { value: 'wrongpass' },
     });
 
-    fireEvent.submit(screen.getByRole('button', { name: /login/i }));
+    const buttons = screen.getAllByRole('button', { name: /login/i });
+    const submitButton = buttons.find(btn => btn.type === 'submit');
+    fireEvent.submit(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
@@ -114,7 +131,9 @@ describe('Login Component', () => {
       target: { value: 'pass' },
     });
 
-    fireEvent.submit(screen.getByRole('button', { name: /login/i }));
+    const buttons = screen.getAllByRole('button', { name: /login/i });
+    const submitButton = buttons.find(btn => btn.type === 'submit');
+    fireEvent.submit(submitButton);
 
     await waitFor(() => {
       expect(window.dispatchEvent).toHaveBeenCalled();

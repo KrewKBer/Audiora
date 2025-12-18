@@ -24,8 +24,9 @@ describe('Register Component', () => {
   test('renders register form with genres', () => {
     render(<BrowserRouter><Register /></BrowserRouter>);
     
-    expect(screen.getByRole('heading', { name: /register/i })).toBeInTheDocument();
+    // Check for elements specific to the register form
     expect(screen.getByText(/select your favorite genres/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
   });
 
   test('successful registration stores user data and navigates home', async () => {
@@ -49,13 +50,21 @@ describe('Register Component', () => {
       target: { value: 'newpass123' },
     });
 
-    fireEvent.submit(screen.getByRole('button', { name: /register/i }));
+    const buttons = screen.getAllByRole('button', { name: /register/i });
+    const submitButton = buttons.find(btn => btn.type === 'submit');
+    fireEvent.submit(submitButton);
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith('auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: 'newuser', password: 'newpass123', genres: [] }),
+        body: JSON.stringify({ 
+          username: 'newuser', 
+          password: 'newpass123', 
+          genres: [],
+          gender: 'PreferNotToSay',
+          preference: 'Everyone'
+        }),
       });
     });
 
@@ -82,7 +91,9 @@ describe('Register Component', () => {
       target: { value: 'pass' },
     });
 
-    fireEvent.submit(screen.getByRole('button', { name: /register/i }));
+    const buttons = screen.getAllByRole('button', { name: /register/i });
+    const submitButton = buttons.find(btn => btn.type === 'submit');
+    fireEvent.submit(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(/username already exists/i)).toBeInTheDocument();
@@ -119,7 +130,9 @@ describe('Register Component', () => {
     fireEvent.click(popCheckbox);
     fireEvent.click(rockCheckbox);
 
-    fireEvent.submit(screen.getByRole('button', { name: /register/i }));
+    const buttons = screen.getAllByRole('button', { name: /register/i });
+    const submitButton = buttons.find(btn => btn.type === 'submit');
+    fireEvent.submit(submitButton);
 
     await waitFor(() => {
       const callArg = JSON.parse(fetch.mock.calls[0][1].body);

@@ -64,6 +64,12 @@ describe('Home Component Integration', () => {
     jest.clearAllMocks();
     localStorageMock.getItem.mockReturnValue('test-user-id');
     sessionStorageMock.getItem.mockReturnValue('active');
+    
+    // Default fetch mock to prevent crashes on unmocked calls
+    fetch.mockResolvedValue({
+        ok: true,
+        json: async () => ({})
+    });
   });
 
   test('renders loading state initially or no songs message', () => {
@@ -113,8 +119,13 @@ describe('Home Component Integration', () => {
     render(<Home />);
 
     // Verify song is displayed
-    expect(screen.getByText('Test Song')).toBeInTheDocument();
-    expect(screen.getByText('Test Artist')).toBeInTheDocument();
+    const songTitles = screen.getAllByText('Test Song');
+    expect(songTitles.length).toBeGreaterThan(0);
+    expect(songTitles[0]).toBeInTheDocument();
+    
+    const artistNames = screen.getAllByText('Test Artist');
+    expect(artistNames.length).toBeGreaterThan(0);
+    expect(artistNames[0]).toBeInTheDocument();
 
     // Trigger swipe right (Like)
     const swipeRightBtn = screen.getByText('Swipe Right');

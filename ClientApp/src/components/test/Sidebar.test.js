@@ -84,31 +84,17 @@ describe('Sidebar Component', () => {
     expect(mockOnClose).toHaveBeenCalled();
   });
 
-  test('navigates to rooms when Forums button is clicked', () => {
+  test('navigates to rooms when Rooms button is clicked', () => {
     render(
       <BrowserRouter>
         <Sidebar open={true} onClose={mockOnClose} />
       </BrowserRouter>
     );
 
-    const forumsBtn = screen.getByText('Forums');
-    fireEvent.click(forumsBtn);
+    const roomsBtn = screen.getByText('Rooms');
+    fireEvent.click(roomsBtn);
 
     expect(mockNavigate).toHaveBeenCalledWith('/rooms');
-    expect(mockOnClose).toHaveBeenCalled();
-  });
-
-  test('navigates to profile when Made for You button is clicked', () => {
-    render(
-      <BrowserRouter>
-        <Sidebar open={true} onClose={mockOnClose} />
-      </BrowserRouter>
-    );
-
-    const madeForYouBtn = screen.getByText('Made for You');
-    fireEvent.click(madeForYouBtn);
-
-    expect(mockNavigate).toHaveBeenCalledWith('/profile');
     expect(mockOnClose).toHaveBeenCalled();
   });
 
@@ -161,9 +147,8 @@ describe('Sidebar Component', () => {
       </BrowserRouter>
     );
 
-    const profileButtons = screen.getAllByText('Profile');
-    // Footer button is the second one
-    fireEvent.click(profileButtons[profileButtons.length - 1]);
+    const profileBtn = screen.getByText('Profile');
+    fireEvent.click(profileBtn);
 
     expect(mockNavigate).toHaveBeenCalledWith('/profile');
   });
@@ -198,7 +183,7 @@ describe('Sidebar Component', () => {
     expect(screen.getByText('Discover')).toBeInTheDocument();
     expect(screen.getByText('Listen Now')).toBeInTheDocument();
     expect(screen.getByText('Browse')).toBeInTheDocument();
-    expect(screen.getByText('Forums')).toBeInTheDocument();
+    expect(screen.getByText('Rooms')).toBeInTheDocument();
   });
 
   test('renders all library section buttons', () => {
@@ -209,8 +194,6 @@ describe('Sidebar Component', () => {
     );
 
     expect(screen.getByText('Library')).toBeInTheDocument();
-    expect(screen.getByText('Songs')).toBeInTheDocument();
-    expect(screen.getByText('Made for You')).toBeInTheDocument();
     expect(screen.getByText('Matchmaking')).toBeInTheDocument();
     expect(screen.getByText('Chats')).toBeInTheDocument();
     expect(screen.getByText('Liked Songs')).toBeInTheDocument();

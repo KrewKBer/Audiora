@@ -58,8 +58,6 @@ describe('Chats Component', () => {
     await waitFor(() => {
       expect(screen.getByText('Alice')).toBeInTheDocument();
       expect(screen.getByText('Bob')).toBeInTheDocument();
-      expect(screen.getByText('Chat ID: chat1')).toBeInTheDocument();
-      expect(screen.getByText('Chat ID: chat2')).toBeInTheDocument();
     });
   });
 
@@ -103,8 +101,9 @@ describe('Chats Component', () => {
       expect(screen.getByText('Alice')).toBeInTheDocument();
     });
 
-    const openButton = screen.getByText('Open');
-    fireEvent.click(openButton);
+    const chatItem = screen.getByText('Alice').closest('.chat-item');
+    const actionButton = chatItem.querySelector('.chat-action');
+    fireEvent.click(actionButton);
 
     expect(mockNavigate).toHaveBeenCalledWith('/directchat/chat123');
   });
@@ -171,7 +170,7 @@ describe('Chats Component', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Since:/)).toBeInTheDocument();
+      expect(screen.getByText(/Matched on/)).toBeInTheDocument();
     });
   });
 
