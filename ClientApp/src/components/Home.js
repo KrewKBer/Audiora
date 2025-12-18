@@ -382,14 +382,14 @@ class HomeInternal extends Component {
         const { songQueue } = this.props;
         const { currentSong } = this.state;
         
-        if (!songQueue || songQueue.length === 0 || !currentSong) {
+        if (!currentSong) {
             return;
         }
 
         if (!this.cardRef.current) return;
 
         this.isSwiping = true;
-        
+
         // The card ref swipe triggers the animation (which runs while new card is already showing)
         // This will trigger onSwipe callback which handles the API call
         this.cardRef.current.swipe(direction);
@@ -400,7 +400,7 @@ class HomeInternal extends Component {
 render() {
     const { currentSong, fetchingRandom } = this.state;
     const { songQueue } = this.props;
-    const noMoreSongs = (!currentSong && (!songQueue || songQueue.length === 0));
+    const noMoreSongs = !currentSong && (!songQueue || songQueue.length === 0);
     
     // Determine content for the current card
     let currentCardContent = null;
