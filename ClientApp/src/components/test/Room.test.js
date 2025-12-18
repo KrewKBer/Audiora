@@ -1,115 +1,195 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { Room } from '../Room';
-import * as signalR from '@microsoft/signalr';
+﻿import React from 'react';
+import { render, cleanup, fireEvent, waitFor, screen } from '@testing-library/react';
 
-// Mock react-router-dom
-const mockNavigate = jest.fn();
+let mockNavigate = jest.fn();
+
+// mock react-router-dom before importing the component
 jest.mock('react-router-dom', () => ({
-  useParams: () => ({ id: 'room-1' }),
-  useNavigate: () => mockNavigate
+    useParams: () => ({ id: 'room1' }),
+    useNavigate: () => mockNavigate
 }));
 
-// Mock signalR
+// mock @microsoft/signalr before importing the component
 jest.mock('@microsoft/signalr', () => {
-  const mockConnection = {
-    on: jest.fn(),
-    invoke: jest.fn().mockResolvedValue(),
-    start: jest.fn().mockResolvedValue(),
-    stop: jest.fn().mockResolvedValue(),
-    onreconnecting: jest.fn(),
-    onreconnected: jest.fn(),
-    onclose: jest.fn(),
-    state: 'Connected'
-  };
+    const connections = [];
+    function createConnection() {
+        const handlers = {};
+        const conn = {
+            start: jest.fn(() => Promise.resolve()),
+            invoke: jest.fn(() => Promise.resolve()),
+            on: jest.fn((name, cb) => { handlers[name] = cb; }),
+            onreconnecting: jest.fn(),
+            onreconnected: jest.fn(),
+            onclose: jest.fn(),
+            stop: jest.fn(() => Promise.resolve()),
+            state: 1,
+            _handlers: handlers
+        };
+        connections.push(conn);
+        return conn;
+    }
 
-  class MockHubConnectionBuilder {
-    withUrl() { return this; }
-    configureLogging() { return this; }
-    withAutomaticReconnect() { return this; }
-    build() { return mockConnection; }
-  }
+    const builder = {
+        withUrl() { return builder; },
+        configureLogging() { return builder; },
+        withAutomaticReconnect() { return builder; },
+        build() { return createConnection(); }
+    };
 
-  return {
-    HubConnectionBuilder: MockHubConnectionBuilder,
-    LogLevel: { Information: 1 },
-    HubConnectionState: { Connected: 'Connected' },
-    __mockConnection: mockConnection
-  };
+    function HubConnectionBuilder() { return builder; }
+
+    return {
+        HubConnectionBuilder,
+        LogLevel: { Information: 0 },
+        HubConnectionState: { Connected: 1 },
+        _testHelpers: { connections }
+    };
 });
 
-const mockConnection = signalR.__mockConnection;
-const mockOn = mockConnection.on;
-const mockInvoke = mockConnection.invoke;
-const mockStart = mockConnection.start;
-const mockStop = mockConnection.stop;
+// import after mocks so the component uses the mocked signalr
+import { Room } from '../Room';
+const signalrMock = require('@microsoft/signalr');
 
-// Mock fetch
-global.fetch = jest.fn();
-
-// Mock scrollIntoView
-window.HTMLElement.prototype.scrollIntoView = jest.fn();
-
-describe('Room Component', () => {
-  beforeEach(() => {
+beforeEach(() => {
+    cleanup();
     jest.clearAllMocks();
-    mockStart.mockResolvedValue();
-    mockInvoke.mockResolvedValue();
-    mockStop.mockResolvedValue();
-    localStorage.setItem('userId', 'user1');
-    localStorage.setItem('username', 'User 1');
-    
-    // Mock fetch responses
-    global.fetch.mockImplementation((url) => {
-      if (url.includes('/api/room/room-1/messages')) {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve([
-            { userId: 'user2', username: 'User 2', message: 'Hello', timestamp: new Date().toISOString() }
-          ])
-        });
-      }
-      if (url.includes('/api/room/room-1')) {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve({ id: 'room-1', name: 'Test Room', isPrivate: false })
-        });
-      }
-      return Promise.reject(new Error('Not found'));
-    });
-  });
-
-  afterEach(() => {
+    mockNavigate = jest.fn();
     localStorage.clear();
-  });
+    global.fetch = undefined;
+    // clear any previously created mocked connections between tests
+    signalrMock._testHelpers.connections.length = 0;
+});
 
-  test('renders room name and messages', async () => {
-    await act(async () => {
-      render(<Room />);
+beforeAll(() => {
+    Element.prototype.scrollIntoView = jest.fn();
+});
+
+afterEach(() => {
+    cleanup();
+    jest.clearAllMocks();
+    document.body.className = '';
+    localStorage.clear();
+    signalrMock._testHelpers.connections.length = 0;
+});
+
+afterAll(() => {
+    delete Element.prototype.scrollIntoView;
+});
+
+test('redirects to /login when no userId in localStorage', async () => {
+    localStorage.removeItem('userId');
+    render(<Room />);
+    await waitFor(() => {
+        expect(mockNavigate).toHaveBeenCalledWith('/login');
     });
+});
+
+test('loads room and messages and renders them', async () => {
+    localStorage.setItem('userId', 'u1');
+    localStorage.setItem('username', 'Alice');
+
+    global.fetch = jest.fn().mockImplementation((url) => {
+        // check messages first to avoid matching the generic room path
+        if (url.includes('/messages')) {
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve([
+                    { userId: 'u2', username: 'Bob', message: 'Hello world', timestamp: new Date().toISOString() }
+                ])
+            });
+        }
+        if (url.includes('/api/room/')) {
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ id: 'room1', name: 'Test Room', isPrivate: false })
+            });
+        }
+        return Promise.resolve({ ok: true, json: () => Promise.resolve([]) });
+    });
+
+    render(<Room />);
+
+    await waitFor(() => expect(screen.getByText('Test Room')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('Hello world')).toBeTruthy());
+});
+
+test('sendMessage performs optimistic update and invokes hub SendMessage', async () => {
+    localStorage.setItem('userId', 'u1');
+    localStorage.setItem('username', 'Alice');
+
+    global.fetch = jest.fn().mockImplementation((url) => {
+        // check messages first
+        if (url.includes('/messages')) {
+            return Promise.resolve({ ok: true, json: () => Promise.resolve([]) });
+        }
+        if (url.includes('/api/room/')) {
+            return Promise.resolve({ ok: true, json: () => Promise.resolve({ id: 'room1', name: 'Test Room', isPrivate: false }) });
+        }
+        return Promise.resolve({ ok: true, json: () => Promise.resolve([]) });
+    });
+
+    render(<Room />);
+
+    // wait for the mock builder to have created a connection
+    await waitFor(() => expect(signalrMock._testHelpers.connections.length).toBeGreaterThan(0));
+    const fakeConnection = signalrMock._testHelpers.connections[signalrMock._testHelpers.connections.length - 1];
+
+    // wait for connection.start to be called by effect
+    await waitFor(() => expect(fakeConnection.start).toHaveBeenCalled());
+
+    // JoinRoom should be invoked after start
+    await waitFor(() => {
+        expect(fakeConnection.invoke).toHaveBeenCalledWith('JoinRoom', 'room1', 'u1', 'Alice');
+    });
+
+    const input = document.querySelector('.room-input');
+    const sendBtn = document.querySelector('.room-send-btn');
+
+    expect(input).toBeTruthy();
+    expect(sendBtn).toBeTruthy();
+
+    fireEvent.change(input, { target: { value: 'Hi everyone' } });
+    fireEvent.click(sendBtn);
+
+    await waitFor(() => expect(screen.getByText('Hi everyone')).toBeTruthy());
 
     await waitFor(() => {
-      expect(screen.getByText('Test Room')).toBeInTheDocument();
-      expect(screen.getByText('Hello')).toBeInTheDocument();
+        expect(fakeConnection.invoke).toHaveBeenCalledWith('SendMessage', 'room1', 'u1', 'Alice', 'Hi everyone');
     });
-  });
+});
 
-  test('sends a message', async () => {
-    await act(async () => {
-      render(<Room />);
+test('incoming ReceiveMessage from hub is added to message list', async () => {
+    localStorage.setItem('userId', 'u1');
+    localStorage.setItem('username', 'Alice');
+
+    global.fetch = jest.fn().mockImplementation((url) => {
+        // check messages first
+        if (url.includes('/messages')) {
+            return Promise.resolve({ ok: true, json: () => Promise.resolve([]) });
+        }
+        if (url.includes('/api/room/')) {
+            return Promise.resolve({ ok: true, json: () => Promise.resolve({ id: 'room1', name: 'Test Room', isPrivate: false }) });
+        }
+        return Promise.resolve({ ok: true, json: () => Promise.resolve([]) });
     });
 
-    await waitFor(() => screen.getByText('Test Room'));
+    render(<Room />);
 
-    const input = screen.getByPlaceholderText('Message #Test Room...');
-    const sendButton = screen.getByText('Send');
+    // wait for the mock builder to have created a connection
+    await waitFor(() => expect(signalrMock._testHelpers.connections.length).toBeGreaterThan(0));
+    const fakeConnection = signalrMock._testHelpers.connections[signalrMock._testHelpers.connections.length - 1];
 
-    fireEvent.change(input, { target: { value: 'My new message' } });
-    fireEvent.click(sendButton);
+    // ensure start was called
+    await waitFor(() => expect(fakeConnection.start).toHaveBeenCalled());
 
-    await waitFor(() => {
-      expect(mockInvoke).toHaveBeenCalledWith('SendMessage', 'room-1', 'user1', 'User 1', 'My new message');
-    });
-  });
+    // simulate incoming hub message using the stored handlers
+    const ts = new Date().toISOString();
+    const handlers = fakeConnection._handlers;
+    if (handlers && handlers['ReceiveMessage']) {
+        handlers['ReceiveMessage']('u3', 'Carol', 'New message from hub', ts);
+    } else {
+        throw new Error('ReceiveMessage handler not registered on fake connection');
+    }
+
+    await waitFor(() => expect(screen.getByText('New message from hub')).toBeTruthy());
 });
