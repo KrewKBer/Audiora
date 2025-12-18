@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { NavMenu } from '../NavMenu';
@@ -109,5 +109,45 @@ describe('NavMenu Component', () => {
     
     const brandLink = screen.getByText('Audiora').closest('a');
     expect(brandLink).toHaveAttribute('href', '/');
+  });
+
+  test('fetches user XP on mount', async () => {
+    localStorage.setItem('userId', '123');
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ xp: 150, level: 2, role: 'Pro' }),
+      })
+    );
+
+    renderWithRouter(<NavMenu />);
+
+    await waitFor(() => {
+      expect(screen.getByText('XP: 150 | Lvl: 2')).toBeInTheDocument();
+    });
+  });
+
+  test('updates XP on xpUpdate event', async () => {
+    localStorage.setItem('userId', '123');
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ xp: 0, level: 1 }),
+      })
+    );
+
+    renderWithRouter(<NavMenu />);
+
+    // Dispatch xpUpdate event
+    act(() => {
+      const event = new CustomEvent('xpUpdate', { detail: { amount: 50 } });
+      window.dispatchEvent(event);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText((content, element) => {
+        return element.className === 'xp-stats' && content.includes('XP: 50') && content.includes('Lvl: 1');
+      })).toBeInTheDocument();
+    });
   });
 });
