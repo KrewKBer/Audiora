@@ -4,226 +4,267 @@ import '@testing-library/jest-dom';
 import { Search } from '../Search';
 import { SongQueueProvider } from '../SongQueueContext';
 
-// Mock YouTubePlayer
-jest.mock('../YouTubePlayer', () => ({
-  YouTubePlayer: () => <div data-testid="youtube-player">YouTube Player</div>
-}));
-
 global.fetch = jest.fn();
 
-const renderWithContext = (component) => {
-  return render(
-    <SongQueueProvider>
-      {component}
-    </SongQueueProvider>
-  );
+const renderSearch = () => {
+    return render(
+        <SongQueueProvider>
+            <Search />
+        </SongQueueProvider>
+    );
 };
 
 describe('Search Component', () => {
-  beforeEach(() => {
-    fetch.mockClear();
-  });
-
-  test('renders search heading and input', () => {
-    renderWithContext(<Search />);
-    
-    expect(screen.getByText('Song Search')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Search for a song...')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
-  });
-
-  test('updates search query on input change', () => {
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'test query' } });
-    
-    expect(input).toHaveValue('test query');
-  });
-
-  test('does not search with empty query', async () => {
-    renderWithContext(<Search />);
-    
-    const searchButton = screen.getByRole('button', { name: /search/i });
-    fireEvent.click(searchButton);
-    
-    expect(fetch).not.toHaveBeenCalled();
-  });
-
-  test('searches and displays results', async () => {
-    const mockResults = [
-      {
-        id: '1',
-        name: 'Test Track',
-        artists: [{ name: 'Test Artist' }],
-        album: { images: [{ url: 'http://test.com/img.jpg' }] },
-        preview_url: 'http://test.com/preview.mp3'
-      }
-    ];
-
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockResults,
+    beforeEach(() => {
+        fetch.mockClear();
     });
 
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'test' } });
-    
-    const searchButton = screen.getByRole('button', { name: /search/i });
-    fireEvent.click(searchButton);
-    
-    expect(fetch).toHaveBeenCalledWith('/spotify/search?query=test');
-    
-    await waitFor(() => {
-      expect(screen.getByText('Test Track')).toBeInTheDocument();
-      expect(screen.getByText('Test Artist')).toBeInTheDocument();
-    });
-  });
-
-  test('shows loading state while searching', async () => {
-    fetch.mockImplementation(() => new Promise(() => {})); // Never resolves
-
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'test' } });
-    
-    const searchButton = screen.getByRole('button', { name: /search/i });
-    fireEvent.click(searchButton);
-    
-    expect(searchButton).toBeDisabled();
-  });
-
-  test('displays error message on search failure', async () => {
-    fetch.mockResolvedValueOnce({
-      ok: false,
-      json: async () => ({ message: 'Search failed' }),
+    test('renders title and search input', () => {
+        renderSearch();
+        expect(screen.getByText('Song Search')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Search for a song...')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
     });
 
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'test' } });
-    
-    fireEvent.submit(screen.getByRole('button', { name: /search/i }));
-    
-    await waitFor(() => {
-      expect(screen.getByText('Search failed')).toBeInTheDocument();
-    });
-  });
-
-  test('handles search with array response', async () => {
-    const mockResults = [
-      {
-        id: '2',
-        name: 'Direct Array Track',
-        artists: [{ name: 'Array Artist' }],
-        album: { images: [{ url: 'http://test.com/img2.jpg' }] }
-      }
-    ];
-
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockResults, // Array directly, not wrapped in items
+    test('updates search query on input change', () => {
+        renderSearch();
+        const input = screen.getByPlaceholderText('Search for a song...');
+        fireEvent.change(input, { target: { value: 'Bohemian Rhapsody' } });
+        expect(input.value).toBe('Bohemian Rhapsody');
     });
 
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'array test' } });
-    
-    fireEvent.submit(screen.getByRole('button', { name: /search/i }));
-    
-    await waitFor(() => {
-      expect(screen.getByText('Direct Array Track')).toBeInTheDocument();
-    });
-  });
-
-  test('renders add to queue button for each track', async () => {
-    const mockResults = [
-      {
-        id: '3',
-        name: 'Queue Track',
-        artists: [{ name: 'Queue Artist' }],
-        album: { images: [{ url: 'http://test.com/img3.jpg' }] },
-        preview_url: 'http://test.com/preview3.mp3'
-      }
-    ];
-
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockResults,
+    test('does not search when query is empty', async () => {
+        renderSearch();
+        const searchButton = screen.getByRole('button', { name: 'Search' });
+        fireEvent.click(searchButton);
+        expect(fetch).not.toHaveBeenCalled();
     });
 
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'queue' } });
-    
-    fireEvent.submit(screen.getByRole('button', { name: /search/i }));
-    
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: /add to queue/i })).toBeInTheDocument();
-    });
-  });
+    test('searches and displays results', async () => {
+        const mockTracks = [
+            {
+                id: '1',
+                name: 'Test Song',
+                album: { images: [{ url: 'http://example.com/image.jpg' }] },
+                artists: [{ name: 'Test Artist' }],
+                preview_url: 'http://example.com/preview.mp3'
+            }
+        ];
 
-  test('shows YouTube player for tracks without preview_url', async () => {
-    const mockResults = [
-      {
-        id: '4',
-        name: 'No Preview Track',
-        artists: [{ name: 'No Preview Artist' }],
-        album: { images: [{ url: 'http://test.com/img4.jpg' }] }
-        // No preview_url
-      }
-    ];
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => mockTracks
+        });
 
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockResults,
-    });
+        renderSearch();
+        const input = screen.getByPlaceholderText('Search for a song...');
+        fireEvent.change(input, { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
 
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'no preview' } });
-    
-    fireEvent.submit(screen.getByRole('button', { name: /search/i }));
-    
-    await waitFor(() => {
-      // Assuming the component renders "Play on YouTube" or similar if no preview
-      // Or maybe it renders an iframe?
-      // Let's check for the text "No Preview Track" first
-      expect(screen.getByText('No Preview Track')).toBeInTheDocument();
-    });
-  });
-
-  test('handles multiple artists display', async () => {
-    const mockResults = [
-      {
-        id: '5',
-        name: 'Collab Track',
-        artists: [{ name: 'Artist 1' }, { name: 'Artist 2' }, { name: 'Artist 3' }],
-        album: { images: [{ url: 'http://test.com/img5.jpg' }] }
-      }
-    ];
-
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockResults,
+        await waitFor(() => {
+            expect(screen.getByText('Test Song')).toBeInTheDocument();
+            expect(screen.getByText('Test Artist')).toBeInTheDocument();
+        });
     });
 
-    renderWithContext(<Search />);
-    
-    const input = screen.getByPlaceholderText('Search for a song...');
-    fireEvent.change(input, { target: { value: 'collab' } });
-    
-    fireEvent.submit(screen.getByRole('button', { name: /search/i }));
-    
-    await waitFor(() => {
-      expect(screen.getByText('Artist 1, Artist 2, Artist 3')).toBeInTheDocument();
+    test('displays multiple artists joined by comma', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => [{
+                id: '1',
+                name: 'Collab Song',
+                album: { images: [{ url: 'http://example.com/image.jpg' }] },
+                artists: [{ name: 'Artist One' }, { name: 'Artist Two' }],
+                preview_url: null
+            }]
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(screen.getByText('Artist One, Artist Two')).toBeInTheDocument();
+        });
     });
-  });
+
+    test('displays audio player when preview_url exists', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => [{
+                id: '1',
+                name: 'Song with Preview',
+                album: { images: [{ url: 'http://example.com/image.jpg' }] },
+                artists: [{ name: 'Artist' }],
+                preview_url: 'http://example.com/preview.mp3'
+            }]
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            const audio = document.querySelector('audio');
+            expect(audio).toBeInTheDocument();
+            expect(audio.src).toBe('http://example.com/preview.mp3');
+        });
+    });
+
+    test('does not display audio player when preview_url is missing', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => [{
+                id: '1',
+                name: 'Song without Preview',
+                album: { images: [{ url: 'http://example.com/image.jpg' }] },
+                artists: [{ name: 'Artist' }],
+                preview_url: null
+            }]
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(screen.getByText('Song without Preview')).toBeInTheDocument();
+        });
+        expect(document.querySelector('audio')).not.toBeInTheDocument();
+    });
+
+    test('renders Add to Queue button for each track', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => [{
+                id: '1',
+                name: 'Test Song',
+                album: { images: [{ url: 'http://example.com/image.jpg' }] },
+                artists: [{ name: 'Artist' }],
+                preview_url: null
+            }]
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(screen.getByRole('button', { name: 'Add to Queue' })).toBeInTheDocument();
+        });
+    });
+
+    test('displays error message on fetch failure', async () => {
+        fetch.mockRejectedValueOnce(new Error('Network error'));
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(screen.getByText('Network error')).toBeInTheDocument();
+        });
+    });
+
+    test('displays error from API response', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: false,
+            json: async () => ({ message: 'API rate limit exceeded' })
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(screen.getByText('API rate limit exceeded')).toBeInTheDocument();
+        });
+    });
+
+    test('displays generic error when response parsing fails', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: false,
+            json: async () => { throw new Error(); }
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(screen.getByText('Request failed')).toBeInTheDocument();
+        });
+    });
+
+    test('handles response with items property', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({
+                items: [{
+                    id: '1',
+                    name: 'Nested Song',
+                    album: { images: [{ url: 'http://example.com/image.jpg' }] },
+                    artists: [{ name: 'Artist' }],
+                    preview_url: null
+                }]
+            })
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(screen.getByText('Nested Song')).toBeInTheDocument();
+        });
+    });
+
+    test('disables search button while searching', async () => {
+        fetch.mockImplementationOnce(() => new Promise(() => {}));
+
+        renderSearch();
+        const searchButton = screen.getByRole('button', { name: 'Search' });
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(searchButton);
+
+        expect(searchButton).toBeDisabled();
+    });
+
+    test('makes correct API call with encoded query', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => []
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test & special' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            expect(fetch).toHaveBeenCalledWith('/spotify/search?query=test%20%26%20special');
+        });
+    });
+
+    test('renders track image', async () => {
+        fetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => [{
+                id: '1',
+                name: 'Test Song',
+                album: { images: [{ url: 'http://example.com/image.jpg' }] },
+                artists: [{ name: 'Artist' }],
+                preview_url: null
+            }]
+        });
+
+        renderSearch();
+        fireEvent.change(screen.getByPlaceholderText('Search for a song...'), { target: { value: 'test' } });
+        fireEvent.submit(screen.getByRole('button', { name: 'Search' }));
+
+        await waitFor(() => {
+            const img = screen.getByAltText('Test Song');
+            expect(img).toBeInTheDocument();
+            expect(img.src).toBe('http://example.com/image.jpg');
+        });
+    });
 });
