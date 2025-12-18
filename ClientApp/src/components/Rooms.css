@@ -24,12 +24,13 @@
 }
 
 .create-room-section {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(24, 24, 27, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 2rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px) saturate(120%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
 .create-room-form {
@@ -96,7 +97,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    background: rgba(24,24,27,0.55);
+    background: rgba(24,24,27,0.85);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
     padding: 16px 20px;
@@ -110,7 +111,7 @@
 }
 
 .room-item:hover {
-    background: rgba(24,24,27,0.65);
+    background: rgba(24,24,27,0.95);
     transform: translateY(-2px);
     border-color: rgba(16, 185, 129, 0.5);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 14px 40px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.05);
