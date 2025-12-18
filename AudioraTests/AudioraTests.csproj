@@ -11,7 +11,7 @@
 
     <PropertyGroup>
         <CollectCoverage>true</CollectCoverage>
-        <Exclude>[*.Migrations]*</Exclude>
+        <Exclude>[Audiora]Audiora.Migrations.*</Exclude>
     </PropertyGroup>
 
 
