@@ -34,7 +34,7 @@ namespace AudioraTests.Controllers
             _spotifyServiceMock = new Mock<SpotifyService>(configMock.Object, loggerMock.Object);
             _envMock = new Mock<IWebHostEnvironment>();
 
-            _controller = new SpotifyController(_spotifyServiceMock.Object, _envMock.Object, _context);
+            _controller = new SpotifyController(_spotifyServiceMock.Object, _envMock.Object, _context, configMock.Object);
         }
 
         private void SetupUser(string userId)
